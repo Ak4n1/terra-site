@@ -9,5 +9,5 @@ export const HOME_TRANSLATIONS_US: TranslationMap = {
 export const HOME_TRANSLATIONS_ES: TranslationMap = {
   heroWelcomeTitle: 'Bienvenidos a Terra',
   heroWelcomeDescription:
-    'Un servidor Lineage II Classic 3.0 nacido de nuestra pasion por el juego y su comunidad. Estabilidad, equilibrio y una experiencia duradera te esperan.'
+    'Un servidor Lineage II Classic 3.0 nacido de nuestra pasión por el juego y su comunidad. Estabilidad, equilibrio y una experiencia duradera te esperan.'
 };

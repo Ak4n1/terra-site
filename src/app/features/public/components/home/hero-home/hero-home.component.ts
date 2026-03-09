@@ -28,4 +28,5 @@ export class HeroHomeComponent implements OnChanges {
     }
     this.headerImageSrc = imageSrc;
   }
+
 }

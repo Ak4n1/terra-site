@@ -13,7 +13,11 @@
           [attr.data-thumb]="slide.thumbSrc"
           data-rotate="0"
           data-saveperformance="off">
-          <img [src]="slide.imageSrc" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+          <img [src]="slide.imageSrc" alt="" data-bgposition="center center" data-bgfit="contain" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+          <div class="terra-slide-caption" *ngIf="slide.titleKey || slide.descriptionKey">
+            <h3 class="terra-slide-caption__title">{{ languageService.t(slide.titleKey || 'heroWelcomeTitle') }}</h3>
+            <p class="terra-slide-caption__description">{{ languageService.t(slide.descriptionKey || 'heroWelcomeDescription') }}</p>
+          </div>
         </li>
       </ul>
       <div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div>

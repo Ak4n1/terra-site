@@ -11,9 +11,35 @@ import type { SpotlightSlide } from '../../../../shared/ui/organisms/sliders/spo
 })
 export class HomePage {
   readonly heroSlides: SpotlightSlide[] = [
-    { imageSrc: 'assets/images/app/hero/hero1.webp', thumbSrc: 'assets/images/app/hero/hero1.webp' },
-    { imageSrc: 'assets/images/app/hero/hero2.webp', thumbSrc: 'assets/images/app/hero/hero2.webp' },
-    { imageSrc: 'assets/images/app/hero/hero3.webp', thumbSrc: 'assets/images/app/hero/hero3.webp' },
-    { imageSrc: 'assets/images/app/hero/hero5.webp', thumbSrc: 'assets/images/app/hero/hero5.webp' }
+    {
+      imageSrc: 'assets/images/app/hero/baium3.png',
+      thumbSrc: 'assets/images/app/hero/baium3.png',
+      titleKey: 'raidBaiumTitle',
+      descriptionKey: 'raidBaiumDescription'
+    },
+    {
+      imageSrc: 'assets/images/app/hero/antharas2.png',
+      thumbSrc: 'assets/images/app/hero/antharas2.png',
+      titleKey: 'raidAntharasTitle',
+      descriptionKey: 'raidAntharasDescription'
+    },
+    {
+      imageSrc: 'assets/images/app/hero/queenant3.png',
+      thumbSrc: 'assets/images/app/hero/queenant3.png',
+      titleKey: 'raidQueenAntTitle',
+      descriptionKey: 'raidQueenAntDescription'
+    },
+    {
+      imageSrc: 'assets/images/app/hero/zaken2.png',
+      thumbSrc: 'assets/images/app/hero/zaken2.png',
+      titleKey: 'raidZakenTitle',
+      descriptionKey: 'raidZakenDescription'
+    },
+    {
+      imageSrc: 'assets/images/app/hero/orfen1.png',
+      thumbSrc: 'assets/images/app/hero/orfen1.png',
+      titleKey: 'raidOrfenTitle',
+      descriptionKey: 'raidOrfenDescription'
+    }
   ];
 }

@@ -1,8 +1,10 @@
 .mnt-80 {
+  position: relative;
   margin-top: -80px;
 }
 
 .rev_slider_wrapper.fullscreen-container {
+  position: relative;
   width: 100%;
 }
 
@@ -11,14 +13,54 @@
   z-index: 20;
 }
 
+:host ::ng-deep .tp-revslider-slidesli .terra-slide-caption {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 74px;
+  text-align: center;
+  opacity: 1;
+  transform: none;
+  pointer-events: none;
+  z-index: 9;
+}
+
+:host ::ng-deep .tp-revslider-slidesli .terra-slide-caption__title {
+  margin: 0;
+  font-family: "Marcellus SC", serif;
+  font-size: clamp(1rem, 1.55vw, 1.45rem);
+  line-height: 1.1;
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 0 2px 9px rgba(0, 0, 0, 0.8);
+}
+
+:host ::ng-deep .tp-revslider-slidesli .terra-slide-caption__description {
+  margin: 6px 0 0;
+  font-size: clamp(0.66rem, 0.88vw, 0.82rem);
+  line-height: 1.32;
+  color: rgba(255, 255, 255, 0.96);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.88);
+}
+
 @media (max-width: 991px) {
   .mnt-80 {
     margin-top: -60px;
+  }
+
+  :host ::ng-deep .tp-revslider-slidesli .terra-slide-caption {
+    left: 12px;
+    right: 12px;
+    bottom: 54px;
   }
 }
 
 @media (max-width: 640px) {
   .mnt-80 {
     margin-top: -40px;
+  }
+
+  :host ::ng-deep .tp-revslider-slidesli .terra-slide-caption__description {
+    display: none;
   }
 }

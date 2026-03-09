@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, EventEmitter, Input, NgZone, OnDestroy, Output, inject } from '@angular/core';
+import { LanguageService } from '../../../../../core/i18n/language.service';
 import type { SpotlightSlide } from './spotlight-carousel.types';
 
 declare global {
@@ -19,6 +20,7 @@ let sliderInstanceCounter = 0;
   styleUrl: './spotlight-carousel.component.css'
 })
 export class SpotlightCarouselComponent implements AfterViewInit, OnDestroy {
+  readonly languageService = inject(LanguageService);
   @Input() slides: SpotlightSlide[] = [];
   @Output() activeImageChange = new EventEmitter<string>();
 
@@ -43,7 +45,8 @@ export class SpotlightCarouselComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if (this.resolvedSlides.length) {
-      this.activeImageChange.emit(this.resolvedSlides[0].imageSrc);
+      const initialSlide = this.resolvedSlides[0];
+      this.activeImageChange.emit(initialSlide.imageSrc);
     }
 
     const tpj = window.jQuery;
@@ -121,7 +124,9 @@ export class SpotlightCarouselComponent implements AfterViewInit, OnDestroy {
           return;
         }
 
-        this.ngZone.run(() => this.activeImageChange.emit(nextSrc));
+        this.ngZone.run(() => {
+          this.activeImageChange.emit(nextSrc);
+        });
       });
 
       setTimeout(() => {
