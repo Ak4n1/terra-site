@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { LanguageService } from '../../../../../core/i18n/language.service';
 import { SpotlightCarouselComponent } from '../../../../../shared/ui/organisms/sliders/spotlight-carousel/spotlight-carousel.component';
 import type { SpotlightSlide } from '../../../../../shared/ui/organisms/sliders/spotlight-carousel/spotlight-carousel.types';
 
@@ -10,6 +11,7 @@ import type { SpotlightSlide } from '../../../../../shared/ui/organisms/sliders/
   styleUrl: './hero-home.component.css'
 })
 export class HeroHomeComponent implements OnChanges {
+  readonly languageService = inject(LanguageService);
   @Input() slides: SpotlightSlide[] = [];
   @Input() headerImageSrc = '';
   @Input() syncHeaderWithActiveSlide = true;

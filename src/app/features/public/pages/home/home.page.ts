@@ -11,9 +11,9 @@ import type { SpotlightSlide } from '../../../../shared/ui/organisms/sliders/spo
 })
 export class HomePage {
   readonly heroSlides: SpotlightSlide[] = [
-    { imageSrc: 'assets/images/hero-carousel/hero1.webp', thumbSrc: 'assets/images/hero-carousel/hero1.webp' },
-    { imageSrc: 'assets/images/hero-carousel/hero2.webp', thumbSrc: 'assets/images/hero-carousel/hero2.webp' },
-    { imageSrc: 'assets/images/hero-carousel/hero3.webp', thumbSrc: 'assets/images/hero-carousel/hero3.webp' },
-    { imageSrc: 'assets/images/hero-carousel/hero5.webp', thumbSrc: 'assets/images/hero-carousel/hero5.webp' }
+    { imageSrc: 'assets/images/app/hero/hero1.webp', thumbSrc: 'assets/images/app/hero/hero1.webp' },
+    { imageSrc: 'assets/images/app/hero/hero2.webp', thumbSrc: 'assets/images/app/hero/hero2.webp' },
+    { imageSrc: 'assets/images/app/hero/hero3.webp', thumbSrc: 'assets/images/app/hero/hero3.webp' },
+    { imageSrc: 'assets/images/app/hero/hero5.webp', thumbSrc: 'assets/images/app/hero/hero5.webp' }
   ];
 }

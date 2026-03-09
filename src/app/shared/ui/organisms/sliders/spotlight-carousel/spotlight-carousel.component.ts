@@ -27,6 +27,11 @@ export class SpotlightCarouselComponent implements AfterViewInit, OnDestroy {
 
   private readonly ngZone = inject(NgZone);
   private revApi: any;
+  private readonly handleViewportChange = (): void => {
+    if (this.revApi && typeof this.revApi.revredraw === 'function') {
+      this.revApi.revredraw();
+    }
+  };
 
   get resolvedSlides(): SpotlightSlide[] {
     return this.slides.length ? this.slides : [];
@@ -60,7 +65,7 @@ export class SpotlightCarouselComponent implements AfterViewInit, OnDestroy {
 
       this.revApi = sliderElement.show().revolution({
         sliderType: 'carousel',
-        jsFileLocation: 'assets/plugins/revolution/js/',
+        jsFileLocation: 'assets/vendor/revolution/js/',
         sliderLayout: 'auto',
         dottedOverlay: 'none',
         delay: 9000,
@@ -125,9 +130,13 @@ export class SpotlightCarouselComponent implements AfterViewInit, OnDestroy {
         }
       }, 0);
     });
+    window.addEventListener('resize', this.handleViewportChange);
+    window.addEventListener('orientationchange', this.handleViewportChange);
   }
 
   ngOnDestroy(): void {
+    window.removeEventListener('resize', this.handleViewportChange);
+    window.removeEventListener('orientationchange', this.handleViewportChange);
     if (this.revApi && typeof this.revApi.revkill === 'function') {
       this.revApi.revkill();
       this.revApi = null;

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, OnDestroy, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LanguageService, type AppLanguage } from '../../../../core/i18n/language.service';
+import { LanguageService } from '../../../../core/i18n/language.service';
+import type { AppLanguage } from '../../../../core/i18n/types';
 import { LanguageFlagTriggerComponent } from '../../atoms/language-flag-trigger/language-flag-trigger.component';
 import { MenuToggleComponent } from '../../atoms/menu-toggle/menu-toggle.component';
 import { NavLinkComponent } from '../../atoms/nav-link/nav-link.component';

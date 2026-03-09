@@ -23,24 +23,22 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/assets",
-                "output": "assets"
               }
             ],
             "styles": [
+              "public/assets/vendor/revolution/css/settings.css",
+              "public/assets/vendor/revolution/css/layers.css",
+              "public/assets/vendor/revolution/css/navigation.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "src/styles.css"
             ],
             "scripts": [
-              "src/assets/vendor/jquery/jquery.min.js",
-              "src/assets/plugins/revolution/js/jquery.themepunch.tools.min.js",
-              "src/assets/plugins/revolution/js/jquery.themepunch.revolution.min.js",
-              "src/assets/plugins/revolution/js/extensions/revolution.extension.video.min.js",
-              "src/assets/plugins/revolution/js/extensions/revolution.extension.carousel.min.js",
-              "src/assets/plugins/revolution/js/extensions/revolution.extension.navigation.min.js"
+              "public/assets/vendor/jquery/jquery.min.js",
+              "public/assets/vendor/revolution/js/jquery.themepunch.tools.min.js",
+              "public/assets/vendor/revolution/js/jquery.themepunch.revolution.min.js",
+              "public/assets/vendor/revolution/js/extensions/revolution.extension.video.min.js",
+              "public/assets/vendor/revolution/js/extensions/revolution.extension.carousel.min.js",
+              "public/assets/vendor/revolution/js/extensions/revolution.extension.navigation.min.js"
             ]
           },
           "configurations": {
