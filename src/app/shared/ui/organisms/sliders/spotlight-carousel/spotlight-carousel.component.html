@@ -1,0 +1,22 @@
+<div class="mnt-80">
+  <div [id]="wrapperId" class="rev_slider_wrapper fullscreen-container" data-alias="photography-carousel48" style="padding:0;">
+    <div [id]="sliderId" class="rev_slider fullscreenbanner" style="display:none;" data-version="5.0.7">
+      <ul>
+        <li
+          *ngFor="let slide of resolvedSlides; let i = index"
+          [attr.data-index]="'rs-' + (185 + i)"
+          [attr.data-transition]="getTransition(i)"
+          data-slotamount="7"
+          data-easein="default"
+          data-easeout="default"
+          data-masterspeed="1500"
+          [attr.data-thumb]="slide.thumbSrc"
+          data-rotate="0"
+          data-saveperformance="off">
+          <img [src]="slide.imageSrc" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+        </li>
+      </ul>
+      <div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div>
+    </div>
+  </div>
+</div>

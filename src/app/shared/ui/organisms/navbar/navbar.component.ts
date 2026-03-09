@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, OnDestroy, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { LanguageService, type AppLanguage } from '../../../../core/i18n/language.service';
 import { LanguageFlagTriggerComponent } from '../../atoms/language-flag-trigger/language-flag-trigger.component';
 import { MenuToggleComponent } from '../../atoms/menu-toggle/menu-toggle.component';
@@ -28,7 +29,7 @@ type LanguageOption = {
 @Component({
   selector: 'ui-navbar',
   standalone: true,
-  imports: [CommonModule, NavLinkComponent, SocialIconComponent, LanguageFlagTriggerComponent, MenuToggleComponent],
+  imports: [CommonModule, RouterLink, NavLinkComponent, SocialIconComponent, LanguageFlagTriggerComponent, MenuToggleComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -43,7 +44,7 @@ export class NavbarComponent implements OnDestroy {
   mobileActiveParent: MenuNode | null = null;
 
   readonly navItems: MenuNode[] = [
-    { labelKey: 'navHome', href: '#'},
+    { labelKey: 'navHome', href: '/'},
     {
       labelKey: 'navDownloads',
       href: '#',

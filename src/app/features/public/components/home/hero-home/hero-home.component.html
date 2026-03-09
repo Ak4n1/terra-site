@@ -1,0 +1,14 @@
+<section class="hero-home">
+  <div class="hero-home__header">
+    <div class="hero-home__header-bg" [style.background-image]="'url(' + headerImageSrc + ')'"></div>
+    <div class="hero-home__content">
+      <img class="hero-home__logo" src="assets/images/logo_terra_blanco.webp" alt="Project Terra">
+      <h1 class="hero-home__title">Welcome to Project Terra</h1>
+      <p class="hero-home__description">
+        A Lineage II Classic 3.0 server born from our passion for the game and its community. Stability, balance, and a lasting experience await you.
+      </p>
+    </div>
+  </div>
+
+  <ui-spotlight-carousel [slides]="slides" (activeImageChange)="onActiveImageChange($event)"></ui-spotlight-carousel>
+</section>

@@ -1,0 +1,24 @@
+.mnt-80 {
+  margin-top: -80px;
+}
+
+.rev_slider_wrapper.fullscreen-container {
+  width: 100%;
+}
+
+.rev_slider .tp-rightarrow,
+.rev_slider .tp-leftarrow {
+  z-index: 20;
+}
+
+@media (max-width: 991px) {
+  .mnt-80 {
+    margin-top: -60px;
+  }
+}
+
+@media (max-width: 640px) {
+  .mnt-80 {
+    margin-top: -40px;
+  }
+}
