@@ -1,0 +1,125 @@
+<header class="terra-header">
+  <div class="terra-header__topbar">
+    <div class="terra-header__container terra-header__container--topbar">
+      <a href="#" class="terra-logo">Terra</a>
+
+      <div class="terra-header__top-actions">
+        <div class="terra-language">
+          <ui-language-flag-trigger
+            [flagSrc]="selectedLanguage.flag"
+            [flagAlt]="selectedLanguage.label"
+            [expanded]="isLanguageMenuOpen"
+            [ariaLabel]="selectedLanguage.label"
+            (trigger)="toggleLanguageMenu()">
+          </ui-language-flag-trigger>
+
+          <ul *ngIf="isLanguageMenuOpen" class="terra-language__menu" role="listbox">
+            <li *ngFor="let option of languageOptions" role="option" [attr.aria-selected]="option.code === currentLanguage">
+              <button type="button" class="terra-language__option" [attr.aria-label]="option.label" (click)="selectLanguage(option.code)">
+                <img class="terra-language__flag" [src]="option.flag" [alt]="option.label" />
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="terra-header__socials">
+          <ui-social-icon
+            *ngFor="let social of socials"
+            [href]="social.href"
+            [title]="social.title"
+            [iconClass]="social.iconClass">
+          </ui-social-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="terra-header__main">
+    <div class="terra-header__container terra-header__container--main">
+      <ui-menu-toggle
+        [open]="isMobileMenuOpen"
+        ariaLabel="Toggle menu"
+        (toggle)="toggleMobileMenu()">
+      </ui-menu-toggle>
+
+      <ul class="terra-main-links" (mouseenter)="cancelCloseTimer()" (mouseleave)="scheduleCloseAll(400)">
+        <li
+          *ngFor="let item of navItems"
+          class="terra-main-links__item"
+          [class.terra-main-links__item--open]="isDropdownOpen(item)"
+          (mouseenter)="openDropdown(item)"
+          (mouseleave)="scheduleClose(item, 200)">
+          <ui-nav-link
+            [label]="t(item.labelKey)"
+            [href]="item.href"
+            [active]="item.labelKey === 'navHome' || isDropdownOpen(item)"
+            [drop]="!!item.drop"
+            [showDots]="true">
+          </ui-nav-link>
+
+          <ul *ngIf="item.children?.length" class="terra-dropdown">
+            <li *ngFor="let child of item.children">
+              <ui-nav-link
+                [label]="t(child.labelKey)"
+                [href]="child.href"
+                [drop]="true"
+                [splitEffect]="true"
+                [dropdown]="true">
+              </ui-nav-link>
+
+              <ul *ngIf="child.children?.length" class="terra-dropdown terra-dropdown--sub">
+                <li *ngFor="let leaf of child.children">
+                  <ui-nav-link [label]="t(leaf.labelKey)" [href]="leaf.href" [dropdown]="true"></ui-nav-link>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="terra-auth-links">
+        <ui-nav-link [label]="t('navRegister')" [href]="'#'" [showDots]="true"></ui-nav-link>
+        <ui-nav-link [label]="t('navLogin')" [href]="'#'" [showDots]="true"></ui-nav-link>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isMobileMenuOpen" class="terra-mobile-overlay terra-mobile-overlay--open" (click)="closeMobileMenu()"></div>
+
+  <aside class="terra-mobile-menu" [class.terra-mobile-menu--open]="isMobileMenuOpen" aria-hidden="{{ !isMobileMenuOpen }}">
+    <div class="terra-mobile-menu__header">
+      <a href="#" class="terra-logo">Terra</a>
+    </div>
+
+    <ul class="terra-mobile-nav" *ngIf="!mobileActiveParent; else mobileSubmenu">
+      <li *ngFor="let item of navItems" class="terra-mobile-nav__item">
+        <ng-container *ngIf="item.children?.length; else mobileSingle">
+          <button type="button" class="terra-mobile-nav__trigger terra-mobile-nav__trigger--drop" (click)="openMobileSubmenu(item)">
+            {{ t(item.labelKey) }}
+          </button>
+        </ng-container>
+        <ng-template #mobileSingle>
+          <ui-nav-link [label]="t(item.labelKey)" [href]="item.href" [mobile]="true" [showDots]="true"></ui-nav-link>
+        </ng-template>
+      </li>
+    </ul>
+
+    <ng-template #mobileSubmenu>
+      <ul class="terra-mobile-nav">
+        <li class="terra-mobile-nav__item">
+          <button type="button" class="terra-mobile-nav__trigger terra-mobile-nav__trigger--back" (click)="closeMobileSubmenu()">
+            {{ t('navBack') }}
+          </button>
+        </li>
+        <li *ngFor="let child of mobileActiveParent?.children" class="terra-mobile-nav__item">
+          <ui-nav-link [label]="t(child.labelKey)" [href]="child.href" [mobile]="true"></ui-nav-link>
+        </li>
+      </ul>
+    </ng-template>
+
+    <div class="terra-mobile-auth">
+      <a href="#" class="terra-mobile-auth__link"><span>{{ t('navRegister') }}</span></a>
+      <a href="#" class="terra-mobile-auth__link"><span>{{ t('navLogin') }}</span></a>
+    </div>
+  </aside>
+</header>

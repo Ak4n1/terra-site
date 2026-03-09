@@ -1,0 +1,11 @@
+<button
+  type="button"
+  class="language-flag-trigger"
+  [class.language-flag-trigger--open]="expanded"
+  aria-haspopup="listbox"
+  [attr.aria-expanded]="expanded"
+  [attr.aria-label]="ariaLabel"
+  (click)="onTrigger()">
+  <img class="language-flag-trigger__flag" [src]="flagSrc" [alt]="flagAlt" />
+  <span class="language-flag-trigger__caret" aria-hidden="true"></span>
+</button>

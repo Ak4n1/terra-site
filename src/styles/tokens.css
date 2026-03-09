@@ -1,0 +1,103 @@
+:root {
+  /*
+   * Estrategia de tokens:
+   * 1) Los tokens base guardan valores puros (hex, rgba, gradientes).
+   * 2) Los tokens semanticos mapean significado de UI a tokens base.
+   * Los componentes deben consumir tokens semanticos siempre que sea posible.
+   */
+
+  /* Colores base */
+  --color-white: #fff;
+  --color-black: #000;
+  --color-accent-500: #e08821;
+  --color-facebook-500: #1877f2;
+  --color-discord-500: #5865f2;
+  --color-youtube-500: #ff0000;
+
+  /* Variantes alpha */
+  --color-white-a95: rgba(255, 255, 255, 0.95);
+  --color-white-a90: rgba(255, 255, 255, 0.9);
+  --color-white-a80: rgba(255, 255, 255, 0.8);
+  --color-white-a16: rgba(255, 255, 255, 0.16);
+  --color-white-a12: rgba(255, 255, 255, 0.12);
+  --color-white-a08: rgba(255, 255, 255, 0.08);
+  --color-white-a04: rgba(255, 255, 255, 0.04);
+  --color-surface-a75: rgba(14, 14, 14, 0.75);
+  --color-shadow-strong: rgba(0, 0, 0, 0.5);
+  --color-shadow-mid: rgba(0, 0, 0, 0.28);
+
+  /* Gradientes */
+  --gradient-instagram: radial-gradient(
+    circle at 30% 107%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285aeb 90%
+  );
+
+  /* Tokens semanticos (preferidos en estilos de componentes) */
+  --c-page-bg: var(--color-black);
+  --c-page-text: var(--color-white);
+  --c-surface-navbar: var(--color-surface-a75);
+  --c-surface-dropdown: #0e0e0e;
+  --c-surface-overlay: #0e0e0e;
+  --c-border-weak: var(--color-white-a08);
+  --c-border-subtle: var(--color-white-a04);
+  --c-border-muted: var(--color-white-a16);
+  --c-border-control: var(--color-white-a12);
+  --c-text-primary: var(--color-white-a95);
+  --c-text-on-dark: var(--color-white);
+  --c-text-icon: var(--color-white-a90);
+  --c-link-hover: var(--color-accent-500);
+  --c-focus-ring: rgba(224, 136, 33, 0.7);
+  --c-caret: var(--color-white-a80);
+  --shadow-dropdown: 0 5px 15px 0 var(--color-shadow-strong);
+  --shadow-control: 0 5px 15px 0 var(--color-shadow-mid);
+  --shadow-mobile-menu: 0 0 15px 5px var(--color-shadow-strong);
+
+  --c-social-instagram-bg: var(--gradient-instagram);
+  --c-social-facebook-bg: var(--color-facebook-500);
+  --c-social-discord-bg: var(--color-discord-500);
+  --c-social-youtube-bg: var(--color-youtube-500);
+  --c-social-icon-fg: var(--color-white);
+  --c-btn-bg: rgba(14, 14, 14, 0.9);
+  --c-btn-bg-hover: #0e0e0e;
+  --c-btn-hover-shadow: rgba(14, 14, 14, 0.4);
+  --c-btn-accent-border: #b56d19;
+  --c-btn-accent-active: #885213;
+
+  /*
+   * Mapa de uso de variables semanticas (componente + uso, sin clases):
+   * --c-page-bg: styles.css, fondo global de pagina.
+   * --c-page-text: styles.css, color de texto global.
+   * --c-surface-navbar: NavbarComponent, fondo topbar y barra principal.
+   * --c-surface-dropdown: NavbarComponent/LanguageFlagTrigger, fondo dropdowns y menu mobile.
+   * --c-surface-overlay: NavbarComponent, overlay mobile.
+   * --c-border-weak: NavbarComponent, borde exterior header y menu mobile.
+   * --c-border-subtle: NavbarComponent, separadores suaves (top/main y bloque auth mobile).
+   * --c-border-muted: NavbarComponent, divisor vertical de zona social.
+   * --c-border-control: LanguageFlagTrigger/NavbarComponent, bordes de trigger y botones auth mobile.
+   * --c-text-primary: NavLinkComponent, color de links desktop.
+   * --c-text-on-dark: Navbar/MenuToggle/LanguageFlagTrigger, texto y iconos sobre fondo oscuro.
+   * --c-text-icon: SocialIconComponent, color de iconos sociales.
+   * --c-link-hover: NavLink/Navbar, estado hover/activo de links y botones auth.
+   * --c-focus-ring: LanguageFlagTrigger/Navbar, foco o borde destacado.
+   * --c-caret: LanguageFlagTrigger, flecha del selector de idioma.
+   * --shadow-dropdown: NavbarComponent, sombra de dropdowns.
+   * --shadow-control: reservado para futuras sombras de controles.
+   * --shadow-mobile-menu: NavbarComponent, sombra del panel mobile.
+   *
+   * --c-social-instagram-bg: SocialIconComponent, fondo Instagram.
+   * --c-social-facebook-bg: SocialIconComponent, fondo Facebook.
+   * --c-social-discord-bg: SocialIconComponent, fondo Discord.
+   * --c-social-youtube-bg: SocialIconComponent, fondo YouTube.
+   * --c-social-icon-fg: SocialIconComponent, color de iconos sobre fondo.
+   *
+   * --c-btn-bg: NavbarComponent, fondo botones auth mobile.
+   * --c-btn-bg-hover: NavbarComponent, hover botones auth mobile.
+   * --c-btn-hover-shadow: NavbarComponent, sombra hover botones auth mobile.
+   * --c-btn-accent-border: NavbarComponent, borde boton primario auth mobile.
+   * --c-btn-accent-active: NavbarComponent, estado activo boton primario auth mobile.
+   */
+}

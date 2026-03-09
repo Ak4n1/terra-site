@@ -1,0 +1,417 @@
+:host {
+  display: block;
+}
+
+.terra-header {
+  border-bottom: 1px solid var(--c-border-weak);
+}
+
+.terra-header__topbar {
+  background-color: var(--c-surface-navbar);
+}
+
+.terra-header__main {
+  background-color: var(--c-surface-navbar);
+  border-top: 1px solid var(--c-border-subtle);
+}
+
+.terra-header__container {
+  width: min(1320px, 100%);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.terra-header__container--topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.terra-header__container--main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding-top: 26px;
+  padding-bottom: 26px;
+}
+
+.terra-logo {
+  min-width: 120px;
+  font-family: "Marcellus SC", serif;
+  font-size: 2.7rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--c-text-on-dark);
+  text-decoration: none;
+}
+
+.terra-header__top-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.terra-header__socials {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 12px;
+  margin-left: 2px;
+  border-left: 1px solid var(--c-border-muted);
+}
+
+.terra-language {
+  position: relative;
+}
+
+.terra-language__menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: max-content;
+  min-width: 56px;
+  margin: 6px 0 0;
+  padding: 8px 0;
+  list-style: none;
+  background-color: var(--c-surface-dropdown);
+  box-shadow: var(--shadow-dropdown);
+  z-index: 20;
+}
+
+.terra-language__menu::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  z-index: -1;
+}
+
+.terra-language__option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.terra-language__option:hover .terra-language__flag {
+  filter: brightness(1.1);
+}
+
+.terra-language__flag {
+  width: 18px;
+  height: 12px;
+  object-fit: cover;
+  display: block;
+}
+
+.terra-main-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+  transform: translateX(-70px);
+}
+
+.terra-main-links__item {
+  position: relative;
+}
+
+.terra-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: max-content;
+  min-width: 0;
+  margin: 28px 0 0;
+  padding: 30px 0;
+  list-style: none;
+  background-color: var(--c-surface-dropdown);
+  box-shadow: var(--shadow-dropdown);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+.terra-dropdown::before {
+  content: "";
+  position: absolute;
+  top: -28px;
+  left: 0;
+  width: 100%;
+  height: 90px;
+}
+
+.terra-dropdown > li {
+  position: relative;
+}
+
+.terra-dropdown--sub {
+  top: 0;
+  left: calc(100% + 2px);
+  margin-top: -30px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(6px);
+  pointer-events: none;
+}
+
+.terra-dropdown--sub::before {
+  top: 0;
+  left: -2px;
+  width: 10px;
+  height: 100%;
+}
+
+.terra-dropdown > li:hover > .terra-dropdown--sub {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.terra-main-links__item--open > .terra-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.terra-auth-links {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+}
+
+ui-menu-toggle,
+.terra-mobile-overlay,
+.terra-mobile-menu {
+  display: none;
+}
+
+ui-menu-toggle {
+  margin-left: auto;
+}
+
+.terra-mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--c-surface-overlay);
+  cursor: url("/assets/images/cursor-nav-close.png") 24 24, pointer;
+  opacity: 0;
+  z-index: 1001;
+}
+
+.terra-mobile-menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 250px;
+  margin-left: -250px;
+  background: var(--c-surface-dropdown);
+  border-right: 1px solid var(--c-border-weak);
+  box-shadow: var(--shadow-mobile-menu);
+  transform: translateX(0);
+  transition: transform 0.4s ease;
+  z-index: 1002;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 400px) {
+  .terra-mobile-menu {
+    width: 200px;
+    margin-left: -200px;
+  }
+}
+
+.terra-mobile-menu--open {
+  transform: translateX(100%);
+}
+
+.terra-mobile-overlay.terra-mobile-overlay--open {
+  display: block;
+  opacity: 0.8;
+}
+
+.terra-mobile-menu__header {
+  padding: 0 35px 15px;
+}
+
+.terra-mobile-nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.terra-mobile-nav__item {
+  position: static;
+  display: block;
+}
+
+.terra-mobile-nav__trigger {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--c-text-on-dark);
+  cursor: pointer;
+  text-align: left;
+  padding: 12px 40px;
+  font-family: "Marcellus SC", serif;
+  font-size: 1rem;
+  font-weight: 700;
+  position: relative;
+}
+
+.terra-mobile-nav__trigger--drop::after {
+  content: "";
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  margin-top: -1px;
+  border-radius: 1.5px;
+  box-shadow: 5px 0 0 0, -5px 0 0 0, inset 0 0 0 3px;
+  opacity: 0.4;
+}
+
+.terra-mobile-nav__trigger--back::after {
+  content: "";
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  margin-top: -1px;
+  border-radius: 1.5px;
+  box-shadow: 5px 0 0 0, -5px 0 0 0, inset 0 0 0 3px;
+  opacity: 0.4;
+}
+
+.terra-mobile-nav__trigger--back {
+  padding-left: 56px;
+}
+
+.terra-mobile-auth {
+  margin-top: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 16px 20px 0;
+  border-top: 1px solid var(--c-border-subtle);
+}
+
+.terra-mobile-auth__link {
+  flex: 1 1 calc(50% - 5px);
+  min-width: 88px;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  font-family: "Marcellus SC", "Beaufort", serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  color: var(--c-text-on-dark);
+  background-color: var(--c-btn-bg);
+  padding: 14px 12px;
+  transition: .3s box-shadow, .3s background-color, .3s color, .3s transform;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.terra-mobile-auth__link::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  left: 6px;
+  border: 1px solid var(--c-border-control);
+  z-index: 1;
+  transition: .3s background-color, .3s border-color;
+}
+
+.terra-mobile-auth__link:hover {
+  background-color: var(--c-btn-bg-hover);
+  box-shadow: 0 5px 15px 0 var(--c-btn-hover-shadow);
+  transform: translateY(-2px);
+}
+
+.terra-mobile-auth__link span {
+  position: relative;
+  z-index: 2;
+}
+
+.terra-mobile-auth__link:first-child {
+  color: var(--c-link-hover);
+}
+
+.terra-mobile-auth__link:first-child::before {
+  border-color: var(--c-btn-accent-border);
+}
+
+.terra-mobile-auth__link:first-child:active {
+  color: var(--c-btn-accent-active);
+}
+
+@media (max-width: 1100px) {
+  .terra-header__container--main {
+    justify-content: flex-end;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .terra-logo {
+    min-width: auto;
+  }
+
+  .terra-header__container--topbar {
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+
+  .terra-main-links {
+    display: none;
+    transform: none;
+  }
+
+  ui-menu-toggle {
+    display: inline-flex;
+  }
+
+  .terra-mobile-menu {
+    display: block;
+  }
+
+  .terra-auth-links {
+    display: none;
+  }
+
+}

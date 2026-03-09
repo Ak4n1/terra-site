@@ -1,0 +1,97 @@
+@font-face {
+  font-family: "l2font";
+  src: url("/assets/fonts/l2font.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/assets/fonts/Geist/Geist-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Beaufort";
+  src: url("/assets/fonts/Beaufort/BeaufortforLOL-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Beaufort";
+  src: url("/assets/fonts/Beaufort/BeaufortforLOL-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Beaufort";
+  src: url("/assets/fonts/Beaufort/BeaufortforLOL-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DIN Next W1G";
+  src: url("/assets/fonts/DINNextW1G/DINNextW1G-Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DIN Next W1G";
+  src: url("/assets/fonts/DINNextW1G/DINNextW1G.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Alumni Sans SC";
+  src: url("/assets/fonts/Alumni_Sans_SC/AlumniSansSC-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Alumni Sans SC";
+  src: url("/assets/fonts/Alumni_Sans_SC/AlumniSansSC-Italic-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Marcellus SC";
+  src: url("/assets/fonts/Marcellus_SC/MarcellusSC-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font-beaufort-regular {
+  font-family: "Beaufort", sans-serif;
+  font-weight: 400;
+}
+
+.font-beaufort-medium {
+  font-family: "Beaufort", sans-serif;
+  font-weight: 500;
+}
+
+.font-beaufort-bold {
+  font-family: "Beaufort", sans-serif;
+  font-weight: 700;
+}
+
+.font-din-bold {
+  font-family: "DIN Next W1G", sans-serif;
+  font-weight: bold;
+}
+
+.font-din-normal {
+  font-family: "DIN Next W1G", sans-serif;
+  font-weight: normal;
+}

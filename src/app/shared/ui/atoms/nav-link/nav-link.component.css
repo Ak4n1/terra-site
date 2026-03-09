@@ -1,0 +1,139 @@
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: "Marcellus SC", "Beaufort", serif;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.2;
+  padding: 5px 25px;
+  color: var(--c-text-primary);
+  transition: color 0.2s ease;
+  position: relative;
+  white-space: nowrap;
+}
+
+.nav-link:hover,
+.nav-link--active {
+  color: var(--c-link-hover);
+}
+
+.nav-link--drop::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  margin-left: -1px;
+  border-radius: 1.5px;
+  box-shadow: 5px 0 0 0, -5px 0 0 0, inset 0 0 0 3px;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+
+.nav-link--drop:hover::after,
+.nav-link--active.nav-link--drop::after {
+  opacity: 0.8;
+}
+
+.nav-link--dropdown {
+  display: block;
+  padding: 8px 40px 8px 50px;
+  font-size: 0.9rem;
+}
+
+.nav-link--dropdown.nav-link--drop::after {
+  left: 30px;
+  right: auto;
+  top: 50%;
+  bottom: auto;
+  margin-left: -1px;
+  margin-top: -1px;
+}
+
+/* Efecto tipo Godlike (link-effect-4) para links principales de desktop */
+.nav-link--effect .link-effect-inner {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-link--effect .link-effect-inner::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  right: -10px;
+  border-bottom: 1px solid;
+  transform: scaleX(0);
+  transform-origin: 100% 0;
+  transition: 0.3s transform;
+  opacity: 0.5;
+}
+
+.nav-link--effect .link-effect-inner .link-effect-shade {
+  opacity: 0;
+}
+
+.nav-link--effect .link-effect-inner .link-effect-l,
+.nav-link--effect .link-effect-inner .link-effect-r {
+  position: absolute;
+  overflow: hidden;
+  top: -50%;
+  transition: 0.3s 0.1s transform;
+}
+
+.nav-link--effect .link-effect-inner .link-effect-l > span,
+.nav-link--effect .link-effect-inner .link-effect-r > span {
+  display: inline-block;
+  transform: translateY(50%);
+}
+
+.nav-link--effect .link-effect-inner .link-effect-r {
+  top: 50%;
+}
+
+.nav-link--effect .link-effect-inner .link-effect-r > span {
+  transform: translateY(-50%);
+}
+
+.nav-link--effect:hover .link-effect-inner::after,
+.nav-link--effect.nav-link--active .link-effect-inner::after {
+  transform: scaleX(1);
+  transform-origin: 0 0;
+}
+
+.nav-link--effect:hover .link-effect-inner .link-effect-l,
+.nav-link--effect.nav-link--active .link-effect-inner .link-effect-l {
+  transform: translateX(-2px);
+}
+
+.nav-link--effect:hover .link-effect-inner .link-effect-r,
+.nav-link--effect.nav-link--active .link-effect-inner .link-effect-r {
+  transform: translateX(2px);
+}
+
+.mobile-nav-link {
+  display: block;
+  padding: 12px 40px;
+  border-radius: 0;
+  font-size: 1rem;
+}
+
+.mobile-nav-link.nav-link--drop {
+  padding-right: 56px;
+}
+
+.mobile-nav-link.nav-link--drop::after {
+  right: 24px;
+  left: auto;
+  top: 50%;
+  bottom: auto;
+  margin-left: 0;
+  margin-top: -1px;
+}
+
+.mobile-nav-link i {
+  display: none;
+}

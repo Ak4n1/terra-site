@@ -1,0 +1,43 @@
+.menu-toggle {
+  width: 44px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  color: var(--c-text-on-dark);
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-toggle > span,
+.menu-toggle > span::before,
+.menu-toggle > span::after {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.menu-toggle > span::before {
+  transform: translateY(-6px);
+}
+
+.menu-toggle > span::after {
+  transform: translateY(4px);
+}
+
+.menu-toggle--open > span {
+  background: transparent;
+}
+
+.menu-toggle--open > span::before {
+  transform: translateY(0) rotate(45deg);
+}
+
+.menu-toggle--open > span::after {
+  transform: translateY(-2px) rotate(-45deg);
+}

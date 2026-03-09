@@ -1,0 +1,60 @@
+.social-link,
+.mobile-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: var(--c-text-icon);
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.social-link:hover,
+.mobile-social-link:hover {
+  transform: translateY(-1px);
+}
+
+.social-link i,
+.mobile-social-link i {
+  font-size: 14px;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: filter 0.2s ease;
+}
+
+/* Estilos sociales como el proyecto Angular viejo */
+.social-link .fa-instagram,
+.mobile-social-link .fa-instagram {
+  background: var(--c-social-instagram-bg);
+  color: var(--c-social-icon-fg) !important;
+}
+
+.social-link .fa-facebook-f,
+.mobile-social-link .fa-facebook-f {
+  background-color: var(--c-social-facebook-bg);
+  color: var(--c-social-icon-fg) !important;
+}
+
+.social-link .fa-discord,
+.mobile-social-link .fa-discord {
+  background-color: var(--c-social-discord-bg);
+  color: var(--c-social-icon-fg) !important;
+}
+
+.social-link .fa-youtube,
+.mobile-social-link .fa-youtube {
+  background-color: var(--c-social-youtube-bg);
+  color: var(--c-social-icon-fg) !important;
+}
+
+.social-link:hover i,
+.mobile-social-link:hover i {
+  filter: brightness(1.15);
+}

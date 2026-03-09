@@ -1,0 +1,20 @@
+<a
+  [href]="href"
+  class="nav-link"
+  [class.mobile-nav-link]="mobile"
+  [class.nav-link--active]="active"
+  [class.nav-link--drop]="drop || showDots"
+  [class.nav-link--dropdown]="dropdown"
+  [class.nav-link--effect]="!mobile && (!dropdown || splitEffect)">
+  <i *ngIf="mobile && icon" [class]="icon"></i>
+  <ng-container *ngIf="!mobile && (!dropdown || splitEffect); else plainLabel">
+    <span class="link-effect-inner">
+      <span class="link-effect-l"><span>{{ label }}</span></span>
+      <span class="link-effect-r"><span>{{ label }}</span></span>
+      <span class="link-effect-shade"><span>{{ label }}</span></span>
+    </span>
+  </ng-container>
+  <ng-template #plainLabel>
+    <span>{{ label }}</span>
+  </ng-template>
+</a>
