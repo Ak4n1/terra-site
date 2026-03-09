@@ -1,7 +1,7 @@
 <header class="terra-header">
   <div class="terra-header__topbar">
     <div class="terra-header__container terra-header__container--topbar">
-      <a href="#" class="terra-logo">Terra</a>
+      <a [routerLink]="'/'" class="terra-logo">Terra</a>
 
       <div class="terra-header__top-actions">
         <div class="terra-language">
@@ -52,6 +52,7 @@
           <ui-nav-link
             [label]="t(item.labelKey)"
             [href]="item.href"
+            [routerLink]="item.href.startsWith('/') ? item.href : null"
             [active]="item.labelKey === 'navHome' || isDropdownOpen(item)"
             [drop]="!!item.drop"
             [showDots]="true">
@@ -88,7 +89,7 @@
 
   <aside class="terra-mobile-menu" [class.terra-mobile-menu--open]="isMobileMenuOpen" aria-hidden="{{ !isMobileMenuOpen }}">
     <div class="terra-mobile-menu__header">
-      <a href="#" class="terra-logo">Terra</a>
+      <a [routerLink]="'/'" class="terra-logo" (click)="closeMobileMenu()">Terra</a>
     </div>
 
     <ul class="terra-mobile-nav" *ngIf="!mobileActiveParent; else mobileSubmenu">
@@ -99,7 +100,14 @@
           </button>
         </ng-container>
         <ng-template #mobileSingle>
-          <ui-nav-link [label]="t(item.labelKey)" [href]="item.href" [mobile]="true" [showDots]="true"></ui-nav-link>
+          <ui-nav-link
+            [label]="t(item.labelKey)"
+            [href]="item.href"
+            [routerLink]="item.href.startsWith('/') ? item.href : null"
+            [mobile]="true"
+            [showDots]="true"
+            (click)="closeMobileMenu()">
+          </ui-nav-link>
         </ng-template>
       </li>
     </ul>
