@@ -17,7 +17,7 @@ export class HeroHomeComponent implements OnChanges {
   @Input() syncHeaderWithActiveSlide = true;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['slides'] && this.slides.length && !this.headerImageSrc) {
+    if (this.syncHeaderWithActiveSlide && changes['slides'] && this.slides.length && !this.headerImageSrc) {
       this.headerImageSrc = this.slides[0].imageSrc;
     }
   }

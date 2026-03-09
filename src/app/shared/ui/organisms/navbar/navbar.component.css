@@ -1,17 +1,22 @@
 :host {
   display: block;
+  position: relative;
+  z-index: 100;
 }
 
 .terra-header {
+  position: relative;
+  z-index: 100;
   border-bottom: 1px solid var(--c-border-weak);
 }
 
 .terra-header__topbar {
-  background-color: #060606;
+  background-color: var(--c-surface-topbar) ;
+  
 }
 
 .terra-header__main {
-  background-color: var(--c-surface-navbar);
+  background-color: var(--c-surface-dropdown);
   border-top: 1px solid var(--c-border-subtle);
 }
 
@@ -156,7 +161,7 @@
   height: 90px;
 }
 
-.terra-dropdown > li {
+.terra-dropdown>li {
   position: relative;
 }
 
@@ -177,14 +182,14 @@
   height: 100%;
 }
 
-.terra-dropdown > li:hover > .terra-dropdown--sub {
+.terra-dropdown>li:hover>.terra-dropdown--sub {
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
   pointer-events: auto;
 }
 
-.terra-main-links__item--open > .terra-dropdown {
+.terra-main-links__item--open>.terra-dropdown {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);

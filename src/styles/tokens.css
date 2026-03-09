@@ -2,18 +2,19 @@
   /*
    * Estrategia de tokens:
    * 1) Los tokens base guardan valores puros (hex, rgba, gradientes).
-   * 2) Los tokens semanticos mapean significado de UI a tokens base.
+   * 2) Los tokens semanticos mapean significado de UI a tokens base. 
    * Los componentes deben consumir tokens semanticos siempre que sea posible.
    */
 
   /* Colores base */
   --color-white: #fff;
   --color-black: #000;
+  --color-semi-black:#060606;
   --color-accent-500: #e08821;
   --color-facebook-500: #1877f2;
   --color-discord-500: #5865f2;
   --color-youtube-500: #ff0000;
-
+  
   /* Variantes alpha */
   --color-white-a95: rgba(255, 255, 255, 0.95);
   --color-white-a90: rgba(255, 255, 255, 0.9);
@@ -40,6 +41,7 @@
   --c-page-bg: var(--color-black);
   --c-page-text: var(--color-white);
   --c-surface-navbar: var(--color-surface-a75);
+  --c-surface-topbar:var(--color-semi-black);
   --c-surface-dropdown: #0e0e0e;
   --c-surface-overlay: #0e0e0e;
   --c-border-weak: var(--color-white-a08);

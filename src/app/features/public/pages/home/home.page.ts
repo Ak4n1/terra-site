@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { HeroHomeComponent } from '../../components/home/hero-home/hero-home.component';
 import type { SpotlightSlide } from '../../../../shared/ui/organisms/sliders/spotlight-carousel/spotlight-carousel.types';
 
@@ -9,7 +9,9 @@ import type { SpotlightSlide } from '../../../../shared/ui/organisms/sliders/spo
   templateUrl: './home.page.html',
   styleUrl: './home.page.css'
 })
-export class HomePage {
+export class HomePage implements AfterViewInit {
+  @ViewChild('homeBackgroundVideo') private homeBackgroundVideo?: ElementRef<HTMLVideoElement>;
+
   readonly heroSlides: SpotlightSlide[] = [
     {
       imageSrc: 'assets/images/app/hero/baium3.png',
@@ -42,4 +44,22 @@ export class HomePage {
       descriptionKey: 'raidOrfenDescription'
     }
   ];
+
+  ngAfterViewInit(): void {
+    this.ensureVideoPlayback();
+  }
+
+  ensureVideoPlayback(): void {
+    const video = this.homeBackgroundVideo?.nativeElement;
+    if (!video) {
+      return;
+    }
+
+    // Forzar reproducción en navegadores que no arrancan autoplay al primer render.
+    video.muted = true;
+    video.playsInline = true;
+    void video.play().catch(() => {
+      // Fallback: se mantiene el poster sin romper la UI.
+    });
+  }
 }

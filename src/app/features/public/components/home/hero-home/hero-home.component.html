@@ -7,10 +7,18 @@
         {{ languageService.t('heroWelcomeDescription') }}
       </p>
     </div>
+    <div class="overlay"></div>
   </div>
-
+  <img
+    class="hero-home__footer-corner"
+    src="assets/images/footer-corner.png"
+    alt=""
+    aria-hidden="true" />
+ 
   <ui-spotlight-carousel
-    [slides]="slides"
-    (activeImageChange)="onActiveImageChange($event)">
-  </ui-spotlight-carousel>
+  [slides]="slides"
+  (activeImageChange)="onActiveImageChange($event)">
+</ui-spotlight-carousel>
+
+
 </section>
