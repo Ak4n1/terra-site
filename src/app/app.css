@@ -14,14 +14,14 @@
 .terra-page-border__bottom {
   left: 0;
   width: 100%;
-  height: 100px;
+  height: var(--page-border-size, 100px);
 }
 
 .terra-page-border__left,
 .terra-page-border__right {
   top: 0;
   height: 100%;
-  width: 100px;
+  width: var(--page-border-size, 100px);
 }
 
 .terra-page-border__top {
@@ -47,11 +47,11 @@
 @media (max-width: 543px) {
   .terra-page-border__top,
   .terra-page-border__bottom {
-    height: 50px;
+    height: var(--page-border-size-mobile, 50px);
   }
 
   .terra-page-border__left,
   .terra-page-border__right {
-    width: 50px;
+    width: var(--page-border-size-mobile, 50px);
   }
 }

@@ -1,0 +1,111 @@
+.ui-progress-bar {
+  display: block;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.ui-progress-bar__title {
+  margin-bottom: 5px;
+  font-family: var(--font-display);
+  color: var(--c-text-on-dark);
+}
+
+.ui-progress-bar__line {
+  width: 100%;
+  height: 5px;
+  background-color: #222;
+}
+
+.ui-progress-bar__fill {
+  height: 100%;
+  background-color: #e6e6e6;
+  text-align: right;
+  transition: width 0.45s ease;
+}
+
+.ui-progress-bar__percent {
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 0.7rem;
+  color: var(--c-text-on-dark);
+}
+
+.ui-progress-bar--xs .ui-progress-bar__line {
+  height: 1px;
+}
+
+.ui-progress-bar--xs .ui-progress-bar__percent {
+  margin-top: 1px;
+}
+
+.ui-progress-bar--sm .ui-progress-bar__line {
+  height: 3px;
+}
+
+.ui-progress-bar--sm .ui-progress-bar__percent {
+  margin-top: 3px;
+}
+
+.ui-progress-bar--md .ui-progress-bar__line {
+  height: 8px;
+}
+
+.ui-progress-bar--md .ui-progress-bar__percent {
+  margin-top: 8px;
+}
+
+.ui-progress-bar--lg .ui-progress-bar__line {
+  height: 12px;
+}
+
+.ui-progress-bar--lg .ui-progress-bar__percent {
+  margin-top: 12px;
+}
+
+.ui-progress-bar--xlg .ui-progress-bar__line {
+  height: 16px;
+}
+
+.ui-progress-bar--xlg .ui-progress-bar__percent {
+  margin-top: 16px;
+}
+
+.ui-progress-bar__fill--default {
+  background-color: #e6e6e6;
+}
+
+.ui-progress-bar__fill--main-1 {
+  background-color: var(--color-accent-500);
+}
+
+.ui-progress-bar__fill--main-2 {
+  background-color: #39a228;
+}
+
+.ui-progress-bar__fill--main-3 {
+  background-color: #2953b1;
+}
+
+.ui-progress-bar__fill--main-4 {
+  background-color: #7c34a8;
+}
+
+.ui-progress-bar__fill--primary {
+  background-color: #337ab7;
+}
+
+.ui-progress-bar__fill--success {
+  background-color: #5cb85c;
+}
+
+.ui-progress-bar__fill--warning {
+  background-color: #f0ad4e;
+}
+
+.ui-progress-bar__fill--danger {
+  background-color: #d9534f;
+}
+
+.ui-progress-bar__fill--gray-4 {
+  background-color: #999;
+}

@@ -2,9 +2,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 56px;
-  height: 34px;
-  padding: 0 26px 0 10px;
+  min-width: var(--language-trigger-min-width, 56px);
+  height: var(--language-trigger-height, 34px);
+  padding: 0 var(--language-trigger-padding-right, 26px) 0 var(--language-trigger-padding-left, 10px);
   border: none;
   background:none;
   color: var(--c-text-on-dark);
@@ -19,18 +19,18 @@
 }
 
 .language-flag-trigger__flag {
-  width: 18px;
-  height: 12px;
+  width: var(--flag-width, 18px);
+  height: var(--flag-height, 12px);
   object-fit: cover;
   display: block;
 }
 
 .language-flag-trigger__caret {
   position: absolute;
-  right: 12px;
+  right: var(--language-caret-right, 12px);
   top: 50%;
-  width: 6px;
-  height: 6px;
+  width: var(--language-caret-size, 6px);
+  height: var(--language-caret-size, 6px);
   border-right: 1.5px solid var(--c-caret);
   border-bottom: 1.5px solid var(--c-caret);
   transform: translateY(-65%) rotate(45deg);

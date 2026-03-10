@@ -1,0 +1,167 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 60px 16px;
+  background: rgba(0, 0, 0, 0.72);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+.modal-backdrop--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-shell {
+  width: min(600px, 100%);
+  opacity: 0;
+  transform: translateY(-28px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.modal-shell--open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.modal-shell--large {
+  width: min(900px, 100%);
+}
+
+.modal-shell--small {
+  width: min(320px, 100%);
+}
+
+.modal-panel {
+  background-color: #0e0e0e;
+  border-radius: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.modal-header,
+.modal-footer {
+  padding: 25px 30px;
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #000;
+}
+
+.modal-header {
+  position: relative;
+}
+
+.modal-title {
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  line-height: 1.2;
+}
+
+.modal-close {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  z-index: 2;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 1.8rem;
+  line-height: 1;
+  text-shadow: none;
+  cursor: pointer;
+}
+
+.modal-body {
+  max-height: min(70vh, 760px);
+  overflow: auto;
+  padding: 30px;
+  scrollbar-width: auto;
+  scrollbar-color: #454545 #0e0e0e;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 16px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: #0e0e0e;
+  border-left: 1px solid #000;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #555 0%, #3a3a3a 100%);
+  border: 2px solid #0e0e0e;
+  border-radius: 0px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #666 0%, #474747 100%);
+}
+
+.modal-body::-webkit-scrollbar-button:single-button {
+  display: block;
+  height: 16px;
+  background-color: #0e0e0e;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 8px 8px;
+}
+
+.modal-body::-webkit-scrollbar-button:single-button:vertical:decrement {
+  border-bottom: 1px solid #000;
+  background-image: linear-gradient(135deg, transparent 50%, #5f5f5f 50%), linear-gradient(225deg, transparent 50%, #5f5f5f 50%);
+  background-position:
+    calc(50% - 3px) 9px,
+    calc(50% + 3px) 9px;
+  background-size: 6px 6px;
+}
+
+.modal-body::-webkit-scrollbar-button:single-button:vertical:increment {
+  border-top: 1px solid #000;
+  background-image: linear-gradient(315deg, transparent 50%, #5f5f5f 50%), linear-gradient(45deg, transparent 50%, #5f5f5f 50%);
+  background-position:
+    calc(50% - 3px) 6px,
+    calc(50% + 3px) 6px;
+  background-size: 6px 6px;
+}
+
+.modal-body ::ng-deep h4 {
+  margin: 0 0 14px;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+
+.modal-body ::ng-deep p {
+  margin: 0 0 16px;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: var(--font-body);
+  line-height: 1.7;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+@media (max-width: 768px) {
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: 20px;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+  }
+}

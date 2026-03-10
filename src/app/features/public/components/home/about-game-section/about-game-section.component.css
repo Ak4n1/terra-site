@@ -1,0 +1,80 @@
+.about-game-section {
+  position: relative;
+  z-index: 1;
+  background: rgba(10, 10, 10, 0.96);
+}
+
+.about-game-section__inner {
+  width: min(100%, calc(var(--home-section-max-width, 1200px) - 40px));
+  margin: 0 auto;
+  padding:
+    var(--home-about-padding-top, 96px)
+    var(--home-section-gutter-desktop, 24px)
+    var(--home-about-padding-bottom, 108px);
+}
+
+.about-game-section__content {
+  width: min(100%, var(--home-section-text-max-width, 900px));
+  margin: 0 auto;
+}
+
+.about-game-section__title {
+  margin: 0;
+  font-family: var(--home-display-font, var(--font-display));
+  font-size: var(--home-section-title-size, clamp(2.25rem, 4vw, 3.6rem));
+  line-height: var(--home-section-title-line-height, 1.08);
+  color: var(--home-text-primary, var(--color-white));
+  text-align: center;
+}
+
+.about-game-section__intro,
+.about-game-section__paragraph {
+  margin: 0;
+  font-family: var(--home-body-font, var(--font-body));
+  font-size: var(--home-section-copy-size, 1rem);
+  line-height: var(--home-section-copy-line-height, 1.75);
+  color: var(--home-text-secondary, var(--color-white-a80));
+  text-align: center;
+}
+
+.about-game-section__intro {
+  margin-top: var(--home-section-intro-gap, 24px);
+  color: var(--home-text-strong, var(--color-white-a90));
+}
+
+.about-game-section__paragraph {
+  margin-top: var(--home-section-paragraph-gap, 18px);
+}
+
+.about-game-section__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: var(--home-about-stats-gap, 56px);
+}
+
+@media (max-width: 991px) {
+  .about-game-section__inner {
+    padding-top: var(--home-about-padding-top-tablet, 80px);
+    padding-bottom: var(--home-about-padding-bottom-tablet, 88px);
+  }
+}
+
+@media (max-width: 767px) {
+  .about-game-section__inner {
+    padding:
+      var(--home-about-padding-top-mobile, 68px)
+      var(--home-section-gutter-mobile, 16px)
+      var(--home-about-padding-bottom-mobile, 80px);
+  }
+
+  .about-game-section__intro,
+  .about-game-section__paragraph {
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .about-game-section__stats {
+    grid-template-columns: 1fr;
+    margin-top: 32px;
+  }
+}

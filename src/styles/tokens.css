@@ -2,18 +2,24 @@
   /*
    * Estrategia de tokens:
    * 1) Los tokens base guardan valores puros (hex, rgba, gradientes).
-   * 2) Los tokens semanticos mapean significado de UI a tokens base.
+   * 2) Los tokens semanticos mapean significado de UI a tokens base. 
    * Los componentes deben consumir tokens semanticos siempre que sea posible.
    */
 
   /* Colores base */
   --color-white: #fff;
   --color-black: #000;
+  --color-semi-black:#060606;
   --color-accent-500: #e08821;
   --color-facebook-500: #1877f2;
   --color-discord-500: #5865f2;
   --color-youtube-500: #ff0000;
 
+  /* Tipografias */
+  --font-display: "Marcellus SC", serif;
+  --font-body: "DIN Next W1G", sans-serif;
+  --font-ui: "Roboto Condensed", sans-serif;
+  
   /* Variantes alpha */
   --color-white-a95: rgba(255, 255, 255, 0.95);
   --color-white-a90: rgba(255, 255, 255, 0.9);
@@ -36,10 +42,19 @@
     #285aeb 90%
   );
 
-  /* Tokens semanticos (preferidos en estilos de componentes) */
+  /* Tokens semanticos globales
+   * Uso principal:
+   * - styles.css: fondo y texto base de pagina
+   * - navbar.component.css: superficies, bordes, sombras y estados del header
+   * - nav-link/menu-toggle/language-flag-trigger/social-icon: colores y estados shared
+   * - home/*: textos sobre fondo oscuro
+   */
   --c-page-bg: var(--color-black);
   --c-page-text: var(--color-white);
+  --c-text-secondary: var(--color-white-a80);
+  --c-text-strong: var(--color-white-a90);
   --c-surface-navbar: var(--color-surface-a75);
+  --c-surface-topbar:var(--color-semi-black);
   --c-surface-dropdown: #0e0e0e;
   --c-surface-overlay: #0e0e0e;
   --c-border-weak: var(--color-white-a08);
@@ -66,6 +81,235 @@
   --c-btn-hover-shadow: rgba(14, 14, 14, 0.4);
   --c-btn-accent-border: #b56d19;
   --c-btn-accent-active: #885213;
+
+  /* Home: layout compartido
+   * Uso principal:
+   * - home.page.css: estructura base de la home
+   * - hero-home.component.css: ancho de copy y ritmo del hero
+   * - about-game-section.component.css: ancho de contenido y gutters
+   * - game-features-section.component.css: ancho de cards y espaciado general
+   */
+  --home-section-max-width: 1200px;
+  --home-section-gutter-desktop: 24px;
+  --home-section-gutter-mobile: 16px;
+  --home-section-text-max-width: 900px;
+  --home-section-card-text-max-width: 360px;
+  --home-section-padding-mobile: 96px;
+  --home-section-grid-gap: 60px;
+  
+  /* Home: tipografia y color de secciones
+   * Uso principal:
+   * - hero-home.component.css
+   * - about-game-section.component.css
+   * - game-features-section.component.css
+   * - game-stat-card.component.css
+   */
+  --home-section-title-size: clamp(2.25rem, 4vw, 3.6rem);
+  --home-section-title-line-height: 1.08;
+  --home-section-copy-size: 1rem;
+  --home-section-copy-line-height: 1.75;
+  --home-section-intro-gap: 24px;
+  --home-section-paragraph-gap: 18px;
+  --home-display-font: var(--font-display);
+  --home-body-font: var(--font-body);
+  --home-text-primary: var(--color-white);
+  --home-text-strong: var(--c-text-strong);
+  --home-text-secondary: var(--c-text-secondary);
+
+  /* Home: About section
+   * Uso principal:
+   * - about-game-section.component.css
+   * - game-stat-card.component.css
+   */
+  --home-about-stats-gap: 56px;
+  --home-about-padding-top: 96px;
+  --home-about-padding-bottom: 108px;
+  --home-about-padding-top-tablet: 80px;
+  --home-about-padding-bottom-tablet: 88px;
+  --home-about-padding-top-mobile: 68px;
+  --home-about-padding-bottom-mobile: 80px;
+
+  /* Home: Features section
+   * Uso principal:
+   * - game-features-section.component.css
+   */
+  --home-features-padding-top: 160px;
+  --home-features-padding-bottom: 160px;
+  --home-features-padding-top-tablet: 120px;
+  --home-features-padding-bottom-tablet: 120px;
+  --home-feature-title-size: 1.4rem;
+  --home-feature-copy-size: 0.98rem;
+  --home-feature-copy-line-height: 1.72;
+  /* Home: Hero section
+   * Uso principal:
+   * - hero-home.component.css
+   * - spotlight-carousel.component.css
+   */
+  --home-hero-title-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  --home-hero-copy-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+  --home-hero-copy-max-width: 640px;
+  --home-hero-header-height: 740px;
+  --home-hero-header-height-tablet: 580px;
+  --home-hero-header-height-mobile: 430px;
+  --home-hero-content-padding-top: 28px;
+  --home-hero-content-padding-x: 20px;
+  --home-hero-content-padding-bottom: 200px;
+  --home-hero-content-padding-top-tablet: 24px;
+  --home-hero-content-padding-bottom-tablet: 126px;
+  --home-hero-content-padding-top-mobile: 18px;
+  --home-hero-content-padding-bottom-mobile: 88px;
+  --home-hero-bg-inset-top: -420px;
+  --home-hero-bg-inset-top-mobile: -260px;
+  --home-hero-copy-gap: 6px;
+  --home-feature-icon-box-size: 70px;
+  --home-feature-icon-scale: 1.37;
+  --home-feature-icon-stroke: 2.35;
+  --home-feature-icon-offset-top: 10px;
+  --home-feature-icon-gap: 40px;
+  --home-feature-title-gap: 40px;
+  --home-features-min-height: 466px;
+  /* Home: stats cards
+   * Uso principal:
+   * - game-stat-card.component.css
+   */
+  --home-stats-card-padding-y: 40px;
+  --home-stats-card-padding-x: 32px;
+  --home-stats-card-padding-y-mobile: 28px;
+  --home-stats-card-padding-x-mobile: 20px;
+  --home-stats-label-gap: 18px;
+  --home-stats-divider-inset: 2rem;
+  --home-stats-mobile-divider-inset: 2rem;
+
+  /* Header: estructura general
+   * Uso principal:
+   * - navbar.component.css
+   */
+  --header-z-index: 100;
+  --header-container-max-width: 1320px;
+  --header-container-gutter: 20px;
+  --header-topbar-padding-y: 15px;
+  --header-main-padding-y: 26px;
+  --header-main-padding-y-mobile: 12px;
+  --header-logo-min-width: 120px;
+  --header-logo-size: 2.7rem;
+  --header-logo-letter-spacing: 0.02em;
+  --header-social-gap: 10px;
+  --header-social-padding-left: 12px;
+  --header-social-margin-left: 2px;
+  --header-actions-gap: 14px;
+  --header-auth-offset-right: 20px;
+  --header-main-links-shift-x: -70px;
+  --header-main-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+  /* Header: dropdowns
+   * Uso principal:
+   * - navbar.component.css
+   */
+  --dropdown-margin-top: 28px;
+  --dropdown-padding-y: 30px;
+  --dropdown-shift-y: 6px;
+  --dropdown-sub-gap: 2px;
+  --dropdown-sub-shift-x: 6px;
+  /* Header: selector de idioma
+   * Uso principal:
+   * - language-flag-trigger.component.css
+   * - navbar.component.css
+   */
+  --language-trigger-min-width: 56px;
+  --language-trigger-height: 34px;
+  --language-trigger-padding-left: 10px;
+  --language-trigger-padding-right: 26px;
+  --language-menu-gap: 6px;
+  --language-menu-padding-y: 8px;
+  --language-menu-hitbox-height: 12px;
+  --language-option-padding-y: 6px;
+  --language-option-padding-x: 12px;
+  --flag-width: 18px;
+  --flag-height: 12px;
+  --language-caret-size: 6px;
+  --language-caret-right: 12px;
+  /* Header: menu toggle mobile
+   * Uso principal:
+   * - menu-toggle.component.css
+   */
+  --menu-toggle-width: 44px;
+  --menu-toggle-height: 36px;
+  --menu-toggle-bar-width: 22px;
+  --menu-toggle-bar-height: 2px;
+  --menu-toggle-bar-offset-top: -6px;
+  --menu-toggle-bar-offset-bottom: 4px;
+  /* Header: links de navegacion
+   * Uso principal:
+   * - nav-link.component.css
+   * - navbar.component.css (triggers mobile)
+   */
+  --nav-font-family: "Marcellus SC", "Beaufort", serif;
+  --nav-font-size: 1rem;
+  --nav-font-size-dropdown: 0.9rem;
+  --nav-font-weight: 700;
+  --nav-link-padding-y: 5px;
+  --nav-link-padding-x: 25px;
+  --nav-link-padding-dropdown-y: 8px;
+  --nav-link-padding-dropdown-right: 40px;
+  --nav-link-padding-dropdown-left: 50px;
+  --nav-link-effect-line-inset: 10px;
+  --nav-link-effect-shift: 2px;
+  --nav-dot-size: 3px;
+  --nav-dot-spacing: 5px;
+  --nav-dropdown-indicator-left: 30px;
+  --nav-mobile-link-padding-y: 12px;
+  --nav-mobile-link-padding-x: 40px;
+  --nav-mobile-link-padding-right-drop: 56px;
+  --nav-mobile-link-indicator-right: 24px;
+  /* Header: menu mobile y acciones auth
+   * Uso principal:
+   * - navbar.component.css
+   */
+  --mobile-menu-width: 250px;
+  --mobile-menu-width-small: 200px;
+  --mobile-menu-padding-y: 40px;
+  --mobile-menu-header-padding-x: 35px;
+  --mobile-menu-header-padding-bottom: 15px;
+  --mobile-menu-auth-gap: 10px;
+  --mobile-menu-auth-padding-top: 16px;
+  --mobile-menu-auth-padding-x: 20px;
+  --mobile-menu-auth-link-padding-y: 14px;
+  --mobile-menu-auth-link-padding-x: 12px;
+  --mobile-menu-auth-link-inset: 6px;
+  --mobile-nav-trigger-padding-y: 12px;
+  --mobile-nav-trigger-padding-x: 40px;
+  --mobile-nav-trigger-back-padding-left: 56px;
+  --mobile-nav-trigger-back-indicator-left: 30px;
+  --mobile-menu-overlay-opacity: 0.8;
+  --header-topbar-row-gap-mobile: 12px;
+  /* Shared: iconos sociales
+   * Uso principal:
+   * - social-icon.component.css
+   */
+  --social-icon-size: 28px;
+  --social-icon-font-size: 14px;
+  --social-icon-hover-shift: -1px;
+  /* Shared: spotlight / captions del slider
+   * Uso principal:
+   * - spotlight-carousel.component.css
+   */
+  --spotlight-overlap-desktop: -160px;
+  --spotlight-overlap-tablet: -120px;
+  --spotlight-overlap-mobile: -80px;
+  --spotlight-caption-side: 16px;
+  --spotlight-caption-side-tablet: 12px;
+  --spotlight-caption-bottom: 74px;
+  --spotlight-caption-bottom-tablet: 54px;
+  --spotlight-title-size: clamp(1rem, 2.55vw, 1.45rem);
+  --spotlight-title-shadow: 0 2px 9px rgba(0, 0, 0, 0.8);
+  --spotlight-copy-size: clamp(0.66rem, 0.88vw, 0.82rem);
+  --spotlight-copy-gap: 6px;
+  --spotlight-copy-shadow: 0 1px 8px rgba(0, 0, 0, 0.88);
+  /* Shared: bordes decorativos de pagina
+   * Uso principal:
+   * - app.css
+   */
+  --page-border-size: 100px;
+  --page-border-size-mobile: 50px;
 
   /*
    * Mapa de uso de variables semanticas (componente + uso, sin clases):

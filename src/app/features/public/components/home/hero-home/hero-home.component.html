@@ -1,16 +1,21 @@
 <section class="hero-home">
-  <div class="hero-home__header">
-    <div class="hero-home__header-bg" [style.background-image]="'url(' + headerImageSrc + ')'"></div>
-    <div class="hero-home__content">
+  <div #headerElement class="hero-home__header">
+    <div
+      #headerBackgroundElement
+      class="hero-home__header-bg"
+      [style.background-image]="'url(' + headerImageSrc + ')'"></div>
+    <div #contentElement class="hero-home__content">
       <h1 class="hero-home__title">{{ languageService.t('heroWelcomeTitle') }}</h1>
       <p class="hero-home__description">
         {{ languageService.t('heroWelcomeDescription') }}
       </p>
     </div>
+    <div class="overlay"></div>
   </div>
-
   <ui-spotlight-carousel
-    [slides]="slides"
-    (activeImageChange)="onActiveImageChange($event)">
-  </ui-spotlight-carousel>
+  [slides]="slides"
+  (activeImageChange)="onActiveImageChange($event)">
+</ui-spotlight-carousel>
+
+
 </section>

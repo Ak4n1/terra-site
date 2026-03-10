@@ -1,22 +1,37 @@
 <header class="terra-header">
   <div class="terra-header__topbar">
     <div class="terra-header__container terra-header__container--topbar">
-      <a [routerLink]="'/'" class="terra-logo">Terra</a>
+      <div class="terra-header__topbar-links">
+        <a href="#">
+          <span class="terra-header__topbar-effect">
+            <span class="terra-header__topbar-effect-l"><span>{{ t('navSupport') }}</span></span>
+            <span class="terra-header__topbar-effect-r"><span>{{ t('navSupport') }}</span></span>
+            <span class="terra-header__topbar-effect-shade"><span>{{ t('navSupport') }}</span></span>
+          </span>
+        </a>
+        <a href="#">
+          <span class="terra-header__topbar-effect">
+            <span class="terra-header__topbar-effect-l"><span>{{ t('navForum') }}</span></span>
+            <span class="terra-header__topbar-effect-r"><span>{{ t('navForum') }}</span></span>
+            <span class="terra-header__topbar-effect-shade"><span>{{ t('navForum') }}</span></span>
+          </span>
+        </a>
+      </div>
 
       <div class="terra-header__top-actions">
         <div class="terra-language">
           <ui-language-flag-trigger
             [flagSrc]="selectedLanguage.flag"
-            [flagAlt]="selectedLanguage.label"
+            [flagAlt]="selectedLanguageLabel"
             [expanded]="isLanguageMenuOpen"
-            [ariaLabel]="selectedLanguage.label"
+            [ariaLabel]="t('uiLanguageSelector')"
             (trigger)="toggleLanguageMenu()">
           </ui-language-flag-trigger>
 
           <ul *ngIf="isLanguageMenuOpen" class="terra-language__menu" role="listbox">
             <li *ngFor="let option of languageOptions" role="option" [attr.aria-selected]="option.code === currentLanguage">
-              <button type="button" class="terra-language__option" [attr.aria-label]="option.label" (click)="selectLanguage(option.code)">
-                <img class="terra-language__flag" [src]="option.flag" [alt]="option.label" />
+              <button type="button" class="terra-language__option" [attr.aria-label]="t(option.label)" (click)="selectLanguage(option.code)">
+                <img class="terra-language__flag" [src]="option.flag" [alt]="t(option.label)" />
               </button>
             </li>
           </ul>
@@ -36,9 +51,11 @@
 
   <div class="terra-header__main">
     <div class="terra-header__container terra-header__container--main">
+      <a [routerLink]="'/'" class="terra-logo terra-logo--main">Terra</a>
+
       <ui-menu-toggle
         [open]="isMobileMenuOpen"
-        ariaLabel="Toggle menu"
+        [ariaLabel]="t('uiToggleMenu')"
         (toggle)="toggleMobileMenu()">
       </ui-menu-toggle>
 
@@ -79,8 +96,8 @@
       </ul>
 
       <div class="terra-auth-links">
-        <ui-nav-link [label]="t('navRegister')" [href]="'#'" [showDots]="true"></ui-nav-link>
-        <ui-nav-link [label]="t('navLogin')" [href]="'#'" [showDots]="true"></ui-nav-link>
+        <ui-nav-link [label]="t('navRegister')" [href]="'#'" [showDots]="true" (click)="requestAuth('register', $event)"></ui-nav-link>
+        <ui-nav-link [label]="t('navLogin')" [href]="'#'" [showDots]="true" (click)="requestAuth('login', $event)"></ui-nav-link>
       </div>
     </div>
   </div>
@@ -126,8 +143,8 @@
     </ng-template>
 
     <div class="terra-mobile-auth">
-      <a href="#" class="terra-mobile-auth__link"><span>{{ t('navRegister') }}</span></a>
-      <a href="#" class="terra-mobile-auth__link"><span>{{ t('navLogin') }}</span></a>
+      <a href="#" class="terra-mobile-auth__link" (click)="requestAuth('register', $event)"><span>{{ t('navRegister') }}</span></a>
+      <a href="#" class="terra-mobile-auth__link" (click)="requestAuth('login', $event)"><span>{{ t('navLogin') }}</span></a>
     </div>
   </aside>
 </header>

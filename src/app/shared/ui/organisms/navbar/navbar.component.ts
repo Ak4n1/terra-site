@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, OnDestroy, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, Output, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LanguageService } from '../../../../core/i18n/language.service';
 import type { AppLanguage } from '../../../../core/i18n/types';
@@ -37,6 +37,7 @@ type LanguageOption = {
 export class NavbarComponent implements OnDestroy {
   private readonly host = inject(ElementRef<HTMLElement>);
   readonly languageService = inject(LanguageService);
+  @Output() readonly authRequested = new EventEmitter<'login' | 'register'>();
 
   private closeTimer: ReturnType<typeof setTimeout> | null = null;
   openDropdownLabel: string | null = null;
@@ -45,7 +46,7 @@ export class NavbarComponent implements OnDestroy {
   mobileActiveParent: MenuNode | null = null;
 
   readonly navItems: MenuNode[] = [
-    { labelKey: 'navHome', href: '/'},
+    { labelKey: 'navHome', href: '/' },
     {
       labelKey: 'navDownloads',
       href: '#',
@@ -147,8 +148,11 @@ export class NavbarComponent implements OnDestroy {
   ];
 
   readonly languageOptions: LanguageOption[] = [
-    { code: 'us', label: 'English', flag: 'assets/flags/usa.svg' },
-    { code: 'es', label: 'Espanol', flag: 'assets/flags/spain.svg' }
+    { code: 'us', label: 'languageEnglish', flag: 'assets/flags/us.webp' },
+    { code: 'es', label: 'languageSpanish', flag: 'assets/flags/spain.webp' },
+    { code: 'pt', label: 'languagePortuguese', flag: 'assets/flags/portugal.webp' },
+    { code: 'fr', label: 'languageFrench', flag: 'assets/flags/france.webp' },
+    { code: 'de', label: 'languageGerman', flag: 'assets/flags/germany.webp' }
   ];
 
   get currentLanguage(): AppLanguage {
@@ -157,6 +161,10 @@ export class NavbarComponent implements OnDestroy {
 
   get selectedLanguage(): LanguageOption {
     return this.languageOptions.find(option => option.code === this.currentLanguage) ?? this.languageOptions[0];
+  }
+
+  get selectedLanguageLabel(): string {
+    return this.t(this.selectedLanguage.label);
   }
 
   t(key: string): string {
@@ -233,6 +241,12 @@ export class NavbarComponent implements OnDestroy {
 
   isDropdownOpen(item: MenuNode): boolean {
     return this.openDropdownLabel === item.labelKey;
+  }
+
+  requestAuth(mode: 'login' | 'register', event?: Event): void {
+    event?.preventDefault();
+    this.authRequested.emit(mode);
+    this.closeMobileMenu();
   }
 
   @HostListener('document:click', ['$event'])

@@ -1,7 +1,33 @@
 <section class="home-page">
+  <div
+    class="nk-page-background op-5 home-page__background"
+    data-bg-mp4="assets/videos/fire/bg-2.mp4"
+    data-bg-webm=""
+    data-bg-ogv=""
+    data-bg-poster="assets/videos/fire/bg-2.jpg"
+    aria-hidden="true">
+    <video
+      #homeBackgroundVideo
+      class="nk-page-background__video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      (loadeddata)="ensureVideoPlayback()"
+      (canplay)="ensureVideoPlayback()"
+      poster="assets/videos/fire_2/bg.jpg">
+      <source src="assets/videos/fire_2/fire.mp4" type="video/mp4" />
+    </video>
+  </div>
+
   <app-hero-home
+    class="home-page__content"
     [slides]="heroSlides"
-    [headerImageSrc]="'assets/images/app/hero/hero4.png'"
+    [headerImageSrc]="'assets/images/app/hero/hero2.webp'"
     [syncHeaderWithActiveSlide]="false">
   </app-hero-home>
+
+  <app-game-features-section class="home-page__content"></app-game-features-section>
+  <app-about-game-section class="home-page__content"></app-about-game-section>
 </section>

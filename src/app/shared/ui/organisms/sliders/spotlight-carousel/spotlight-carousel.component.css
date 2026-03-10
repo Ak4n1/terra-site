@@ -1,11 +1,12 @@
 .mnt-80 {
   position: relative;
-  margin-top: -80px;
+  margin-top: var(--spotlight-overlap-desktop, -160px);
 }
 
 .rev_slider_wrapper.fullscreen-container {
   position: relative;
   width: 100%;
+  cursor: url("/assets/images/app/cursors/cursor-drag.png") 16 16, grab;
 }
 
 .rev_slider .tp-rightarrow,
@@ -13,11 +14,16 @@
   z-index: 20;
 }
 
+
+.rev_slider_wrapper.fullscreen-container:hover {
+  cursor: url("/assets/images/app/cursors/cursor-drag.png") 16 16, grabbing;
+}
+
 :host ::ng-deep .tp-revslider-slidesli .terra-slide-caption {
   position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 74px;
+  left: var(--spotlight-caption-side, 16px);
+  right: var(--spotlight-caption-side, 16px);
+  bottom: var(--spotlight-caption-bottom, 74px);
   text-align: center;
   opacity: 1;
   transform: none;
@@ -27,37 +33,37 @@
 
 :host ::ng-deep .tp-revslider-slidesli .terra-slide-caption__title {
   margin: 0;
-  font-family: "Marcellus SC", serif;
-  font-size: clamp(1rem, 1.55vw, 1.45rem);
+  font-family: var(--font-display);
+  font-size: var(--spotlight-title-size, clamp(1rem, 2.55vw, 1.45rem));
   line-height: 1.1;
-  color: #fff;
+  color: var(--color-white);
   text-transform: uppercase;
-  text-shadow: 0 2px 9px rgba(0, 0, 0, 0.8);
+  text-shadow: var(--spotlight-title-shadow);
 }
 
 :host ::ng-deep .tp-revslider-slidesli .terra-slide-caption__description {
-  margin: 6px 0 0;
-  font-size: clamp(0.66rem, 0.88vw, 0.82rem);
+  margin: var(--spotlight-copy-gap, 6px) 0 0;
+  font-size: var(--spotlight-copy-size, clamp(0.66rem, 0.88vw, 0.82rem));
   line-height: 1.32;
-  color: rgba(255, 255, 255, 0.96);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.88);
+  color: var(--color-white-a95);
+  text-shadow: var(--spotlight-copy-shadow);
 }
 
 @media (max-width: 991px) {
   .mnt-80 {
-    margin-top: -60px;
+    margin-top: var(--spotlight-overlap-tablet, -120px);
   }
 
   :host ::ng-deep .tp-revslider-slidesli .terra-slide-caption {
-    left: 12px;
-    right: 12px;
-    bottom: 54px;
+    left: var(--spotlight-caption-side-tablet, 12px);
+    right: var(--spotlight-caption-side-tablet, 12px);
+    bottom: var(--spotlight-caption-bottom-tablet, 54px);
   }
 }
 
 @media (max-width: 640px) {
   .mnt-80 {
-    margin-top: -40px;
+    margin-top: var(--spotlight-overlap-mobile, -80px);
   }
 
   :host ::ng-deep .tp-revslider-slidesli .terra-slide-caption__description {

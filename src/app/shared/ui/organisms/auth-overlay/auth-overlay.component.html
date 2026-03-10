@@ -1,0 +1,75 @@
+<ui-modal [open]="open" [title]="modalTitle" size="default" (closed)="close()">
+  <div modal-body>
+    <div class="auth-panel__header">
+      <button
+        type="button"
+        class="auth-panel__tab"
+        [class.auth-panel__tab--active]="currentMode === 'login'"
+        (click)="setMode('login')">
+        {{ t('authLoginAction') }}
+      </button>
+      <button
+        type="button"
+        class="auth-panel__tab"
+        [class.auth-panel__tab--active]="currentMode === 'register'"
+        (click)="setMode('register')">
+        {{ t('authRegisterAction') }}
+      </button>
+    </div>
+
+    @if (currentMode === 'login') {
+      <div class="auth-panel__body">
+        <p class="auth-panel__copy">{{ t('authLoginDescription') }}</p>
+
+        <form class="auth-form">
+          <ui-input-field [label]="t('authEmailLabel')" type="email" [placeholder]="t('authEmailPlaceholder')" autocomplete="email"></ui-input-field>
+          <ui-input-field [label]="t('authPasswordLabel')" type="password" [placeholder]="t('authPasswordPlaceholder')" autocomplete="current-password"></ui-input-field>
+          <a href="#" class="auth-form__link auth-form__link--effect" (click)="$event.preventDefault(); openForgotPassword()">
+            <span class="auth-form__link-inner">
+              <span class="auth-form__link-l"><span>{{ t('authForgotPassword') }}</span></span>
+              <span class="auth-form__link-r"><span>{{ t('authForgotPassword') }}</span></span>
+              <span class="auth-form__link-shade"><span>{{ t('authForgotPassword') }}</span></span>
+            </span>
+          </a>
+        </form>
+      </div>
+    } @else if (currentMode === 'register') {
+      <div class="auth-panel__body">
+        <p class="auth-panel__copy">{{ t('authRegisterDescription') }}</p>
+
+        <form class="auth-form">
+          <ui-input-field [label]="t('authEmailLabel')" type="email" [placeholder]="t('authEmailPlaceholder')" autocomplete="email"></ui-input-field>
+          <ui-input-field
+            [label]="t('authPasswordLabel')"
+            type="password"
+            [placeholder]="t('authPasswordPlaceholder')"
+            autocomplete="new-password"
+            [value]="registerPassword"
+            (valueChange)="onRegisterPasswordChange($event)">
+          </ui-input-field>
+          @if (registerPassword.length > 0) {
+            <ui-progress-bar
+              class="auth-form__strength"
+              [title]="passwordStrengthLabel"
+              [value]="passwordStrengthValue"
+              variant="main-1"
+              [showPercent]="false">
+            </ui-progress-bar>
+          }
+          <ui-input-field [label]="t('authRepeatPasswordLabel')" type="password" [placeholder]="t('authRepeatPasswordPlaceholder')" autocomplete="new-password"></ui-input-field>
+        </form>
+      </div>
+    } @else {
+      <div class="auth-panel__body">
+        <p class="auth-panel__copy">{{ t('authForgotPasswordDescription') }}</p>
+
+        <form class="auth-form">
+          <ui-input-field [label]="t('authEmailLabel')" type="email" [placeholder]="t('authEmailPlaceholder')" autocomplete="email"></ui-input-field>
+        </form>
+      </div>
+    }
+  </div>
+  <div modal-footer>
+    <ui-button [label]="actionLabel" variant="main-1" size="x2"></ui-button>
+  </div>
+</ui-modal>

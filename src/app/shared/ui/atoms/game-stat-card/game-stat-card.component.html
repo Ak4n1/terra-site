@@ -1,0 +1,6 @@
+<article class="game-stat-card" [class.game-stat-card--without-divider]="!showDivider">
+  <div class="game-stat-card__value">
+    <ui-animated-counter [end]="value"></ui-animated-counter>
+  </div>
+  <h3 class="game-stat-card__label">{{ label }}</h3>
+</article>
