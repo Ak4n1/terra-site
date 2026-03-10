@@ -3,8 +3,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: var(--social-icon-size, 28px);
+  height: var(--social-icon-size, 28px);
   border-radius: 50%;
   color: var(--c-text-icon);
   text-decoration: none;
@@ -13,15 +13,15 @@
 
 .social-link:hover,
 .mobile-social-link:hover {
-  transform: translateY(-1px);
+  transform: translateY(var(--social-icon-hover-shift, -1px));
 }
 
 .social-link i,
 .mobile-social-link i {
-  font-size: 14px;
-  width: 28px;
-  height: 28px;
-  line-height: 28px;
+  font-size: var(--social-icon-font-size, 14px);
+  width: var(--social-icon-size, 28px);
+  height: var(--social-icon-size, 28px);
+  line-height: var(--social-icon-size, 28px);
   display: flex;
   align-items: center;
   justify-content: center;

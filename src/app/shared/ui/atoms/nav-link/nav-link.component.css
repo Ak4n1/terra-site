@@ -3,11 +3,11 @@
   align-items: center;
   text-decoration: none;
   cursor: pointer;
-  font-family: "Marcellus SC", "Beaufort", serif;
-  font-weight: 700;
-  font-size: 1rem;
+  font-family: var(--nav-font-family);
+  font-weight: var(--nav-font-weight, 700);
+  font-size: var(--nav-font-size, 1rem);
   line-height: 1.2;
-  padding: 5px 25px;
+  padding: var(--nav-link-padding-y, 5px) var(--nav-link-padding-x, 25px);
   color: var(--c-text-primary);
   transition: color 0.2s ease;
   position: relative;
@@ -24,11 +24,14 @@
   position: absolute;
   bottom: 0;
   left: 50%;
-  width: 3px;
-  height: 3px;
+  width: var(--nav-dot-size, 3px);
+  height: var(--nav-dot-size, 3px);
   margin-left: -1px;
-  border-radius: 1.5px;
-  box-shadow: 5px 0 0 0, -5px 0 0 0, inset 0 0 0 3px;
+  border-radius: calc(var(--nav-dot-size, 3px) / 2);
+  box-shadow:
+    var(--nav-dot-spacing, 5px) 0 0 0,
+    calc(-1 * var(--nav-dot-spacing, 5px)) 0 0 0,
+    inset 0 0 0 var(--nav-dot-size, 3px);
   opacity: 0.4;
   transition: opacity 0.2s;
 }
@@ -40,8 +43,12 @@
 
 .nav-link--dropdown {
   display: block;
-  padding: 8px 40px 8px 50px;
-  font-size: 0.9rem;
+  padding:
+    var(--nav-link-padding-dropdown-y, 8px)
+    var(--nav-link-padding-dropdown-right, 40px)
+    var(--nav-link-padding-dropdown-y, 8px)
+    var(--nav-link-padding-dropdown-left, 50px);
+  font-size: var(--nav-font-size-dropdown, 0.9rem);
 }
 
 .nav-link--dropdown.nav-link--drop::after {
@@ -63,8 +70,8 @@
   content: "";
   position: absolute;
   top: 50%;
-  left: -10px;
-  right: -10px;
+  left: calc(-1 * var(--nav-link-effect-line-inset, 10px));
+  right: calc(-1 * var(--nav-link-effect-line-inset, 10px));
   border-bottom: 1px solid;
   transform: scaleX(0);
   transform-origin: 100% 0;
@@ -106,27 +113,27 @@
 
 .nav-link--effect:hover .link-effect-inner .link-effect-l,
 .nav-link--effect.nav-link--active .link-effect-inner .link-effect-l {
-  transform: translateX(-2px);
+  transform: translateX(calc(-1 * var(--nav-link-effect-shift, 2px)));
 }
 
 .nav-link--effect:hover .link-effect-inner .link-effect-r,
 .nav-link--effect.nav-link--active .link-effect-inner .link-effect-r {
-  transform: translateX(2px);
+  transform: translateX(var(--nav-link-effect-shift, 2px));
 }
 
 .mobile-nav-link {
   display: block;
-  padding: 12px 40px;
+  padding: var(--nav-mobile-link-padding-y, 12px) var(--nav-mobile-link-padding-x, 40px);
   border-radius: 0;
   font-size: 1rem;
 }
 
 .mobile-nav-link.nav-link--drop {
-  padding-right: 56px;
+  padding-right: var(--nav-mobile-link-padding-right-drop, 56px);
 }
 
 .mobile-nav-link.nav-link--drop::after {
-  right: 24px;
+  right: var(--nav-mobile-link-indicator-right, 24px);
   left: auto;
   top: 50%;
   bottom: auto;

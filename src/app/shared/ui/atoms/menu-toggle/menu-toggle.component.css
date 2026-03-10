@@ -1,6 +1,6 @@
 .menu-toggle {
-  width: 44px;
-  height: 36px;
+  width: var(--menu-toggle-width, 44px);
+  height: var(--menu-toggle-height, 36px);
   border: 0;
   background: transparent;
   color: var(--c-text-on-dark);
@@ -16,18 +16,18 @@
 .menu-toggle > span::after {
   content: "";
   display: block;
-  width: 22px;
-  height: 2px;
+  width: var(--menu-toggle-bar-width, 22px);
+  height: var(--menu-toggle-bar-height, 2px);
   background: currentColor;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .menu-toggle > span::before {
-  transform: translateY(-6px);
+  transform: translateY(var(--menu-toggle-bar-offset-top, -6px));
 }
 
 .menu-toggle > span::after {
-  transform: translateY(4px);
+  transform: translateY(var(--menu-toggle-bar-offset-bottom, 4px));
 }
 
 .menu-toggle--open > span {

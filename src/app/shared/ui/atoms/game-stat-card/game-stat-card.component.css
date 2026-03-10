@@ -1,16 +1,16 @@
 .game-stat-card {
   position: relative;
   height: 100%;
-  padding: 40px 32px;
+  padding: var(--home-stats-card-padding-y, 40px) var(--home-stats-card-padding-x, 32px);
   text-align: center;
 }
 
 .game-stat-card::after {
   content: "";
   position: absolute;
-  top: 2rem;
+  top: var(--home-stats-divider-inset, 2rem);
   right: 0;
-  bottom: 2rem;
+  bottom: var(--home-stats-divider-inset, 2rem);
   width: 1px;
   background: rgba(255, 255, 255, 0.07);
 }
@@ -21,32 +21,32 @@
 
 .game-stat-card__value {
   margin: 0;
-  font-family: "Marcellus SC", serif;
+  font-family: var(--home-display-font, var(--font-display));
   font-size: 3rem;
   line-height: 1.2;
-  color: var(--color-white);
+  color: var(--home-text-primary, var(--color-white));
 }
 
 .game-stat-card__label {
-  margin: 18px 0 0;
-  font-family: "DIN Next W1G", sans-serif;
+  margin: var(--home-stats-label-gap, 18px) 0 0;
+  font-family: var(--home-body-font, var(--font-body));
   font-size: 1rem;
   font-weight: 400;
   line-height: 1;
   letter-spacing: 0.03em;
-  color: var(--color-white-a90);
+  color: var(--home-text-strong, var(--color-white-a90));
 }
 
 @media (max-width: 767px) {
   .game-stat-card {
-    padding: 28px 20px;
+    padding: var(--home-stats-card-padding-y-mobile, 28px) var(--home-stats-card-padding-x-mobile, 20px);
   }
 
   .game-stat-card::after {
     top: auto;
-    right: 2rem;
+    right: var(--home-stats-mobile-divider-inset, 2rem);
     bottom: 0;
-    left: 2rem;
+    left: var(--home-stats-mobile-divider-inset, 2rem);
     width: auto;
     height: 1px;
   }
