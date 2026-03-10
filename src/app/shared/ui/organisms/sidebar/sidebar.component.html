@@ -1,0 +1,54 @@
+<aside
+  class="dashboard-sidebar"
+  [class.dashboard-sidebar--mobile-open]="mobileOpen"
+  [attr.aria-label]="t('dashboardSidebarLabel')">
+  <div class="dashboard-sidebar__brand">
+    <h2 class="dashboard-sidebar__title">Terra</h2>
+  </div>
+
+  <div class="dashboard-sidebar__content">
+    <section *ngFor="let section of sections" class="dashboard-sidebar__section">
+      <p class="dashboard-sidebar__section-title">{{ t(section.titleKey) }}</p>
+
+      <nav class="dashboard-sidebar__nav">
+        <ui-nav-link
+          *ngFor="let item of section.items"
+          class="dashboard-sidebar__link"
+          [label]="t(item.labelKey)"
+          [routerLink]="item.route"
+          [active]="isActive(item.route)"
+          dotPosition="left"
+          [showDots]="true"
+          (click)="closeMobileSidebar()">
+        </ui-nav-link>
+      </nav>
+    </section>
+  </div>
+
+  <div class="dashboard-sidebar__footer">
+    <ui-nav-link
+      class="dashboard-sidebar__link"
+      [label]="t(footerItem.labelKey)"
+      [routerLink]="footerItem.route"
+      [active]="isActive(footerItem.route)"
+      dotPosition="left"
+      [showDots]="true"
+      (click)="closeMobileSidebar()">
+    </ui-nav-link>
+    <div class="dashboard-sidebar__identity">
+      <p class="dashboard-sidebar__identity-label">Account</p>
+      <p class="dashboard-sidebar__email">{{ accountEmail }}</p>
+    </div>
+
+
+    <div class="dashboard-sidebar__logout-wrap" >
+      <ui-button 
+        class="dashboard-sidebar__logout"
+        [label]="t('dashboardTopbarLogout')"
+        variant="main-5"
+        size="x2"
+        (clicked)="logout(); closeMobileSidebar()">
+      </ui-button>
+    </div>
+  </div>
+</aside>

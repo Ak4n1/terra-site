@@ -123,6 +123,7 @@
             [routerLink]="item.href.startsWith('/') ? item.href : null"
             [mobile]="true"
             [showDots]="true"
+            [dotPosition]="'left'"
             (click)="closeMobileMenu()">
           </ui-nav-link>
         </ng-template>
@@ -137,7 +138,13 @@
           </button>
         </li>
         <li *ngFor="let child of mobileActiveParent?.children" class="terra-mobile-nav__item">
-          <ui-nav-link [label]="t(child.labelKey)" [href]="child.href" [mobile]="true"></ui-nav-link>
+          <ui-nav-link
+            [label]="t(child.labelKey)"
+            [href]="child.href"
+            [mobile]="true"
+            [showDots]="true"
+            [dotPosition]="'left'">
+          </ui-nav-link>
         </li>
       </ul>
     </ng-template>

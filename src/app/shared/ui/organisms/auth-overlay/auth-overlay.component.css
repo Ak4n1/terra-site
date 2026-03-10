@@ -42,6 +42,10 @@
   margin-top: 28px;
 }
 
+.auth-form__notice {
+  margin-top: 20px;
+}
+
 .auth-form__strength {
   margin-top: -6px;
   margin-bottom: 2px;

@@ -1,10 +1,20 @@
-<div class="terra-page-border" aria-hidden="true">
-  <div class="terra-page-border__top"></div>
-  <div class="terra-page-border__right"></div>
-  <div class="terra-page-border__bottom"></div>
-  <div class="terra-page-border__left"></div>
-</div>
+@if (!hidePublicChrome()) {
+  <div class="terra-page-border" aria-hidden="true">
+    <div class="terra-page-border__top"></div>
+    <div class="terra-page-border__right"></div>
+    <div class="terra-page-border__bottom"></div>
+    <div class="terra-page-border__left"></div>
+  </div>
+}
 
-<ui-navbar (authRequested)="openAuthOverlay($event)"></ui-navbar>
+@if (!hidePublicChrome()) {
+  <ui-navbar (authRequested)="openAuthOverlay($event)"></ui-navbar>
+}
 <router-outlet></router-outlet>
-<ui-auth-overlay [open]="authOverlayOpen" [mode]="authOverlayMode" (closed)="closeAuthOverlay()"></ui-auth-overlay>
+<ui-auth-overlay
+  [open]="authOverlayOpen"
+  [mode]="authOverlayMode"
+  [loginError]="authLoginError"
+  (closed)="closeAuthOverlay()"
+  (loginSubmitted)="handleLogin($event)">
+</ui-auth-overlay>

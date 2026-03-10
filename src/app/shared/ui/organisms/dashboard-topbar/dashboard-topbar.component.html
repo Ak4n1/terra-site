@@ -1,0 +1,61 @@
+<header class="dashboard-topbar">
+  <div class="dashboard-topbar__left">
+    <ui-menu-toggle
+      class="dashboard-topbar__menu-toggle"
+      [open]="mobileSidebarOpen"
+      [ariaLabel]="t('uiToggleMenu')"
+      (toggle)="requestMenuToggle()">
+    </ui-menu-toggle>
+
+    <div class="dashboard-topbar__site-link" role="link" tabindex="0" (click)="goToSite()">
+      <span class="dashboard-topbar__site-icon-wrap" aria-hidden="true">
+        <span class="dashboard-topbar__site-icon-base">
+          <lucide-icon [img]="globeIcon" class="dashboard-topbar__site-icon"></lucide-icon>
+        </span>
+        <span class="dashboard-topbar__site-icon-l">
+          <span>
+            <lucide-icon [img]="globeIcon" class="dashboard-topbar__site-icon"></lucide-icon>
+          </span>
+        </span>
+        <span class="dashboard-topbar__site-icon-r">
+          <span>
+            <lucide-icon [img]="globeIcon" class="dashboard-topbar__site-icon"></lucide-icon>
+          </span>
+        </span>
+      </span>
+      <ui-nav-link [label]="t('dashboardTopbarGoToSite')" [routerLink]="'/'"></ui-nav-link>
+    </div>
+  </div>
+
+  <div class="dashboard-topbar__actions">
+    <div class="dashboard-topbar__item">
+      <ui-notifications-dropdown></ui-notifications-dropdown>
+    </div>
+
+    <div class="dashboard-topbar__item dashboard-language">
+      <ui-language-flag-trigger
+        [flagSrc]="selectedLanguage.flag"
+        [flagAlt]="selectedLanguageLabel"
+        [expanded]="isLanguageMenuOpen"
+        [ariaLabel]="t('uiLanguageSelector')"
+        (trigger)="toggleLanguageMenu()">
+      </ui-language-flag-trigger>
+
+      <ul *ngIf="isLanguageMenuOpen" class="dashboard-language__menu" role="listbox">
+        <li *ngFor="let option of languageOptions" role="option" [attr.aria-selected]="option.code === currentLanguage">
+          <button
+            type="button"
+            class="dashboard-language__option"
+            [attr.aria-label]="t(option.label)"
+            (click)="selectLanguage(option.code)">
+            <img class="dashboard-language__flag" [src]="option.flag" [alt]="t(option.label)" />
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="dashboard-topbar__item dashboard-topbar__item--date">
+      <ui-current-date></ui-current-date>
+    </div>
+  </div>
+</header>

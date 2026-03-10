@@ -20,4 +20,5 @@ export class NavLinkComponent {
   @Input() showDots = false;
   @Input() dropdown = false;
   @Input() splitEffect = false;
+  @Input() dotPosition: 'bottom' | 'left' = 'bottom';
 }

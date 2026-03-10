@@ -21,9 +21,27 @@
       <div class="auth-panel__body">
         <p class="auth-panel__copy">{{ t('authLoginDescription') }}</p>
 
-        <form class="auth-form">
-          <ui-input-field [label]="t('authEmailLabel')" type="email" [placeholder]="t('authEmailPlaceholder')" autocomplete="email"></ui-input-field>
-          <ui-input-field [label]="t('authPasswordLabel')" type="password" [placeholder]="t('authPasswordPlaceholder')" autocomplete="current-password"></ui-input-field>
+        <form class="auth-form" (submit)="$event.preventDefault(); submitPrimaryAction()">
+          @if (loginError) {
+            <ui-alert variant="error" [message]="loginError"></ui-alert>
+          }
+
+          <ui-input-field
+            [label]="t('authEmailLabel')"
+            type="email"
+            [placeholder]="t('authEmailPlaceholder')"
+            autocomplete="email"
+            [value]="loginEmail"
+            (valueChange)="onLoginEmailChange($event)">
+          </ui-input-field>
+          <ui-input-field
+            [label]="t('authPasswordLabel')"
+            type="password"
+            [placeholder]="t('authPasswordPlaceholder')"
+            autocomplete="current-password"
+            [value]="loginPassword"
+            (valueChange)="onLoginPasswordChange($event)">
+          </ui-input-field>
           <a href="#" class="auth-form__link auth-form__link--effect" (click)="$event.preventDefault(); openForgotPassword()">
             <span class="auth-form__link-inner">
               <span class="auth-form__link-l"><span>{{ t('authForgotPassword') }}</span></span>
@@ -36,6 +54,7 @@
     } @else if (currentMode === 'register') {
       <div class="auth-panel__body">
         <p class="auth-panel__copy">{{ t('authRegisterDescription') }}</p>
+        <ui-alert class="auth-form__notice" [message]="mockNotice"></ui-alert>
 
         <form class="auth-form">
           <ui-input-field [label]="t('authEmailLabel')" type="email" [placeholder]="t('authEmailPlaceholder')" autocomplete="email"></ui-input-field>
@@ -62,6 +81,7 @@
     } @else {
       <div class="auth-panel__body">
         <p class="auth-panel__copy">{{ t('authForgotPasswordDescription') }}</p>
+        <ui-alert class="auth-form__notice" [message]="mockNotice"></ui-alert>
 
         <form class="auth-form">
           <ui-input-field [label]="t('authEmailLabel')" type="email" [placeholder]="t('authEmailPlaceholder')" autocomplete="email"></ui-input-field>
@@ -70,6 +90,6 @@
     }
   </div>
   <div modal-footer>
-    <ui-button [label]="actionLabel" variant="main-1" size="x2"></ui-button>
+    <ui-button [label]="actionLabel" variant="main-1" size="x2" [disabled]="primaryActionDisabled" (clicked)="submitPrimaryAction()"></ui-button>
   </div>
 </ui-modal>

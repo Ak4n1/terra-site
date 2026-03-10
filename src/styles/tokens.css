@@ -10,6 +10,7 @@
   --color-white: #fff;
   --color-black: #000;
   --color-semi-black:#060606;
+  --color-panel-900: #0c0c0c;
   --color-accent-500: #e08821;
   --color-facebook-500: #1877f2;
   --color-discord-500: #5865f2;
@@ -51,6 +52,7 @@
    */
   --c-page-bg: var(--color-black);
   --c-page-text: var(--color-white);
+  --c-dashboard-shell-bg: var(--color-panel-900);
   --c-text-secondary: var(--color-white-a80);
   --c-text-strong: var(--color-white-a90);
   --c-surface-navbar: var(--color-surface-a75);

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, Output, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LanguageService } from '../../../../core/i18n/language.service';
@@ -35,6 +35,7 @@ type LanguageOption = {
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnDestroy {
+  private readonly document = inject(DOCUMENT);
   private readonly host = inject(ElementRef<HTMLElement>);
   readonly languageService = inject(LanguageService);
   @Output() readonly authRequested = new EventEmitter<'login' | 'register'>();
@@ -182,6 +183,7 @@ export class NavbarComponent implements OnDestroy {
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    this.syncBodyScroll();
     if (!this.isMobileMenuOpen) {
       this.mobileActiveParent = null;
     }
@@ -190,6 +192,7 @@ export class NavbarComponent implements OnDestroy {
   closeMobileMenu(): void {
     this.isMobileMenuOpen = false;
     this.mobileActiveParent = null;
+    this.syncBodyScroll();
   }
 
   openMobileSubmenu(item: MenuNode): void {
@@ -269,5 +272,22 @@ export class NavbarComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.cancelCloseTimer();
+    this.resetBodyScroll();
+  }
+
+  private syncBodyScroll(): void {
+    const body = this.document?.body;
+    if (!body) {
+      return;
+    }
+
+    body.style.overflow = this.isMobileMenuOpen ? 'hidden' : '';
+  }
+
+  private resetBodyScroll(): void {
+    const body = this.document?.body;
+    if (body) {
+      body.style.overflow = '';
+    }
   }
 }

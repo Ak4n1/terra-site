@@ -324,6 +324,9 @@ ui-menu-toggle {
   top: 0;
   bottom: 0;
   left: 0;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
   width: var(--mobile-menu-width, 250px);
   margin-left: calc(-1 * var(--mobile-menu-width, 250px));
   background: var(--c-surface-dropdown);
@@ -357,14 +360,19 @@ ui-menu-toggle {
 
 .terra-mobile-menu__header {
   padding: 0 var(--mobile-menu-header-padding-x, 35px) var(--mobile-menu-header-padding-bottom, 15px);
+  border-bottom: 1px solid var(--c-border-subtle);
 }
 
 .terra-mobile-nav {
   margin: 0;
-  padding: 0;
+  padding: var(--mobile-nav-padding-top, 12px) 0 0;
   list-style: none;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .terra-mobile-nav__item {
@@ -379,7 +387,11 @@ ui-menu-toggle {
   color: var(--c-text-on-dark);
   cursor: pointer;
   text-align: left;
-  padding: var(--mobile-nav-trigger-padding-y, 12px) var(--mobile-nav-trigger-padding-x, 40px);
+  padding:
+    var(--mobile-nav-trigger-padding-y, 12px)
+    var(--mobile-nav-trigger-padding-right, 40px)
+    var(--mobile-nav-trigger-padding-y, 12px)
+    var(--mobile-nav-trigger-padding-left, 56px);
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
@@ -389,7 +401,7 @@ ui-menu-toggle {
 .terra-mobile-nav__trigger--drop::after {
   content: "";
   position: absolute;
-  right: var(--nav-mobile-link-indicator-right, 24px);
+  left: var(--nav-mobile-link-indicator-left, 28px);
   top: 50%;
   width: var(--nav-dot-size, 3px);
   height: var(--nav-dot-size, 3px);
@@ -405,7 +417,7 @@ ui-menu-toggle {
 .terra-mobile-nav__trigger--back::after {
   content: "";
   position: absolute;
-  left: var(--mobile-nav-trigger-back-indicator-left, 30px);
+  left: var(--mobile-nav-trigger-back-indicator-left, 28px);
   top: 50%;
   width: var(--nav-dot-size, 3px);
   height: var(--nav-dot-size, 3px);
@@ -430,6 +442,48 @@ ui-menu-toggle {
   gap: var(--mobile-menu-auth-gap, 10px);
   padding: var(--mobile-menu-auth-padding-top, 16px) var(--mobile-menu-auth-padding-x, 20px) 0;
   border-top: 1px solid var(--c-border-subtle);
+}
+
+@media (max-width: 1100px) and (max-height: 420px) {
+  .terra-mobile-menu {
+    padding-top: var(--mobile-menu-padding-y-compact, 24px);
+    padding-bottom: var(--mobile-menu-padding-y-compact, 24px);
+    overflow-y: auto;
+  }
+
+  .terra-mobile-menu__header {
+    padding:
+      0
+      var(--mobile-menu-header-padding-x, 35px)
+      var(--mobile-menu-header-padding-bottom-compact, 12px);
+  }
+
+  .terra-mobile-nav {
+    padding-top: var(--mobile-nav-padding-top-compact, 8px);
+    flex: 0 0 auto;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .terra-mobile-nav__trigger,
+  .mobile-nav-link {
+    padding-top: var(--mobile-nav-trigger-padding-y-compact, 10px);
+    padding-bottom: var(--mobile-nav-trigger-padding-y-compact, 10px);
+  }
+
+  .terra-mobile-auth {
+    margin-top: var(--mobile-menu-auth-margin-top-compact, 12px);
+    flex: 0 0 auto;
+    padding:
+      var(--mobile-menu-auth-padding-top-compact, 12px)
+      var(--mobile-menu-auth-padding-x, 20px)
+      0;
+  }
+
+  .terra-mobile-auth__link {
+    padding-top: var(--mobile-menu-auth-link-padding-y-compact, 11px);
+    padding-bottom: var(--mobile-menu-auth-link-padding-y-compact, 11px);
+  }
 }
 
 .terra-mobile-auth__link {
@@ -518,7 +572,7 @@ ui-menu-toggle {
   }
 
   .terra-mobile-menu {
-    display: block;
+    display: flex;
   }
 
   .terra-auth-links {

@@ -1,0 +1,74 @@
+.game-accounts-page {
+  display: grid;
+  gap: 28px;
+}
+
+.game-accounts-page__intro,
+.game-accounts-page__card {
+  border: 1px solid var(--c-border-weak);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(12, 12, 12, 0.82);
+}
+
+.game-accounts-page__intro {
+  padding: 32px;
+}
+
+.game-accounts-page__eyebrow {
+  margin: 0 0 10px;
+  color: var(--c-link-hover);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.game-accounts-page__title {
+  margin: 0;
+  color: var(--c-text-on-dark);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.08;
+}
+
+.game-accounts-page__card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 24px;
+  padding: 32px;
+}
+
+.game-accounts-page__card-title {
+  margin: 0;
+  color: var(--c-text-on-dark);
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+}
+
+.game-accounts-page__copy {
+  margin: 16px 0 0;
+  color: var(--c-text-secondary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.game-accounts-page__form {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+@media (max-width: 1024px) {
+  .game-accounts-page__card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .game-accounts-page__intro,
+  .game-accounts-page__card {
+    padding: 24px;
+  }
+}
