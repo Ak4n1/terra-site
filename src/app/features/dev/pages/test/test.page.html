@@ -1,0 +1,275 @@
+<section class="test-page">
+  <div class="test-page__container">
+    <header class="test-page__header">
+      <p class="test-page__eyebrow">Atoms</p>
+      <h1 class="test-page__title">Buttons</h1>
+      <p class="test-page__copy">Variantes del atomo `ui-button` y uso del componente `ui-modal`.</p>
+    </header>
+
+    <section class="test-page__section">
+      <h2 class="test-page__section-title">Atom Buttons</h2>
+
+      <div class="test-page__examples">
+        <article class="test-page__example">
+          <p class="test-page__variant">btn-color-main-1</p>
+          <ui-button label="Button" variant="main-1"></ui-button>
+        </article>
+        <article class="test-page__example">
+          <p class="test-page__variant">btn-color-main-2</p>
+          <ui-button label="Button" variant="main-2"></ui-button>
+        </article>
+        <article class="test-page__example">
+          <p class="test-page__variant">btn-color-main-3</p>
+          <ui-button label="Button" variant="main-3"></ui-button>
+        </article>
+        <article class="test-page__example">
+          <p class="test-page__variant">btn-color-main-4</p>
+          <ui-button label="Button" variant="main-4"></ui-button>
+        </article>
+        <article class="test-page__example">
+          <p class="test-page__variant">btn-color-main-5</p>
+          <ui-button label="Button" variant="main-5"></ui-button>
+        </article>
+        <article class="test-page__example">
+          <p class="test-page__variant">btn-color-white</p>
+          <ui-button label="Button" variant="white"></ui-button>
+        </article>
+      </div>
+    </section>
+
+    <section class="test-page__section">
+      <h2 class="test-page__section-title">Modals</h2>
+
+      <div class="test-page__modal-launchers">
+        <ui-button label="Launch Demo Modal" variant="white" size="x2" (clicked)="openModal('default')"></ui-button>
+        <ui-button label="Launch Large Modal" variant="white" size="x2" (clicked)="openModal('large')"></ui-button>
+        <ui-button label="Launch Small Modal" variant="white" size="x2" (clicked)="openModal('small')"></ui-button>
+      </div>
+
+      <ui-modal [open]="activeModal === 'default'" title="Modal title" size="default" (closed)="closeModal()">
+        <div modal-body>
+          <h4>Text in a modal</h4>
+          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+
+          <h4>Overflowing text to show scroll behavior</h4>
+          <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget
+            quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue
+            laoreet rutrum faucibus dolor auctor.</p>
+          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl
+            consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+          <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget
+            quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue
+            laoreet rutrum faucibus dolor auctor.</p>
+          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl
+            consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+          <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget
+            quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue
+            laoreet rutrum faucibus dolor auctor.</p>
+          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl
+            consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+        </div>
+        <div modal-footer>
+          <ui-button label="Close" variant="white" (clicked)="closeModal()"></ui-button>
+          <ui-button label="Save changes" variant="main-1"></ui-button>
+        </div>
+      </ui-modal>
+
+      <ui-modal [open]="activeModal === 'large'" title="Large modal" size="large" (closed)="closeModal()">
+        <div modal-body>
+          <p>...</p>
+        </div>
+        <div modal-footer>
+          <ui-button label="Close" variant="white" (clicked)="closeModal()"></ui-button>
+        </div>
+      </ui-modal>
+
+      <ui-modal [open]="activeModal === 'small'" title="Small modal" size="small" (closed)="closeModal()">
+        <div modal-body>
+          <p>...</p>
+        </div>
+        <div modal-footer>
+          <ui-button label="Close" variant="white" (clicked)="closeModal()"></ui-button>
+        </div>
+      </ui-modal>
+    </section>
+
+    <section class="test-page__section">
+      <h2 class="test-page__section-title">Accordion</h2>
+      <ui-accordion [items]="accordionItems" [defaultOpenIndex]="0"></ui-accordion>
+    </section>
+
+    <section class="test-page__section">
+      <h2 class="test-page__section-title">Progress Bars</h2>
+
+      <div class="test-page__progress-grid">
+        <div class="test-page__progress-column">
+          <ui-progress-bar title="JavaScript" [value]="91" size="xs"></ui-progress-bar>
+          <ui-progress-bar title="PHP" [value]="72" size="sm"></ui-progress-bar>
+          <ui-progress-bar title="Photoshop" [value]="86"></ui-progress-bar>
+          <ui-progress-bar title="Paint" [value]="43" size="md"></ui-progress-bar>
+          <ui-progress-bar title="Illustrator" [value]="16" size="lg"></ui-progress-bar>
+          <ui-progress-bar title="Google Chrome" [value]="100" size="xlg"></ui-progress-bar>
+        </div>
+
+        <div class="test-page__progress-column">
+          <ui-progress-bar title="JavaScript" [value]="91" size="xs" variant="main-1"></ui-progress-bar>
+          <ui-progress-bar title="PHP" [value]="72" size="sm" variant="main-2"></ui-progress-bar>
+          <ui-progress-bar title="Photoshop" [value]="86" variant="main-3"></ui-progress-bar>
+          <ui-progress-bar title="Paint" [value]="43" size="md" variant="main-4"></ui-progress-bar>
+          <ui-progress-bar title="Illustrator" [value]="16" size="lg" variant="primary"></ui-progress-bar>
+          <ui-progress-bar title="Google Chrome" [value]="100" size="xlg" variant="success"></ui-progress-bar>
+        </div>
+
+        <div class="test-page__progress-column">
+          <ui-progress-bar [value]="43" [showPercent]="false"></ui-progress-bar>
+          <ui-progress-bar title="Warning" [value]="64" variant="warning"></ui-progress-bar>
+          <ui-progress-bar title="Danger" [value]="28" variant="danger"></ui-progress-bar>
+          <ui-progress-bar title="No Percent" [value]="72" variant="main-1" [showPercent]="false"></ui-progress-bar>
+        </div>
+      </div>
+    </section>
+
+    <section class="test-page__section">
+      <h2 class="test-page__section-title">Side Toggle</h2>
+
+      <div class="test-page__side-demo">
+        <button type="button" class="side-toggle" [class.side-toggle--active]="sidePanelOpen"
+          aria-label="Toggle side panel" (click)="toggleSidePanel()">
+          <span class="side-toggle__icon">
+            <span class="side-toggle__dot side-toggle__dot--1"></span>
+            <span class="side-toggle__dot side-toggle__dot--2"></span>
+            <span class="side-toggle__dot side-toggle__dot--3"></span>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <section class="test-page__section">
+      <h2 class="test-page__section-title">Auth Overlay</h2>
+
+      <div class="test-page__auth-launchers">
+        <ui-button [label]="t('authOpenLogin')" variant="white" size="x2" (clicked)="openAuthPanel('login')"></ui-button>
+        <ui-button [label]="t('authOpenRegister')" variant="main-1" size="x2" (clicked)="openAuthPanel('register')"></ui-button>
+      </div>
+    </section>
+
+    <section class="test-page__section">
+      <h2 class="test-page__section-title">Auth Cart Style</h2>
+
+      <div class="test-page__cart-demo">
+        <button type="button" class="cart-toggle" [class.cart-toggle--active]="authCartStyleOpen"
+          aria-label="Toggle auth cart style overlay" (click)="toggleAuthCartStyle()">
+          <span class="cart-toggle__icon">
+            <span class="cart-toggle__front">
+              <span class="cart-toggle__cart"></span>
+              <span class="cart-toggle__badge">2</span>
+            </span>
+            <span class="cart-toggle__back">
+              <span class="cart-toggle__close"></span>
+            </span>
+          </span>
+        </button>
+      </div>
+
+      <div class="test-page__auth-launchers">
+        <ui-button label="Open Login Style" variant="white" size="x2"
+          (clicked)="toggleAuthCartStyle('login')"></ui-button>
+        <ui-button label="Open Register Style" variant="main-1" size="x2"
+          (clicked)="toggleAuthCartStyle('register')"></ui-button>
+      </div>
+    </section>
+  </div>
+</section>
+
+<div class="side-panel-overlay" [class.side-panel-overlay--open]="sidePanelOpen" (click)="closeSidePanel()"></div>
+
+<aside class="side-panel" [class.side-panel--open]="sidePanelOpen" aria-hidden="{{ !sidePanelOpen }}">
+  <div class="side-panel__bg"></div>
+  <div class="side-panel__content">
+    <div class="side-panel__logo">Terra</div>
+
+    <nav class="side-panel__nav" aria-label="Side navigation">
+      <a href="#" (click)="$event.preventDefault(); closeSidePanel()">Contact</a>
+      <a href="#" (click)="$event.preventDefault(); closeSidePanel()">Coming Soon</a>
+      <a href="#" (click)="$event.preventDefault(); closeSidePanel()">404</a>
+      <a href="#" (click)="$event.preventDefault(); closeSidePanel()">Age Check</a>
+      <a href="#" (click)="$event.preventDefault(); closeSidePanel()">Sub Menu Example</a>
+    </nav>
+
+    <p class="side-panel__footer">
+      &copy; 2016 nK Group Inc. Developed in association with LoremInc.
+    </p>
+  </div>
+</aside>
+
+<ui-auth-overlay [open]="authPanelOpen" [mode]="authMode" (closed)="closeAuthPanel()"></ui-auth-overlay>
+
+<div class="cart-overlay" [class.cart-overlay--open]="authCartStyleOpen" (click)="closeAuthCartStyle()">
+  <section class="cart-panel" [class.cart-panel--open]="authCartStyleOpen" (click)="$event.stopPropagation()">
+    <div class="cart-panel__gap"></div>
+
+    <div class="cart-panel__auth">
+      <div class="cart-panel__header">
+        <button type="button" class="cart-panel__tab" [class.cart-panel__tab--active]="authCartStyleMode === 'login'"
+          (click)="setAuthCartStyleMode('login')">
+          Login
+        </button>
+        <button type="button" class="cart-panel__tab" [class.cart-panel__tab--active]="authCartStyleMode === 'register'"
+          (click)="setAuthCartStyleMode('register')">
+          Register
+        </button>
+      </div>
+
+      @if (authCartStyleMode === 'login') {
+      <div class="cart-panel__body">
+        <h3 class="cart-panel__auth-title">Login</h3>
+        <p class="cart-panel__auth-copy">This keeps the fullscreen shopping-cart entrance, but uses auth content
+          instead.</p>
+
+        <form class="cart-panel__form">
+          <label class="cart-panel__field">
+            <span>Email</span>
+            <input type="email" placeholder="you@example.com">
+          </label>
+          <label class="cart-panel__field">
+            <span>Password</span>
+            <input type="password" placeholder="Password">
+          </label>
+          <div class="cart-panel__actions">
+            <ui-button label="Close" variant="white" size="x2" (clicked)="closeAuthCartStyle()"></ui-button>
+            <ui-button label="Login" variant="main-1" size="x2"></ui-button>
+          </div>
+        </form>
+      </div>
+      } @else {
+      <div class="cart-panel__body">
+        <h3 class="cart-panel__auth-title">Register</h3>
+        <p class="cart-panel__auth-copy">Same cart-style overlay, but with the longer register form to test spacing and
+          flow.</p>
+
+        <form class="cart-panel__form">
+          <label class="cart-panel__field">
+            <span>Username</span>
+            <input type="text" placeholder="Username">
+          </label>
+          <label class="cart-panel__field">
+            <span>Email</span>
+            <input type="email" placeholder="you@example.com">
+          </label>
+          <label class="cart-panel__field">
+            <span>Password</span>
+            <input type="password" placeholder="Password">
+          </label>
+          <div class="cart-panel__actions">
+            <ui-button label="Close" variant="white" size="x2" (clicked)="closeAuthCartStyle()"></ui-button>
+            <ui-button label="Register" variant="main-1" size="x2"></ui-button>
+          </div>
+        </form>
+      </div>
+      }
+    </div>
+  </section>
+</div>

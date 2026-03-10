@@ -1,0 +1,25 @@
+<label class="ui-input-field">
+  <ui-field-label [text]="label"></ui-field-label>
+  <span class="ui-input-field__wrap">
+    <ui-input-control
+      [type]="currentType"
+      [value]="value"
+      [placeholder]="placeholder"
+      [autocomplete]="autocomplete"
+      (valueChange)="onValueChange($event)">
+    </ui-input-control>
+
+    @if (type === 'password') {
+      <button
+        type="button"
+        class="ui-input-field__toggle"
+        [attr.aria-label]="passwordVisible ? 'Hide password' : 'Show password'"
+        (click)="togglePasswordVisibility()">
+        <lucide-icon
+          [img]="passwordVisible ? eyeOffIcon : eyeClosedIcon"
+          class="ui-input-field__eye-icon">
+        </lucide-icon>
+      </button>
+    }
+  </span>
+</label>

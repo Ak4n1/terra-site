@@ -1,0 +1,27 @@
+.ui-input-control {
+  width: 100%;
+  border: 1px solid var(--c-border-control);
+  padding: 14px 52px 14px 16px;
+  background: var(--color-shadow-mid);
+  color: var(--c-text-on-dark);
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.ui-input-control:focus {
+  border-color: var(--c-link-hover);
+  background: color-mix(in srgb, var(--color-black) 40%, transparent);
+}
+
+.ui-input-control:-webkit-autofill,
+.ui-input-control:-webkit-autofill:hover,
+.ui-input-control:-webkit-autofill:focus,
+.ui-input-control:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--c-text-on-dark);
+  caret-color: var(--c-text-on-dark);
+  box-shadow: inset 0 0 0 1000px var(--color-shadow-mid);
+  -webkit-box-shadow: inset 0 0 0 1000px var(--color-shadow-mid);
+  transition: background-color 9999s ease-out 0s;
+}

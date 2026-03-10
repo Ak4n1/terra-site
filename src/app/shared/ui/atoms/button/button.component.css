@@ -1,0 +1,179 @@
+.btn {
+  display: inline-block;
+  position: relative;
+  border: 0;
+  padding: 12px 30px;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.2;
+  border-radius: 2px;
+  background-color: rgba(14, 14, 14, 0.9);
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.3s box-shadow, 0.3s background-color, 0.3s color, 0.3s transform;
+}
+
+.btn__label {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+}
+
+.btn__effect-inner {
+  display: inline-block;
+  position: relative;
+}
+
+.btn__effect-inner::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  right: -10px;
+  border-bottom: 1px solid currentColor;
+  opacity: 0.5;
+  transform: scaleX(0);
+  transform-origin: 100% 0;
+  transition: 0.3s transform;
+}
+
+.btn__effect-shade {
+  opacity: 0;
+}
+
+.btn__effect-l,
+.btn__effect-r {
+  position: absolute;
+  top: -50%;
+  overflow: hidden;
+  transition: 0.3s 0.1s transform;
+}
+
+.btn__effect-l > span,
+.btn__effect-r > span {
+  display: inline-block;
+  transform: translateY(50%);
+}
+
+.btn__effect-r {
+  top: 50%;
+}
+
+.btn__effect-r > span {
+  transform: translateY(-50%);
+}
+
+.btn:hover:not(:disabled) {
+  background-color: #0e0e0e;
+  box-shadow: 0 5px 15px 0 rgba(14, 14, 14, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn:hover:not(:disabled) .btn__effect-inner::after {
+  transform: scaleX(1);
+  transform-origin: 0 0;
+}
+
+.btn:hover:not(:disabled) .btn__effect-l {
+  transform: translateX(-2px);
+}
+
+.btn:hover:not(:disabled) .btn__effect-r {
+  transform: translateX(2px);
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid;
+  transition: 0.3s background-color, 0.3s border-color;
+}
+
+.btn--x2 {
+  padding: 16px 40px;
+  font-size: 1rem;
+}
+
+.btn-color-main-1 {
+  color: #e08821;
+}
+
+.btn-color-main-1::before {
+  border-color: #b56d19;
+}
+
+.btn-color-main-1:active:not(:disabled) {
+  color: #885213;
+}
+
+.btn-color-main-2 {
+  color: #39a228;
+}
+
+.btn-color-main-2::before {
+  border-color: #2b791e;
+}
+
+.btn-color-main-2:active:not(:disabled) {
+  color: #1c5014;
+}
+
+.btn-color-main-3 {
+  color: #2953b1;
+}
+
+.btn-color-main-3::before {
+  border-color: #1f4088;
+}
+
+.btn-color-main-3:active:not(:disabled) {
+  color: #162c5e;
+}
+
+.btn-color-main-4 {
+  color: #7c34a8;
+}
+
+.btn-color-main-4::before {
+  border-color: #5f2881;
+}
+
+.btn-color-main-4:active:not(:disabled) {
+  color: #431c5a;
+}
+
+.btn-color-main-5 {
+  color: #c82e2e;
+}
+
+.btn-color-main-5::before {
+  border-color: #9f2424;
+}
+
+.btn-color-main-5:active:not(:disabled) {
+  color: #751b1b;
+}
+
+.btn-color-white {
+  color: #fff;
+}
+
+.btn-color-white::before {
+  border-color: #e6e6e6;
+}
+
+.btn-color-white:active:not(:disabled) {
+  color: #ccc;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}

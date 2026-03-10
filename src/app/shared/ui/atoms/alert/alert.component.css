@@ -1,0 +1,34 @@
+.ui-alert {
+  position: relative;
+  overflow: hidden;
+  padding: 20px 20px 20px 70px;
+  color: #fff;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.ui-alert--warning {
+  background: #e08821;
+}
+
+.ui-alert--error {
+  background: #c23b32;
+}
+
+.ui-alert--success {
+  background: #2f9e44;
+}
+
+.ui-alert__icon {
+  position: absolute;
+  top: 18px;
+  left: 24px;
+  line-height: 1;
+}
+
+.ui-alert__icon-svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 2;
+}

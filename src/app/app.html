@@ -5,5 +5,6 @@
   <div class="terra-page-border__left"></div>
 </div>
 
-<ui-navbar></ui-navbar>
+<ui-navbar (authRequested)="openAuthOverlay($event)"></ui-navbar>
 <router-outlet></router-outlet>
+<ui-auth-overlay [open]="authOverlayOpen" [mode]="authOverlayMode" (closed)="closeAuthOverlay()"></ui-auth-overlay>

@@ -1,0 +1,14 @@
+<button
+  [type]="type"
+  class="btn"
+  [ngClass]="[variantClass, sizeClass]"
+  [disabled]="disabled"
+  (click)="onClick($event)">
+  <span class="btn__label">
+    <span class="btn__effect-inner">
+      <span class="btn__effect-l"><span>{{ label }}</span></span>
+      <span class="btn__effect-r"><span>{{ label }}</span></span>
+      <span class="btn__effect-shade"><span>{{ label }}</span></span>
+    </span>
+  </span>
+</button>

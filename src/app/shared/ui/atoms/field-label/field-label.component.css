@@ -1,0 +1,7 @@
+.ui-field-label {
+  color: rgba(255, 255, 255, 0.76);
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

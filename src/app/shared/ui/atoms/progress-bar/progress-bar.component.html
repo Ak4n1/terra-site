@@ -1,0 +1,13 @@
+<div class="ui-progress-bar" [class]="sizeClass">
+  @if (title) {
+    <div class="ui-progress-bar__title">{{ title }}</div>
+  }
+
+  <div class="ui-progress-bar__line">
+    <div class="ui-progress-bar__fill" [class]="variantClass" [style.width.%]="clampedValue">
+      @if (showPercent) {
+        <div class="ui-progress-bar__percent">{{ clampedValue }}%</div>
+      }
+    </div>
+  </div>
+</div>
