@@ -1,6 +1,6 @@
 .mnt-80 {
   position: relative;
-  margin-top: -80px;
+  margin-top: -160px;
 }
 
 .rev_slider_wrapper.fullscreen-container {
@@ -45,7 +45,7 @@
 
 @media (max-width: 991px) {
   .mnt-80 {
-    margin-top: -60px;
+    margin-top: -120px;
   }
 
   :host ::ng-deep .tp-revslider-slidesli .terra-slide-caption {
@@ -57,7 +57,7 @@
 
 @media (max-width: 640px) {
   .mnt-80 {
-    margin-top: -40px;
+    margin-top: -80px;
   }
 
   :host ::ng-deep .tp-revslider-slidesli .terra-slide-caption__description {

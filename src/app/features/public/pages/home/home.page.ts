@@ -14,32 +14,32 @@ export class HomePage implements AfterViewInit {
 
   readonly heroSlides: SpotlightSlide[] = [
     {
-      imageSrc: 'assets/images/app/hero/baium3.png',
-      thumbSrc: 'assets/images/app/hero/baium3.png',
+      imageSrc: 'assets/images/app/hero/baium.webp',
+      thumbSrc: 'assets/images/app/hero/baium.webp',
       titleKey: 'raidBaiumTitle',
       descriptionKey: 'raidBaiumDescription'
     },
     {
-      imageSrc: 'assets/images/app/hero/antharas2.png',
-      thumbSrc: 'assets/images/app/hero/antharas2.png',
+      imageSrc: 'assets/images/app/hero/antharas.webp',
+      thumbSrc: 'assets/images/app/hero/antharas.webp',
       titleKey: 'raidAntharasTitle',
       descriptionKey: 'raidAntharasDescription'
     },
     {
-      imageSrc: 'assets/images/app/hero/queenant3.png',
-      thumbSrc: 'assets/images/app/hero/queenant3.png',
+      imageSrc: 'assets/images/app/hero/queenant.webp',
+      thumbSrc: 'assets/images/app/hero/queenant.webp',
       titleKey: 'raidQueenAntTitle',
       descriptionKey: 'raidQueenAntDescription'
     },
     {
-      imageSrc: 'assets/images/app/hero/zaken2.png',
-      thumbSrc: 'assets/images/app/hero/zaken2.png',
+      imageSrc: 'assets/images/app/hero/zaken.webp',
+      thumbSrc: 'assets/images/app/hero/zaken.webp',
       titleKey: 'raidZakenTitle',
       descriptionKey: 'raidZakenDescription'
     },
     {
-      imageSrc: 'assets/images/app/hero/orfen1.png',
-      thumbSrc: 'assets/images/app/hero/orfen1.png',
+      imageSrc: 'assets/images/app/hero/orfen.webp',
+      thumbSrc: 'assets/images/app/hero/orfen.webp',
       titleKey: 'raidOrfenTitle',
       descriptionKey: 'raidOrfenDescription'
     }
