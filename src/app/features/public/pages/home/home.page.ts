@@ -1,11 +1,13 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AboutGameSectionComponent } from '../../components/home/about-game-section/about-game-section.component';
+import { GameFeaturesSectionComponent } from '../../components/home/game-features-section/game-features-section.component';
 import { HeroHomeComponent } from '../../components/home/hero-home/hero-home.component';
 import type { SpotlightSlide } from '../../../../shared/ui/organisms/sliders/spotlight-carousel/spotlight-carousel.types';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [HeroHomeComponent],
+  imports: [HeroHomeComponent, GameFeaturesSectionComponent, AboutGameSectionComponent],
   templateUrl: './home.page.html',
   styleUrl: './home.page.css'
 })
@@ -42,6 +44,12 @@ export class HomePage implements AfterViewInit {
       thumbSrc: 'assets/images/app/hero/orfen.webp',
       titleKey: 'raidOrfenTitle',
       descriptionKey: 'raidOrfenDescription'
+    },
+    {
+      imageSrc: 'assets/images/app/hero/core.webp',
+      thumbSrc: 'assets/images/app/hero/core.webp',
+      titleKey: 'raidCoreTitle',
+      descriptionKey: 'raidCoreDescription'
     }
   ];
 

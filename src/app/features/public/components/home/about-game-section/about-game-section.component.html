@@ -1,0 +1,28 @@
+<section class="about-game-section">
+  <div class="about-game-section__inner">
+    <div class="about-game-section__content">
+      <h2 class="about-game-section__title">{{ languageService.t('aboutTitle') }}</h2>
+      <p class="about-game-section__intro">
+        {{ languageService.t('aboutIntro') }}
+      </p>
+      <p class="about-game-section__paragraph">
+        {{ languageService.t('aboutParagraphOne') }}
+      </p>
+      <p class="about-game-section__paragraph" *ngIf="languageService.t('aboutParagraphTwo')">
+        {{ languageService.t('aboutParagraphTwo') }}
+      </p>
+      <p class="about-game-section__paragraph" *ngIf="languageService.t('aboutParagraphThree')">
+        {{ languageService.t('aboutParagraphThree') }}
+      </p>
+    </div>
+
+    <div class="about-game-section__stats">
+      <ui-game-stat-card
+        *ngFor="let stat of stats; let last = last"
+        [value]="stat.value"
+        [label]="languageService.t(stat.labelKey)"
+        [showDivider]="!last">
+      </ui-game-stat-card>
+    </div>
+  </div>
+</section>

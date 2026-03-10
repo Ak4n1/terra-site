@@ -7,16 +7,16 @@
         <div class="terra-language">
           <ui-language-flag-trigger
             [flagSrc]="selectedLanguage.flag"
-            [flagAlt]="selectedLanguage.label"
+            [flagAlt]="selectedLanguageLabel"
             [expanded]="isLanguageMenuOpen"
-            [ariaLabel]="selectedLanguage.label"
+            [ariaLabel]="t('uiLanguageSelector')"
             (trigger)="toggleLanguageMenu()">
           </ui-language-flag-trigger>
 
           <ul *ngIf="isLanguageMenuOpen" class="terra-language__menu" role="listbox">
             <li *ngFor="let option of languageOptions" role="option" [attr.aria-selected]="option.code === currentLanguage">
-              <button type="button" class="terra-language__option" [attr.aria-label]="option.label" (click)="selectLanguage(option.code)">
-                <img class="terra-language__flag" [src]="option.flag" [alt]="option.label" />
+              <button type="button" class="terra-language__option" [attr.aria-label]="t(option.label)" (click)="selectLanguage(option.code)">
+                <img class="terra-language__flag" [src]="option.flag" [alt]="t(option.label)" />
               </button>
             </li>
           </ul>
@@ -38,7 +38,7 @@
     <div class="terra-header__container terra-header__container--main">
       <ui-menu-toggle
         [open]="isMobileMenuOpen"
-        ariaLabel="Toggle menu"
+        [ariaLabel]="t('uiToggleMenu')"
         (toggle)="toggleMobileMenu()">
       </ui-menu-toggle>
 

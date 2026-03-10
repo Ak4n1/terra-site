@@ -6,11 +6,17 @@
 .rev_slider_wrapper.fullscreen-container {
   position: relative;
   width: 100%;
+  cursor: url("/assets/images/app/cursors/cursor-drag.png") 16 16, grab;
 }
 
 .rev_slider .tp-rightarrow,
 .rev_slider .tp-leftarrow {
   z-index: 20;
+}
+
+
+.rev_slider_wrapper.fullscreen-container:hover {
+  cursor: url("/assets/images/app/cursors/cursor-drag.png") 16 16, grabbing;
 }
 
 :host ::ng-deep .tp-revslider-slidesli .terra-slide-caption {
@@ -28,7 +34,7 @@
 :host ::ng-deep .tp-revslider-slidesli .terra-slide-caption__title {
   margin: 0;
   font-family: "Marcellus SC", serif;
-  font-size: clamp(1rem, 1.55vw, 1.45rem);
+  font-size: clamp(1rem, 2.55vw, 1.45rem);
   line-height: 1.1;
   color: #fff;
   text-transform: uppercase;

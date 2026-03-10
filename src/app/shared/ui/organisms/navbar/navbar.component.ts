@@ -45,7 +45,7 @@ export class NavbarComponent implements OnDestroy {
   mobileActiveParent: MenuNode | null = null;
 
   readonly navItems: MenuNode[] = [
-    { labelKey: 'navHome', href: '/'},
+    { labelKey: 'navHome', href: '/' },
     {
       labelKey: 'navDownloads',
       href: '#',
@@ -147,8 +147,11 @@ export class NavbarComponent implements OnDestroy {
   ];
 
   readonly languageOptions: LanguageOption[] = [
-    { code: 'us', label: 'English', flag: 'assets/flags/usa.svg' },
-    { code: 'es', label: 'Espanol', flag: 'assets/flags/spain.svg' }
+    { code: 'us', label: 'languageEnglish', flag: 'assets/flags/us.webp' },
+    { code: 'es', label: 'languageSpanish', flag: 'assets/flags/spain.webp' },
+    { code: 'pt', label: 'languagePortuguese', flag: 'assets/flags/portugal.webp' },
+    { code: 'fr', label: 'languageFrench', flag: 'assets/flags/france.webp' },
+    { code: 'de', label: 'languageGerman', flag: 'assets/flags/germany.webp' }
   ];
 
   get currentLanguage(): AppLanguage {
@@ -157,6 +160,10 @@ export class NavbarComponent implements OnDestroy {
 
   get selectedLanguage(): LanguageOption {
     return this.languageOptions.find(option => option.code === this.currentLanguage) ?? this.languageOptions[0];
+  }
+
+  get selectedLanguageLabel(): string {
+    return this.t(this.selectedLanguage.label);
   }
 
   t(key: string): string {

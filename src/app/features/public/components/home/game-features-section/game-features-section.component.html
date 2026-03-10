@@ -1,0 +1,18 @@
+<section class="game-features-section">
+  <div class="game-features-section__inner">
+    <article class="game-features-section__card" *ngFor="let feature of features">
+      <div class="game-features-section__icon-wrap">
+        <lucide-icon
+          *ngIf="feature.icon"
+          [img]="feature.icon"
+          class="game-features-section__icon">
+        </lucide-icon>
+      </div>
+
+      <div class="game-features-section__content">
+        <h2 class="game-features-section__title">{{ languageService.t(feature.titleKey) }}</h2>
+        <p class="game-features-section__description">{{ languageService.t(feature.descriptionKey) }}</p>
+      </div>
+    </article>
+  </div>
+</section>

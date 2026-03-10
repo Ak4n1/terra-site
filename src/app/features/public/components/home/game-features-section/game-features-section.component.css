@@ -1,0 +1,91 @@
+.game-features-section {
+  position: relative;
+  z-index: 1;
+}
+
+.game-features-section__inner {
+  width: min(100%, 1200px);
+  margin: 0 auto;
+  padding: 160px 15px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 0;
+  row-gap: 60px;
+  min-height: 466px;
+}
+
+.game-features-section__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.game-features-section__icon-wrap {
+  display: grid;
+  place-items: center;
+  width: 70px;
+  height: 70px;
+  margin: 10px auto 40px;
+  overflow: visible;
+}
+
+.game-features-section__icon {
+  display: grid;
+  place-items: center;
+  width: 70px;
+  height: 70px;
+  line-height: 0;
+}
+
+.game-features-section__icon ::ng-deep svg {
+  display: block;
+  width: 70px;
+  height: 70px;
+  margin: 0;
+  transform: scale(1.37);
+  transform-origin: center center;
+  stroke-width: 2.35;
+}
+
+.game-features-section__title {
+  margin: 0 0 40px;
+  font-family: "Marcellus SC", serif;
+  font-size: 1.4rem;
+  line-height: 1.25;
+  color: var(--color-white);
+}
+
+.game-features-section__description {
+  margin: 0;
+  max-width: 360px;
+  font-family: "DIN Next W1G", sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.72;
+  color: var(--color-white-a80);
+}
+
+@media (max-width: 991px) {
+  .game-features-section__inner {
+    grid-template-columns: 1fr;
+    row-gap: 48px;
+    padding-top: 120px;
+    padding-bottom: 120px;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .game-features-section__inner {
+    padding: 96px 16px;
+  }
+
+  .game-features-section__icon-wrap {
+    margin-bottom: 22px;
+  }
+
+  .game-features-section__title {
+    margin: 0 0 22px;
+  }
+}
