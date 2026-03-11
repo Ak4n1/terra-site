@@ -1,4 +1,8 @@
 export type AuthUser = {
+  id: number;
   email: string;
-  displayName: string;
+  enabled: boolean;
+  emailVerified: boolean;
+  roles: string[];
+  createdAt: string;
 };

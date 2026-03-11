@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { AuthFacadeService } from '../../../auth/services/auth-facade.service';
 import { ButtonComponent } from '../../../../shared/ui/atoms/button/button.component';
 
 @Component({
@@ -12,12 +14,17 @@ import { ButtonComponent } from '../../../../shared/ui/atoms/button/button.compo
   styleUrl: './home.page.css'
 })
 export class DashboardHomePage {
-  readonly accountEmail = 'email@email.com';
   private readonly languageService = inject(LanguageService);
   private readonly router = inject(Router);
+  private readonly authFacade = inject(AuthFacadeService);
+  readonly currentUser = toSignal(this.authFacade.currentUser$, { initialValue: null });
 
   t(key: string): string {
     return this.languageService.t(key);
+  }
+
+  accountEmail(): string {
+    return this.currentUser()?.email ?? '-';
   }
 
   openGameAccounts(): void {

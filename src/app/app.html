@@ -11,10 +11,9 @@
   <ui-navbar (authRequested)="openAuthOverlay($event)"></ui-navbar>
 }
 <router-outlet></router-outlet>
-<ui-auth-overlay
-  [open]="authOverlayOpen"
-  [mode]="authOverlayMode"
-  [loginError]="authLoginError"
+<app-auth-overlay-container
+  [open]="authOverlayOpen()"
+  [mode]="authOverlayMode()"
   (closed)="closeAuthOverlay()"
-  (loginSubmitted)="handleLogin($event)">
-</ui-auth-overlay>
+  (loginCompleted)="handleLoginCompleted()">
+</app-auth-overlay-container>

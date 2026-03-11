@@ -11,8 +11,7 @@
 }
 
 .terra-header__topbar {
-  background-color: var(--c-surface-topbar) ;
-  
+  background-color: var(--c-surface-topbar);
 }
 
 .terra-header__main {
@@ -20,7 +19,6 @@
   border-top: 1px solid var(--c-border-subtle);
   box-shadow: var(--header-main-shadow);
 }
-
 
 .terra-header__container {
   width: min(var(--header-container-max-width, 1320px), 100%);
@@ -97,7 +95,7 @@
 }
 
 .terra-header__topbar-effect::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: -10px;
@@ -163,26 +161,42 @@
   border-left: 1px solid var(--c-border-muted);
 }
 
-.terra-language {
+.terra-language,
+.terra-account-menu {
   position: relative;
 }
 
-.terra-language__menu {
+.terra-language__menu,
+.terra-account-menu__dropdown {
   position: absolute;
-  top: 100%;
-  left: 0;
+  top: calc(100% + 8px);
   width: max-content;
-  min-width: var(--language-trigger-min-width, 56px);
-  margin: var(--language-menu-gap, 6px) 0 0;
-  padding: var(--language-menu-padding-y, 8px) 0;
+  margin: 6px 0 0;
   list-style: none;
   background-color: var(--c-surface-dropdown);
   box-shadow: var(--shadow-dropdown);
   z-index: 20;
 }
 
+.terra-language__menu {
+  left: 0;
+  right: auto;
+  transform: none;
+  min-width: var(--language-trigger-min-width, 56px);
+  padding: var(--language-menu-padding-y, 8px) 0;
+}
+
+.terra-account-menu__dropdown {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  min-width: 190px;
+  padding: 14px;
+  border: 1px solid var(--c-border-subtle);
+}
+
 .terra-language__menu::before {
-  content: "";
+  content: '';
   position: absolute;
   top: calc(-1 * var(--language-menu-gap, 6px));
   left: 0;
@@ -247,7 +261,7 @@
 }
 
 .terra-dropdown::before {
-  content: "";
+  content: '';
   position: absolute;
   top: calc(-1 * var(--dropdown-margin-top, 28px));
   left: 0;
@@ -255,7 +269,7 @@
   height: 90px;
 }
 
-.terra-dropdown>li {
+.terra-dropdown > li {
   position: relative;
 }
 
@@ -276,14 +290,14 @@
   height: 100%;
 }
 
-.terra-dropdown>li:hover>.terra-dropdown--sub {
+.terra-dropdown > li:hover > .terra-dropdown--sub {
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
   pointer-events: auto;
 }
 
-.terra-main-links__item--open>.terra-dropdown {
+.terra-main-links__item--open > .terra-dropdown {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -300,6 +314,77 @@
   gap: 0;
 }
 
+.terra-account-menu {
+  position: absolute;
+  right: var(--header-auth-offset-right, 20px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.terra-account-menu__trigger {
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid var(--c-border-subtle);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.terra-account-menu__trigger:hover {
+  border-color: var(--c-link-hover);
+}
+
+.terra-account-menu__avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.terra-account-menu__eyebrow {
+  margin: 0 0 4px;
+  color: var(--c-text-secondary);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.terra-account-menu__email {
+  margin: 0 0 12px;
+  color: var(--c-text-on-dark);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.terra-account-menu__action {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--c-text-on-dark);
+  text-align: left;
+  padding: 10px 0;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+}
+
+.terra-account-menu__action + .terra-account-menu__action {
+  border-top: 1px solid var(--c-border-subtle);
+}
+
+.terra-account-menu__action:hover {
+  color: var(--c-link-hover);
+}
+
+.terra-account-menu__action--danger:hover {
+  color: #ff8f8f;
+}
+
 ui-menu-toggle,
 .terra-mobile-overlay,
 .terra-mobile-menu {
@@ -314,7 +399,7 @@ ui-menu-toggle {
   position: fixed;
   inset: 0;
   background-color: var(--c-surface-overlay);
-  cursor: url("/assets/images/cursor-nav-close.png") 24 24, pointer;
+  cursor: url('/assets/images/cursor-nav-close.png') 24 24, pointer;
   opacity: 0;
   z-index: 1001;
 }
@@ -399,7 +484,7 @@ ui-menu-toggle {
 }
 
 .terra-mobile-nav__trigger--drop::after {
-  content: "";
+  content: '';
   position: absolute;
   left: var(--nav-mobile-link-indicator-left, 28px);
   top: 50%;
@@ -415,7 +500,7 @@ ui-menu-toggle {
 }
 
 .terra-mobile-nav__trigger--back::after {
-  content: "";
+  content: '';
   position: absolute;
   left: var(--mobile-nav-trigger-back-indicator-left, 28px);
   top: 50%;
@@ -434,7 +519,8 @@ ui-menu-toggle {
   padding-left: var(--mobile-nav-trigger-back-padding-left, 56px);
 }
 
-.terra-mobile-auth {
+.terra-mobile-auth,
+.terra-mobile-session__actions {
   margin-top: auto;
   display: flex;
   flex-direction: row;
@@ -442,6 +528,42 @@ ui-menu-toggle {
   gap: var(--mobile-menu-auth-gap, 10px);
   padding: var(--mobile-menu-auth-padding-top, 16px) var(--mobile-menu-auth-padding-x, 20px) 0;
   border-top: 1px solid var(--c-border-subtle);
+}
+
+.terra-mobile-session {
+  margin-top: auto;
+  padding: 16px 20px 0;
+  border-top: 1px solid var(--c-border-subtle);
+}
+
+.terra-mobile-session__identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.terra-mobile-session__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--c-border-subtle);
+}
+
+.terra-mobile-session__eyebrow {
+  margin: 0 0 4px;
+  color: var(--c-text-secondary);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.terra-mobile-session__email {
+  margin: 0;
+  color: var(--c-text-on-dark);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 1100px) and (max-height: 420px) {
@@ -471,7 +593,8 @@ ui-menu-toggle {
     padding-bottom: var(--mobile-nav-trigger-padding-y-compact, 10px);
   }
 
-  .terra-mobile-auth {
+  .terra-mobile-auth,
+  .terra-mobile-session__actions {
     margin-top: var(--mobile-menu-auth-margin-top-compact, 12px);
     flex: 0 0 auto;
     padding:
@@ -500,13 +623,13 @@ ui-menu-toggle {
   color: var(--c-text-on-dark);
   background-color: var(--c-btn-bg);
   padding: var(--mobile-menu-auth-link-padding-y, 14px) var(--mobile-menu-auth-link-padding-x, 12px);
-  transition: .3s box-shadow, .3s background-color, .3s color, .3s transform;
+  transition: 0.3s box-shadow, 0.3s background-color, 0.3s color, 0.3s transform;
   user-select: none;
   white-space: nowrap;
 }
 
 .terra-mobile-auth__link::before {
-  content: "";
+  content: '';
   position: absolute;
   top: var(--mobile-menu-auth-link-inset, 6px);
   right: var(--mobile-menu-auth-link-inset, 6px);
@@ -514,7 +637,7 @@ ui-menu-toggle {
   left: var(--mobile-menu-auth-link-inset, 6px);
   border: 1px solid var(--c-border-control);
   z-index: 1;
-  transition: .3s background-color, .3s border-color;
+  transition: 0.3s background-color, 0.3s border-color;
 }
 
 .terra-mobile-auth__link:hover {
@@ -575,8 +698,12 @@ ui-menu-toggle {
     display: flex;
   }
 
-  .terra-auth-links {
+  .terra-auth-links,
+  .terra-account-menu {
     display: none;
   }
-
 }
+
+
+
+

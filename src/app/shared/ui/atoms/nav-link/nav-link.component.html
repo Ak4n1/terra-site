@@ -1,6 +1,7 @@
 <a
   [attr.href]="routerLink ? null : href"
   [routerLink]="routerLink"
+  (click)="clicked.emit($event)"
   class="nav-link"
   [class.mobile-nav-link]="mobile"
   [class.nav-link--active]="active"

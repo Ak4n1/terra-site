@@ -1,6 +1,6 @@
 <div class="mnt-80">
-  <div [id]="wrapperId" class="rev_slider_wrapper fullscreen-container" data-alias="photography-carousel48" style="padding:0;">
-    <div [id]="sliderId" class="rev_slider fullscreenbanner" style="display:none;" data-version="5.0.7">
+  <div #wrapperElement [id]="wrapperId" class="rev_slider_wrapper fullscreen-container" data-alias="photography-carousel48" style="padding:0;">
+    <div #sliderElement [id]="sliderId" class="rev_slider fullscreenbanner" style="display:none;" data-version="5.0.7">
       <ul>
         <li
           *ngFor="let slide of resolvedSlides; let i = index"

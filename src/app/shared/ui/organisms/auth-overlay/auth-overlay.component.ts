@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
 import { LanguageService } from '../../../../core/i18n/language.service';
-import { AlertComponent } from '../../atoms/alert/alert.component';
+import { AlertComponent, type AlertVariant } from '../../atoms/alert/alert.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { ProgressBarComponent } from '../../atoms/progress-bar/progress-bar.component';
 import { InputFieldComponent } from '../../molecules/input-field/input-field.component';
@@ -18,18 +18,24 @@ export type AuthOverlayMode = 'login' | 'register' | 'forgot-password';
 })
 export class AuthOverlayComponent implements OnChanges {
   readonly languageService = inject(LanguageService);
-  readonly mockNotice = 'Mock only for now. Register and recovery are not connected yet.';
 
   @Input() open = false;
   @Input() mode: AuthOverlayMode = 'login';
-  @Input() loginError = '';
+  @Input() feedbackMessage = '';
+  @Input() feedbackVariant: AlertVariant = 'warning';
+  @Input() submitting = false;
   @Output() readonly closed = new EventEmitter<void>();
   @Output() readonly loginSubmitted = new EventEmitter<{ email: string; password: string }>();
+  @Output() readonly registerSubmitted = new EventEmitter<{ email: string; password: string; repeatPassword: string }>();
+  @Output() readonly forgotPasswordSubmitted = new EventEmitter<{ email: string }>();
 
   currentMode: AuthOverlayMode = 'login';
   loginEmail = '';
   loginPassword = '';
+  registerEmail = '';
   registerPassword = '';
+  registerRepeatPassword = '';
+  forgotPasswordEmail = '';
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mode']) {
@@ -85,22 +91,61 @@ export class AuthOverlayComponent implements OnChanges {
     this.registerPassword = value;
   }
 
+  onRegisterEmailChange(value: string): void {
+    this.registerEmail = value;
+  }
+
+  onRegisterRepeatPasswordChange(value: string): void {
+    this.registerRepeatPassword = value;
+  }
+
+  onForgotPasswordEmailChange(value: string): void {
+    this.forgotPasswordEmail = value;
+  }
+
   get primaryActionDisabled(): boolean {
-    if (this.currentMode !== 'login') {
+    if (this.submitting) {
       return true;
     }
 
-    return this.loginEmail.trim().length === 0 || this.loginPassword.length === 0;
+    if (this.currentMode === 'login') {
+      return this.loginEmail.trim().length === 0 || this.loginPassword.length === 0;
+    }
+
+    if (this.currentMode === 'register') {
+      return this.registerEmail.trim().length === 0
+        || this.registerPassword.length === 0
+        || this.registerRepeatPassword.length === 0
+        || this.registerPassword !== this.registerRepeatPassword;
+    }
+
+    return this.forgotPasswordEmail.trim().length === 0;
   }
 
   submitPrimaryAction(): void {
-    if (this.currentMode !== 'login' || this.primaryActionDisabled) {
+    if (this.primaryActionDisabled) {
       return;
     }
 
-    this.loginSubmitted.emit({
-      email: this.loginEmail,
-      password: this.loginPassword
+    if (this.currentMode === 'login') {
+      this.loginSubmitted.emit({
+        email: this.loginEmail,
+        password: this.loginPassword
+      });
+      return;
+    }
+
+    if (this.currentMode === 'register') {
+      this.registerSubmitted.emit({
+        email: this.registerEmail,
+        password: this.registerPassword,
+        repeatPassword: this.registerRepeatPassword
+      });
+      return;
+    }
+
+    this.forgotPasswordSubmitted.emit({
+      email: this.forgotPasswordEmail
     });
   }
 
@@ -141,7 +186,10 @@ export class AuthOverlayComponent implements OnChanges {
   close(): void {
     this.loginEmail = '';
     this.loginPassword = '';
+    this.registerEmail = '';
     this.registerPassword = '';
+    this.registerRepeatPassword = '';
+    this.forgotPasswordEmail = '';
     this.currentMode = this.mode;
     this.closed.emit();
   }

@@ -2,6 +2,7 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
   gap: 28px;
+  width: 260px;
   min-height: 100vh;
   padding: 32px 24px;
   box-sizing: border-box;
@@ -85,42 +86,39 @@
 }
 
 .dashboard-sidebar__identity {
-  display: grid;
-  gap: 4px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   min-width: 0;
-  width: min(100%, 200px);
-  padding: 5px 14px;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--c-border-weak);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
-    rgba(12, 12, 12, 0.82);
-  overflow: hidden;
-  justify-self: center;
+  margin-bottom: 16px;
+}
+
+.dashboard-sidebar__avatar {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--c-border-subtle);
+}
+
+.dashboard-sidebar__identity-copy {
+  min-width: 0;
 }
 
 .dashboard-sidebar__identity-label {
-  margin: 0;
-  color: var(--c-link-hover);
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  letter-spacing: 0.24em;
+  margin: 0 0 4px;
+  color: var(--c-text-secondary);
+  font-size: 0.72rem;
   text-transform: uppercase;
-  font-weight: bold;
+  letter-spacing: 0.08em;
 }
 
 .dashboard-sidebar__email {
   margin: 0;
   color: var(--c-text-on-dark);
-  font-family: var(--font-body);
-  font-size: 0.92rem;
-  line-height: 1.5;
-  min-width: 0;
-  max-width: 100%;
-  text-align: left;
+  font-size: 0.9rem;
   overflow-wrap: anywhere;
-  word-break: break-word;
 }
 
 .dashboard-sidebar__link {
@@ -162,7 +160,7 @@
     top: 0;
     left: 0;
     bottom: 0;
-    width: min(280px, calc(100vw - 48px));
+    width: min(248px, calc(100vw - 48px));
     height: 100vh;
     min-height: 100vh;
     height: 100svh;
@@ -215,7 +213,7 @@
   }
 
   .dashboard-sidebar__identity {
-    padding: 10px 12px;
+    margin-bottom: 12px;
   }
 
   .dashboard-sidebar__email {

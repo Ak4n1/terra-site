@@ -36,13 +36,15 @@
       (click)="closeMobileSidebar()">
     </ui-nav-link>
     <div class="dashboard-sidebar__identity">
-      <p class="dashboard-sidebar__identity-label">Account</p>
-      <p class="dashboard-sidebar__email">{{ accountEmail }}</p>
+      <img *ngIf="sessionAvatar()" class="dashboard-sidebar__avatar" [src]="sessionAvatar()!" [alt]="accountEmail()" />
+      <div class="dashboard-sidebar__identity-copy">
+        <p class="dashboard-sidebar__identity-label">{{ t('navLoggedInAs') }}</p>
+        <p class="dashboard-sidebar__email">{{ accountEmail() }}</p>
+      </div>
     </div>
 
-
-    <div class="dashboard-sidebar__logout-wrap" >
-      <ui-button 
+    <div class="dashboard-sidebar__logout-wrap">
+      <ui-button
         class="dashboard-sidebar__logout"
         [label]="t('dashboardTopbarLogout')"
         variant="main-5"
