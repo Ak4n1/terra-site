@@ -1,0 +1,24 @@
+.ui-verification-code-input {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 56px));
+  gap: 10px;
+}
+
+.ui-verification-code-input__control {
+  display: block;
+}
+
+.ui-verification-code-input__control ::ng-deep .ui-input-control {
+  height: 52px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-family: var(--font-ui);
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .ui-verification-code-input {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+

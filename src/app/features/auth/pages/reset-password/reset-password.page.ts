@@ -3,6 +3,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { evaluatePassword, isPasswordCompliant } from '../../../../core/utils/password-policy';
 import { resolveAlertVariant } from '../../../../core/feedback/alert-code.mapper';
 import { AlertComponent, type AlertVariant } from '../../../../shared/ui/atoms/alert/alert.component';
 import { ButtonComponent } from '../../../../shared/ui/atoms/button/button.component';
@@ -36,6 +37,7 @@ export class ResetPasswordPage {
     || !this.hasToken
     || this.password().trim().length === 0
     || this.repeatPassword().trim().length === 0
+    || !isPasswordCompliant(this.password())
     || this.password() !== this.repeatPassword()
   );
 
@@ -90,26 +92,7 @@ export class ResetPasswordPage {
   }
 
   get passwordStrengthValue(): number {
-    let score = 0;
-    const password = this.password();
-
-    if (/[A-Z]/.test(password)) {
-      score += 1;
-    }
-
-    if (/[0-9]/.test(password)) {
-      score += 1;
-    }
-
-    if (/[^A-Za-z0-9]/.test(password)) {
-      score += 1;
-    }
-
-    if (password.length >= 8) {
-      score += 1;
-    }
-
-    return score * 25;
+    return evaluatePassword(this.password()).strengthPercent;
   }
 
   get passwordStrengthLabel(): string {

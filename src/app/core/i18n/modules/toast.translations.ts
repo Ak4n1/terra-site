@@ -17,5 +17,5 @@ export const TOAST_TRANSLATIONS_FR: TranslationMap = {
 };
 
 export const TOAST_TRANSLATIONS_DE: TranslationMap = {
-  toastWelcomeBack: 'Willkommen zuruck, {email}.'
+  toastWelcomeBack: 'Willkommen zurück, {email}.'
 };

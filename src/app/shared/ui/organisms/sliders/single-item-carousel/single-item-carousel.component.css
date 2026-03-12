@@ -1,0 +1,103 @@
+@import "slick-carousel/slick/slick.css";
+
+:host {
+  display: block;
+}
+
+.single-item-carousel {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--c-border-weak);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(12, 12, 12, 0.82);
+}
+
+.single-item-carousel__track {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.single-item-carousel__track:not(.slick-initialized) .single-item-carousel__slide {
+  display: none;
+}
+
+.single-item-carousel__track:not(.slick-initialized) .single-item-carousel__slide:first-child {
+  display: block;
+}
+
+:host ::ng-deep .single-item-carousel__track .slick-list {
+  overflow: hidden;
+  min-width: 0;
+}
+
+:host ::ng-deep .single-item-carousel__track .slick-track {
+  display: flex;
+  min-width: 0;
+}
+
+:host ::ng-deep .single-item-carousel__track .slick-slide {
+  height: auto;
+}
+
+:host ::ng-deep .single-item-carousel__track .slick-slide > div {
+  height: auto;
+  min-width: 0;
+}
+
+.single-item-carousel__slide {
+  min-width: 0;
+}
+
+.single-item-carousel__card {
+  display: grid;
+  gap: 14px;
+  padding: 28px 32px;
+  min-height: 280px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.single-item-carousel__eyebrow {
+  margin: 0;
+  color: var(--c-link-hover);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.single-item-carousel__title {
+  margin: 0;
+  color: var(--c-text-on-dark);
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+  line-height: 1.15;
+}
+
+.single-item-carousel__copy {
+  margin: 0;
+  max-width: 72ch;
+  color: var(--c-text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  line-height: 1.7;
+}
+
+.single-item-carousel__action {
+  margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+  .single-item-carousel__card {
+    padding: 22px 24px;
+    min-height: 236px;
+  }
+}

@@ -1,0 +1,18 @@
+<div class="ui-verification-code-input">
+  <ui-input-control
+    *ngFor="let digit of digits; let index = index; trackBy: trackByIndex"
+    class="ui-verification-code-input__control"
+    [value]="digit"
+    [disabled]="disabled"
+    [type]="'text'"
+    [placeholder]="placeholder"
+    [maxLength]="1"
+    [inputMode]="'numeric'"
+    [pattern]="'[0-9]*'"
+    [ariaLabel]="ariaLabelPrefix + ' ' + (index + 1)"
+    [autocomplete]="index === 0 ? 'one-time-code' : 'off'"
+    (valueChange)="onDigitInput(index, $event)"
+    (keydown)="onDigitKeydown(index, $event)"
+    (paste)="onDigitPaste($event)">
+  </ui-input-control>
+</div>

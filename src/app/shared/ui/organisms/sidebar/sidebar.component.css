@@ -1,14 +1,58 @@
 .dashboard-sidebar {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+  display: flex;
+  flex-direction: column;
   gap: 28px;
   width: 260px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  align-self: start;
+  height: 100dvh;
   min-height: 100vh;
   padding: 32px 24px;
   box-sizing: border-box;
   background-color: var(--c-surface-dropdown);
   border-right: 1px solid var(--c-border-weak);
   box-shadow: var(--header-main-shadow);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+}
+
+@media (min-width: 1025px) and (max-height: 760px),
+       (min-width: 1025px) and (max-width: 1320px) {
+  .dashboard-sidebar {
+    gap: 20px;
+    padding: 22px 18px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .dashboard-sidebar__brand {
+    padding-bottom: 12px;
+  }
+
+  .dashboard-sidebar__content {
+    gap: 14px;
+  }
+
+  .dashboard-sidebar__section {
+    gap: 8px;
+  }
+
+  .dashboard-sidebar__nav {
+    gap: 6px;
+  }
+
+  .dashboard-sidebar__footer {
+    gap: 8px;
+    padding-top: 12px;
+  }
+
+  .dashboard-sidebar__identity {
+    margin-bottom: 8px;
+  }
 }
 
 .dashboard-sidebar__brand {
@@ -53,7 +97,7 @@
   display: grid;
   align-content: start;
   gap: 24px;
-  min-height: 0;
+  flex: 0 0 auto;
 }
 
 .dashboard-sidebar__section {
@@ -81,6 +125,7 @@
   display: grid;
   gap: 14px;
   min-width: 0;
+  margin-top: auto;
   padding-top: 20px;
   border-top: 1px solid var(--c-border-weak);
 }

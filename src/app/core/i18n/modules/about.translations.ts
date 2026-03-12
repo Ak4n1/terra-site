@@ -18,7 +18,7 @@ export const ABOUT_TRANSLATIONS_ES: TranslationMap = {
   aboutIntro:
     'Terra fue creado con un objetivo claro: construir un servidor de Lineage II Classic 3.0 estable y pensado a largo plazo.',
   aboutParagraphOne:
-    'Nos enfocamos en una progresion valiosa, decisiones transparentes y una experiencia guiada por la comunidad, disenada para durar mas alla del ciclo corto que suelen tener muchos servidores privados.',
+    'Nos enfocamos en una progresión valiosa, decisiones transparentes y una experiencia guiada por la comunidad, diseñada para durar más allá del ciclo corto que suelen tener muchos servidores privados.',
   aboutParagraphTwo: '',
   aboutParagraphThree: '',
   aboutStatGrandBosses: 'Grand Bosses',

@@ -1,7 +1,13 @@
 <input
+  #inputRef
   class="ui-input-control"
   [type]="type"
   [value]="value"
+  [disabled]="disabled"
   [placeholder]="placeholder"
   [attr.autocomplete]="autocomplete || null"
+  [attr.maxlength]="maxLength"
+  [attr.inputmode]="inputMode || null"
+  [attr.pattern]="pattern || null"
+  [attr.aria-label]="ariaLabel || null"
   (input)="onInput($event)">

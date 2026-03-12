@@ -1,0 +1,43 @@
+:root {
+  /*
+   * Tokens base: valores puros y estables.
+   * No dependen de componentes.
+   */
+
+  /* Colores base */
+  --color-white: #fff;
+  --color-black: #000;
+  --color-panel-900: #0c0c0c;
+  --color-accent-500: #e08821;
+  --color-facebook-500: #1877f2;
+  --color-discord-500: #5865f2;
+  --color-youtube-500: #ff0000;
+
+  /* Tipografias base */
+  --font-display: "Marcellus SC", serif;
+  --font-body: "DIN Next W1G", sans-serif;
+  --font-ui: "Roboto Condensed", sans-serif;
+
+  /* Variantes alpha */
+  --color-white-a95: rgba(255, 255, 255, 0.95);
+  --color-white-a90: rgba(255, 255, 255, 0.9);
+  --color-white-a80: rgba(255, 255, 255, 0.8);
+  --color-white-a16: rgba(255, 255, 255, 0.16);
+  --color-white-a12: rgba(255, 255, 255, 0.12);
+  --color-white-a08: rgba(255, 255, 255, 0.08);
+  --color-white-a04: rgba(255, 255, 255, 0.04);
+  --color-surface-a75: rgba(14, 14, 14, 0.75);
+  --color-shadow-strong: rgba(0, 0, 0, 0.5);
+  --color-shadow-mid: rgba(0, 0, 0, 0.28);
+
+  /* Gradientes base */
+  --gradient-instagram: radial-gradient(
+    circle at 30% 107%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285aeb 90%
+  );
+}
+

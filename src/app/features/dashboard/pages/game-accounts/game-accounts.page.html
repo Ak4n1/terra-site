@@ -1,37 +1,172 @@
 <section class="game-accounts-page">
-  <div class="game-accounts-page__intro">
-    <p class="game-accounts-page__eyebrow">{{ t('dashboardGameAccountsEyebrow') }}</p>
-    <h2 class="game-accounts-page__title">{{ t('dashboardGameAccountsTitle') }}</h2>
-    <p class="game-accounts-page__copy">{{ t('dashboardGameAccountsDescription') }}</p>
-  </div>
+  <ui-single-item-carousel
+    class="game-accounts-page__carousel"
+    [slides]="promoSlides"
+    (actionClick)="onPromoAction($event)">
+  </ui-single-item-carousel>
 
   <article class="game-accounts-page__card">
-    <div class="game-accounts-page__card-copy">
-      <h3 class="game-accounts-page__card-title">{{ t('dashboardGameAccountsCardTitle') }}</h3>
-      <p class="game-accounts-page__copy">{{ t('dashboardGameAccountsCardCopy') }}</p>
+    <div class="game-accounts-page__intro">
+      <h2 class="game-accounts-page__title">{{ t('dashboardGameAccountsTitle') }}</h2>
+      <p class="game-accounts-page__eyebrow">{{ t('dashboardGameAccountsEyebrow') }}</p>
+      <p class="game-accounts-page__copy">{{ t('dashboardGameAccountsDescription') }}</p>
+      @if (hasFinalAlert()) {
+        <ui-alert class="game-accounts-page__status" [variant]="alertVariant()" [message]="formMessage"></ui-alert>
+      }
+      <ul class="game-accounts-page__checklist">
+        <li>{{ t('dashboardGameAccountsStepEmailTitle') }}</li>
+        <li>{{ t('dashboardGameAccountsStepCodeTitle') }}</li>
+        <li>{{ t('dashboardGameAccountsStepCreateTitle') }}</li>
+      </ul>
     </div>
 
-    <div class="game-accounts-page__form">
-      <ui-input-field
-        [label]="t('dashboardGameAccountsNameLabel')"
-        [placeholder]="t('dashboardGameAccountsNamePlaceholder')"
-        [value]="characterName"
-        (valueChange)="onCharacterNameChange($event)">
-      </ui-input-field>
+    <div class="game-accounts-page__panel">
+      <div class="game-accounts-page__card-copy">
+        <div class="game-accounts-page__stepper" aria-hidden="true">
+          <span class="game-accounts-page__stepper-dot" [class.game-accounts-page__stepper-dot--active]="stepIndex() >= 1">1</span>
+          <span class="game-accounts-page__stepper-line" [class.game-accounts-page__stepper-line--active]="stepIndex() >= 2"></span>
+          <span class="game-accounts-page__stepper-dot" [class.game-accounts-page__stepper-dot--active]="stepIndex() >= 2">2</span>
+          <span class="game-accounts-page__stepper-line" [class.game-accounts-page__stepper-line--active]="stepIndex() >= 3"></span>
+          <span class="game-accounts-page__stepper-dot" [class.game-accounts-page__stepper-dot--active]="stepIndex() >= 3">3</span>
+          <span class="game-accounts-page__stepper-line" [class.game-accounts-page__stepper-line--active]="stepIndex() >= 4"></span>
+          <span class="game-accounts-page__stepper-dot" [class.game-accounts-page__stepper-dot--active]="stepIndex() >= 4">4</span>
+        </div>
+        <h3 class="game-accounts-page__card-title">{{ t('dashboardGameAccountsCardTitle') }}</h3>
+        <p class="game-accounts-page__copy">{{ t('dashboardGameAccountsCardCopy') }}</p>
 
-      <ui-input-field
-        [label]="t('dashboardGameAccountsServerLabel')"
-        [placeholder]="t('dashboardGameAccountsServerPlaceholder')"
-        [value]="serverName"
-        (valueChange)="onServerNameChange($event)">
-      </ui-input-field>
+        @if (isProcessMessage()) {
+          <p class="game-accounts-page__process">{{ formMessage }}</p>
+        }
+      </div>
 
-      <ui-button
-        [label]="t('dashboardGameAccountsAction')"
-        variant="main-1"
-        [disabled]="true">
-      </ui-button>
+      <div class="game-accounts-page__form">
+        @if (isStep('send-email')) {
+          <div class="game-accounts-page__step-block">
+            <p class="game-accounts-page__step-title">{{ t('dashboardGameAccountsStepEmailTitle') }}</p>
+            <p class="game-accounts-page__step-copy">{{ t('dashboardGameAccountsStepEmailCopy') }}</p>
+
+            <p class="game-accounts-page__email-readonly">
+              <span>{{ t('dashboardGameAccountsEmailLabel') }}:</span>
+              <strong>{{ contactEmail() || '-' }}</strong>
+            </p>
+
+            <ui-button
+              [label]="t('dashboardGameAccountsSendCodeAction')"
+              [loading]="sendingEmail"
+              [loadingLabel]="t('dashboardGameAccountsSendingCodeAction')"
+              [disabled]="!canSendCode()"
+              variant="main-1"
+              (clicked)="sendCode()">
+            </ui-button>
+          </div>
+        }
+
+        @if (isStep('verify-code')) {
+          <div class="game-accounts-page__step-block">
+            <p class="game-accounts-page__step-title">{{ t('dashboardGameAccountsStepCodeTitle') }}</p>
+            <p class="game-accounts-page__step-copy">{{ t('dashboardGameAccountsStepCodeCopy') }}</p>
+
+            <ui-verification-code-input
+              [value]="verificationCode"
+              [disabled]="verifyingCode"
+              [ariaLabelPrefix]="t('dashboardGameAccountsCodeDigitAria')"
+              [placeholder]="'0'"
+              (enterPressed)="verifyCode()"
+              (valueChange)="onVerificationCodeChange($event)">
+            </ui-verification-code-input>
+
+            <div class="game-accounts-page__actions-inline">
+              <ui-button
+                [label]="t('dashboardGameAccountsBackToEmailAction')"
+                variant="white"
+                (clicked)="goBackToSendEmail()">
+              </ui-button>
+
+              <ui-button
+                [label]="t('dashboardGameAccountsVerifyCodeAction')"
+                [loading]="verifyingCode"
+                [loadingLabel]="t('dashboardGameAccountsVerifyingCodeAction')"
+                [disabled]="!canVerifyCode()"
+                variant="main-1"
+                (clicked)="verifyCode()">
+              </ui-button>
+            </div>
+          </div>
+        }
+
+        @if (isStep('create-account')) {
+          <div class="game-accounts-page__step-block" (keydown.enter)="onCreateAccountEnter($event)">
+            <p class="game-accounts-page__step-title">{{ t('dashboardGameAccountsStepCreateTitle') }}</p>
+            <p class="game-accounts-page__step-copy">{{ t('dashboardGameAccountsStepCreateCopy') }}</p>
+
+            <ui-input-field
+              [label]="t('dashboardGameAccountsAccountNameLabel')"
+              [placeholder]="t('dashboardGameAccountsAccountNamePlaceholder')"
+              [autocomplete]="'username'"
+              [value]="accountName"
+              (valueChange)="onAccountNameChange($event)">
+            </ui-input-field>
+
+            <ui-input-field
+              [label]="t('dashboardGameAccountsPasswordLabel')"
+              [type]="'password'"
+              [placeholder]="t('dashboardGameAccountsPasswordPlaceholder')"
+              [autocomplete]="'new-password'"
+              [value]="password"
+              (valueChange)="onPasswordChange($event)">
+            </ui-input-field>
+
+            @if (password.length > 0) {
+              <ui-progress-bar
+                class="game-accounts-page__strength"
+                [title]="passwordStrengthLabel"
+                [value]="passwordStrengthValue"
+                variant="main-1"
+                [showPercent]="false">
+              </ui-progress-bar>
+            }
+
+            <ui-input-field
+              [label]="t('dashboardGameAccountsRepeatPasswordLabel')"
+              [type]="'password'"
+              [placeholder]="t('dashboardGameAccountsRepeatPasswordPlaceholder')"
+              [autocomplete]="'new-password'"
+              [value]="confirmPassword"
+              (valueChange)="onConfirmPasswordChange($event)">
+            </ui-input-field>
+
+            <div class="game-accounts-page__actions-inline">
+              <ui-button
+                [label]="t('dashboardGameAccountsBackToEmailAction')"
+                variant="white"
+                (clicked)="goBackToVerifyCode()">
+              </ui-button>
+
+              <ui-button
+                [label]="t('dashboardGameAccountsCreateAction')"
+                [loading]="creatingAccount"
+                [loadingLabel]="t('dashboardGameAccountsCreatingAction')"
+                [disabled]="!canCreateAccount()"
+                variant="main-1"
+                (clicked)="createAccount()">
+              </ui-button>
+            </div>
+          </div>
+        }
+
+        @if (isStep('done')) {
+          <div class="game-accounts-page__step-block">
+            <p class="game-accounts-page__step-title">{{ t('dashboardGameAccountsDoneTitle') }}</p>
+            <p class="game-accounts-page__step-copy">{{ t('dashboardGameAccountsDoneCopy') }}</p>
+
+            <ui-button
+              [label]="t('dashboardGameAccountsRestartAction')"
+              variant="white"
+              (clicked)="resetFlow()">
+            </ui-button>
+          </div>
+        }
+      </div>
     </div>
   </article>
 </section>
-<section style="height: 700px;"></section>

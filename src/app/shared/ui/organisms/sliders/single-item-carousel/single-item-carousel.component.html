@@ -1,0 +1,17 @@
+<section class="single-item-carousel" *ngIf="slides.length">
+  <div #sliderHost class="single-item-carousel__track">
+    <div class="single-item-carousel__slide" *ngFor="let slide of slides">
+      <article class="single-item-carousel__card" [ngStyle]="getSlideStyle(slide)">
+        <p class="single-item-carousel__eyebrow" *ngIf="slide.eyebrowKey">{{ languageService.t(slide.eyebrowKey) }}</p>
+        <h3 class="single-item-carousel__title">{{ languageService.t(slide.titleKey) }}</h3>
+        <p class="single-item-carousel__copy">{{ languageService.t(slide.descriptionKey) }}</p>
+        <ui-button
+          class="single-item-carousel__action"
+          [label]="languageService.t(slide.ctaLabelKey)"
+          [variant]="buttonVariant"
+          (clicked)="onActionClick(slide.ctaActionId)">
+        </ui-button>
+      </article>
+    </div>
+  </div>
+</section>

@@ -109,6 +109,7 @@ export class AuthFacadeService {
 
     this.bootstrapRequest$ = this.authService.fetchCurrentSession().pipe(
       tap(session => {
+        console.log('[AUTH /me] session payload:', session);
         this.clearSessionRateLimit();
         this.setSession(session);
         this.authResolvedSubject.next(true);

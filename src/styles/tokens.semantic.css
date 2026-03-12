@@ -1,0 +1,288 @@
+:root {
+  /*
+   * Tokens semanticos: expresan intencion de UI.
+   * Cambiar estos valores impacta visualmente en multiples pantallas.
+   */
+
+  /*
+   * Superficies y texto global
+   * Impacto principal:
+   * - src/styles.css (fondo base de toda la app)
+   * - src/app/app.css (pantalla de recuperacion de sesion)
+   * - rutas /dashboard/*
+   */
+  --c-page-bg: var(--color-black);
+  --c-page-text: var(--color-white);
+  --c-dashboard-shell-bg: var(--color-panel-900);
+  --c-text-secondary: var(--color-white-a80);
+  --c-text-strong: var(--color-white-a90);
+  --c-surface-topbar: #060606;
+  --c-surface-dropdown: #0e0e0e;
+  --c-surface-overlay: #0e0e0e;
+  --c-border-weak: var(--color-white-a08);
+  --c-border-subtle: var(--color-white-a04);
+  --c-border-muted: var(--color-white-a16);
+  --c-border-control: var(--color-white-a12);
+  --c-text-primary: var(--color-white-a95);
+  --c-text-on-dark: var(--color-white);
+  --c-text-icon: var(--color-white-a90);
+  --c-link-hover: var(--color-accent-500);
+  --c-focus-ring: rgba(224, 136, 33, 0.7);
+  --c-caret: var(--color-white-a80);
+  --shadow-dropdown: 0 5px 15px 0 var(--color-shadow-strong);
+  --shadow-mobile-menu: 0 0 15px 5px var(--color-shadow-strong);
+
+  /*
+   * Redes / iconos sociales
+   * Impacto principal:
+   * - src/app/shared/ui/atoms/social-icon/social-icon.component.css
+   */
+  --c-social-instagram-bg: var(--gradient-instagram);
+  --c-social-facebook-bg: var(--color-facebook-500);
+  --c-social-discord-bg: var(--color-discord-500);
+  --c-social-youtube-bg: var(--color-youtube-500);
+  --c-social-icon-fg: var(--color-white);
+
+  /*
+   * Botones auth mobile (navbar publica)
+   * Impacto principal:
+   * - src/app/shared/ui/organisms/navbar/navbar.component.css
+   */
+  --c-btn-bg: rgba(14, 14, 14, 0.9);
+  --c-btn-bg-hover: #0e0e0e;
+  --c-btn-hover-shadow: rgba(14, 14, 14, 0.4);
+  --c-btn-accent-border: #b56d19;
+  --c-btn-accent-active: #885213;
+
+  /*
+   * Home: layout compartido
+   * Impacto principal:
+   * - src/app/features/public/pages/home/home.page.css
+   * - src/app/features/public/components/home/*
+   */
+  --home-section-max-width: 1200px;
+  --home-section-gutter-desktop: 24px;
+  --home-section-gutter-mobile: 16px;
+  --home-section-text-max-width: 900px;
+  --home-section-card-text-max-width: 360px;
+  --home-section-padding-mobile: 96px;
+  --home-section-grid-gap: 60px;
+
+  /*
+   * Home: tipografia y color de secciones
+   * Impacto principal:
+   * - hero-home, about-game-section, game-features-section, game-stat-card
+   */
+  --home-section-title-size: clamp(2.25rem, 4vw, 3.6rem);
+  --home-section-title-line-height: 1.08;
+  --home-section-copy-size: 1rem;
+  --home-section-copy-line-height: 1.75;
+  --home-section-intro-gap: 24px;
+  --home-section-paragraph-gap: 18px;
+  --home-display-font: var(--font-display);
+  --home-body-font: var(--font-body);
+  --home-text-primary: var(--color-white);
+  --home-text-strong: var(--c-text-strong);
+  --home-text-secondary: var(--c-text-secondary);
+
+  /*
+   * Home: About
+   */
+  --home-about-stats-gap: 56px;
+  --home-about-padding-top: 96px;
+  --home-about-padding-bottom: 108px;
+  --home-about-padding-top-tablet: 80px;
+  --home-about-padding-bottom-tablet: 88px;
+  --home-about-padding-top-mobile: 68px;
+  --home-about-padding-bottom-mobile: 80px;
+
+  /*
+   * Home: Features
+   */
+  --home-features-padding-top: 160px;
+  --home-features-padding-bottom: 160px;
+  --home-features-padding-top-tablet: 120px;
+  --home-features-padding-bottom-tablet: 120px;
+  --home-feature-title-size: 1.4rem;
+  --home-feature-copy-size: 0.98rem;
+  --home-feature-copy-line-height: 1.72;
+
+  /*
+   * Home: Hero / sliders
+   * Impacto principal:
+   * - hero-home
+   * - spotlight-carousel y spotlight-carousel-v2
+   */
+  --home-hero-title-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  --home-hero-copy-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+  --home-hero-copy-max-width: 640px;
+  --home-hero-header-height: 740px;
+  --home-hero-header-height-tablet: 580px;
+  --home-hero-header-height-mobile: 430px;
+  --home-hero-content-padding-top: 28px;
+  --home-hero-content-padding-x: 20px;
+  --home-hero-content-padding-bottom: 200px;
+  --home-hero-content-padding-top-tablet: 24px;
+  --home-hero-content-padding-bottom-tablet: 126px;
+  --home-hero-content-padding-top-mobile: 18px;
+  --home-hero-content-padding-bottom-mobile: 88px;
+  --home-hero-bg-inset-top: -420px;
+  --home-hero-bg-inset-top-mobile: -260px;
+  --home-hero-copy-gap: 6px;
+  --home-feature-icon-box-size: 70px;
+  --home-feature-icon-scale: 1.37;
+  --home-feature-icon-stroke: 2.35;
+  --home-feature-icon-offset-top: 10px;
+  --home-feature-icon-gap: 40px;
+  --home-feature-title-gap: 40px;
+  --home-features-min-height: 466px;
+  --spotlight-overlap-desktop: -160px;
+  --spotlight-overlap-laptop: -86px;
+  --spotlight-overlap-tablet: -120px;
+  --spotlight-overlap-mobile: -80px;
+  --spotlight-caption-side: 16px;
+  --spotlight-caption-side-tablet: 12px;
+  --spotlight-caption-bottom: 74px;
+  --spotlight-caption-bottom-tablet: 54px;
+  --spotlight-title-size: clamp(1rem, 2.55vw, 1.45rem);
+  --spotlight-title-shadow: 0 2px 9px rgba(0, 0, 0, 0.8);
+  --spotlight-copy-size: clamp(0.66rem, 0.88vw, 0.82rem);
+  --spotlight-copy-gap: 6px;
+  --spotlight-copy-shadow: 0 1px 8px rgba(0, 0, 0, 0.88);
+
+  /*
+   * Home: stats cards
+   */
+  --home-stats-card-padding-y: 40px;
+  --home-stats-card-padding-x: 32px;
+  --home-stats-card-padding-y-mobile: 28px;
+  --home-stats-card-padding-x-mobile: 20px;
+  --home-stats-label-gap: 18px;
+  --home-stats-divider-inset: 2rem;
+  --home-stats-mobile-divider-inset: 2rem;
+
+  /*
+   * Header/navbar publica
+   * Impacto principal:
+   * - src/app/shared/ui/organisms/navbar/navbar.component.css
+   * - src/app/shared/ui/atoms/nav-link/nav-link.component.css
+   * - ruta /
+   */
+  --header-z-index: 2101;
+  --header-container-max-width: 1320px;
+  --header-container-gutter: 20px;
+  --header-topbar-padding-y: 15px;
+  --header-main-padding-y: 26px;
+  --header-main-padding-y-mobile: 12px;
+  --header-logo-min-width: 120px;
+  --header-logo-size: 2.7rem;
+  --header-logo-letter-spacing: 0.02em;
+  --header-social-gap: 10px;
+  --header-social-padding-left: 12px;
+  --header-social-margin-left: 2px;
+  --header-actions-gap: 14px;
+  --header-auth-offset-right: 20px;
+  --header-main-links-shift-x: -70px;
+  --header-main-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+  --dropdown-margin-top: 28px;
+  --dropdown-padding-y: 30px;
+  --dropdown-shift-y: 6px;
+  --dropdown-sub-gap: 2px;
+  --dropdown-sub-shift-x: 6px;
+
+  /*
+   * Header: selector de idioma
+   */
+  --language-trigger-min-width: 56px;
+  --language-trigger-height: 34px;
+  --language-trigger-padding-left: 10px;
+  --language-trigger-padding-right: 26px;
+  --language-menu-gap: 6px;
+  --language-menu-padding-y: 8px;
+  --language-menu-hitbox-height: 12px;
+  --language-option-padding-y: 6px;
+  --language-option-padding-x: 12px;
+  --flag-width: 18px;
+  --flag-height: 12px;
+  --language-caret-size: 6px;
+  --language-caret-right: 12px;
+
+  /*
+   * Header: menu toggle mobile
+   */
+  --menu-toggle-width: 44px;
+  --menu-toggle-height: 36px;
+  --menu-toggle-bar-width: 22px;
+  --menu-toggle-bar-height: 2px;
+  --menu-toggle-bar-offset-top: -6px;
+  --menu-toggle-bar-offset-bottom: 4px;
+
+  /*
+   * Header: links de navegacion
+   */
+  --nav-font-family: "Marcellus SC", "Beaufort", serif;
+  --nav-font-size: 1rem;
+  --nav-font-size-dropdown: 0.9rem;
+  --nav-font-weight: 700;
+  --nav-link-padding-y: 5px;
+  --nav-link-padding-x: 25px;
+  --nav-link-padding-dropdown-y: 8px;
+  --nav-link-padding-dropdown-right: 40px;
+  --nav-link-padding-dropdown-left: 50px;
+  --nav-link-effect-line-inset: 10px;
+  --nav-link-effect-shift: 2px;
+  --nav-dot-size: 3px;
+  --nav-dot-spacing: 5px;
+  --nav-mobile-link-padding-y: 12px;
+  --nav-mobile-link-padding-x: 40px;
+  --nav-mobile-link-padding-right-drop: 56px;
+  --nav-mobile-link-indicator-right: 24px;
+  --nav-mobile-link-indicator-left: 28px;
+
+  /*
+   * Header: menu mobile y acciones auth
+   */
+  --mobile-menu-width: 250px;
+  --mobile-menu-width-small: 200px;
+  --mobile-menu-padding-y: 40px;
+  --mobile-menu-padding-y-compact: 24px;
+  --mobile-menu-header-padding-x: 35px;
+  --mobile-menu-header-padding-bottom: 15px;
+  --mobile-menu-header-padding-bottom-compact: 12px;
+  --mobile-menu-auth-gap: 10px;
+  --mobile-menu-auth-padding-top: 16px;
+  --mobile-menu-auth-padding-top-compact: 12px;
+  --mobile-menu-auth-margin-top-compact: 12px;
+  --mobile-menu-auth-padding-x: 20px;
+  --mobile-menu-auth-link-padding-y: 14px;
+  --mobile-menu-auth-link-padding-y-compact: 11px;
+  --mobile-menu-auth-link-padding-x: 12px;
+  --mobile-menu-auth-link-inset: 6px;
+  --mobile-nav-padding-top: 12px;
+  --mobile-nav-padding-top-compact: 8px;
+  --mobile-nav-trigger-padding-y: 12px;
+  --mobile-nav-trigger-padding-y-compact: 10px;
+  --mobile-nav-trigger-padding-x: 40px;
+  --mobile-nav-trigger-padding-left: 56px;
+  --mobile-nav-trigger-padding-right: 40px;
+  --mobile-nav-trigger-back-padding-left: 56px;
+  --mobile-nav-trigger-back-indicator-left: 30px;
+  --mobile-menu-overlay-opacity: 0.8;
+  --header-topbar-row-gap-mobile: 12px;
+
+  /*
+   * Shared: iconos sociales
+   */
+  --social-icon-size: 28px;
+  --social-icon-font-size: 14px;
+  --social-icon-hover-shift: -1px;
+
+  /*
+   * Shared: bordes decorativos de pagina
+   * Impacto principal:
+   * - src/app/app.css
+   */
+  --page-border-size: 100px;
+  --page-border-size-mobile: 50px;
+}
+

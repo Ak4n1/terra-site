@@ -1,18 +1,15 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, CanActivateChildFn, CanMatchFn, Route, Router, UrlSegment, UrlTree } from '@angular/router';
-import { catchError, filter, map, of, switchMap, take, timeout } from 'rxjs';
+import { catchError, map, of, timeout } from 'rxjs';
 import { AuthFacadeService } from '../services/auth-facade.service';
 
 function ensureAuthenticated$() {
   const authFacade = inject(AuthFacadeService);
   const router = inject(Router);
 
-  return authFacade.bootstrapSession().pipe(
-    switchMap(() => authFacade.authState$),
-    filter(state => state === 'authenticated' || state === 'unauthenticated'),
-    take(1),
+  return authFacade.ensureAuthenticated().pipe(
     timeout({ first: 80000 }),
-    map(state => state === 'authenticated' ? true : router.createUrlTree(['/']) as UrlTree),
+    map(isAuthenticated => isAuthenticated ? true : router.createUrlTree(['/']) as UrlTree),
     catchError(() => of(router.createUrlTree(['/'])))
   );
 }

@@ -13,36 +13,36 @@ export const GAME_FEATURES_TRANSLATIONS_US: TranslationMap = {
 };
 
 export const GAME_FEATURES_TRANSLATIONS_ES: TranslationMap = {
-  featureEventsTitle: 'Events',
+  featureEventsTitle: 'Eventos',
   featureEventsDescription:
     'Los eventos del servidor mantienen el mundo activo con PvP programado, actividades rotativas y objetivos especiales que premian a los jugadores fuera de la rutina diaria.',
-  featureTimedHuntingTitle: 'Timed Hunting',
+  featureTimedHuntingTitle: 'Caza cronometrada',
   featureTimedHuntingDescription:
-    'Las zonas de timed hunting ofrecen ventanas limitadas de farmeo enfocadas en experiencia eficiente, mejores drops y sesiones de mayor valor durante periodos concretos.',
-  featureInstancesTitle: 'Instances',
+    'Las zonas de caza cronometrada ofrecen ventanas limitadas de farmeo enfocadas en experiencia eficiente, mejores drops y sesiones de mayor valor durante períodos concretos.',
+  featureInstancesTitle: 'Instancias',
   featureInstancesDescription:
-    'Las instances ofrecen recorridos privados estilo dungeon con jefes, limites de entrada y progreso de party estructurado separado del mundo abierto.'
+    'Las instancias ofrecen recorridos privados estilo dungeon con jefes, límites de entrada y progreso de party estructurado, separado del mundo abierto.'
 };
 
 export const GAME_FEATURES_TRANSLATIONS_PT: TranslationMap = {
-  featureEventsTitle: 'Events',
+  featureEventsTitle: 'Eventos',
   featureEventsDescription:
-    'Os eventos do servidor mantem o mundo ativo com confrontos PvP programados, atividades rotativas e objetivos especiais que recompensam os jogadores alem da rotina diaria.',
-  featureTimedHuntingTitle: 'Timed Hunting',
+    'Os eventos do servidor mantêm o mundo ativo com confrontos PvP programados, atividades rotativas e objetivos especiais que recompensam os jogadores além da rotina diária.',
+  featureTimedHuntingTitle: 'Caça cronometrada',
   featureTimedHuntingDescription:
-    'As zonas de timed hunting oferecem janelas limitadas de farm focadas em experiencia eficiente, melhores drops e sessoes de maior valor em periodos especificos.',
-  featureInstancesTitle: 'Instances',
+    'As zonas de caça cronometrada oferecem janelas limitadas de farm focadas em experiência eficiente, melhores drops e sessões de maior valor em períodos específicos.',
+  featureInstancesTitle: 'Instâncias',
   featureInstancesDescription:
-    'As instances oferecem percursos privados no estilo dungeon, com chefes, limites de entrada e progressao estruturada para grupos, separada do mundo aberto.'
+    'As instâncias oferecem percursos privados no estilo dungeon, com chefes, limites de entrada e progressão estruturada para grupos, separada do mundo aberto.'
 };
 
 export const GAME_FEATURES_TRANSLATIONS_FR: TranslationMap = {
-  featureEventsTitle: 'Events',
+  featureEventsTitle: 'Événements',
   featureEventsDescription:
     'Les événements du serveur maintiennent le monde actif grâce à des affrontements PvP programmés, des activités tournantes et des objectifs spéciaux qui récompensent les joueurs au-delà de la routine quotidienne.',
-  featureTimedHuntingTitle: 'Timed Hunting',
+  featureTimedHuntingTitle: 'Chasse chronométrée',
   featureTimedHuntingDescription:
-    'Les zones de timed hunting offrent des fenêtres de farm à durée limitée, axées sur une progression efficace, de meilleurs drops et des sessions à forte valeur pendant des périodes définies.',
+    'Les zones de chasse chronométrée offrent des fenêtres de farm à durée limitée, axées sur une progression efficace, de meilleurs drops et des sessions à forte valeur pendant des périodes définies.',
   featureInstancesTitle: 'Instances',
   featureInstancesDescription:
     'Les instances proposent des parcours privés de type donjon, avec des boss, des limites d’entrée et une progression de groupe structurée, séparée du monde ouvert.'
@@ -52,10 +52,10 @@ export const GAME_FEATURES_TRANSLATIONS_DE: TranslationMap = {
   featureEventsTitle: 'Events',
   featureEventsDescription:
     'Server-Events halten die Welt aktiv, mit geplanten PvP-Konflikten, wechselnden Aktivitäten und besonderen Zielen, die Spieler jenseits der täglichen Routine belohnen.',
-  featureTimedHuntingTitle: 'Timed Hunting',
+  featureTimedHuntingTitle: 'Zeitgesteuerte Jagd',
   featureTimedHuntingDescription:
-    'Timed-Hunting-Zonen bieten begrenzte Farm-Zeitfenster mit Fokus auf effiziente Erfahrung, bessere Drops und wertvollere Sessions in bestimmten Zeiträumen.',
-  featureInstancesTitle: 'Instances',
+    'Zeitgesteuerte Jagdzonen bieten begrenzte Farm-Zeitfenster mit Fokus auf effiziente Erfahrung, bessere Drops und wertvollere Sessions in bestimmten Zeiträumen.',
+  featureInstancesTitle: 'Instanzen',
   featureInstancesDescription:
-    'Instances bieten private Dungeon-artige Läufe mit Bosskämpfen, Eintrittslimits und strukturiertem Gruppenfortschritt, getrennt von der offenen Welt.'
+    'Instanzen bieten private, dungeonartige Läufe mit Bosskämpfen, Eintrittslimits und strukturiertem Gruppenfortschritt, getrennt von der offenen Welt.'
 };

@@ -17,22 +17,22 @@ export const RAID_CAROUSEL_TRANSLATIONS_US: TranslationMap = {
 
 export const RAID_CAROUSEL_TRANSLATIONS_ES: TranslationMap = {
   raidBaiumTitle: 'Baium',
-  raidBaiumDescription: 'El antiguo Emperador de Elmoreden, despertado en la cima de la Torre de la Insolencia.',
+  raidBaiumDescription: 'El antiguo emperador de Elmoreden, despertado en la cima de la Torre de la Insolencia.',
   raidAntharasTitle: 'Antharas',
-  raidAntharasDescription: 'El Dragon de Tierra, cuya guarida pone a prueba la resistencia de cada clan.',
+  raidAntharasDescription: 'El dragón de Tierra, cuya guarida pone a prueba la resistencia de cada clan.',
   raidQueenAntTitle: 'Queen Ant',
   raidQueenAntDescription: 'La reina del Nido de Hormigas, protegida por enjambres y guardias leales.',
   raidZakenTitle: 'Zaken',
-  raidZakenDescription: 'El capitan pirata maldito que acecha su barco fantasma en Devil\'s Isle.',
+  raidZakenDescription: 'El capitán pirata maldito que acecha su barco fantasma en Devil\'s Isle.',
   raidOrfenTitle: 'Orfen',
-  raidOrfenDescription: 'La arana gigante del Mar de Esporas, temida por su veneno, telaranas y ataques sorpresivos.',
+  raidOrfenDescription: 'La araña gigante del Mar de Esporas, temida por su veneno, telarañas y ataques sorpresivos.',
   raidCoreTitle: 'Core',
-  raidCoreDescription: 'El antiguo nucleo de control de Cruma Tower, protegido por maquinas y defensas letales.'
+  raidCoreDescription: 'El antiguo núcleo de control de Cruma Tower, protegido por máquinas y defensas letales.'
 };
 
 export const RAID_CAROUSEL_TRANSLATIONS_PT: TranslationMap = {
   raidBaiumTitle: 'Baium',
-  raidBaiumDescription: 'O antigo Imperador de Elmoreden, despertado no topo da Torre da Insolência.',
+  raidBaiumDescription: 'O antigo imperador de Elmoreden, despertado no topo da Torre da Insolência.',
   raidAntharasTitle: 'Antharas',
   raidAntharasDescription: 'O Dragão da Terra, cuja toca coloca à prova a resistência de cada clã.',
   raidQueenAntTitle: 'Queen Ant',
@@ -47,9 +47,9 @@ export const RAID_CAROUSEL_TRANSLATIONS_PT: TranslationMap = {
 
 export const RAID_CAROUSEL_TRANSLATIONS_FR: TranslationMap = {
   raidBaiumTitle: 'Baium',
-  raidBaiumDescription: 'L’ancien Empereur d’Elmoreden, éveillé au sommet de la Tour de l’Insolence.',
+  raidBaiumDescription: 'L’ancien empereur d’Elmoreden, éveillé au sommet de la Tour de l’Insolence.',
   raidAntharasTitle: 'Antharas',
-  raidAntharasDescription: 'Le Dragon de la Terre, dont le repaire met à l’épreuve l’endurance de chaque clan.',
+  raidAntharasDescription: 'Le dragon de Terre, dont le repaire met à l’épreuve l’endurance de chaque clan.',
   raidQueenAntTitle: 'Queen Ant',
   raidQueenAntDescription: 'La reine du Nid des Fourmis, protégée par des essaims et des gardes loyaux.',
   raidZakenTitle: 'Zaken',

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { evaluatePassword, isPasswordCompliant } from '../../../../core/utils/password-policy';
 import { AlertComponent, type AlertVariant } from '../../atoms/alert/alert.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { ProgressBarComponent } from '../../atoms/progress-bar/progress-bar.component';
@@ -162,6 +163,7 @@ export class AuthOverlayComponent implements OnChanges {
       return this.registerEmail.trim().length === 0
         || this.registerPassword.length === 0
         || this.registerRepeatPassword.length === 0
+        || !isPasswordCompliant(this.registerPassword)
         || this.registerPassword !== this.registerRepeatPassword;
     }
 
@@ -207,25 +209,7 @@ export class AuthOverlayComponent implements OnChanges {
   }
 
   get passwordStrengthValue(): number {
-    let score = 0;
-
-    if (/[A-Z]/.test(this.registerPassword)) {
-      score += 1;
-    }
-
-    if (/[0-9]/.test(this.registerPassword)) {
-      score += 1;
-    }
-
-    if (/[^A-Za-z0-9]/.test(this.registerPassword)) {
-      score += 1;
-    }
-
-    if (this.registerPassword.length >= 8) {
-      score += 1;
-    }
-
-    return score * 25;
+    return evaluatePassword(this.registerPassword).strengthPercent;
   }
 
   get passwordStrengthLabel(): string {
