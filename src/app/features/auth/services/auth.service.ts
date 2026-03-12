@@ -5,6 +5,7 @@ import type { ApiResponse } from '../models/api-response.model';
 import type { ForgotPasswordRequest, LoginRequest, RegisterRequest, ResendVerificationRequest, ResetPasswordRequest, VerifyEmailRequest } from '../models/auth-requests.model';
 import type { AuthSession } from '../models/auth-session.model';
 import type { AuthUser } from '../models/auth-user.model';
+import type { RefreshSessionResponse } from '../models/refresh-session.model';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -50,8 +51,8 @@ export class AuthService {
     );
   }
 
-  refreshSession(): Observable<ApiResponse<null>> {
-    return this.http.post<ApiResponse<null>>(this.endpoint('/refresh'), {});
+  refreshSession(): Observable<ApiResponse<RefreshSessionResponse>> {
+    return this.http.post<ApiResponse<RefreshSessionResponse>>(this.endpoint('/refresh'), {});
   }
 
   private mapSession(response: ApiResponse<AuthUser>): AuthSession {

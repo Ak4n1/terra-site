@@ -3,9 +3,7 @@ import { inject } from '@angular/core';
 import { CookieService } from '../cookie.service';
 import { LanguageService } from '../../i18n/language.service';
 import { environment } from '../../../../environments/environment';
-
-const CSRF_COOKIE_NAME = 'XSRF-TOKEN';
-const CSRF_HEADER_NAME = 'X-CSRF-TOKEN';
+import { AuthClientConfigService } from '../../../features/auth/services/auth-client-config.service';
 const MUTATING_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
 function isApiRequest(url: string, apiBaseUrl: string): boolean {
@@ -15,6 +13,7 @@ function isApiRequest(url: string, apiBaseUrl: string): boolean {
 export const apiHttpInterceptor: HttpInterceptorFn = (req, next) => {
   const cookieService = inject(CookieService);
   const languageService = inject(LanguageService);
+  const authClientConfig = inject(AuthClientConfigService);
   const apiBaseUrl = environment.apiBaseUrl;
 
   if (!isApiRequest(req.url, apiBaseUrl)) {
@@ -28,9 +27,9 @@ export const apiHttpInterceptor: HttpInterceptorFn = (req, next) => {
   };
 
   if (MUTATING_METHODS.has(req.method.toUpperCase())) {
-    const csrfToken = cookieService.get(CSRF_COOKIE_NAME);
+    const csrfToken = cookieService.get(authClientConfig.csrfCookieName);
     if (csrfToken) {
-      headers[CSRF_HEADER_NAME] = csrfToken;
+      headers[authClientConfig.csrfHeaderName] = csrfToken;
     }
   }
 

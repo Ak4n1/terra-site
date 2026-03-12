@@ -49,6 +49,7 @@ export class NavbarComponent implements OnDestroy {
 
   private readonly currentUser = toSignal(this.authFacade.currentUser$, { initialValue: null });
   private readonly isAuthenticated = toSignal(this.authFacade.isAuthenticated$, { initialValue: false });
+  private readonly authState = toSignal(this.authFacade.authState$, { initialValue: 'checking' });
 
   private closeTimer: ReturnType<typeof setTimeout> | null = null;
   openDropdownLabel: string | null = null;
@@ -59,6 +60,10 @@ export class NavbarComponent implements OnDestroy {
   readonly sessionAvatar = signal<string | null>(null);
   readonly sessionEmail = computed(() => this.currentUser()?.email ?? '');
   readonly loggedIn = computed(() => this.isAuthenticated());
+  readonly authPending = computed(() => {
+    const state = this.authState();
+    return state === 'checking' || state === 'rate-limited';
+  });
 
   readonly navItems: MenuNode[] = [
     { labelKey: 'navHome', href: '/' },

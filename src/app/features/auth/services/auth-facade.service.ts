@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, distinctUntilChanged, finalize, map, of, shareReplay, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, combineLatest, distinctUntilChanged, filter, finalize, map, of, shareReplay, switchMap, take, tap, timer } from 'rxjs';
 import type { ApiResponse, ApiValidationErrorResponse } from '../models/api-response.model';
 import type {
   ForgotPasswordRequest,
@@ -15,17 +15,18 @@ import type { AuthSession } from '../models/auth-session.model';
 import { AuthService } from './auth.service';
 
 type AuthSyncEvent = 'login' | 'logout' | 'logout-all' | 'session-refresh';
+export type AuthState = 'checking' | 'authenticated' | 'unauthenticated' | 'rate-limited';
 
 @Injectable({ providedIn: 'root' })
 export class AuthFacadeService {
   private static readonly STORAGE_KEY = 'terra.auth.sync';
   private static readonly SESSION_RATE_LIMIT_KEY = 'terra.auth.session-rate-limit-until';
-  private static readonly SESSION_CACHE_KEY = 'terra.auth.session-cache';
 
   private readonly authService = inject(AuthService);
   private readonly document = inject(DOCUMENT);
-  private readonly sessionSubject = new BehaviorSubject<AuthSession | null>(this.readPersistedSession());
+  private readonly sessionSubject = new BehaviorSubject<AuthSession | null>(null);
   private readonly bootstrappingSubject = new BehaviorSubject(false);
+  private readonly authResolvedSubject = new BehaviorSubject(false);
   private readonly sessionRateLimitUntilSubject = new BehaviorSubject<number | null>(this.readPersistedSessionRateLimitUntil());
   private readonly syncChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('terra-auth') : null;
   private recoveryTimerId: number | null = null;
@@ -38,6 +39,36 @@ export class AuthFacadeService {
     distinctUntilChanged()
   );
   readonly bootstrapping$ = this.bootstrappingSubject.asObservable();
+  readonly sessionRateLimitRemainingSeconds$ = combineLatest([
+    this.sessionRateLimitUntilSubject.asObservable(),
+    timer(0, 1000)
+  ]).pipe(
+    map(([retryUntil]) => this.calculateRemainingRateLimitSeconds(retryUntil)),
+    distinctUntilChanged()
+  );
+  readonly authState$ = combineLatest([
+    this.session$,
+    this.bootstrapping$,
+    this.authResolvedSubject.asObservable(),
+    this.sessionRateLimitUntilSubject.asObservable()
+  ]).pipe(
+    map(([session, bootstrapping, authResolved, retryUntil]) => {
+      if (bootstrapping) {
+        return 'checking' as AuthState;
+      }
+
+      if (session) {
+        return 'authenticated' as AuthState;
+      }
+
+      if (this.isSessionRateLimitActive(retryUntil)) {
+        return 'rate-limited' as AuthState;
+      }
+
+      return authResolved ? 'unauthenticated' as AuthState : 'checking' as AuthState;
+    }),
+    distinctUntilChanged()
+  );
 
   constructor() {
     this.scheduleSessionRateLimitRecovery(this.sessionRateLimitUntilSubject.value);
@@ -80,6 +111,7 @@ export class AuthFacadeService {
       tap(session => {
         this.clearSessionRateLimit();
         this.setSession(session);
+        this.authResolvedSubject.next(true);
       }),
       map(session => {
         this.bootstrappingSubject.next(false);
@@ -98,6 +130,13 @@ export class AuthFacadeService {
   ensureAuthenticated(): Observable<boolean> {
     if (this.sessionSubject.value) {
       return of(true);
+    }
+
+    if (this.hasActiveSessionRateLimit()) {
+      return this.waitForSessionRateLimitRecovery().pipe(
+        switchMap(() => this.bootstrapSession()),
+        map(session => session !== null)
+      );
     }
 
     return this.bootstrapSession().pipe(map(session => session !== null));
@@ -191,18 +230,21 @@ export class AuthFacadeService {
   private tryRecoverSession(error: unknown): Observable<AuthSession | null> {
     if (!(error instanceof HttpErrorResponse)) {
       this.bootstrappingSubject.next(false);
+      this.authResolvedSubject.next(true);
       return of(this.sessionSubject.value);
     }
 
     if (error.status === 429) {
       this.applySessionRateLimit(this.extractRetryAfterSecondsFromError(error));
       this.bootstrappingSubject.next(false);
+      this.authResolvedSubject.next(true);
       return of(this.sessionSubject.value);
     }
 
     if (error.status !== 401) {
       this.bootstrappingSubject.next(false);
       this.clearSession();
+      this.authResolvedSubject.next(true);
       return of(null);
     }
 
@@ -218,15 +260,18 @@ export class AuthFacadeService {
       }),
       map(session => {
         this.bootstrappingSubject.next(false);
+        this.authResolvedSubject.next(true);
         return session;
       }),
       catchError(refreshError => {
         this.bootstrappingSubject.next(false);
         if (refreshError instanceof HttpErrorResponse && refreshError.status === 429) {
           this.applySessionRateLimit(this.extractRetryAfterSecondsFromError(refreshError));
+          this.authResolvedSubject.next(true);
           return of(this.sessionSubject.value);
         }
         this.clearSession();
+        this.authResolvedSubject.next(true);
         return of(null);
       })
     );
@@ -260,18 +305,34 @@ export class AuthFacadeService {
     return this.getActiveSessionRateLimitUntil() !== null;
   }
 
+  private waitForSessionRateLimitRecovery(): Observable<void> {
+    return this.sessionRateLimitUntilSubject.asObservable().pipe(
+      filter(retryUntil => !this.isSessionRateLimitActive(retryUntil)),
+      take(1),
+      map(() => void 0)
+    );
+  }
+
   private getActiveSessionRateLimitUntil(): number | null {
     const retryUntil = this.sessionRateLimitUntilSubject.value;
-    if (retryUntil === null) {
-      return null;
-    }
-
-    if (retryUntil <= Date.now()) {
+    if (!this.isSessionRateLimitActive(retryUntil)) {
       this.clearSessionRateLimit();
       return null;
     }
 
     return retryUntil;
+  }
+
+  private isSessionRateLimitActive(retryUntil: number | null): boolean {
+    return retryUntil !== null && retryUntil > Date.now();
+  }
+
+  private calculateRemainingRateLimitSeconds(retryUntil: number | null): number {
+    if (!this.isSessionRateLimitActive(retryUntil) || retryUntil === null) {
+      return 0;
+    }
+
+    return Math.max(1, Math.ceil((retryUntil - Date.now()) / 1000));
   }
 
   private applySessionRateLimit(retryAfterSeconds: number | null): void {
@@ -348,6 +409,7 @@ export class AuthFacadeService {
 
     this.recoveryTimerId = windowRef.setTimeout(() => {
       this.recoveryTimerId = null;
+      this.bootstrappingSubject.next(true);
       this.clearSessionRateLimit();
       this.bootstrapSession().subscribe();
     }, delay + 50);
@@ -389,49 +451,9 @@ export class AuthFacadeService {
 
   private setSession(session: AuthSession): void {
     this.sessionSubject.next(session);
-
-    try {
-      this.document.defaultView?.localStorage.setItem(AuthFacadeService.SESSION_CACHE_KEY, JSON.stringify(session));
-    } catch {
-      // Ignore persistence failures.
-    }
   }
 
   private clearSession(): void {
     this.sessionSubject.next(null);
-
-    try {
-      this.document.defaultView?.localStorage.removeItem(AuthFacadeService.SESSION_CACHE_KEY);
-    } catch {
-      // Ignore persistence failures.
-    }
-  }
-
-  private readPersistedSession(): AuthSession | null {
-    try {
-      const raw = this.document.defaultView?.localStorage.getItem(AuthFacadeService.SESSION_CACHE_KEY);
-      if (!raw) {
-        return null;
-      }
-
-      const parsed = JSON.parse(raw) as Partial<AuthSession> | null;
-      const user = parsed?.user;
-      if (!user || typeof user.email !== 'string' || typeof user.id !== 'number' || !Array.isArray(user.roles)) {
-        return null;
-      }
-
-      return {
-        user: {
-          id: user.id,
-          email: user.email,
-          enabled: Boolean(user.enabled),
-          emailVerified: Boolean(user.emailVerified),
-          roles: user.roles.filter((role): role is string => typeof role === 'string'),
-          createdAt: typeof user.createdAt === 'string' ? user.createdAt : ''
-        }
-      };
-    } catch {
-      return null;
-    }
   }
 }

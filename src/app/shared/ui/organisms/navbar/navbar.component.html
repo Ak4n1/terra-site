@@ -83,10 +83,12 @@
         </li>
       </ul>
 
-      <div class="terra-auth-links" *ngIf="!loggedIn(); else sessionMenuDesktop">
-        <ui-nav-link [label]="t('navLogin')" href="#" [showDots]="true" (clicked)="requestAuth('login', $event)"></ui-nav-link>
-        <ui-nav-link [label]="t('navRegister')" href="#" [showDots]="true" (clicked)="requestAuth('register', $event)"></ui-nav-link>
-      </div>
+      <ng-container *ngIf="!authPending()">
+        <div class="terra-auth-links" *ngIf="!loggedIn(); else sessionMenuDesktop">
+          <ui-nav-link [label]="t('navLogin')" href="#" [showDots]="true" (clicked)="requestAuth('login', $event)"></ui-nav-link>
+          <ui-nav-link [label]="t('navRegister')" href="#" [showDots]="true" (clicked)="requestAuth('register', $event)"></ui-nav-link>
+        </div>
+      </ng-container>
 
       <ng-template #sessionMenuDesktop>
         <div class="terra-account-menu">
@@ -109,6 +111,7 @@
           </div>
         </div>
       </ng-template>
+
     </div>
   </div>
 
@@ -153,10 +156,12 @@
       </ul>
     </ng-template>
 
-    <div class="terra-mobile-auth" *ngIf="!loggedIn(); else sessionMenuMobile">
-      <a href="#" class="terra-mobile-auth__link" (click)="requestAuth('register', $event)"><span>{{ t('navRegister') }}</span></a>
-      <a href="#" class="terra-mobile-auth__link" (click)="requestAuth('login', $event)"><span>{{ t('navLogin') }}</span></a>
-    </div>
+    <ng-container *ngIf="!authPending()">
+      <div class="terra-mobile-auth" *ngIf="!loggedIn(); else sessionMenuMobile">
+        <a href="#" class="terra-mobile-auth__link" (click)="requestAuth('register', $event)"><span>{{ t('navRegister') }}</span></a>
+        <a href="#" class="terra-mobile-auth__link" (click)="requestAuth('login', $event)"><span>{{ t('navLogin') }}</span></a>
+      </div>
+    </ng-container>
 
     <ng-template #sessionMenuMobile>
       <div class="terra-mobile-session">
@@ -175,5 +180,6 @@
         </div>
       </div>
     </ng-template>
+
   </aside>
 </header>

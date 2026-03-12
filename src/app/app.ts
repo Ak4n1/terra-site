@@ -7,6 +7,7 @@ import { firstValueFrom } from 'rxjs';
 import { filter, map } from 'rxjs';
 import { LanguageService } from './core/i18n/language.service';
 import { AuthFacadeService } from './features/auth/services/auth-facade.service';
+import type { AuthState } from './features/auth/services/auth-facade.service';
 import type { AuthOverlayMode } from './shared/ui/organisms/auth-overlay/auth-overlay.component';
 import { AuthOverlayContainerComponent } from './features/auth/containers/auth-overlay-container.component';
 import { NavbarComponent } from './shared/ui/organisms/navbar/navbar.component';
@@ -25,6 +26,8 @@ export class App {
   private readonly authFacade = inject(AuthFacadeService);
   private readonly languageService = inject(LanguageService);
   private readonly toastService = inject(ToastService);
+  private readonly authState = toSignal(this.authFacade.authState$, { initialValue: 'checking' as AuthState });
+  private readonly sessionRateLimitRemainingSeconds = toSignal(this.authFacade.sessionRateLimitRemainingSeconds$, { initialValue: 0 });
   private readonly currentPath = toSignal(
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
@@ -35,6 +38,22 @@ export class App {
 
   readonly authOverlayOpen = signal(false);
   readonly authOverlayMode = signal<AuthOverlayMode>('login');
+  readonly authStatusOpen = computed(() => {
+    const state = this.authState();
+    const path = this.currentPath();
+    return path.startsWith('/dashboard') && (state === 'checking' || state === 'rate-limited');
+  });
+  readonly showRouterOutlet = computed(() => !this.authStatusOpen());
+  readonly authStatusTitle = computed(() => this.authState() === 'rate-limited'
+    ? this.languageService.t('navSessionRetrying')
+    : this.languageService.t('navSessionChecking'));
+  readonly authStatusEyebrow = computed(() => this.languageService.t('navSessionRecovery'));
+  readonly authStatusCopy = computed(() => this.authState() === 'rate-limited'
+    ? this.languageService.t('navSessionRetryingCopy', { seconds: this.sessionRateLimitRemainingSeconds() })
+    : this.languageService.t('navSessionCheckingCopy'));
+  readonly authStatusLoading = computed(() => this.authState() === 'rate-limited'
+    ? this.languageService.t('navSessionRetryingStatus', { seconds: this.sessionRateLimitRemainingSeconds() })
+    : this.languageService.t('navSessionCheckingStatus'));
   readonly hidePublicChrome = computed(() => {
     const path = this.currentPath();
     return path.startsWith('/dashboard')

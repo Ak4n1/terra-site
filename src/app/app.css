@@ -44,6 +44,120 @@
   background-image: url("/assets/images/border-right.png");
 }
 
+.terra-auth-status-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1800;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--color-panel-900, #090b0f);
+}
+
+.terra-auth-status-screen__shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  padding: 32px 20px;
+}
+
+.terra-auth-status-screen__hero {
+  width: min(100%, 840px);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--c-border-weak, rgba(255, 255, 255, 0.1));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(12, 12, 12, 0.82);
+  padding: 36px;
+}
+
+.terra-auth-status-screen__brand {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: var(--c-text-on-dark);
+  font-family: var(--font-display);
+  font-size: var(--header-logo-size, 2.7rem);
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: var(--header-logo-letter-spacing, 0.02em);
+}
+
+.terra-auth-status-screen__brand > span {
+  color: var(--c-link-hover);
+}
+
+.terra-auth-status-screen__eyebrow {
+  margin: 0 0 10px;
+  color: var(--c-link-hover);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.terra-auth-status-screen__title {
+  margin: 0;
+  color: var(--c-text-on-dark);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.04;
+  max-width: 12ch;
+}
+
+.terra-auth-status-screen__copy {
+  margin: 16px 0 0;
+  color: var(--c-text-secondary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 62ch;
+}
+
+.terra-auth-status-screen__status {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.terra-auth-status-screen__status p {
+  margin: 0;
+  color: var(--c-text-secondary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.terra-auth-status-screen__orb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--c-link-hover);
+  box-shadow: 0 0 0 0 rgba(224, 136, 33, 0.25);
+  animation: terra-auth-status-pulse 1.4s ease-out infinite;
+  flex: 0 0 auto;
+}
+
+@keyframes terra-auth-status-pulse {
+  0% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(224, 136, 33, 0.25);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 14px rgba(224, 136, 33, 0);
+  }
+
+  100% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(224, 136, 33, 0);
+  }
+}
+
 @media (max-width: 543px) {
   .terra-page-border__top,
   .terra-page-border__bottom {
@@ -53,5 +167,13 @@
   .terra-page-border__left,
   .terra-page-border__right {
     width: var(--page-border-size-mobile, 50px);
+  }
+
+  .terra-auth-status-screen__shell {
+    padding: 20px 14px;
+  }
+
+  .terra-auth-status-screen__hero {
+    padding: 24px;
   }
 }

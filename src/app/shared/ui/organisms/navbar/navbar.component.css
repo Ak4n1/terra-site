@@ -543,6 +543,7 @@ ui-menu-toggle {
   border-top: 1px solid var(--c-border-subtle);
 }
 
+
 .terra-mobile-session__identity {
   display: flex;
   align-items: center;
