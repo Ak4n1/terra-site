@@ -186,7 +186,7 @@
    * Uso principal:
    * - navbar.component.css
    */
-  --header-z-index: 100;
+  --header-z-index: 2101;
   --header-container-max-width: 1320px;
   --header-container-gutter: 20px;
   --header-topbar-padding-y: 15px;

@@ -21,7 +21,7 @@
       <div class="auth-panel__body">
         <p class="auth-panel__copy">{{ t('authLoginDescription') }}</p>
 
-        <form class="auth-form" (submit)="$event.preventDefault(); submitPrimaryAction()">
+        <form id="auth-login-form" class="auth-form" (submit)="$event.preventDefault(); submitPrimaryAction()">
           @if (feedbackMessage) {
             <ui-alert [variant]="feedbackVariant" [message]="feedbackMessage"></ui-alert>
           }
@@ -55,7 +55,7 @@
       <div class="auth-panel__body">
         <p class="auth-panel__copy">{{ t('authRegisterDescription') }}</p>
 
-        <form class="auth-form" (submit)="$event.preventDefault(); submitPrimaryAction()">
+        <form id="auth-register-form" class="auth-form" (submit)="$event.preventDefault(); submitPrimaryAction()">
           @if (feedbackMessage) {
             <ui-alert [variant]="feedbackVariant" [message]="feedbackMessage"></ui-alert>
           }
@@ -95,11 +95,11 @@
           </ui-input-field>
         </form>
       </div>
-    } @else {
+    } @else if (currentMode === 'forgot-password') {
       <div class="auth-panel__body">
         <p class="auth-panel__copy">{{ t('authForgotPasswordDescription') }}</p>
 
-        <form class="auth-form" (submit)="$event.preventDefault(); submitPrimaryAction()">
+        <form id="auth-forgot-password-form" class="auth-form" (submit)="$event.preventDefault(); submitPrimaryAction()">
           @if (feedbackMessage) {
             <ui-alert [variant]="feedbackVariant" [message]="feedbackMessage"></ui-alert>
           }
@@ -114,9 +114,44 @@
           </ui-input-field>
         </form>
       </div>
+    } @else {
+      <div class="auth-panel__body">
+        <p class="auth-panel__copy">{{ t('authVerifyEmailDescription') }}</p>
+
+        <form id="auth-verify-email-form" class="auth-form" (submit)="$event.preventDefault(); submitPrimaryAction()">
+          @if (feedbackMessage) {
+            <ui-alert [variant]="feedbackVariant" [message]="feedbackMessage"></ui-alert>
+          }
+
+          <ui-input-field
+            [label]="t('authEmailLabel')"
+            type="email"
+            [placeholder]="t('authEmailPlaceholder')"
+            autocomplete="email"
+            [value]="verifyEmailAddress"
+            (valueChange)="onVerifyEmailAddressChange($event)">
+          </ui-input-field>
+
+          <a href="#" class="auth-form__link auth-form__link--effect" (click)="$event.preventDefault(); setMode('login')">
+            <span class="auth-form__link-inner">
+              <span class="auth-form__link-l"><span>{{ t('authBackToLogin') }}</span></span>
+              <span class="auth-form__link-r"><span>{{ t('authBackToLogin') }}</span></span>
+              <span class="auth-form__link-shade"><span>{{ t('authBackToLogin') }}</span></span>
+            </span>
+          </a>
+        </form>
+      </div>
     }
   </div>
   <div modal-footer>
-    <ui-button [label]="actionLabel" variant="main-1" size="x2" [disabled]="primaryActionDisabled" (clicked)="submitPrimaryAction()"></ui-button>
+    <ui-button
+      [label]="actionLabel"
+      [loadingLabel]="actionLabel"
+      variant="main-1"
+      size="x2"
+      type="submit"
+      [form]="activeFormId"
+      [loading]="submitting"
+      [disabled]="primaryActionDisabled"></ui-button>
   </div>
 </ui-modal>

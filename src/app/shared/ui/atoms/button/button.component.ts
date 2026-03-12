@@ -23,7 +23,10 @@ export class ButtonComponent {
   @Input() variant: ButtonVariant = 'main-1';
   @Input() size: ButtonSize = 'md';
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
+  @Input() form: string | null = null;
   @Input() disabled = false;
+  @Input() loading = false;
+  @Input() loadingLabel: string | null = null;
   @Output() readonly clicked = new EventEmitter<MouseEvent>();
 
   get variantClass(): string {
@@ -34,8 +37,16 @@ export class ButtonComponent {
     return this.size === 'x2' ? 'btn--x2' : '';
   }
 
+  get resolvedDisabled(): boolean {
+    return this.disabled || this.loading;
+  }
+
+  get resolvedLoadingLabel(): string {
+    return this.loadingLabel?.trim() || this.label;
+  }
+
   onClick(event: MouseEvent): void {
-    if (this.disabled) {
+    if (this.resolvedDisabled) {
       return;
     }
 

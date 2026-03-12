@@ -1,0 +1,23 @@
+<div class="spotlight-carousel-v2 mnt-80" *ngIf="resolvedSlides.length">
+  <div #sliderHost class="spotlight-carousel-v2__track">
+    <div class="spotlight-carousel-v2__slide" *ngFor="let slide of resolvedSlides">
+      <div class="spotlight-carousel-v2__card">
+        <img
+          class="spotlight-carousel-v2__image"
+          [src]="slide.imageSrc"
+          [alt]="slide.titleKey ? languageService.t(slide.titleKey) : ''"
+          draggable="false"
+          loading="eager"
+        />
+        <div class="spotlight-carousel-v2__caption" *ngIf="slide.titleKey || slide.descriptionKey">
+          <h3 class="spotlight-carousel-v2__title" *ngIf="slide.titleKey">
+            {{ languageService.t(slide.titleKey) }}
+          </h3>
+          <p class="spotlight-carousel-v2__description" *ngIf="slide.descriptionKey">
+            {{ languageService.t(slide.descriptionKey) }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

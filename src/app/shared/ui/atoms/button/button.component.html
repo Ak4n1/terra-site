@@ -1,8 +1,10 @@
 <button
   [type]="type"
+  [attr.form]="form"
   class="btn"
-  [ngClass]="[variantClass, sizeClass]"
-  [disabled]="disabled"
+  [ngClass]="[variantClass, sizeClass, loading ? 'btn--loading' : '']"
+  [disabled]="resolvedDisabled"
+  [attr.aria-busy]="loading"
   (click)="onClick($event)">
   <span class="btn__label">
     <span class="btn__effect-inner">
@@ -11,4 +13,14 @@
       <span class="btn__effect-shade"><span>{{ label }}</span></span>
     </span>
   </span>
+  @if (loading) {
+    <span class="btn__loading" aria-hidden="true">
+      <span class="btn__loading-text">{{ resolvedLoadingLabel }}</span>
+      <span class="btn__loading-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </span>
+  }
 </button>

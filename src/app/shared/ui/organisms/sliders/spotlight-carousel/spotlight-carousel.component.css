@@ -3,6 +3,23 @@
   margin-top: var(--spotlight-overlap-desktop, -160px);
 }
 
+.spotlight-carousel__mobile-fallback {
+  display: none;
+  position: relative;
+}
+
+.spotlight-carousel__mobile-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.spotlight-carousel__mobile-image--empty {
+  aspect-ratio: 16 / 10;
+  background: transparent;
+}
+
 .rev_slider_wrapper.fullscreen-container {
   position: relative;
   width: 100%;
@@ -61,11 +78,22 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1024px) {
   .mnt-80 {
     margin-top: var(--spotlight-overlap-mobile, -80px);
   }
 
+  .spotlight-carousel__mobile-fallback {
+    display: block;
+  }
+
+  .rev_slider_wrapper.fullscreen-container {
+    display: none;
+  }
+
+}
+
+@media (max-width: 640px) {
   :host ::ng-deep .tp-revslider-slidesli .terra-slide-caption__description {
     display: none;
   }

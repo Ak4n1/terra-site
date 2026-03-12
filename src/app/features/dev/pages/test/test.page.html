@@ -38,6 +38,184 @@
     </section>
 
     <section class="test-page__section">
+      <h2 class="test-page__section-title">Toast</h2>
+
+      <div class="test-page__auth-launchers">
+        <ui-button label="Trigger Toast" variant="main-1" size="x2" (clicked)="showToast()"></ui-button>
+      </div>
+    </section>
+
+    <section class="test-page__section">
+      <h2 class="test-page__section-title">Mail Templates</h2>
+
+      <div class="test-page__mail-grid">
+        <article class="test-page__mail-preview">
+          <div class="test-page__mail-frame">
+            <div class="test-page__mail-header">
+              <p class="test-page__mail-eyebrow">Email Verification</p>
+              <h3 class="test-page__mail-title">Confirm your Terra account</h3>
+            </div>
+            <div class="test-page__mail-body">
+              <p class="test-page__mail-copy">Hello <strong>player@l2terra.online</strong>,</p>
+              <p class="test-page__mail-copy">Use this email to verify your account and unlock the private area.</p>
+              <div class="test-page__mail-cta">
+                <ui-button label="Verify account" variant="main-1" size="x2"></ui-button>
+              </div>
+              <div class="test-page__mail-note">
+                <p>This link expires in 15 minutes.</p>
+                <p>If you did not create an account, you can ignore this message.</p>
+              </div>
+            </div>
+            <div class="test-page__mail-footer">
+              <p class="test-page__mail-url">https://l2terra.online/verify-email?token=...</p>
+              <p class="test-page__mail-meta">Project Terra verification flow preview for test mode.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="test-page__mail-preview">
+          <div class="test-page__mail-frame">
+            <div class="test-page__mail-header">
+              <p class="test-page__mail-eyebrow">Password Reset</p>
+              <h3 class="test-page__mail-title">Recover access securely</h3>
+            </div>
+            <div class="test-page__mail-body">
+              <p class="test-page__mail-copy">Hello <strong>player@l2terra.online</strong>,</p>
+              <p class="test-page__mail-copy">We received a request to reset your password. Continue only if you started this flow.</p>
+              <div class="test-page__mail-cta">
+                <ui-button label="Reset password" variant="main-1" size="x2"></ui-button>
+              </div>
+              <div class="test-page__mail-note">
+                <p>This reset link expires in 15 minutes.</p>
+                <p>If you did not request a reset, no changes were made to your account.</p>
+              </div>
+            </div>
+            <div class="test-page__mail-footer">
+              <p class="test-page__mail-url">https://l2terra.online/reset-password?token=...</p>
+              <p class="test-page__mail-meta">Project Terra password recovery preview for test mode.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="test-page__section">
+      <h2 class="test-page__section-title">Loadings</h2>
+
+      <div class="test-page__loading-grid">
+        <article class="test-page__loading-card">
+          <p class="test-page__variant">orb-spinner</p>
+          <div class="test-page__orb-spinner" aria-hidden="true"></div>
+          <p class="test-page__loading-copy">Ideal para esperas cortas o acciones bloqueantes.</p>
+        </article>
+
+        <article class="test-page__loading-card">
+          <p class="test-page__variant">shimmer-lines</p>
+          <div class="test-page__shimmer-stack" aria-hidden="true">
+            <span class="test-page__shimmer-line test-page__shimmer-line--lg"></span>
+            <span class="test-page__shimmer-line"></span>
+            <span class="test-page__shimmer-line test-page__shimmer-line--sm"></span>
+          </div>
+          <p class="test-page__loading-copy">Sirve para contenido textual o placeholders de bloques.</p>
+        </article>
+
+        <article class="test-page__loading-card">
+          <p class="test-page__variant">signal-bars</p>
+          <div class="test-page__signal-bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <p class="test-page__loading-copy">Tiene un ritmo mas tecnico y funciona bien en paneles.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="test-page__section">
+      <h2 class="test-page__section-title">Auth Overlay Loadings</h2>
+
+      <div class="test-page__auth-loading-grid">
+        <article class="test-page__auth-loading-card">
+          <div class="test-page__auth-loading-tabs">
+            <span class="test-page__auth-loading-tab test-page__auth-loading-tab--active">Login</span>
+            <span class="test-page__auth-loading-tab">Register</span>
+          </div>
+          <div class="test-page__auth-loading-copy-block">
+            <span class="test-page__shimmer-line test-page__shimmer-line--lg"></span>
+            <span class="test-page__shimmer-line test-page__shimmer-line--sm"></span>
+          </div>
+          <div class="test-page__auth-loading-fields">
+            <div class="test-page__auth-loading-field">
+              <span class="test-page__auth-loading-label"></span>
+              <span class="test-page__auth-loading-input"></span>
+            </div>
+            <div class="test-page__auth-loading-field">
+              <span class="test-page__auth-loading-label"></span>
+              <span class="test-page__auth-loading-input"></span>
+            </div>
+          </div>
+          <div class="test-page__auth-loading-footer">
+            <div class="test-page__auth-loading-button">
+              <span class="test-page__auth-loading-button-text">Authenticating</span>
+              <span class="test-page__auth-loading-dots" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="test-page__auth-loading-card">
+          <div class="test-page__auth-loading-tabs">
+            <span class="test-page__auth-loading-tab">Login</span>
+            <span class="test-page__auth-loading-tab test-page__auth-loading-tab--active">Register</span>
+          </div>
+          <div class="test-page__auth-loading-copy-block">
+            <span class="test-page__shimmer-line test-page__shimmer-line--lg"></span>
+            <span class="test-page__shimmer-line"></span>
+          </div>
+          <div class="test-page__auth-loading-fields">
+            <div class="test-page__auth-loading-field">
+              <span class="test-page__auth-loading-label"></span>
+              <span class="test-page__auth-loading-input"></span>
+            </div>
+            <div class="test-page__auth-loading-field">
+              <span class="test-page__auth-loading-label"></span>
+              <span class="test-page__auth-loading-input"></span>
+            </div>
+            <div class="test-page__auth-loading-strength" aria-hidden="true">
+              <span class="test-page__auth-loading-strength-fill"></span>
+            </div>
+            <div class="test-page__auth-loading-field">
+              <span class="test-page__auth-loading-label"></span>
+              <span class="test-page__auth-loading-input"></span>
+            </div>
+          </div>
+          <div class="test-page__auth-loading-footer">
+            <div class="test-page__auth-loading-button test-page__auth-loading-button--sweep">
+              <span class="test-page__auth-loading-button-text">Preparing account</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="test-page__auth-loading-card">
+          <div class="test-page__auth-loading-tabs">
+            <span class="test-page__auth-loading-tab test-page__auth-loading-tab--active">Reset password</span>
+          </div>
+          <div class="test-page__auth-loading-state">
+            <div class="test-page__auth-loading-ring" aria-hidden="true">
+              <span></span>
+            </div>
+            <h3 class="test-page__auth-loading-title">Sending secure instructions</h3>
+            <p class="test-page__auth-loading-copy">A compact loader for the forgot-password flow inside the modal body.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="test-page__section">
       <h2 class="test-page__section-title">Modals</h2>
 
       <div class="test-page__modal-launchers">

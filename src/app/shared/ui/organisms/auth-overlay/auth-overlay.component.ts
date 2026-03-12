@@ -7,7 +7,7 @@ import { ProgressBarComponent } from '../../atoms/progress-bar/progress-bar.comp
 import { InputFieldComponent } from '../../molecules/input-field/input-field.component';
 import { ModalComponent } from '../modal/modal.component';
 
-export type AuthOverlayMode = 'login' | 'register' | 'forgot-password';
+export type AuthOverlayMode = 'login' | 'register' | 'forgot-password' | 'verify-email';
 
 @Component({
   selector: 'ui-auth-overlay',
@@ -21,13 +21,17 @@ export class AuthOverlayComponent implements OnChanges {
 
   @Input() open = false;
   @Input() mode: AuthOverlayMode = 'login';
+  @Input() verificationEmail = '';
   @Input() feedbackMessage = '';
   @Input() feedbackVariant: AlertVariant = 'warning';
   @Input() submitting = false;
   @Output() readonly closed = new EventEmitter<void>();
+  @Output() readonly modeChanged = new EventEmitter<AuthOverlayMode>();
+  @Output() readonly stateReset = new EventEmitter<void>();
   @Output() readonly loginSubmitted = new EventEmitter<{ email: string; password: string }>();
   @Output() readonly registerSubmitted = new EventEmitter<{ email: string; password: string; repeatPassword: string }>();
   @Output() readonly forgotPasswordSubmitted = new EventEmitter<{ email: string }>();
+  @Output() readonly resendVerificationSubmitted = new EventEmitter<{ email: string }>();
 
   currentMode: AuthOverlayMode = 'login';
   loginEmail = '';
@@ -36,10 +40,20 @@ export class AuthOverlayComponent implements OnChanges {
   registerPassword = '';
   registerRepeatPassword = '';
   forgotPasswordEmail = '';
+  verifyEmailAddress = '';
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mode']) {
       this.currentMode = this.mode;
+      this.stateReset.emit();
+    }
+
+    if (changes['verificationEmail']) {
+      this.verifyEmailAddress = this.verificationEmail;
+    }
+
+    if (changes['open'] && !this.open) {
+      this.resetFormState();
     }
   }
 
@@ -49,6 +63,8 @@ export class AuthOverlayComponent implements OnChanges {
 
   setMode(mode: AuthOverlayMode): void {
     this.currentMode = mode;
+    this.modeChanged.emit(mode);
+    this.stateReset.emit();
   }
 
   get modalTitle(): string {
@@ -58,6 +74,10 @@ export class AuthOverlayComponent implements OnChanges {
 
     if (this.currentMode === 'forgot-password') {
       return this.t('authForgotPasswordTitle');
+    }
+
+    if (this.currentMode === 'verify-email') {
+      return this.t('authVerifyEmailTitle');
     }
 
     return this.t('authLoginTitle');
@@ -72,11 +92,33 @@ export class AuthOverlayComponent implements OnChanges {
       return this.t('authForgotPasswordAction');
     }
 
+    if (this.currentMode === 'verify-email') {
+      return this.t('authVerifyEmailAction');
+    }
+
     return this.t('authLoginAction');
+  }
+
+  get activeFormId(): string {
+    if (this.currentMode === 'register') {
+      return 'auth-register-form';
+    }
+
+    if (this.currentMode === 'forgot-password') {
+      return 'auth-forgot-password-form';
+    }
+
+    if (this.currentMode === 'verify-email') {
+      return 'auth-verify-email-form';
+    }
+
+    return 'auth-login-form';
   }
 
   openForgotPassword(): void {
     this.currentMode = 'forgot-password';
+    this.modeChanged.emit('forgot-password');
+    this.stateReset.emit();
   }
 
   onLoginEmailChange(value: string): void {
@@ -103,6 +145,10 @@ export class AuthOverlayComponent implements OnChanges {
     this.forgotPasswordEmail = value;
   }
 
+  onVerifyEmailAddressChange(value: string): void {
+    this.verifyEmailAddress = value;
+  }
+
   get primaryActionDisabled(): boolean {
     if (this.submitting) {
       return true;
@@ -117,6 +163,10 @@ export class AuthOverlayComponent implements OnChanges {
         || this.registerPassword.length === 0
         || this.registerRepeatPassword.length === 0
         || this.registerPassword !== this.registerRepeatPassword;
+    }
+
+    if (this.currentMode === 'verify-email') {
+      return this.verifyEmailAddress.trim().length === 0;
     }
 
     return this.forgotPasswordEmail.trim().length === 0;
@@ -140,6 +190,13 @@ export class AuthOverlayComponent implements OnChanges {
         email: this.registerEmail,
         password: this.registerPassword,
         repeatPassword: this.registerRepeatPassword
+      });
+      return;
+    }
+
+    if (this.currentMode === 'verify-email') {
+      this.resendVerificationSubmitted.emit({
+        email: this.verifyEmailAddress
       });
       return;
     }
@@ -184,14 +241,20 @@ export class AuthOverlayComponent implements OnChanges {
   }
 
   close(): void {
+    this.resetFormState();
+    this.closed.emit();
+  }
+
+  private resetFormState(): void {
     this.loginEmail = '';
     this.loginPassword = '';
     this.registerEmail = '';
     this.registerPassword = '';
     this.registerRepeatPassword = '';
     this.forgotPasswordEmail = '';
+    this.verifyEmailAddress = this.verificationEmail;
     this.currentMode = this.mode;
-    this.closed.emit();
+    this.stateReset.emit();
   }
 
   @HostListener('document:keydown.escape')

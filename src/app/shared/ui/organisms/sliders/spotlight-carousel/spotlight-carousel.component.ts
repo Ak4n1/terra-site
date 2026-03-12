@@ -20,6 +20,9 @@ let sliderInstanceCounter = 0;
   styleUrl: './spotlight-carousel.component.css'
 })
 export class SpotlightCarouselComponent implements AfterViewInit, OnDestroy {
+  private static assetsLoadPromise: Promise<void> | null = null;
+  private static readonly desktopBreakpointQuery = '(min-width: 1025px)';
+
   readonly languageService = inject(LanguageService);
   @Input() slides: SpotlightSlide[] = [];
   @Output() activeImageChange = new EventEmitter<string>();
@@ -35,8 +38,24 @@ export class SpotlightCarouselComponent implements AfterViewInit, OnDestroy {
   private initAttempts = 0;
   private initFrameId: number | null = null;
   private redrawFrameId: number | null = null;
+  private viewportQuery?: MediaQueryList;
+  private readonly handleViewportModeChange = (event?: MediaQueryListEvent): void => {
+    const matchesDesktop = event?.matches ?? this.isDesktopViewport();
+
+    if (!matchesDesktop) {
+      this.destroySlider();
+      return;
+    }
+
+    if (!this.sliderElementRef?.nativeElement?.isConnected) {
+      return;
+    }
+
+    this.initAttempts = 0;
+    this.scheduleInitialization();
+  };
   private readonly handleViewportChange = (): void => {
-    if (!this.revApi || typeof this.revApi.revredraw !== 'function' || this.redrawFrameId !== null) {
+    if (!this.isDesktopViewport() || !this.revApi || typeof this.revApi.revredraw !== 'function' || this.redrawFrameId !== null) {
       return;
     }
 
@@ -66,27 +85,29 @@ export class SpotlightCarouselComponent implements AfterViewInit, OnDestroy {
       this.activeImageChange.emit(initialSlide.imageSrc);
     }
 
-    this.scheduleInitialization();
+    this.viewportQuery = window.matchMedia(SpotlightCarouselComponent.desktopBreakpointQuery);
+    this.viewportQuery.addEventListener('change', this.handleViewportModeChange);
     window.addEventListener('resize', this.handleViewportChange);
     window.addEventListener('orientationchange', this.handleViewportChange);
+
+    void this.loadSliderAssets()
+      .then(() => {
+        if (!this.sliderElementRef?.nativeElement?.isConnected) {
+          return;
+        }
+
+        this.handleViewportModeChange();
+      })
+      .catch((error) => {
+        console.error('Failed to initialize spotlight carousel assets.', error);
+      });
   }
 
   ngOnDestroy(): void {
+    this.viewportQuery?.removeEventListener('change', this.handleViewportModeChange);
     window.removeEventListener('resize', this.handleViewportChange);
     window.removeEventListener('orientationchange', this.handleViewportChange);
-    if (this.initFrameId !== null) {
-      window.cancelAnimationFrame(this.initFrameId);
-      this.initFrameId = null;
-    }
-    if (this.redrawFrameId !== null) {
-      window.cancelAnimationFrame(this.redrawFrameId);
-      this.redrawFrameId = null;
-    }
-    if (this.revApi && typeof this.revApi.revkill === 'function') {
-      this.revApi.revkill();
-      this.revApi = null;
-    }
-    this.initialized = false;
+    this.destroySlider();
   }
 
   private scheduleInitialization(): void {
@@ -100,8 +121,69 @@ export class SpotlightCarouselComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  private loadSliderAssets(): Promise<void> {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return Promise.resolve();
+    }
+
+    if (window.jQuery?.fn?.revolution) {
+      return Promise.resolve();
+    }
+
+    if (!SpotlightCarouselComponent.assetsLoadPromise) {
+      SpotlightCarouselComponent.assetsLoadPromise = this.appendScriptsInOrder([
+        'assets/vendor/jquery/jquery.min.js',
+        'assets/vendor/revolution/js/jquery.themepunch.tools.min.js',
+        'assets/vendor/revolution/js/jquery.themepunch.revolution.min.js',
+        'assets/vendor/revolution/js/extensions/revolution.extension.video.min.js',
+        'assets/vendor/revolution/js/extensions/revolution.extension.carousel.min.js',
+        'assets/vendor/revolution/js/extensions/revolution.extension.navigation.min.js'
+      ]).catch((error) => {
+        SpotlightCarouselComponent.assetsLoadPromise = null;
+        throw error;
+      });
+    }
+
+    return SpotlightCarouselComponent.assetsLoadPromise;
+  }
+
+  private async appendScriptsInOrder(sources: string[]): Promise<void> {
+    for (const source of sources) {
+      await this.appendScript(source);
+    }
+  }
+
+  private appendScript(source: string): Promise<void> {
+    const existingScript = document.querySelector<HTMLScriptElement>(`script[src="${source}"]`);
+    if (existingScript) {
+      return existingScript.dataset['loaded'] === 'true'
+        ? Promise.resolve()
+        : new Promise((resolve, reject) => {
+            existingScript.addEventListener('load', () => resolve(), { once: true });
+            existingScript.addEventListener('error', () => reject(new Error(`Failed to load script: ${source}`)), { once: true });
+          });
+    }
+
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = source;
+      script.async = false;
+      script.dataset['loaded'] = 'false';
+      script.addEventListener(
+        'load',
+        () => {
+          script.dataset['loaded'] = 'true';
+          resolve();
+        },
+        { once: true }
+      );
+      script.addEventListener('error', () => reject(new Error(`Failed to load script: ${source}`)), { once: true });
+      document.body.appendChild(script);
+    });
+  }
+
   private tryInitializeSlider(): void {
-    if (this.initialized) {
+    if (this.initialized || !this.isDesktopViewport()) {
       return;
     }
 
@@ -208,6 +290,45 @@ export class SpotlightCarouselComponent implements AfterViewInit, OnDestroy {
     });
 
     this.handleViewportChange();
+  }
+
+  private destroySlider(): void {
+    if (this.initFrameId !== null) {
+      window.cancelAnimationFrame(this.initFrameId);
+      this.initFrameId = null;
+    }
+
+    if (this.redrawFrameId !== null) {
+      window.cancelAnimationFrame(this.redrawFrameId);
+      this.redrawFrameId = null;
+    }
+
+    if (this.revApi) {
+      const sliderElement = this.sliderElementRef?.nativeElement;
+      const tpj = window.jQuery;
+      if (sliderElement && tpj) {
+        const jqSlider = tpj(sliderElement);
+        jqSlider.off();
+        tpj(window).off(`resize.revslider-${sliderElement.id}`);
+      }
+
+      if (typeof this.revApi.revkill === 'function') {
+        this.revApi.revkill();
+      }
+      this.revApi = null;
+    }
+
+    const nativeSliderElement = this.sliderElementRef?.nativeElement;
+    if (nativeSliderElement) {
+      nativeSliderElement.style.display = '';
+    }
+
+    this.initialized = false;
+    this.initAttempts = 0;
+  }
+
+  private isDesktopViewport(): boolean {
+    return this.viewportQuery?.matches ?? window.matchMedia(SpotlightCarouselComponent.desktopBreakpointQuery).matches;
   }
 
   private areSlideImagesReady(sliderElement: HTMLElement): boolean {

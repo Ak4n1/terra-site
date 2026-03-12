@@ -190,7 +190,7 @@
   left: 50%;
   right: auto;
   transform: translateX(-50%);
-  min-width: 190px;
+  width: min(200px, calc(100vw - 24px));
   padding: 14px;
   border: 1px solid var(--c-border-subtle);
 }
@@ -322,9 +322,10 @@
 }
 
 .terra-account-menu__trigger {
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   padding: 0;
+  position: relative;
   border: 1px solid var(--c-border-subtle);
   background: rgba(255, 255, 255, 0.04);
   border-radius: 50%;
@@ -340,10 +341,16 @@
 }
 
 .terra-account-menu__avatar {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  max-width: none;
   object-fit: cover;
+  object-position: center;
   display: block;
+  border-radius: 50%;
+  transform: translate(2px, 2px);
 }
 
 .terra-account-menu__eyebrow {
@@ -663,7 +670,26 @@ ui-menu-toggle {
   color: var(--c-btn-accent-active);
 }
 
+@media (max-width: 1400px) {
+  .terra-header__container {
+    padding-inline: clamp(36px, 4vw, 52px);
+  }
+
+  .terra-logo--main {
+    left: clamp(36px, 4vw, 52px);
+  }
+
+  .terra-auth-links,
+  .terra-account-menu {
+    right: clamp(36px, 4vw, 52px);
+  }
+}
+
 @media (max-width: 1100px) {
+  .terra-header__container {
+    padding-inline: clamp(26px, 5vw, 36px);
+  }
+
   .terra-header__container--main {
     justify-content: flex-end;
     padding-top: var(--header-main-padding-y-mobile, 12px);
@@ -685,6 +711,11 @@ ui-menu-toggle {
     row-gap: var(--header-topbar-row-gap-mobile, 12px);
   }
 
+  .terra-header__top-actions {
+    margin-left: auto;
+    padding-right: 6px;
+  }
+
   .terra-main-links {
     display: none;
     transform: none;
@@ -692,6 +723,7 @@ ui-menu-toggle {
 
   ui-menu-toggle {
     display: inline-flex;
+    margin-right: 6px;
   }
 
   .terra-mobile-menu {
@@ -703,7 +735,3 @@ ui-menu-toggle {
     display: none;
   }
 }
-
-
-
-

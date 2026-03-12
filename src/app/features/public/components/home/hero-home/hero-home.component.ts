@@ -11,13 +11,13 @@ import {
   inject
 } from '@angular/core';
 import { LanguageService } from '../../../../../core/i18n/language.service';
-import { SpotlightCarouselComponent } from '../../../../../shared/ui/organisms/sliders/spotlight-carousel/spotlight-carousel.component';
 import type { SpotlightSlide } from '../../../../../shared/ui/organisms/sliders/spotlight-carousel/spotlight-carousel.types';
+import { SpotlightCarouselV2Component } from '../../../../../shared/ui/organisms/sliders/spotlight-carousel-v2/spotlight-carousel-v2.component';
 
 @Component({
   selector: 'app-hero-home',
   standalone: true,
-  imports: [SpotlightCarouselComponent],
+  imports: [SpotlightCarouselV2Component],
   templateUrl: './hero-home.component.html',
   styleUrl: './hero-home.component.css'
 })

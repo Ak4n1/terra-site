@@ -35,9 +35,17 @@ export class LanguageService {
     this.applyHtmlLang(language);
   }
 
-  t(key: string): string {
+  t(key: string, params?: Record<string, string | number>): string {
     const lang = this.language();
-    return TRANSLATIONS[lang][key] ?? TRANSLATIONS[DEFAULT_LANGUAGE][key] ?? key;
+    const template = TRANSLATIONS[lang][key] ?? TRANSLATIONS[DEFAULT_LANGUAGE][key] ?? key;
+    if (!params) {
+      return template;
+    }
+
+    return Object.entries(params).reduce(
+      (message, [paramKey, value]) => message.replaceAll(`{${paramKey}}`, String(value)),
+      template
+    );
   }
 
   private resolveInitialLanguage(): AppLanguage {

@@ -1,7 +1,7 @@
 .dashboard-shell {
   position: relative;
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
+  grid-template-columns: 260px minmax(0, 1fr);
   min-height: 100vh;
   background: var(--c-dashboard-shell-bg);
   overflow-x: hidden;

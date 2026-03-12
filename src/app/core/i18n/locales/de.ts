@@ -5,6 +5,7 @@ import { GAME_FEATURES_TRANSLATIONS_DE } from '../modules/game-features.translat
 import { HOME_TRANSLATIONS_DE } from '../modules/home.translations';
 import { NAVBAR_TRANSLATIONS_DE } from '../modules/navbar.translations';
 import { RAID_CAROUSEL_TRANSLATIONS_DE } from '../modules/raid-carousel.translations';
+import { TOAST_TRANSLATIONS_DE } from '../modules/toast.translations';
 import type { TranslationMap } from '../types';
 
 export const TRANSLATIONS_DE: TranslationMap = {
@@ -14,5 +15,6 @@ export const TRANSLATIONS_DE: TranslationMap = {
   ...GAME_FEATURES_TRANSLATIONS_DE,
   ...NAVBAR_TRANSLATIONS_DE,
   ...HOME_TRANSLATIONS_DE,
-  ...RAID_CAROUSEL_TRANSLATIONS_DE
+  ...RAID_CAROUSEL_TRANSLATIONS_DE,
+  ...TOAST_TRANSLATIONS_DE
 };
