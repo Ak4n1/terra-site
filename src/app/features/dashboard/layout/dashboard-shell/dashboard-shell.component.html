@@ -1,0 +1,23 @@
+<section class="dashboard-shell">
+  <div
+    class="dashboard-shell__overlay"
+    [class.dashboard-shell__overlay--open]="mobileSidebarOpen"
+    (click)="closeMobileSidebar()">
+  </div>
+
+  <ui-sidebar
+    [mobileOpen]="mobileSidebarOpen"
+    (closeRequested)="closeMobileSidebar()">
+  </ui-sidebar>
+
+  <div class="dashboard-shell__main">
+    <ui-dashboard-topbar
+      [mobileSidebarOpen]="mobileSidebarOpen"
+      (menuToggleRequested)="toggleMobileSidebar()">
+    </ui-dashboard-topbar>
+
+    <main class="dashboard-shell__content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</section>

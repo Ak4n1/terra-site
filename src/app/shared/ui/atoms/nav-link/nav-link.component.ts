@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -20,4 +20,6 @@ export class NavLinkComponent {
   @Input() showDots = false;
   @Input() dropdown = false;
   @Input() splitEffect = false;
+  @Input() dotPosition: 'bottom' | 'left' = 'bottom';
+  @Output() readonly clicked = new EventEmitter<MouseEvent>();
 }

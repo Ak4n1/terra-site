@@ -1,0 +1,37 @@
+<section class="game-accounts-page">
+  <div class="game-accounts-page__intro">
+    <p class="game-accounts-page__eyebrow">{{ t('dashboardGameAccountsEyebrow') }}</p>
+    <h2 class="game-accounts-page__title">{{ t('dashboardGameAccountsTitle') }}</h2>
+    <p class="game-accounts-page__copy">{{ t('dashboardGameAccountsDescription') }}</p>
+  </div>
+
+  <article class="game-accounts-page__card">
+    <div class="game-accounts-page__card-copy">
+      <h3 class="game-accounts-page__card-title">{{ t('dashboardGameAccountsCardTitle') }}</h3>
+      <p class="game-accounts-page__copy">{{ t('dashboardGameAccountsCardCopy') }}</p>
+    </div>
+
+    <div class="game-accounts-page__form">
+      <ui-input-field
+        [label]="t('dashboardGameAccountsNameLabel')"
+        [placeholder]="t('dashboardGameAccountsNamePlaceholder')"
+        [value]="characterName"
+        (valueChange)="onCharacterNameChange($event)">
+      </ui-input-field>
+
+      <ui-input-field
+        [label]="t('dashboardGameAccountsServerLabel')"
+        [placeholder]="t('dashboardGameAccountsServerPlaceholder')"
+        [value]="serverName"
+        (valueChange)="onServerNameChange($event)">
+      </ui-input-field>
+
+      <ui-button
+        [label]="t('dashboardGameAccountsAction')"
+        variant="main-1"
+        [disabled]="true">
+      </ui-button>
+    </div>
+  </article>
+</section>
+<section style="height: 700px;"></section>

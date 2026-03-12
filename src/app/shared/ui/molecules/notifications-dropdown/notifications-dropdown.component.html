@@ -1,0 +1,42 @@
+<div class="notifications-dropdown">
+  <button
+    type="button"
+    class="notifications-dropdown__trigger"
+    [class.notifications-dropdown__trigger--open]="open()"
+    [attr.aria-label]="t('dashboardNotificationsLabel')"
+    [attr.aria-expanded]="open()"
+    aria-haspopup="menu"
+    (click)="toggle()">
+    <lucide-icon [img]="bellIcon" class="notifications-dropdown__icon"></lucide-icon>
+    <span class="notifications-dropdown__count">{{ unreadCount() }}</span>
+  </button>
+
+  @if (open()) {
+    <div class="notifications-dropdown__menu" role="menu">
+      <p class="notifications-dropdown__title">{{ t('dashboardNotificationsTitle') }}</p>
+
+      <div class="notifications-dropdown__list-wrap">
+        <ul class="notifications-dropdown__list">
+          <li *ngFor="let item of visibleNotifications()" class="notifications-dropdown__item">
+            <p class="notifications-dropdown__item-title">{{ t(item.titleKey) }}</p>
+            <span class="notifications-dropdown__item-time">{{ t(item.timeKey) }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="notifications-dropdown__actions">
+        @if (hasMore()) {
+          <button type="button" class="notifications-dropdown__action" (click)="showMore()">
+            {{ t('dashboardNotificationsShowMore') }}
+          </button>
+        }
+
+        @if (canShowLess()) {
+          <button type="button" class="notifications-dropdown__action" (click)="showLess()">
+            {{ t('dashboardNotificationsShowLess') }}
+          </button>
+        }
+      </div>
+    </div>
+  }
+</div>

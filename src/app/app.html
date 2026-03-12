@@ -1,10 +1,39 @@
-<div class="terra-page-border" aria-hidden="true">
-  <div class="terra-page-border__top"></div>
-  <div class="terra-page-border__right"></div>
-  <div class="terra-page-border__bottom"></div>
-  <div class="terra-page-border__left"></div>
-</div>
+@if (!hidePublicChrome()) {
+  <div class="terra-page-border" aria-hidden="true">
+    <div class="terra-page-border__top"></div>
+    <div class="terra-page-border__right"></div>
+    <div class="terra-page-border__bottom"></div>
+    <div class="terra-page-border__left"></div>
+  </div>
+}
 
-<ui-navbar (authRequested)="openAuthOverlay($event)"></ui-navbar>
-<router-outlet></router-outlet>
-<ui-auth-overlay [open]="authOverlayOpen" [mode]="authOverlayMode" (closed)="closeAuthOverlay()"></ui-auth-overlay>
+@if (!hidePublicChrome()) {
+  <ui-navbar (authRequested)="openAuthOverlay($event)"></ui-navbar>
+}
+
+@if (authStatusOpen()) {
+  <section class="terra-auth-status-screen" aria-live="polite">
+    <div class="terra-auth-status-screen__shell">
+      <article class="terra-auth-status-screen__hero">
+        <div class="terra-auth-status-screen__brand" aria-label="Terra"><span>T</span>erra</div>
+        <p class="terra-auth-status-screen__eyebrow">{{ authStatusEyebrow() }}</p>
+        <h1 class="terra-auth-status-screen__title">{{ authStatusTitle() }}</h1>
+        <p class="terra-auth-status-screen__copy">{{ authStatusCopy() }}</p>
+        <div class="terra-auth-status-screen__status">
+          <span class="terra-auth-status-screen__orb" aria-hidden="true"></span>
+          <p>{{ authStatusLoading() }}</p>
+        </div>
+      </article>
+    </div>
+  </section>
+}
+@if (showRouterOutlet()) {
+  <router-outlet></router-outlet>
+}
+<app-auth-overlay-container
+  [open]="authOverlayOpen()"
+  [mode]="authOverlayMode()"
+  (closed)="closeAuthOverlay()"
+  (loginCompleted)="handleLoginCompleted()">
+</app-auth-overlay-container>
+<ui-toast-outlet></ui-toast-outlet>

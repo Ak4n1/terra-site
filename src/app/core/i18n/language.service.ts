@@ -21,10 +21,12 @@ const TRANSLATIONS: Record<AppLanguage, TranslationMap> = {
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
   private readonly document = inject(DOCUMENT);
+  private readonly window = this.document.defaultView;
   readonly language = signal<AppLanguage>(this.resolveInitialLanguage());
 
   constructor() {
     this.applyHtmlLang(this.language());
+    this.window?.addEventListener('storage', this.handleStorageChange);
   }
 
   setLanguage(language: AppLanguage): void {
@@ -33,9 +35,17 @@ export class LanguageService {
     this.applyHtmlLang(language);
   }
 
-  t(key: string): string {
+  t(key: string, params?: Record<string, string | number>): string {
     const lang = this.language();
-    return TRANSLATIONS[lang][key] ?? TRANSLATIONS[DEFAULT_LANGUAGE][key] ?? key;
+    const template = TRANSLATIONS[lang][key] ?? TRANSLATIONS[DEFAULT_LANGUAGE][key] ?? key;
+    if (!params) {
+      return template;
+    }
+
+    return Object.entries(params).reduce(
+      (message, [paramKey, value]) => message.replaceAll(`{${paramKey}}`, String(value)),
+      template
+    );
   }
 
   private resolveInitialLanguage(): AppLanguage {
@@ -67,4 +77,18 @@ export class LanguageService {
       'en';
     this.document?.documentElement?.setAttribute('lang', htmlLang);
   }
+
+  private readonly handleStorageChange = (event: StorageEvent): void => {
+    if (event.key !== STORAGE_KEY) {
+      return;
+    }
+
+    const nextLanguage = event.newValue;
+    if (nextLanguage !== 'us' && nextLanguage !== 'es' && nextLanguage !== 'pt' && nextLanguage !== 'fr' && nextLanguage !== 'de') {
+      return;
+    }
+
+    this.language.set(nextLanguage);
+    this.applyHtmlLang(nextLanguage);
+  };
 }

@@ -1,0 +1,30 @@
+<section class="auth-screen">
+  <div class="auth-screen__backdrop"></div>
+  <div class="auth-screen__shell">
+    <div class="auth-screen__panel">
+      <div class="auth-screen__brand" aria-label="Terra"><span>T</span>erra</div>
+      <p class="auth-screen__eyebrow">{{ t('authVerifyEmailPageEyebrow') }}</p>
+      <h1 class="auth-screen__title">{{ title() }}</h1>
+      <p class="auth-screen__copy">{{ copy() }}</p>
+
+      @if (loading()) {
+        <div class="auth-screen__status auth-screen__status--loading">
+          <span class="auth-screen__orb" aria-hidden="true"></span>
+          <p>{{ t('authVerifyEmailPageLoading') }}</p>
+        </div>
+      } @else {
+        <ui-alert [variant]="feedbackVariant()" [message]="feedbackMessage()"></ui-alert>
+      }
+
+      <div class="auth-screen__actions">
+        <ui-button
+          [label]="t('authVerifyEmailPagePrimaryAction')"
+          variant="main-1"
+          size="x2"
+          [disabled]="loading()"
+          (clicked)="goHome()">
+        </ui-button>
+      </div>
+    </div>
+  </div>
+</section>

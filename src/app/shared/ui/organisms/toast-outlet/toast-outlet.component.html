@@ -1,0 +1,12 @@
+@if (toasts().length > 0) {
+  <div class="ui-toast-outlet" aria-live="polite" aria-atomic="true">
+    @for (toast of toasts(); track toast.id) {
+      <ui-toast
+        [variant]="toast.variant"
+        [message]="toast.message"
+        [icon]="toast.icon"
+        (dismissed)="dismiss(toast.id)">
+      </ui-toast>
+    }
+  </div>
+}

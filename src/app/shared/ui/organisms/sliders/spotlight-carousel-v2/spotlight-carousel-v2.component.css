@@ -1,0 +1,169 @@
+@import "slick-carousel/slick/slick.css";
+
+:host {
+  display: block;
+}
+
+.mnt-80 {
+  position: relative;
+  margin-top: var(--spotlight-overlap-desktop, -38px);
+}
+
+.spotlight-carousel-v2 {
+  position: relative;
+  top: 60px;
+  z-index: 1;
+}
+
+.spotlight-carousel-v2__track {
+  position: relative;
+  cursor: url("/assets/images/app/cursors/cursor-drag.png") 16 16, grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.spotlight-carousel-v2__track:active {
+  cursor: url("/assets/images/app/cursors/cursor-drag.png") 16 16, grabbing;
+}
+
+:host ::ng-deep .spotlight-carousel-v2__track .slick-list {
+  overflow: visible;
+  padding: 0 !important;
+}
+
+:host ::ng-deep .spotlight-carousel-v2__track .slick-track {
+  display: flex;
+  align-items: center;
+  min-height: clamp(280px, 50vw, 600px);
+}
+
+:host ::ng-deep .spotlight-carousel-v2__track .slick-slide {
+  height: auto;
+  margin: 0 -76px;
+  opacity: 1;
+  transform: scale(0.78);
+  transition: transform 560ms ease, opacity 560ms ease;
+  pointer-events: none;
+}
+
+:host ::ng-deep .spotlight-carousel-v2__track .slick-slide > div {
+  display: flex;
+  justify-content: center;
+}
+
+:host ::ng-deep .spotlight-carousel-v2__track .slick-current,
+:host ::ng-deep .spotlight-carousel-v2__track .slick-center,
+:host ::ng-deep .spotlight-carousel-v2__track .slick-active {
+  pointer-events: auto;
+}
+
+:host ::ng-deep .spotlight-carousel-v2__track .slick-center {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 4;
+}
+
+:host ::ng-deep .spotlight-carousel-v2__track .slick-active:not(.slick-center) {
+  z-index: 2;
+}
+
+.spotlight-carousel-v2__slide {
+  width: min(42vw, 800px);
+}
+
+.spotlight-carousel-v2__card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: transparent;
+}
+
+.spotlight-carousel-v2__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.spotlight-carousel-v2__caption {
+  position: absolute;
+  left: var(--spotlight-caption-side, 16px);
+  right: var(--spotlight-caption-side, 16px);
+  bottom: var(--spotlight-caption-bottom, 74px);
+  text-align: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.spotlight-carousel-v2__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--spotlight-title-size, clamp(1rem, 2.55vw, 1.45rem));
+  line-height: 1.1;
+  color: var(--color-white);
+  text-transform: uppercase;
+  text-shadow: var(--spotlight-title-shadow);
+}
+
+.spotlight-carousel-v2__description {
+  margin: var(--spotlight-copy-gap, 6px) 0 0;
+  font-size: var(--spotlight-copy-size, clamp(0.66rem, 0.88vw, 0.82rem));
+  line-height: 1.32;
+  color: var(--color-white-a95);
+  text-shadow: var(--spotlight-copy-shadow);
+}
+
+@media (max-width: 1200px) {
+  .spotlight-carousel-v2 {
+    top: 0;
+  }
+
+  .mnt-80 {
+    margin-top: var(--spotlight-overlap-laptop, -86px);
+  }
+}
+
+@media (max-width: 991px) {
+
+  .mnt-80 {
+    margin-top: var(--spotlight-overlap-tablet, -76px);
+  }
+
+  .spotlight-carousel-v2__slide {
+    width: min(54vw, 620px);
+  }
+
+  :host ::ng-deep .spotlight-carousel-v2__track .slick-slide {
+    margin: 0 -54px;
+  }
+
+  .spotlight-carousel-v2__caption {
+    left: var(--spotlight-caption-side-tablet, 12px);
+    right: var(--spotlight-caption-side-tablet, 12px);
+    bottom: var(--spotlight-caption-bottom-tablet, 54px);
+  }
+}
+
+@media (max-width: 640px) {
+  .mnt-80 {
+    margin-top: var(--spotlight-overlap-mobile, -58px);
+  }
+
+  .spotlight-carousel-v2__slide {
+    width: min(64vw, 340px);
+  }
+
+  :host ::ng-deep .spotlight-carousel-v2__track .slick-slide {
+    margin: 0 -6px;
+    transform: scale(0.92);
+  }
+
+  .spotlight-carousel-v2__description {
+    display: none;
+  }
+}

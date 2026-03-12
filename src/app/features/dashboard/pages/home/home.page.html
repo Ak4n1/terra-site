@@ -1,0 +1,31 @@
+<section class="dashboard-home">
+  <div class="dashboard-home__hero">
+    <p class="dashboard-home__eyebrow">{{ t('dashboardHomeEyebrow') }}</p>
+    <h2 class="dashboard-home__title">{{ t('dashboardHomeTitle') }}</h2>
+    <p class="dashboard-home__copy">{{ t('dashboardHomeDescription') }}</p>
+
+    <div class="dashboard-home__actions">
+      <ui-button [label]="t('dashboardHomePrimaryAction')" variant="main-1" (clicked)="openGameAccounts()"></ui-button>
+      <ui-button [label]="t('dashboardHomeSecondaryAction')" variant="white" [disabled]="true"></ui-button>
+    </div>
+  </div>
+
+  <div class="dashboard-home__grid">
+    <article class="dashboard-card">
+      <span class="dashboard-card__label">{{ t('dashboardHomeCardStatusTitle') }}</span>
+      <strong class="dashboard-card__value">{{ t('dashboardHomeCardStatusValue') }}</strong>
+      <p class="dashboard-card__copy">{{ t('dashboardHomeCardStatusCopy') }}</p>
+    </article>
+
+    <article class="dashboard-card">
+      <span class="dashboard-card__label">{{ t('dashboardHomeCardAccessTitle') }}</span>
+      <strong class="dashboard-card__value">{{ accountEmail() }}</strong>
+      <p class="dashboard-card__copy">{{ t('dashboardHomeCardAccessCopy') }}</p>
+    </article>
+
+    <article class="dashboard-card">
+      <span class="dashboard-card__label">{{ t('dashboardHomeCardNextStepTitle') }}</span>
+      <p class="dashboard-card__copy">{{ t('dashboardHomeCardNextStepCopy') }}</p>
+    </article>
+  </div>
+</section>

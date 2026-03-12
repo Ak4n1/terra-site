@@ -4,14 +4,17 @@
   overflow: visible;
   --hero-header-height: var(--home-hero-header-height, 740px);
 }
-ui-spotlight-carousel {
-  z-index: 1000;
+
+ui-spotlight-carousel-v2 {
+  position: relative;
+  z-index: 3;
 }
 
 .hero-home__header {
   position: relative;
   height: var(--hero-header-height);
   overflow: hidden;
+  z-index: 1;
 }
 
 .hero-home__header-bg {
@@ -29,7 +32,7 @@ ui-spotlight-carousel {
 
 .hero-home__content {
   position: relative;
-  z-index: 3;
+  z-index: 5;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -60,6 +63,13 @@ ui-spotlight-carousel {
   line-height: 1.45;
   color: var(--home-text-strong, var(--color-white-a90));
   text-shadow: var(--home-hero-copy-shadow);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
 }
 
 @media (max-width: 991px) {

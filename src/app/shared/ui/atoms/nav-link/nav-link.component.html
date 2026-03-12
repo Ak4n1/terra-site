@@ -1,10 +1,12 @@
 <a
   [attr.href]="routerLink ? null : href"
   [routerLink]="routerLink"
+  (click)="clicked.emit($event)"
   class="nav-link"
   [class.mobile-nav-link]="mobile"
   [class.nav-link--active]="active"
   [class.nav-link--drop]="drop || showDots"
+  [class.nav-link--drop-left]="(drop || showDots) && dotPosition === 'left'"
   [class.nav-link--dropdown]="dropdown"
   [class.nav-link--effect]="!mobile && (!dropdown || splitEffect)">
   <i *ngIf="mobile && icon" [class]="icon"></i>

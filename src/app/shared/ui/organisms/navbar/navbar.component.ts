@@ -1,8 +1,12 @@
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, Output, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, Output, computed, effect, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Router, RouterLink } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { LanguageService } from '../../../../core/i18n/language.service';
 import type { AppLanguage } from '../../../../core/i18n/types';
+import { AuthFacadeService } from '../../../../features/auth/services/auth-facade.service';
+import { SessionAvatarService } from '../../../../features/auth/services/session-avatar.service';
 import { LanguageFlagTriggerComponent } from '../../atoms/language-flag-trigger/language-flag-trigger.component';
 import { MenuToggleComponent } from '../../atoms/menu-toggle/menu-toggle.component';
 import { NavLinkComponent } from '../../atoms/nav-link/nav-link.component';
@@ -35,15 +39,31 @@ type LanguageOption = {
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnDestroy {
+  private readonly document = inject(DOCUMENT);
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly router = inject(Router);
+  private readonly authFacade = inject(AuthFacadeService);
+  private readonly sessionAvatarService = inject(SessionAvatarService);
   readonly languageService = inject(LanguageService);
   @Output() readonly authRequested = new EventEmitter<'login' | 'register'>();
+
+  private readonly currentUser = toSignal(this.authFacade.currentUser$, { initialValue: null });
+  private readonly isAuthenticated = toSignal(this.authFacade.isAuthenticated$, { initialValue: false });
+  private readonly authState = toSignal(this.authFacade.authState$, { initialValue: 'checking' });
 
   private closeTimer: ReturnType<typeof setTimeout> | null = null;
   openDropdownLabel: string | null = null;
   isLanguageMenuOpen = false;
   isMobileMenuOpen = false;
+  isAccountMenuOpen = false;
   mobileActiveParent: MenuNode | null = null;
+  readonly sessionAvatar = signal<string | null>(null);
+  readonly sessionEmail = computed(() => this.currentUser()?.email ?? '');
+  readonly loggedIn = computed(() => this.isAuthenticated());
+  readonly authPending = computed(() => {
+    const state = this.authState();
+    return state === 'checking' || state === 'rate-limited';
+  });
 
   readonly navItems: MenuNode[] = [
     { labelKey: 'navHome', href: '/' },
@@ -155,6 +175,19 @@ export class NavbarComponent implements OnDestroy {
     { code: 'de', label: 'languageGerman', flag: 'assets/flags/germany.webp' }
   ];
 
+  constructor() {
+    effect(() => {
+      const email = this.sessionEmail();
+      if (!email) {
+        this.sessionAvatar.set(this.sessionAvatarService.resolve(null));
+        this.isAccountMenuOpen = false;
+        return;
+      }
+
+      this.sessionAvatar.set(this.sessionAvatarService.resolve(email));
+    });
+  }
+
   get currentLanguage(): AppLanguage {
     return this.languageService.language();
   }
@@ -173,6 +206,9 @@ export class NavbarComponent implements OnDestroy {
 
   toggleLanguageMenu(): void {
     this.isLanguageMenuOpen = !this.isLanguageMenuOpen;
+    if (this.isLanguageMenuOpen) {
+      this.isAccountMenuOpen = false;
+    }
   }
 
   selectLanguage(code: AppLanguage): void {
@@ -182,6 +218,7 @@ export class NavbarComponent implements OnDestroy {
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    this.syncBodyScroll();
     if (!this.isMobileMenuOpen) {
       this.mobileActiveParent = null;
     }
@@ -190,6 +227,7 @@ export class NavbarComponent implements OnDestroy {
   closeMobileMenu(): void {
     this.isMobileMenuOpen = false;
     this.mobileActiveParent = null;
+    this.syncBodyScroll();
   }
 
   openMobileSubmenu(item: MenuNode): void {
@@ -249,25 +287,75 @@ export class NavbarComponent implements OnDestroy {
     this.closeMobileMenu();
   }
 
+  toggleAccountMenu(event?: Event): void {
+    event?.preventDefault();
+    event?.stopPropagation();
+    this.isAccountMenuOpen = !this.isAccountMenuOpen;
+    if (this.isAccountMenuOpen) {
+      this.isLanguageMenuOpen = false;
+    }
+  }
+
+  async goToPanel(event?: Event): Promise<void> {
+    event?.preventDefault();
+    this.isAccountMenuOpen = false;
+    this.closeMobileMenu();
+    await this.router.navigateByUrl('/dashboard');
+  }
+
+  async goToConfiguration(event?: Event): Promise<void> {
+    event?.preventDefault();
+    this.isAccountMenuOpen = false;
+    this.closeMobileMenu();
+    await this.router.navigateByUrl('/dashboard/configuration');
+  }
+
+  async logout(event?: Event): Promise<void> {
+    event?.preventDefault();
+    this.isAccountMenuOpen = false;
+    this.closeMobileMenu();
+
+    try {
+      await firstValueFrom(this.authFacade.logout());
+    } finally {
+      await this.router.navigateByUrl('/');
+    }
+  }
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.isLanguageMenuOpen) {
-      return;
-    }
-
     const target = event.target as Node | null;
     if (target && !this.host.nativeElement.contains(target)) {
       this.isLanguageMenuOpen = false;
+      this.isAccountMenuOpen = false;
     }
   }
 
   @HostListener('document:keydown.escape')
   onEscapeKey(): void {
     this.isLanguageMenuOpen = false;
+    this.isAccountMenuOpen = false;
     this.closeMobileMenu();
   }
 
   ngOnDestroy(): void {
     this.cancelCloseTimer();
+    this.resetBodyScroll();
+  }
+
+  private syncBodyScroll(): void {
+    const body = this.document?.body;
+    if (!body) {
+      return;
+    }
+
+    body.style.overflow = this.isMobileMenuOpen ? 'hidden' : '';
+  }
+
+  private resetBodyScroll(): void {
+    const body = this.document?.body;
+    if (body) {
+      body.style.overflow = '';
+    }
   }
 }

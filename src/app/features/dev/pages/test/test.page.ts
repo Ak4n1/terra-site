@@ -1,10 +1,12 @@
 import { Component, HostListener, inject } from '@angular/core';
+import { Bell } from 'lucide-angular';
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { ButtonComponent } from '../../../../shared/ui/atoms/button/button.component';
 import { ProgressBarComponent } from '../../../../shared/ui/atoms/progress-bar/progress-bar.component';
 import { AccordionComponent, type AccordionItem } from '../../../../shared/ui/organisms/accordion/accordion.component';
 import { AuthOverlayComponent } from '../../../../shared/ui/organisms/auth-overlay/auth-overlay.component';
 import { ModalComponent } from '../../../../shared/ui/organisms/modal/modal.component';
+import { ToastService } from '../../../../shared/ui/services/toast.service';
 
 @Component({
   selector: 'app-test-page',
@@ -15,6 +17,8 @@ import { ModalComponent } from '../../../../shared/ui/organisms/modal/modal.comp
 })
 export class TestPage {
   readonly languageService = inject(LanguageService);
+  private readonly toastService = inject(ToastService);
+  readonly toastBellIcon = Bell;
   activeModal: 'default' | 'large' | 'small' | null = null;
   sidePanelOpen = false;
   authPanelOpen = false;
@@ -81,6 +85,13 @@ export class TestPage {
 
   setAuthCartStyleMode(mode: 'login' | 'register'): void {
     this.authCartStyleMode = mode;
+  }
+
+  showToast(): void {
+    this.toastService.warning('This is a toast preview using the same visual language as alerts.', {
+      icon: this.toastBellIcon,
+      durationMs: 3200
+    });
   }
 
   t(key: string): string {
