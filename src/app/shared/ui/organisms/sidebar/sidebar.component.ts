@@ -37,25 +37,40 @@ export class SidebarComponent {
   readonly currentUser = toSignal(this.authFacade.currentUser$, { initialValue: null });
   readonly sessionAvatar = computed(() => this.sessionAvatarService.resolve(this.currentUser()?.email));
 
-  readonly sections: SidebarSection[] = [
-    {
-      titleKey: 'dashboardSidebarSectionAccount',
-      items: [
-        { labelKey: 'dashboardSidebarOverview', route: '/dashboard' },
-        { labelKey: 'dashboardSidebarMyCharacters', route: '/dashboard/my-characters' },
-        { labelKey: 'dashboardSidebarCreateAccount', route: '/dashboard/game-accounts' },
-        { labelKey: 'dashboardSidebarChangePassword', route: '/dashboard/change-password' }
-      ]
-    },
-    {
-      titleKey: 'dashboardSidebarSectionMarket',
-      items: [
-        { labelKey: 'dashboardSidebarOfflineMarket', route: '/dashboard/offline-market' },
-        { labelKey: 'dashboardSidebarBuyTerraCoin', route: '/dashboard/buy-terra-coin' },
-        { labelKey: 'dashboardSidebarSendTerraCoin', route: '/dashboard/send-terra-coin' }
-      ]
+  readonly sections = computed<SidebarSection[]>(() => {
+    const roles = this.currentUser()?.roles ?? [];
+    const isAdmin = roles.includes('ADMIN') || roles.includes('SUPER_ADMIN');
+    const sections: SidebarSection[] = [
+      {
+        titleKey: 'dashboardSidebarSectionAccount',
+        items: [
+          { labelKey: 'dashboardSidebarOverview', route: '/dashboard' },
+          { labelKey: 'dashboardSidebarMyCharacters', route: '/dashboard/my-characters' },
+          { labelKey: 'dashboardSidebarCreateAccount', route: '/dashboard/game-accounts' },
+          { labelKey: 'dashboardSidebarChangePassword', route: '/dashboard/change-password' }
+        ]
+      },
+      {
+        titleKey: 'dashboardSidebarSectionMarket',
+        items: [
+          { labelKey: 'dashboardSidebarOfflineMarket', route: '/dashboard/offline-market' },
+          { labelKey: 'dashboardSidebarBuyTerraCoin', route: '/dashboard/buy-terra-coin' },
+          { labelKey: 'dashboardSidebarSendTerraCoin', route: '/dashboard/send-terra-coin' }
+        ]
+      }
+    ];
+
+    if (isAdmin) {
+      sections.push({
+        titleKey: 'dashboardSidebarSectionAdmin',
+        items: [
+          { labelKey: 'dashboardSidebarAdminNotifications', route: '/dashboard/admin-notifications' }
+        ]
+      });
     }
-  ];
+
+    return sections;
+  });
 
   readonly footerItem: SidebarItem = {
     labelKey: 'dashboardSidebarConfiguration',

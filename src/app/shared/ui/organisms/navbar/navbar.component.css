@@ -166,6 +166,13 @@
   position: relative;
 }
 
+.terra-header__mobile-notifications {
+  display: none;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 10px;
+}
+
 .terra-language__menu,
 .terra-account-menu__dropdown {
   position: absolute;
@@ -319,6 +326,14 @@
   right: var(--header-auth-offset-right, 20px);
   top: 50%;
   transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.terra-account-menu__notifications {
+  display: inline-flex;
+  align-items: center;
 }
 
 .terra-account-menu__trigger {
@@ -722,8 +737,14 @@ ui-menu-toggle {
     transform: none;
   }
 
+  .terra-header__mobile-notifications {
+    display: inline-flex;
+    margin-left: 0;
+  }
+
   ui-menu-toggle {
     display: inline-flex;
+    margin-left: 0;
     margin-right: 6px;
   }
 

@@ -49,6 +49,12 @@
     <div class="terra-header__container terra-header__container--main">
       <a [routerLink]="'/'" class="terra-logo terra-logo--main">Terra</a>
 
+      <ng-container *ngIf="!authPending() && loggedIn() && sessionAvatar()">
+        <div class="terra-header__mobile-notifications">
+          <ui-notifications-dropdown></ui-notifications-dropdown>
+        </div>
+      </ng-container>
+
       <ui-menu-toggle [open]="isMobileMenuOpen" [ariaLabel]="t('uiToggleMenu')" (toggle)="toggleMobileMenu()">
       </ui-menu-toggle>
 
@@ -92,6 +98,10 @@
 
       <ng-template #sessionMenuDesktop>
         <div class="terra-account-menu">
+          <div class="terra-account-menu__notifications" *ngIf="sessionAvatar()">
+            <ui-notifications-dropdown></ui-notifications-dropdown>
+          </div>
+
           <button
             type="button"
             class="terra-account-menu__trigger"

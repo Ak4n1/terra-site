@@ -1,0 +1,11 @@
+<label class="ui-select-field">
+  <ui-field-label [text]="label"></ui-field-label>
+  <ui-select-control
+    [value]="value"
+    [placeholder]="placeholder"
+    [ariaLabel]="ariaLabel"
+    [disabled]="disabled"
+    [options]="options"
+    (valueChange)="onValueChange($event)">
+  </ui-select-control>
+</label>

@@ -7,7 +7,7 @@
   </div>
 
   <div class="dashboard-sidebar__content">
-    <section *ngFor="let section of sections" class="dashboard-sidebar__section">
+    <section *ngFor="let section of sections()" class="dashboard-sidebar__section">
       <p class="dashboard-sidebar__section-title">{{ t(section.titleKey) }}</p>
 
       <nav class="dashboard-sidebar__nav">

@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, computed, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { Bell, LucideAngularModule } from 'lucide-angular';
 import { LanguageService } from '../../../../core/i18n/language.service';
-
-type NotificationItem = {
-  titleKey: string;
-  timeKey: string;
-};
+import type { NotificationItem } from '../../../../core/notifications/notification.models';
+import { NotificationsStore } from '../../../../core/notifications/notifications.store';
+import { RealtimeStoreService } from '../../../../core/realtime/realtime-store.service';
 
 @Component({
   selector: 'ui-notifications-dropdown',
@@ -16,49 +15,87 @@ type NotificationItem = {
   styleUrl: './notifications-dropdown.component.css'
 })
 export class NotificationsDropdownComponent {
-  private static readonly STEP = 3;
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly router = inject(Router);
   private readonly languageService = inject(LanguageService);
+  private readonly notificationsStore = inject(NotificationsStore);
+  private readonly realtimeStore = inject(RealtimeStoreService);
 
   readonly bellIcon = Bell;
   readonly open = signal(false);
-  readonly visibleCount = signal(NotificationsDropdownComponent.STEP);
-  readonly notifications: NotificationItem[] = [
-    { titleKey: 'dashboardNotificationMaintenance', timeKey: 'dashboardNotificationMaintenanceTime' },
-    { titleKey: 'dashboardNotificationCoin', timeKey: 'dashboardNotificationCoinTime' },
-    { titleKey: 'dashboardNotificationSecurity', timeKey: 'dashboardNotificationSecurityTime' },
-    { titleKey: 'dashboardNotificationSupport', timeKey: 'dashboardNotificationSupportTime' },
-    { titleKey: 'dashboardNotificationVote', timeKey: 'dashboardNotificationVoteTime' },
-    { titleKey: 'dashboardNotificationEvent', timeKey: 'dashboardNotificationEventTime' },
-    { titleKey: 'dashboardNotificationClan', timeKey: 'dashboardNotificationClanTime' },
-    { titleKey: 'dashboardNotificationShield', timeKey: 'dashboardNotificationShieldTime' },
-    { titleKey: 'dashboardNotificationStore', timeKey: 'dashboardNotificationStoreTime' }
-  ];
-  readonly unreadCount = computed(() => this.notifications.length);
-  readonly visibleNotifications = computed(() => this.notifications.slice(0, this.visibleCount()));
-  readonly hasMore = computed(() => this.visibleCount() < this.notifications.length);
-  readonly canShowLess = computed(() => this.visibleCount() > NotificationsDropdownComponent.STEP);
+  readonly currentLanguage = this.languageService.language;
+  readonly connectionState = this.realtimeStore.connectionState;
+  readonly loading = this.notificationsStore.loading;
+  readonly loadingMore = this.notificationsStore.loadingMore;
+  readonly notifications = this.notificationsStore.notifications;
+  readonly unreadCount = this.notificationsStore.unreadCount;
+  readonly hasMore = this.notificationsStore.hasMore;
+  readonly isEmpty = computed(() => this.notifications().length === 0);
+  readonly hasUnread = computed(() => this.notifications().some(item => item.status === 'UNREAD'));
 
-  t(key: string): string {
-    return this.languageService.t(key);
+  t(key: string, params?: Record<string, string | number>): string {
+    return this.languageService.t(key, params);
+  }
+
+  emptyStateKey(): string {
+    switch (this.connectionState()) {
+      case 'connecting':
+        return 'dashboardNotificationsConnecting';
+      case 'error':
+      case 'disconnected':
+        return 'dashboardNotificationsUnavailable';
+      default:
+        return 'dashboardNotificationsEmpty';
+    }
   }
 
   toggle(): void {
-    this.open.update(value => {
-      const next = !value;
-      if (next) {
-        this.visibleCount.set(NotificationsDropdownComponent.STEP);
-      }
-      return next;
-    });
+    this.open.update(value => !value);
   }
 
   showMore(): void {
-    this.visibleCount.update(value => Math.min(value + NotificationsDropdownComponent.STEP, this.notifications.length));
+    this.notificationsStore.loadMore();
   }
 
-  showLess(): void {
-    this.visibleCount.set(NotificationsDropdownComponent.STEP);
+  formatOccurredAt(value: string): string {
+    const language = this.currentLanguage();
+    const locale =
+      language === 'es' ? 'es-AR' :
+      language === 'pt' ? 'pt-BR' :
+      language === 'fr' ? 'fr-FR' :
+      language === 'de' ? 'de-DE' :
+      'en-US';
+
+    try {
+      return new Intl.DateTimeFormat(locale, {
+        dateStyle: 'short',
+        timeStyle: 'short'
+      }).format(new Date(value));
+    } catch {
+      return value;
+    }
+  }
+
+  markAsRead(item: NotificationItem): void {
+    if (item.status === 'READ') {
+      return;
+    }
+    this.notificationsStore.markRead(item.id);
+  }
+
+  markAllAsRead(): void {
+    this.notificationsStore.markAllRead();
+  }
+
+  async openAction(item: NotificationItem): Promise<void> {
+    const route = item.action?.type === 'route' ? item.action.payload['route'] : null;
+    if (typeof route !== 'string' || !route.startsWith('/dashboard')) {
+      return;
+    }
+
+    this.markAsRead(item);
+    this.open.set(false);
+    await this.router.navigateByUrl(route);
   }
 
   @HostListener('document:click', ['$event'])

@@ -1,0 +1,16 @@
+<span class="ui-select-control__wrap">
+  <select
+    class="ui-select-control"
+    [value]="value"
+    [disabled]="disabled"
+    [attr.aria-label]="ariaLabel || null"
+    (change)="onValueChange($event)">
+    @if (placeholder) {
+      <option value="" disabled>{{ placeholder }}</option>
+    }
+
+    @for (option of options; track option.value) {
+      <option [value]="option.value">{{ option.label }}</option>
+    }
+  </select>
+</span>

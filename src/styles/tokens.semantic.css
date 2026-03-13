@@ -31,6 +31,17 @@
   --c-caret: var(--color-white-a80);
   --shadow-dropdown: 0 5px 15px 0 var(--color-shadow-strong);
   --shadow-mobile-menu: 0 0 15px 5px var(--color-shadow-strong);
+  --dashboard-panel-border: var(--c-border-weak);
+  --dashboard-panel-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(12, 12, 12, 0.82);
+  --dashboard-panel-padding: 32px;
+  --dashboard-panel-padding-mobile: 24px;
+  --dashboard-eyebrow-letter-spacing: 0.24em;
+  --dashboard-tab-border-active: var(--c-link-hover);
+  --dashboard-tab-border-inactive: transparent;
+  --dashboard-tab-bg-active: color-mix(in srgb, var(--c-surface-dropdown) 82%, transparent);
+  --dashboard-tab-bg-hover: color-mix(in srgb, var(--c-surface-dropdown) 68%, transparent);
 
   /*
    * Redes / iconos sociales
@@ -285,4 +296,3 @@
   --page-border-size: 100px;
   --page-border-size-mobile: 50px;
 }
-

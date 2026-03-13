@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, combineLatest, distinctUntilChanged, filter, finalize, map, of, shareReplay, switchMap, take, tap, timer } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, combineLatest, defer, distinctUntilChanged, filter, finalize, map, of, shareReplay, switchMap, take, tap, throwError, timer } from 'rxjs';
 import type { ApiResponse, ApiValidationErrorResponse } from '../models/api-response.model';
 import type {
   ForgotPasswordRequest,
@@ -13,6 +13,8 @@ import type {
 } from '../models/auth-requests.model';
 import type { AuthSession } from '../models/auth-session.model';
 import { AuthService } from './auth.service';
+import { LanguageService } from '../../../core/i18n/language.service';
+import type { AppLanguage } from '../../../core/i18n/types';
 
 type AuthSyncEvent = 'login' | 'logout' | 'logout-all' | 'session-refresh';
 export type AuthState = 'checking' | 'authenticated' | 'unauthenticated' | 'rate-limited';
@@ -23,10 +25,12 @@ export class AuthFacadeService {
   private static readonly SESSION_RATE_LIMIT_KEY = 'terra.auth.session-rate-limit-until';
 
   private readonly authService = inject(AuthService);
+  private readonly languageService = inject(LanguageService);
   private readonly document = inject(DOCUMENT);
   private readonly sessionSubject = new BehaviorSubject<AuthSession | null>(null);
   private readonly bootstrappingSubject = new BehaviorSubject(false);
   private readonly authResolvedSubject = new BehaviorSubject(false);
+  private readonly logoutInProgressSubject = new BehaviorSubject(false);
   private readonly sessionRateLimitUntilSubject = new BehaviorSubject<number | null>(this.readPersistedSessionRateLimitUntil());
   private readonly syncChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('terra-auth') : null;
   private recoveryTimerId: number | null = null;
@@ -93,6 +97,10 @@ export class AuthFacadeService {
 
   get sessionSnapshot(): AuthSession | null {
     return this.sessionSubject.value;
+  }
+
+  get isLogoutInProgressSnapshot(): boolean {
+    return this.logoutInProgressSubject.value;
   }
 
   bootstrapSession(): Observable<AuthSession | null> {
@@ -182,21 +190,61 @@ export class AuthFacadeService {
   }
 
   logout(): Observable<ApiResponse<null>> {
-    return this.authService.logout().pipe(
-      tap(() => {
-        this.clearSessionRateLimit();
-        this.clearSession();
-        this.publishSyncEvent('logout');
-      })
-    );
+    return defer(() => {
+      this.logoutInProgressSubject.next(true);
+
+      return this.authService.logout().pipe(
+        tap(() => {
+          this.clearSessionRateLimit();
+          this.clearSession();
+          this.publishSyncEvent('logout');
+        }),
+        catchError(error => {
+          this.clearSessionRateLimit();
+          this.clearSession();
+          this.publishSyncEvent('logout');
+          return throwError(() => error);
+        }),
+        finalize(() => {
+          this.logoutInProgressSubject.next(false);
+        })
+      );
+    });
   }
 
   logoutAll(): Observable<ApiResponse<null>> {
-    return this.authService.logoutAll().pipe(
-      tap(() => {
-        this.clearSessionRateLimit();
-        this.clearSession();
-        this.publishSyncEvent('logout-all');
+    return defer(() => {
+      this.logoutInProgressSubject.next(true);
+
+      return this.authService.logoutAll().pipe(
+        tap(() => {
+          this.clearSessionRateLimit();
+          this.clearSession();
+          this.publishSyncEvent('logout-all');
+        }),
+        catchError(error => {
+          this.clearSessionRateLimit();
+          this.clearSession();
+          this.publishSyncEvent('logout-all');
+          return throwError(() => error);
+        }),
+        finalize(() => {
+          this.logoutInProgressSubject.next(false);
+        })
+      );
+    });
+  }
+
+  updatePreferredLanguage(language: AppLanguage): Observable<AuthSession | null> {
+    if (!this.sessionSubject.value) {
+      this.languageService.setLanguage(language);
+      return of(null);
+    }
+
+    return this.authService.updatePreferredLanguage(language).pipe(
+      tap(session => {
+        this.languageService.setLanguage(session.user.preferredLanguage);
+        this.setSession(session);
       })
     );
   }
@@ -451,6 +499,9 @@ export class AuthFacadeService {
   }
 
   private setSession(session: AuthSession): void {
+    if (session.user.preferredLanguage !== this.languageService.language()) {
+      this.languageService.setLanguage(session.user.preferredLanguage);
+    }
     this.sessionSubject.next(session);
   }
 

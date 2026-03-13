@@ -4,6 +4,8 @@ import { CheckCircle2 } from 'lucide-angular';
 import { firstValueFrom } from 'rxjs';
 import { LanguageService } from './core/i18n/language.service';
 import { AuthStatusScreenService } from './core/auth/services/auth-status-screen.service';
+import { NotificationsStore } from './core/notifications/notifications.store';
+import { RealtimeService } from './core/realtime/realtime.service';
 import { AuthFacadeService } from './features/auth/services/auth-facade.service';
 import type { AuthOverlayMode } from './shared/ui/organisms/auth-overlay/auth-overlay.component';
 import { AuthOverlayContainerComponent } from './features/auth/containers/auth-overlay-container.component';
@@ -22,6 +24,8 @@ export class App {
   private readonly authFacade = inject(AuthFacadeService);
   private readonly authStatusScreenService = inject(AuthStatusScreenService);
   private readonly languageService = inject(LanguageService);
+  private readonly realtimeService = inject(RealtimeService);
+  private readonly notificationsStore = inject(NotificationsStore);
   private readonly toastService = inject(ToastService);
 
   readonly authOverlayOpen = signal(false);
@@ -35,6 +39,8 @@ export class App {
   readonly hidePublicChrome = this.authStatusScreenService.hidePublicChrome;
 
   constructor() {
+    void this.realtimeService;
+    void this.notificationsStore;
     void firstValueFrom(this.authFacade.bootstrapSession());
   }
 

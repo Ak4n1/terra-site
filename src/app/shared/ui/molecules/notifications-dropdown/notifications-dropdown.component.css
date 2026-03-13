@@ -59,6 +59,13 @@
   z-index: 20;
 }
 
+.notifications-dropdown__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 @media (max-width: 1024px) {
   .notifications-dropdown {
     position: static;
@@ -75,7 +82,7 @@
 }
 
 .notifications-dropdown__title {
-  margin: 0 0 14px;
+  margin: 0;
   color: var(--c-text-on-dark);
   font-family: var(--font-ui);
   font-size: 0.76rem;
@@ -89,6 +96,24 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.notifications-dropdown__empty {
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+  padding: 20px 12px;
+  border: 1px dashed var(--c-border-subtle);
+  background: color-mix(in srgb, var(--c-surface-topbar) 68%, transparent);
+}
+
+.notifications-dropdown__empty-title {
+  margin: 0;
+  color: var(--c-text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.94rem;
+  line-height: 1.5;
+  text-align: center;
 }
 
 .notifications-dropdown__list-wrap {
@@ -115,7 +140,7 @@
 
 .notifications-dropdown__item {
   display: grid;
-  gap: 4px;
+  gap: 8px;
   padding: 12px 0;
   border-top: 1px solid var(--c-border-subtle);
 }
@@ -123,6 +148,11 @@
 .notifications-dropdown__item:first-child {
   padding-top: 0;
   border-top: 0;
+}
+
+.notifications-dropdown__item-main {
+  display: grid;
+  gap: 4px;
 }
 
 .notifications-dropdown__item-title {
@@ -139,6 +169,54 @@
   font-size: 0.74rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.notifications-dropdown__read-all {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--c-link-hover);
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.notifications-dropdown__read-all:hover {
+  color: var(--c-text-on-dark);
+}
+
+.notifications-dropdown__item-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.notifications-dropdown__item-copy {
+  margin: 0;
+  color: var(--c-text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.notifications-dropdown__item-action {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--c-link-hover);
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.notifications-dropdown__item-action:hover {
+  color: var(--c-text-on-dark);
 }
 
 .notifications-dropdown__actions {

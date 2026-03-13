@@ -8,32 +8,58 @@
     aria-haspopup="menu"
     (click)="toggle()">
     <lucide-icon [img]="bellIcon" class="notifications-dropdown__icon"></lucide-icon>
-    <span class="notifications-dropdown__count">{{ unreadCount() }}</span>
+    @if (unreadCount() > 0) {
+      <span class="notifications-dropdown__count">{{ unreadCount() }}</span>
+    }
   </button>
 
   @if (open()) {
     <div class="notifications-dropdown__menu" role="menu">
-      <p class="notifications-dropdown__title">{{ t('dashboardNotificationsTitle') }}</p>
+      <div class="notifications-dropdown__header">
+        <p class="notifications-dropdown__title">{{ t('dashboardNotificationsTitle') }}</p>
+        @if (hasUnread()) {
+          <button type="button" class="notifications-dropdown__read-all" (click)="markAllAsRead()">
+            {{ t('dashboardNotificationsReadAll') }}
+          </button>
+        }
+      </div>
 
       <div class="notifications-dropdown__list-wrap">
-        <ul class="notifications-dropdown__list">
-          <li *ngFor="let item of visibleNotifications()" class="notifications-dropdown__item">
-            <p class="notifications-dropdown__item-title">{{ t(item.titleKey) }}</p>
-            <span class="notifications-dropdown__item-time">{{ t(item.timeKey) }}</span>
-          </li>
-        </ul>
+        @if (isEmpty()) {
+          <div class="notifications-dropdown__empty">
+            <p class="notifications-dropdown__empty-title">{{ t(emptyStateKey()) }}</p>
+          </div>
+        } @else {
+          <ul class="notifications-dropdown__list">
+            <li *ngFor="let item of notifications()" class="notifications-dropdown__item">
+              <div class="notifications-dropdown__item-main">
+                <p class="notifications-dropdown__item-title">{{ t(item.titleKey, item.params) }}</p>
+                @if (item.bodyKey) {
+                  <p class="notifications-dropdown__item-copy">{{ t(item.bodyKey, item.params) }}</p>
+                }
+              </div>
+              <div class="notifications-dropdown__item-meta">
+                <span class="notifications-dropdown__item-time">{{ formatOccurredAt(item.occurredAt) }}</span>
+                @if (item.status === 'UNREAD') {
+                  <button type="button" class="notifications-dropdown__item-action" (click)="markAsRead(item)">
+                    {{ t('notifications.actions.markAsRead') }}
+                  </button>
+                }
+                @if (item.action) {
+                  <button type="button" class="notifications-dropdown__item-action" (click)="openAction(item)">
+                    {{ t(item.action.labelKey) }}
+                  </button>
+                }
+              </div>
+            </li>
+          </ul>
+        }
       </div>
 
       <div class="notifications-dropdown__actions">
         @if (hasMore()) {
           <button type="button" class="notifications-dropdown__action" (click)="showMore()">
-            {{ t('dashboardNotificationsShowMore') }}
-          </button>
-        }
-
-        @if (canShowLess()) {
-          <button type="button" class="notifications-dropdown__action" (click)="showLess()">
-            {{ t('dashboardNotificationsShowLess') }}
+            {{ loadingMore() ? t('dashboardNotificationsLoadingMore') : t('dashboardNotificationsShowMore') }}
           </button>
         }
       </div>

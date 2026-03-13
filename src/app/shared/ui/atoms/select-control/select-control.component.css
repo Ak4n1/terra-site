@@ -1,0 +1,40 @@
+.ui-select-control__wrap {
+  position: relative;
+  display: block;
+}
+
+.ui-select-control__wrap::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid rgba(255, 255, 255, 0.72);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.72);
+  transform: translateY(-65%) rotate(45deg);
+  pointer-events: none;
+}
+
+.ui-select-control {
+  width: 100%;
+  appearance: none;
+  border: 1px solid var(--c-border-control);
+  padding: 14px 52px 14px 16px;
+  background: var(--color-shadow-mid);
+  color: var(--c-text-on-dark);
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.ui-select-control:focus {
+  border-color: var(--c-link-hover);
+  background: color-mix(in srgb, var(--color-black) 40%, transparent);
+}
+
+.ui-select-control:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}

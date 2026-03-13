@@ -7,6 +7,7 @@ import { LanguageService } from '../../../../core/i18n/language.service';
 import type { AppLanguage } from '../../../../core/i18n/types';
 import { AuthFacadeService } from '../../../../features/auth/services/auth-facade.service';
 import { SessionAvatarService } from '../../../../features/auth/services/session-avatar.service';
+import { NotificationsDropdownComponent } from '../../molecules/notifications-dropdown/notifications-dropdown.component';
 import { LanguageFlagTriggerComponent } from '../../atoms/language-flag-trigger/language-flag-trigger.component';
 import { MenuToggleComponent } from '../../atoms/menu-toggle/menu-toggle.component';
 import { NavLinkComponent } from '../../atoms/nav-link/nav-link.component';
@@ -34,7 +35,15 @@ type LanguageOption = {
 @Component({
   selector: 'ui-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavLinkComponent, SocialIconComponent, LanguageFlagTriggerComponent, MenuToggleComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    NavLinkComponent,
+    SocialIconComponent,
+    LanguageFlagTriggerComponent,
+    MenuToggleComponent,
+    NotificationsDropdownComponent
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })

@@ -3,6 +3,7 @@ import { authChildGuard, authGuard } from '../auth/guards/auth.guard';
 import { DashboardShellComponent } from './layout/dashboard-shell/dashboard-shell.component';
 import { DashboardBuyTerraCoinPage } from './pages/buy-terra-coin/buy-terra-coin.page';
 import { DashboardChangePasswordPage } from './pages/change-password/change-password.page';
+import { DashboardAdminNotificationsPage } from './pages/admin-notifications/admin-notifications.page';
 import { DashboardConfigurationPage } from './pages/configuration/configuration.page';
 import { GameAccountsPage } from './pages/game-accounts/game-accounts.page';
 import { DashboardHomePage } from './pages/home/home.page';
@@ -50,6 +51,10 @@ export const DASHBOARD_ROUTES: Routes = [
       {
         path: 'configuration',
         component: DashboardConfigurationPage
+      },
+      {
+        path: 'admin-notifications',
+        component: DashboardAdminNotificationsPage
       }
     ]
   }

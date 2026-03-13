@@ -9,6 +9,7 @@ import { LanguageFlagTriggerComponent } from '../../atoms/language-flag-trigger/
 import { MenuToggleComponent } from '../../atoms/menu-toggle/menu-toggle.component';
 import { NavLinkComponent } from '../../atoms/nav-link/nav-link.component';
 import { NotificationsDropdownComponent } from '../../molecules/notifications-dropdown/notifications-dropdown.component';
+import { AuthFacadeService } from '../../../../features/auth/services/auth-facade.service';
 
 type LanguageOption = {
   code: AppLanguage;
@@ -30,6 +31,7 @@ export class DashboardTopbarComponent {
   private readonly host = inject(ElementRef<HTMLElement>);
   private readonly router = inject(Router);
   readonly languageService = inject(LanguageService);
+  private readonly authFacade = inject(AuthFacadeService);
   readonly globeIcon = Globe;
 
   isLanguageMenuOpen = false;
@@ -71,7 +73,7 @@ export class DashboardTopbarComponent {
   }
 
   selectLanguage(code: AppLanguage): void {
-    this.languageService.setLanguage(code);
+    this.authFacade.updatePreferredLanguage(code).subscribe();
     this.isLanguageMenuOpen = false;
   }
 

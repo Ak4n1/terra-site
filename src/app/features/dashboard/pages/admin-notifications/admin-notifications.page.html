@@ -1,0 +1,308 @@
+<section class="admin-notifications-page">
+  <article class="admin-notifications-page__hero">
+    <div class="admin-notifications-page__hero-copy">
+      <p class="admin-notifications-page__eyebrow">{{ t('dashboardAdminNotificationsEyebrow') }}</p>
+      <h1 class="admin-notifications-page__title">{{ t('dashboardAdminNotificationsTitle') }}</h1>
+      <p class="admin-notifications-page__copy">{{ t('dashboardAdminNotificationsCopy') }}</p>
+    </div>
+
+    <div class="admin-notifications-page__hero-meta">
+      <span class="admin-notifications-page__pill">{{ currentUser()?.email ?? '-' }}</span>
+      <span class="admin-notifications-page__pill">{{ isSuperAdmin() ? 'SUPER_ADMIN' : 'ADMIN' }}</span>
+    </div>
+  </article>
+
+  @if (!isAdmin()) {
+    <section class="admin-notifications-page__card">
+      <p class="admin-notifications-page__empty">{{ t('dashboardAdminNotificationsUnauthorized') }}</p>
+    </section>
+  } @else if (templatesLoading()) {
+    <section class="admin-notifications-page__card">
+      <p class="admin-notifications-page__empty">{{ t('dashboardAdminNotificationsLoading') }}</p>
+    </section>
+  } @else {
+    <section class="admin-notifications-page__nav-card admin-notifications-page__nav-card--compact">
+      <button
+        type="button"
+        class="admin-notifications-page__tab"
+        [class.admin-notifications-page__tab--active]="activeTab() === 'send'"
+        [disabled]="!canSendNotifications()"
+        (click)="selectTab('send')">
+        <span>{{ t('dashboardAdminNotificationsSendTab') }}</span>
+        <small>{{ t('dashboardAdminNotificationsSendTabCopy') }}</small>
+      </button>
+
+      <button
+        type="button"
+        class="admin-notifications-page__tab"
+        [class.admin-notifications-page__tab--active]="activeTab() === 'audit'"
+        [disabled]="!canViewAudit()"
+        (click)="selectTab('audit')">
+        <span>{{ t('dashboardAdminNotificationsAuditTab') }}</span>
+        <small>{{ t('dashboardAdminNotificationsAuditTabCopy') }}</small>
+      </button>
+    </section>
+
+    @if (feedbackKey()) {
+      <section class="admin-notifications-page__feedback-card">
+        <ui-alert [variant]="feedbackVariant()" [message]="t(feedbackKey()!, feedbackParams())"></ui-alert>
+      </section>
+    }
+
+    @if (activeTab() === 'send') {
+      <section class="admin-notifications-page__layout">
+        <article class="admin-notifications-page__card">
+          <header class="admin-notifications-page__section-header">
+            <div>
+              <p class="admin-notifications-page__section-eyebrow">{{ t('dashboardAdminNotificationsSendEyebrow') }}</p>
+              <h2 class="admin-notifications-page__section-title">{{ t('dashboardAdminNotificationsSendTitle') }}</h2>
+            </div>
+          </header>
+
+          <p class="admin-notifications-page__section-copy">{{ t('dashboardAdminNotificationsSendCopy') }}</p>
+
+          <div class="admin-notifications-page__form-grid">
+            <ui-select-field
+              [label]="t('dashboardAdminNotificationsModeLabel')"
+              [value]="sendMode()"
+              [options]="sendModeOptions()"
+              (valueChange)="selectSendMode($event)">
+            </ui-select-field>
+          </div>
+
+          @if (sendMode() === 'single') {
+            <div class="admin-notifications-page__form-grid">
+              <ui-input-field
+                [label]="t('dashboardAdminNotificationsEmail')"
+                [type]="'email'"
+                [placeholder]="t('dashboardAdminNotificationsEmailPlaceholder')"
+                [value]="singleEmail"
+                (valueChange)="singleEmail = $event">
+              </ui-input-field>
+
+              <ui-select-field
+                [label]="t('dashboardAdminNotificationsTemplate')"
+                [value]="singleTemplate()"
+                [options]="templateOptions()"
+                (valueChange)="onSingleTemplateChange($event)">
+              </ui-select-field>
+
+              @for (key of selectedSingleTemplate()?.paramKeys ?? []; track key) {
+                <ui-input-field
+                  [label]="paramLabel(key)"
+                  [placeholder]="paramLabel(key)"
+                  [value]="singleParams[key]"
+                  (valueChange)="singleParams[key] = $event">
+                </ui-input-field>
+              }
+            </div>
+
+            <div class="admin-notifications-page__actions">
+              <ui-button
+                [label]="t('dashboardAdminNotificationsSend')"
+                [loading]="dispatchLoading()"
+                (clicked)="openSingleConfirmation()">
+              </ui-button>
+            </div>
+          } @else {
+            <div class="admin-notifications-page__form-grid">
+              <ui-select-field
+                [label]="t('dashboardAdminNotificationsTemplate')"
+                [value]="broadcastTemplate()"
+                [options]="templateOptions()"
+                (valueChange)="onBroadcastTemplateChange($event)">
+              </ui-select-field>
+
+              <ui-select-field
+                [label]="t('dashboardAdminNotificationsTargetType')"
+                [value]="broadcastTargetType"
+                [options]="targetTypeOptions()"
+                (valueChange)="onBroadcastTargetTypeChange($event)">
+              </ui-select-field>
+
+              <ui-select-field
+                [label]="t('dashboardAdminNotificationsTargetValue')"
+                [value]="broadcastTargetValue"
+                [options]="broadcastTargetOptions()"
+                (valueChange)="broadcastTargetValue = $event">
+              </ui-select-field>
+
+              @for (key of selectedBroadcastTemplate()?.paramKeys ?? []; track key) {
+                <ui-input-field
+                  [label]="paramLabel(key)"
+                  [placeholder]="paramLabel(key)"
+                  [value]="broadcastParams[key]"
+                  (valueChange)="broadcastParams[key] = $event">
+                </ui-input-field>
+              }
+            </div>
+
+            <div class="admin-notifications-page__actions">
+              <ui-button
+                [label]="t('dashboardAdminNotificationsBroadcast')"
+                [loading]="broadcastLoading()"
+                (clicked)="openBroadcastConfirmation()">
+              </ui-button>
+            </div>
+          }
+        </article>
+
+        <article class="admin-notifications-page__card">
+          <header class="admin-notifications-page__section-header">
+            <div>
+              <p class="admin-notifications-page__section-eyebrow">{{ t('dashboardAdminNotificationsPreviewEyebrow') }}</p>
+              <h2 class="admin-notifications-page__section-title">{{ t('dashboardAdminNotificationsPreviewTitle') }}</h2>
+            </div>
+          </header>
+
+          <p class="admin-notifications-page__section-copy">{{ t('dashboardAdminNotificationsPreviewCopy') }}</p>
+
+          <div class="admin-notifications-page__preview">
+            <div class="admin-notifications-page__preview-meta">
+              <span>{{ currentLanguage().toUpperCase() }}</span>
+              <span>{{ previewAllowedTargetLabel() }}</span>
+            </div>
+
+            <div class="admin-notifications-page__preview-block">
+              <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsPreviewTitleLabel') }}</span>
+              <strong>{{ previewTitle() }}</strong>
+            </div>
+
+            <div class="admin-notifications-page__preview-block">
+              <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsPreviewBodyLabel') }}</span>
+              <p>{{ previewBody() }}</p>
+            </div>
+
+            @if (previewFields().length > 0) {
+              <div class="admin-notifications-page__preview-block">
+                <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsPreviewParamsLabel') }}</span>
+                <div class="admin-notifications-page__preview-chips">
+                  @for (field of previewFields(); track field.key) {
+                    <span class="admin-notifications-page__preview-chip">
+                      <strong>{{ field.label }}</strong>
+                      <span>{{ field.value }}</span>
+                    </span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <ul class="admin-notifications-page__guide-list admin-notifications-page__guide-list--spaced">
+            <li>{{ t('dashboardAdminNotificationsGuidePointOne') }}</li>
+            <li>{{ t('dashboardAdminNotificationsGuidePointTwo') }}</li>
+            <li>{{ t('dashboardAdminNotificationsGuidePointThree') }}</li>
+          </ul>
+        </article>
+      </section>
+    }
+
+    @if (activeTab() === 'audit') {
+      <section class="admin-notifications-page__layout">
+        <article class="admin-notifications-page__card">
+          <header class="admin-notifications-page__section-header">
+            <div>
+              <p class="admin-notifications-page__section-eyebrow">{{ t('dashboardAdminNotificationsAuditEyebrow') }}</p>
+              <h2 class="admin-notifications-page__section-title">{{ t('dashboardAdminNotificationsAuditTitle') }}</h2>
+            </div>
+          </header>
+
+          <p class="admin-notifications-page__section-copy">{{ t('dashboardAdminNotificationsAuditCopy') }}</p>
+
+          <div class="admin-notifications-page__audit-list">
+            @for (entry of auditEntries(); track entry.id) {
+              <article class="admin-notifications-page__audit-item">
+                <div class="admin-notifications-page__audit-main">
+                  <strong>{{ entry.template }}</strong>
+                  <span>{{ entry.scope }}</span>
+                </div>
+                <div class="admin-notifications-page__audit-meta">
+                  <span>{{ entry.actor }}</span>
+                  <span>{{ entry.createdAt }}</span>
+                  <span>{{ t(entry.statusKey) }}</span>
+                  <span>{{ t('dashboardAdminNotificationsAuditDelivered', { count: entry.delivered }) }}</span>
+                </div>
+              </article>
+            }
+          </div>
+        </article>
+
+        <article class="admin-notifications-page__card">
+          <header class="admin-notifications-page__section-header">
+            <div>
+              <p class="admin-notifications-page__section-eyebrow">{{ t('dashboardAdminNotificationsAuditRoadmapEyebrow') }}</p>
+              <h2 class="admin-notifications-page__section-title">{{ t('dashboardAdminNotificationsAuditRoadmapTitle') }}</h2>
+            </div>
+          </header>
+
+          <ul class="admin-notifications-page__guide-list">
+            <li>{{ t('dashboardAdminNotificationsAuditRoadmapOne') }}</li>
+            <li>{{ t('dashboardAdminNotificationsAuditRoadmapTwo') }}</li>
+            <li>{{ t('dashboardAdminNotificationsAuditRoadmapThree') }}</li>
+          </ul>
+        </article>
+      </section>
+    }
+  }
+</section>
+
+<ui-modal
+  [open]="confirmModalOpen()"
+  [title]="confirmationTitle()"
+  (closed)="closeConfirmation()">
+  <div modal-body class="admin-notifications-page__confirm">
+    <p>{{ confirmationCopy() }}</p>
+    <div class="admin-notifications-page__confirm-grid">
+      <div>
+        <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsTemplate') }}</span>
+        <strong>{{ activeTemplate() ? templateLabel(activeTemplate()!.code) : '-' }}</strong>
+      </div>
+      <div>
+        <span class="admin-notifications-page__preview-label">
+          {{ sendMode() === 'single' ? t('dashboardAdminNotificationsEmail') : t('dashboardAdminNotificationsTargetValue') }}
+        </span>
+        <strong>{{ confirmationTargetLabel() }}</strong>
+      </div>
+    </div>
+
+    <div class="admin-notifications-page__confirm-preview">
+      <div class="admin-notifications-page__confirm-preview-meta">
+        <span>{{ currentLanguage().toUpperCase() }}</span>
+        <span>{{ previewAllowedTargetLabel() }}</span>
+      </div>
+
+      <article class="admin-notifications-page__confirm-notification">
+        <span class="admin-notifications-page__preview-label">{{ t('dashboardNotificationsTitle') }}</span>
+
+        <div class="admin-notifications-page__confirm-notification-body">
+          <strong>{{ previewTitle() }}</strong>
+          <p>{{ previewBody() }}</p>
+
+          @if (previewFields().length > 0) {
+            <div class="admin-notifications-page__preview-chips">
+              @for (field of previewFields(); track field.key) {
+                <span class="admin-notifications-page__preview-chip">
+                  <strong>{{ field.label }}</strong>
+                  <span>{{ field.value }}</span>
+                </span>
+              }
+            </div>
+          }
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div modal-footer class="admin-notifications-page__confirm-actions">
+    <ui-button
+      [label]="t('dashboardAdminNotificationsConfirmCancel')"
+      [variant]="'white'"
+      (clicked)="closeConfirmation()">
+    </ui-button>
+    <ui-button
+      [label]="t('dashboardAdminNotificationsConfirmAccept')"
+      [loading]="dispatchLoading() || broadcastLoading()"
+      (clicked)="confirmSend()">
+    </ui-button>
+  </div>
+</ui-modal>

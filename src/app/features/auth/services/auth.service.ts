@@ -6,6 +6,7 @@ import type { ForgotPasswordRequest, LoginRequest, RegisterRequest, ResendVerifi
 import type { AuthSession } from '../models/auth-session.model';
 import type { AuthUser } from '../models/auth-user.model';
 import type { RefreshSessionResponse } from '../models/refresh-session.model';
+import type { AppLanguage } from '../../../core/i18n/types';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -53,6 +54,12 @@ export class AuthService {
 
   refreshSession(): Observable<ApiResponse<RefreshSessionResponse>> {
     return this.http.post<ApiResponse<RefreshSessionResponse>>(this.endpoint('/refresh'), {});
+  }
+
+  updatePreferredLanguage(language: AppLanguage): Observable<AuthSession> {
+    return this.http.patch<ApiResponse<AuthUser>>(this.endpoint('/preferred-language'), { language }).pipe(
+      map(response => this.mapSession(response))
+    );
   }
 
   private mapSession(response: ApiResponse<AuthUser>): AuthSession {
