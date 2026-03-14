@@ -1,5 +1,6 @@
 @import "./styles/tokens.css";
 @import "./styles/fonts.css";
+@import "./styles/animations.css";
 
 html,
 body {
@@ -34,6 +35,17 @@ body::-webkit-scrollbar-thumb {
 html::-webkit-scrollbar-thumb:hover,
 body::-webkit-scrollbar-thumb:hover {
   background: var(--color-accent-500);
+}
+
+html.scrollbar-hidden,
+body.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
+html.scrollbar-hidden::-webkit-scrollbar,
+body.scrollbar-hidden::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 *,

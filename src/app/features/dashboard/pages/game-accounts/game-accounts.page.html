@@ -1,4 +1,4 @@
-<section class="game-accounts-page">
+<section class="game-accounts-page fadeIn">
   <ui-single-item-carousel
     class="game-accounts-page__carousel"
     [slides]="promoSlides"
@@ -6,7 +6,7 @@
   </ui-single-item-carousel>
 
   <article class="game-accounts-page__card">
-    <div class="game-accounts-page__intro">
+    <aside class="game-accounts-page__intro">
       <h2 class="game-accounts-page__title">{{ t('dashboardGameAccountsTitle') }}</h2>
       <p class="game-accounts-page__eyebrow">{{ t('dashboardGameAccountsEyebrow') }}</p>
       <p class="game-accounts-page__copy">{{ t('dashboardGameAccountsDescription') }}</p>
@@ -18,9 +18,9 @@
         <li>{{ t('dashboardGameAccountsStepCodeTitle') }}</li>
         <li>{{ t('dashboardGameAccountsStepCreateTitle') }}</li>
       </ul>
-    </div>
+    </aside>
 
-    <div class="game-accounts-page__panel">
+    <section class="game-accounts-page__panel" aria-label="Create account flow">
       <div class="game-accounts-page__card-copy">
         <div class="game-accounts-page__stepper" aria-hidden="true">
           <span class="game-accounts-page__stepper-dot" [class.game-accounts-page__stepper-dot--active]="stepIndex() >= 1">1</span>
@@ -167,6 +167,6 @@
           </div>
         }
       </div>
-    </div>
+    </section>
   </article>
 </section>

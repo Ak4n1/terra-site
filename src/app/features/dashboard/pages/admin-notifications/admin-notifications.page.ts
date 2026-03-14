@@ -4,6 +4,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { AdminNotificationsApi } from '../../../../core/admin-notifications/admin-notifications.api';
 import type {
+  AdminNotificationAuditEntry,
+  AdminNotificationAuditFilters,
+  AdminNotificationAuditSummary,
   AdminNotificationBroadcastRequest,
   AdminNotificationDispatchRequest,
   AdminNotificationTemplate
@@ -11,6 +14,7 @@ import type {
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { AlertComponent, type AlertVariant } from '../../../../shared/ui/atoms/alert/alert.component';
 import { ButtonComponent } from '../../../../shared/ui/atoms/button/button.component';
+import { DateControlComponent } from '../../../../shared/ui/atoms/date-control/date-control.component';
 import type { SelectControlOption } from '../../../../shared/ui/atoms/select-control/select-control.component';
 import { InputFieldComponent } from '../../../../shared/ui/molecules/input-field/input-field.component';
 import { SelectFieldComponent } from '../../../../shared/ui/molecules/select-field/select-field.component';
@@ -21,16 +25,6 @@ type BroadcastTargetType = 'ROLE' | 'SEGMENT';
 type AdminNotificationsTab = 'send' | 'audit';
 type SendMode = 'single' | 'broadcast';
 
-type AuditEntry = {
-  id: string;
-  actor: string;
-  template: string;
-  scope: string;
-  delivered: number;
-  createdAt: string;
-  statusKey: string;
-};
-
 type PreviewField = {
   label: string;
   key: string;
@@ -40,11 +34,12 @@ type PreviewField = {
 @Component({
   selector: 'app-dashboard-admin-notifications-page',
   standalone: true,
-  imports: [CommonModule, AlertComponent, ButtonComponent, InputFieldComponent, SelectFieldComponent, ModalComponent],
+  imports: [CommonModule, AlertComponent, ButtonComponent, DateControlComponent, InputFieldComponent, SelectFieldComponent, ModalComponent],
   templateUrl: './admin-notifications.page.html',
   styleUrl: './admin-notifications.page.css'
 })
 export class DashboardAdminNotificationsPage {
+  private static readonly AUDIT_PAGE_SIZE = 4;
   private readonly languageService = inject(LanguageService);
   private readonly authFacade = inject(AuthFacadeService);
   private readonly adminNotificationsApi = inject(AdminNotificationsApi);
@@ -53,6 +48,7 @@ export class DashboardAdminNotificationsPage {
   readonly templatesLoading = signal(true);
   readonly dispatchLoading = signal(false);
   readonly broadcastLoading = signal(false);
+  readonly auditLoading = signal(false);
   readonly activeTab = signal<AdminNotificationsTab>('send');
   readonly sendMode = signal<SendMode>('single');
   readonly feedbackKey = signal<string | null>(null);
@@ -76,12 +72,13 @@ export class DashboardAdminNotificationsPage {
   readonly currentLanguage = this.languageService.language;
   readonly singleTemplate = signal('');
   readonly broadcastTemplate = signal('');
+  readonly visibleTemplates = computed(() => this.templates());
 
   readonly selectedSingleTemplate = computed(
-    () => this.templates().find(template => template.code === this.singleTemplate()) ?? null
+    () => this.visibleTemplates().find(template => template.code === this.singleTemplate()) ?? null
   );
   readonly selectedBroadcastTemplate = computed(
-    () => this.templates().find(template => template.code === this.broadcastTemplate()) ?? null
+    () => this.visibleTemplates().find(template => template.code === this.broadcastTemplate()) ?? null
   );
 
   readonly sendModeOptions = computed<SelectControlOption[]>(() => [
@@ -102,6 +99,7 @@ export class DashboardAdminNotificationsPage {
       label: this.templateLabel(template.code)
     }))
   );
+  readonly hasTemplatesForCurrentMode = computed(() => this.templatesForCurrentMode().length > 0);
 
   readonly targetTypeOptions = computed<SelectControlOption[]>(() => [
     { value: 'ROLE', label: this.t('dashboardAdminNotificationsRoleTarget') },
@@ -109,7 +107,7 @@ export class DashboardAdminNotificationsPage {
   ]);
 
   readonly broadcastTargetOptions = computed<SelectControlOption[]>(() =>
-    this.broadcastTargetType === 'ROLE' ? this.roleOptions() : this.segmentOptions()
+    this.broadcastTargetType() === 'ROLE' ? this.roleOptions() : this.segmentOptions()
   );
 
   readonly segmentOptions = computed<SelectControlOption[]>(() => [
@@ -118,41 +116,42 @@ export class DashboardAdminNotificationsPage {
     { value: 'email_unverified', label: this.t('dashboardAdminNotificationsSegmentEmailUnverified') }
   ]);
 
-  readonly auditEntries = signal<AuditEntry[]>([
-    {
-      id: 'AUD-1042',
-      actor: 'encabojuan@gmail.com',
-      template: 'system.maintenance_scheduled',
-      scope: 'ROLE:USER',
-      delivered: 184,
-      createdAt: '2026-03-12 18:45',
-      statusKey: 'dashboardAdminNotificationsAuditStatusDelivered'
-    },
-    {
-      id: 'AUD-1041',
-      actor: 'encabojuan@gmail.com',
-      template: 'system.test_notification',
-      scope: 'INDIVIDUAL:lineageiiaklas@gmail.com',
-      delivered: 1,
-      createdAt: '2026-03-12 18:11',
-      statusKey: 'dashboardAdminNotificationsAuditStatusDelivered'
-    },
-    {
-      id: 'AUD-1038',
-      actor: 'superadmin@terra.local',
-      template: 'system.security_review_required',
-      scope: 'SEGMENT:email_verified',
-      delivered: 92,
-      createdAt: '2026-03-11 22:20',
-      statusKey: 'dashboardAdminNotificationsAuditStatusDelivered'
-    }
+  readonly auditEntries = signal<AdminNotificationAuditEntry[]>([]);
+  readonly auditPage = signal(0);
+  readonly auditDateFrom = signal('');
+  readonly auditDateTo = signal('');
+  readonly auditTemplate = signal('');
+  readonly auditStatus = signal('');
+  readonly auditSummary = signal<AdminNotificationAuditSummary>({
+    totalEntries: 0,
+    uniqueRecipients: 0,
+    uniqueTemplates: 0,
+    unreadEntries: 0
+  });
+  readonly auditTotalPages = signal(1);
+  readonly hasPreviousAuditPage = computed(() => this.auditPage() > 0);
+  readonly hasNextAuditPage = computed(() => this.auditPage() < this.auditTotalPages() - 1);
+  readonly auditPages = computed(() =>
+    Array.from({ length: this.auditTotalPages() }, (_, index) => index)
+  );
+  readonly auditTemplateOptions = computed<SelectControlOption[]>(() => [
+    { value: '', label: this.t('dashboardAdminNotificationsAuditFilterTemplateAll') },
+    ...this.templates().map(template => ({
+      value: template.code,
+      label: this.templateLabel(template.code)
+    }))
+  ]);
+  readonly auditStatusOptions = computed<SelectControlOption[]>(() => [
+    { value: '', label: this.t('dashboardAdminNotificationsAuditFilterStatusAll') },
+    { value: 'UNREAD', label: this.auditStatusLabel('UNREAD') },
+    { value: 'READ', label: this.auditStatusLabel('READ') }
   ]);
 
   singleEmail = '';
   singleParams: Record<string, string> = {};
 
-  broadcastTargetType: BroadcastTargetType = 'ROLE';
-  broadcastTargetValue = 'USER';
+  readonly broadcastTargetType = signal<BroadcastTargetType>('ROLE');
+  readonly broadcastTargetValue = signal('USER');
   broadcastParams: Record<string, string> = {};
 
   constructor() {
@@ -180,7 +179,7 @@ export class DashboardAdminNotificationsPage {
   }
 
   readonly templatesForCurrentMode = computed(() =>
-    this.templates().filter(template => {
+    this.visibleTemplates().filter(template => {
       if (this.sendMode() === 'single') {
         return template.allowedTarget === 'INDIVIDUAL' || template.allowedTarget === 'BOTH';
       }
@@ -219,6 +218,10 @@ export class DashboardAdminNotificationsPage {
     this.feedbackKey.set(null);
     this.feedbackParams.set(undefined);
     this.feedbackVariant.set('warning');
+
+    if (tab === 'audit') {
+      void this.loadAudit(0);
+    }
   }
 
   selectSendMode(mode: string): void {
@@ -250,8 +253,9 @@ export class DashboardAdminNotificationsPage {
   }
 
   onBroadcastTargetTypeChange(targetType: string): void {
-    this.broadcastTargetType = targetType === 'SEGMENT' ? 'SEGMENT' : 'ROLE';
-    this.broadcastTargetValue = this.broadcastTargetType === 'ROLE' ? 'USER' : 'all_active';
+    const nextTargetType = targetType === 'SEGMENT' ? 'SEGMENT' : 'ROLE';
+    this.broadcastTargetType.set(nextTargetType);
+    this.broadcastTargetValue.set(nextTargetType === 'ROLE' ? 'USER' : 'all_active');
   }
 
   openSingleConfirmation(): void {
@@ -317,11 +321,6 @@ export class DashboardAdminNotificationsPage {
     }));
   }
 
-  previewAllowedTargetLabel(): string {
-    const template = this.activeTemplate();
-    return template ? this.allowedTargetLabel(template.allowedTarget) : '-';
-  }
-
   confirmationTitle(): string {
     return this.sendMode() === 'single'
       ? this.t('dashboardAdminNotificationsConfirmSingleTitle')
@@ -339,11 +338,11 @@ export class DashboardAdminNotificationsPage {
       return this.singleEmail.trim() || '-';
     }
 
-    if (this.broadcastTargetType === 'ROLE') {
-      return this.roleOptions().find(option => option.value === this.broadcastTargetValue)?.label ?? this.broadcastTargetValue;
+    if (this.broadcastTargetType() === 'ROLE') {
+      return this.roleOptions().find(option => option.value === this.broadcastTargetValue())?.label ?? this.broadcastTargetValue();
     }
 
-    return this.segmentOptions().find(option => option.value === this.broadcastTargetValue)?.label ?? this.broadcastTargetValue;
+    return this.segmentOptions().find(option => option.value === this.broadcastTargetValue())?.label ?? this.broadcastTargetValue();
   }
 
   closeConfirmation(): void {
@@ -367,6 +366,87 @@ export class DashboardAdminNotificationsPage {
     return this.t(`dashboardAdminNotificationsTemplateName.${code}`);
   }
 
+  auditEntryTime(value: string): string {
+    const language = this.currentLanguage();
+    const locale =
+      language === 'es' ? 'es-AR' :
+      language === 'pt' ? 'pt-BR' :
+      language === 'fr' ? 'fr-FR' :
+      language === 'de' ? 'de-DE' :
+      'en-US';
+
+    try {
+      return new Intl.DateTimeFormat(locale, {
+        dateStyle: 'medium',
+        timeStyle: 'short'
+      }).format(new Date(value));
+    } catch {
+      return value;
+    }
+  }
+
+  auditSeverityLabel(severity: string): string {
+    return this.t(`dashboardAdminNotificationsSeverity.${severity}`);
+  }
+
+  auditStatusLabel(status: string): string {
+    return this.t(`dashboardAdminNotificationsAuditStatus.${status}`);
+  }
+
+  hasActiveAuditFilters(): boolean {
+    return !!(this.auditDateFrom() || this.auditDateTo() || this.auditTemplate() || this.auditStatus());
+  }
+
+  applyAuditFilters(): void {
+    void this.loadAudit(0);
+  }
+
+  resetAuditFilters(): void {
+    this.auditDateFrom.set('');
+    this.auditDateTo.set('');
+    this.auditTemplate.set('');
+    this.auditStatus.set('');
+    void this.loadAudit(0);
+  }
+
+  async loadAudit(page = 0): Promise<void> {
+    this.auditLoading.set(true);
+    try {
+      const filters: AdminNotificationAuditFilters = {
+        dateFrom: this.auditDateFrom() || undefined,
+        dateTo: this.auditDateTo() || undefined,
+        template: this.auditTemplate() || undefined,
+        status: this.auditStatus() || undefined
+      };
+
+      const payload = await firstValueFrom(
+        this.adminNotificationsApi.listAudit(page, DashboardAdminNotificationsPage.AUDIT_PAGE_SIZE, filters)
+      );
+      this.auditEntries.set(payload.items);
+      this.auditSummary.set(payload.summary);
+      this.auditPage.set(payload.page);
+      this.auditTotalPages.set(Math.max(1, Math.ceil(payload.totalItems / payload.size)));
+    } finally {
+      this.auditLoading.set(false);
+    }
+  }
+
+  goToAuditPage(page: number): void {
+    if (page < 0 || page >= this.auditTotalPages()) {
+      return;
+    }
+
+    void this.loadAudit(page);
+  }
+
+  previousAuditPage(): void {
+    this.goToAuditPage(this.auditPage() - 1);
+  }
+
+  nextAuditPage(): void {
+    this.goToAuditPage(this.auditPage() + 1);
+  }
+
   activeTemplate(): AdminNotificationTemplate | null {
     return this.sendMode() === 'single' ? this.selectedSingleTemplate() : this.selectedBroadcastTemplate();
   }
@@ -376,7 +456,7 @@ export class DashboardAdminNotificationsPage {
   }
 
   private isTemplateAllowedForMode(templateCode: string, mode: SendMode): boolean {
-    const template = this.templates().find(item => item.code === templateCode);
+    const template = this.visibleTemplates().find(item => item.code === templateCode);
     if (!template) {
       return false;
     }
@@ -389,7 +469,7 @@ export class DashboardAdminNotificationsPage {
   }
 
   private findFirstTemplateForMode(mode: SendMode): string {
-    const template = this.templates().find(item => {
+    const template = this.visibleTemplates().find(item => {
       if (mode === 'single') {
         return item.allowedTarget === 'INDIVIDUAL' || item.allowedTarget === 'BOTH';
       }
@@ -397,10 +477,6 @@ export class DashboardAdminNotificationsPage {
     });
 
     return template?.code ?? '';
-  }
-
-  private allowedTargetLabel(target: AdminNotificationTemplate['allowedTarget']): string {
-    return this.t(`dashboardAdminNotificationsAllowedTarget.${target}`);
   }
 
   private validateSingleForm(): boolean {
@@ -423,7 +499,7 @@ export class DashboardAdminNotificationsPage {
       return false;
     }
 
-    if (!this.broadcastTargetValue) {
+    if (!this.broadcastTargetValue()) {
       this.setValidationError('dashboardAdminNotificationsValidationTargetRequired');
       return false;
     }
@@ -478,8 +554,8 @@ export class DashboardAdminNotificationsPage {
     const request: AdminNotificationBroadcastRequest = {
       template: this.broadcastTemplate(),
       params: { ...this.broadcastParams },
-      targetType: this.broadcastTargetType,
-      targetValue: this.broadcastTargetValue
+      targetType: this.broadcastTargetType(),
+      targetValue: this.broadcastTargetValue()
     };
 
     this.broadcastLoading.set(true);
@@ -505,4 +581,5 @@ export class DashboardAdminNotificationsPage {
     this.feedbackParams.set(undefined);
     this.feedbackVariant.set('error');
   }
+
 }

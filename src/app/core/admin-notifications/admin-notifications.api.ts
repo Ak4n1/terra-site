@@ -6,6 +6,8 @@ import type { ApiResponse } from '../../features/auth/models/api-response.model'
 import type { NotificationMutationPayload } from '../notifications/notification.models';
 import { NotificationMapper } from '../notifications/notification.mapper';
 import type {
+  AdminNotificationAuditFilters,
+  AdminNotificationAuditPayload,
   AdminNotificationBroadcastRequest,
   AdminNotificationBroadcastResult,
   AdminNotificationDispatchRequest,
@@ -21,6 +23,40 @@ export class AdminNotificationsApi {
   listTemplates(): Observable<AdminNotificationTemplate[]> {
     return this.http.get<ApiResponse<AdminNotificationTemplate[]>>(`${this.adminNotificationsUrl}/templates`).pipe(
       map(response => response.data ?? [])
+    );
+  }
+
+  listAudit(page = 0, size = 4, filters?: AdminNotificationAuditFilters): Observable<AdminNotificationAuditPayload> {
+    const params = new URLSearchParams({
+      page: String(page),
+      size: String(size)
+    });
+
+    if (filters?.dateFrom) {
+      params.set('dateFrom', filters.dateFrom);
+    }
+
+    if (filters?.dateTo) {
+      params.set('dateTo', filters.dateTo);
+    }
+
+    if (filters?.template) {
+      params.set('template', filters.template);
+    }
+
+    if (filters?.status) {
+      params.set('status', filters.status);
+    }
+
+    return this.http.get<ApiResponse<AdminNotificationAuditPayload>>(
+      `${this.adminNotificationsUrl}/audit?${params.toString()}`
+    ).pipe(
+      map(response => {
+        if (!response.data) {
+          throw new Error('Missing audit payload');
+        }
+        return response.data;
+      })
     );
   }
 

@@ -1,0 +1,127 @@
+.nk-preloader {
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+  background: transparent;
+}
+
+.nk-preloader .nk-preloader-bg {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.nk-preloader .nk-preloader-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.nk-preloader .nk-preloader-content > div {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+
+.nk-preloader .nk-preloader-content > div span {
+  display: inline-block;
+  margin: 0;
+}
+
+.nk-preloader .nk-preloader-content > div img {
+  display: block;
+  margin: 0 auto;
+}
+
+.nk-preloader-skip {
+  position: absolute;
+  cursor: pointer;
+  font-size: 0.95rem;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  padding: 25px;
+  line-height: 1;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8px 0 0 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s;
+  animation: nk-preloader-skip 1.2s linear forwards;
+  animation-delay: 1.2s;
+}
+
+@keyframes nk-preloader-skip {
+  0%,
+  90% {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  100% {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.nk-preloader-animation {
+  position: relative;
+  display: block;
+  margin: 30px auto;
+  opacity: 0.7;
+  animation: nk-preloader-animation 1.2s linear infinite 0.4s;
+}
+
+.nk-preloader-animation::after,
+.nk-preloader-animation::before {
+  content: '';
+  display: block;
+  position: absolute;
+}
+
+.nk-preloader-animation,
+.nk-preloader-animation::after,
+.nk-preloader-animation::before {
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.nk-preloader-animation::before {
+  left: -20px;
+  animation: nk-preloader-animation 1.2s linear infinite 0s;
+}
+
+.nk-preloader-animation::after {
+  right: -20px;
+  animation: nk-preloader-animation 1.2s linear infinite 0.8s;
+}
+
+@keyframes nk-preloader-animation {
+  0%,
+  60%,
+  100% {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  30% {
+    background-color: #fff;
+  }
+}

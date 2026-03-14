@@ -104,6 +104,7 @@
   border: 0;
   border-top: 2px solid var(--dashboard-tab-border-inactive);
   background: transparent;
+  cursor: pointer;
   transition: border-color 0.25s ease, background-color 0.25s ease;
 }
 
@@ -142,6 +143,10 @@
 .admin-notifications-page__feedback-card,
 .admin-notifications-page__card {
   padding: var(--dashboard-panel-padding);
+}
+
+.admin-notifications-page__card--overlay {
+  overflow: visible;
 }
 
 .admin-notifications-page__layout {
@@ -183,13 +188,6 @@
   margin-top: 20px;
 }
 
-.admin-notifications-page__preview-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.admin-notifications-page__preview-meta span,
 .admin-notifications-page__preview-chip {
   padding: 8px 12px;
   border: 1px solid var(--c-border-control);
@@ -272,17 +270,149 @@
   margin-top: 20px;
 }
 
-.admin-notifications-page__audit-item {
+.admin-notifications-page__audit-summary {
   display: grid;
-  gap: 8px;
-  padding: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 24px;
 }
 
+.admin-notifications-page__audit-filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.admin-notifications-page__audit-filters--sidebar {
+  grid-template-columns: 1fr;
+}
+
+.admin-notifications-page__audit-filter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.admin-notifications-page__audit-stat {
+  display: grid;
+  gap: 8px;
+  padding: 18px 16px;
+  border: 1px solid var(--c-border-weak);
+  background: color-mix(in srgb, var(--c-surface-dropdown) 42%, transparent);
+}
+
+.admin-notifications-page__audit-stat strong {
+  color: var(--c-text-on-dark);
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.admin-notifications-page__audit-item {
+  display: grid;
+  gap: 18px;
+  padding: 22px 20px;
+}
+
+.admin-notifications-page__audit-row,
 .admin-notifications-page__audit-main,
+.admin-notifications-page__audit-tags,
 .admin-notifications-page__audit-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.admin-notifications-page__audit-row {
+  align-items: start;
+  justify-content: space-between;
+}
+
+.admin-notifications-page__audit-main {
+  display: grid;
+  gap: 6px;
+}
+
+.admin-notifications-page__audit-tags {
+  justify-content: flex-end;
+}
+
+.admin-notifications-page__audit-tag {
+  padding: 8px 12px;
+  border: 1px solid var(--c-border-control);
+  background: color-mix(in srgb, var(--c-surface-dropdown) 56%, transparent);
+  color: var(--c-text-secondary);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-notifications-page__audit-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.admin-notifications-page__audit-detail {
+  display: grid;
+  gap: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--c-border-weak);
+}
+
+.admin-notifications-page__audit-detail strong {
+  color: var(--c-text-on-dark);
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+
+.admin-notifications-page__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 8px;
+  padding-top: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-notifications-page__pagination-pages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.admin-notifications-page__pagination-page {
+  min-width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0 12px;
+  background: rgba(14, 14, 14, 0.82);
+  color: rgba(255, 255, 255, 0.76);
+  font-family: var(--font-ui);
+  font-size: 0.92rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.admin-notifications-page__pagination-page:hover {
+  border-color: rgba(255, 255, 255, 0.34);
+  color: var(--c-text-on-dark);
+  transform: translateY(-1px);
+}
+
+.admin-notifications-page__pagination-page--active {
+  border-color: var(--c-link-hover);
+  background: rgba(224, 136, 33, 0.14);
+  color: var(--c-text-on-dark);
+  box-shadow: inset 0 0 0 1px rgba(224, 136, 33, 0.24);
 }
 
 .admin-notifications-page__feedback {
@@ -318,23 +448,6 @@
   display: grid;
   gap: 14px;
   padding-top: 6px;
-}
-
-.admin-notifications-page__confirm-preview-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.admin-notifications-page__confirm-preview-meta span {
-  padding: 8px 12px;
-  border: 1px solid var(--c-border-control);
-  background: color-mix(in srgb, var(--c-surface-dropdown) 56%, transparent);
-  color: var(--c-text-secondary);
-  font-family: var(--font-ui);
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .admin-notifications-page__confirm-notification {
@@ -373,7 +486,10 @@
 @media (max-width: 1024px) {
   .admin-notifications-page__nav-card,
   .admin-notifications-page__layout,
-  .admin-notifications-page__form-grid {
+  .admin-notifications-page__form-grid,
+  .admin-notifications-page__audit-summary,
+  .admin-notifications-page__audit-filters,
+  .admin-notifications-page__audit-detail-grid {
     grid-template-columns: 1fr;
   }
 
@@ -409,5 +525,13 @@
   .admin-notifications-page__tab {
     min-height: auto;
     padding: 18px var(--dashboard-panel-padding-mobile) 16px;
+  }
+
+  .admin-notifications-page__audit-row {
+    flex-direction: column;
+  }
+
+  .admin-notifications-page__audit-tags {
+    justify-content: flex-start;
   }
 }

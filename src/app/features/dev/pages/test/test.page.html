@@ -10,29 +10,103 @@
       <h2 class="test-page__section-title">Atom Buttons</h2>
 
       <div class="test-page__examples">
-        <article class="test-page__example">
-          <p class="test-page__variant">btn-color-main-1</p>
-          <ui-button label="Button" variant="main-1"></ui-button>
+        @for (example of buttonExamples; track example.name) {
+          <article class="test-page__example">
+            <p class="test-page__variant">{{ example.name }}</p>
+            <ui-button
+              [label]="example.label"
+              [variant]="example.variant"
+              [size]="example.size"
+              [disabled]="example.disabled ?? false"
+              [loading]="example.loading ?? false"
+              [loadingLabel]="example.loadingLabel ?? null"></ui-button>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="test-page__section">
+      <h2 class="test-page__section-title">Pagination</h2>
+
+      <div class="test-page__pager-copy">
+        <p class="test-page__variant">Page {{ currentPaginationPage() + 1 }} / {{ paginationShowcasePages.length }}</p>
+        <h3 class="test-page__pager-title">{{ visiblePaginationPage().title }}</h3>
+        <p class="test-page__pager-text">{{ visiblePaginationPage().copy }}</p>
+      </div>
+
+      <div class="test-page__pagination-surface">
+        <p class="test-page__pagination-copy">
+          Esta seccion prueba navegacion paginada pura dentro de la ruta `test`, separada del showcase de botones.
+        </p>
+      </div>
+
+      <div class="test-page__pagination" aria-label="Pagination showcase">
+        <ui-button
+          label="Previous"
+          variant="white"
+          [disabled]="!hasPreviousPaginationPage()"
+          (clicked)="previousPaginationPage()"></ui-button>
+
+        <div class="test-page__pagination-pages">
+          @for (page of paginationShowcasePages; track page.id; let index = $index) {
+            <button
+              type="button"
+              class="test-page__pagination-page"
+              [class.test-page__pagination-page--active]="index === currentPaginationPage()"
+              [attr.aria-current]="index === currentPaginationPage() ? 'page' : null"
+              (click)="goToPaginationPage(index)">
+              {{ index + 1 }}
+            </button>
+          }
+        </div>
+
+        <ui-button
+          label="Next"
+          variant="main-1"
+          [disabled]="!hasNextPaginationPage()"
+          (clicked)="nextPaginationPage()"></ui-button>
+      </div>
+    </section>
+
+    <section class="test-page__section">
+      <h2 class="test-page__section-title">Date Control</h2>
+
+      <div class="test-page__pager-copy">
+        <p class="test-page__variant">Audit filter direction</p>
+        <h3 class="test-page__pager-title">Custom date atom</h3>
+        <p class="test-page__pager-text">Base visual para futuros filtros de auditoria como rango desde / hasta, manteniendo picker nativo por debajo.</p>
+      </div>
+
+      <div class="test-page__date-grid">
+        <article class="test-page__date-card">
+          <p class="test-page__variant">Desde</p>
+          <ui-date-control
+            ariaLabel="Audit date from"
+            placeholder="Seleccionar fecha"
+            [value]="auditDateFrom()"
+            (valueChange)="auditDateFrom.set($event)">
+          </ui-date-control>
         </article>
-        <article class="test-page__example">
-          <p class="test-page__variant">btn-color-main-2</p>
-          <ui-button label="Button" variant="main-2"></ui-button>
+
+        <article class="test-page__date-card">
+          <p class="test-page__variant">Hasta</p>
+          <ui-date-control
+            ariaLabel="Audit date to"
+            placeholder="Seleccionar fecha"
+            [value]="auditDateTo()"
+            [min]="auditDateFrom()"
+            (valueChange)="auditDateTo.set($event)">
+          </ui-date-control>
         </article>
-        <article class="test-page__example">
-          <p class="test-page__variant">btn-color-main-3</p>
-          <ui-button label="Button" variant="main-3"></ui-button>
-        </article>
-        <article class="test-page__example">
-          <p class="test-page__variant">btn-color-main-4</p>
-          <ui-button label="Button" variant="main-4"></ui-button>
-        </article>
-        <article class="test-page__example">
-          <p class="test-page__variant">btn-color-main-5</p>
-          <ui-button label="Button" variant="main-5"></ui-button>
-        </article>
-        <article class="test-page__example">
-          <p class="test-page__variant">btn-color-white</p>
-          <ui-button label="Button" variant="white"></ui-button>
+
+        <article class="test-page__date-card">
+          <p class="test-page__variant">Disabled</p>
+          <ui-date-control
+            ariaLabel="Disabled date control"
+            placeholder="Fecha bloqueada"
+            [value]="'2026-03-20'"
+            [disabled]="true">
+          </ui-date-control>
         </article>
       </div>
     </section>

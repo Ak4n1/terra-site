@@ -27,3 +27,36 @@ export type AdminNotificationBroadcastResult = {
   targetValue: string;
   deliveredCount: number;
 };
+
+export type AdminNotificationAuditEntry = {
+  notificationId: string;
+  recipientEmail: string;
+  template: string;
+  category: string;
+  severity: string;
+  status: string;
+  occurredAt: string;
+};
+
+export type AdminNotificationAuditSummary = {
+  totalEntries: number;
+  uniqueRecipients: number;
+  uniqueTemplates: number;
+  unreadEntries: number;
+};
+
+export type AdminNotificationAuditPayload = {
+  items: AdminNotificationAuditEntry[];
+  summary: AdminNotificationAuditSummary;
+  page: number;
+  size: number;
+  hasMore: boolean;
+  totalItems: number;
+};
+
+export type AdminNotificationAuditFilters = {
+  dateFrom?: string;
+  dateTo?: string;
+  template?: string;
+  status?: string;
+};

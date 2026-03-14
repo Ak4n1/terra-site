@@ -6,6 +6,7 @@ import { RealtimeService } from '../realtime/realtime.service';
 import type { NotificationItem } from './notification.models';
 import { NotificationsApi } from './notifications.api';
 import { NotificationMapper } from './notification.mapper';
+import { NotificationSoundService } from './notification-sound.service';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsStore {
@@ -15,6 +16,7 @@ export class NotificationsStore {
   private readonly notificationsApi = inject(NotificationsApi);
   private readonly realtimeService = inject(RealtimeService);
   private readonly mapper = inject(NotificationMapper);
+  private readonly notificationSoundService = inject(NotificationSoundService);
   private readonly destroyRef = inject(DestroyRef);
 
   readonly loading = signal(false);
@@ -115,8 +117,11 @@ export class NotificationsStore {
     switch (message.type) {
       case 'notification.created': {
         const source = this.asRecord(message.data);
-        this.upsert(this.mapper.toItem(source['notification']));
+        const wasInserted = this.upsert(this.mapper.toItem(source['notification']));
         this.unreadCount.set(this.toUnreadCount(source['unreadCount']));
+        if (wasInserted) {
+          this.notificationSoundService.play();
+        }
         break;
       }
       case 'notification.unread_count':
@@ -127,15 +132,17 @@ export class NotificationsStore {
     }
   }
 
-  private upsert(notification: NotificationItem): void {
+  private upsert(notification: NotificationItem): boolean {
     if (!notification.id) {
-      return;
+      return false;
     }
 
+    const existed = this.notifications().some(item => item.id === notification.id);
     this.notifications.update(items => {
       const filtered = items.filter(item => item.id !== notification.id);
       return [notification, ...filtered].sort((left, right) => right.occurredAt.localeCompare(left.occurredAt));
     });
+    return !existed;
   }
 
   private remove(notificationId: string): void {

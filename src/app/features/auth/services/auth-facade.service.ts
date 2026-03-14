@@ -117,7 +117,6 @@ export class AuthFacadeService {
 
     this.bootstrapRequest$ = this.authService.fetchCurrentSession().pipe(
       tap(session => {
-        console.log('[AUTH /me] session payload:', session);
         this.clearSessionRateLimit();
         this.setSession(session);
         this.authResolvedSubject.next(true);
@@ -274,6 +273,13 @@ export class AuthFacadeService {
       status: error.status,
       retryAfterSeconds: this.extractRetryAfterSeconds(error, body as ApiResponse<unknown>)
     };
+  }
+
+  handleRefreshFailure(): void {
+    this.clearSessionRateLimit();
+    this.clearSession();
+    this.authResolvedSubject.next(true);
+    this.publishSyncEvent('logout');
   }
 
   private tryRecoverSession(error: unknown): Observable<AuthSession | null> {

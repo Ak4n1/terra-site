@@ -1,16 +1,35 @@
-<span class="ui-select-control__wrap">
-  <select
+<div class="ui-select-control__wrap">
+  <button
+    type="button"
     class="ui-select-control"
-    [value]="value"
+    [class.ui-select-control--open]="open()"
     [disabled]="disabled"
     [attr.aria-label]="ariaLabel || null"
-    (change)="onValueChange($event)">
-    @if (placeholder) {
-      <option value="" disabled>{{ placeholder }}</option>
-    }
+    [attr.aria-expanded]="open()"
+    aria-haspopup="listbox"
+    (click)="toggle()"
+    (keydown)="onTriggerKeydown($event)">
+    <span class="ui-select-control__value" [class.ui-select-control__value--placeholder]="!selectedOption()">
+      {{ selectedOption()?.label || placeholder }}
+    </span>
+    <span class="ui-select-control__chevron" aria-hidden="true"></span>
+  </button>
 
-    @for (option of options; track option.value) {
-      <option [value]="option.value">{{ option.label }}</option>
-    }
-  </select>
-</span>
+  @if (open()) {
+    <div class="ui-select-control__menu" role="listbox">
+      @for (option of options; track option.value; let index = $index) {
+        <button
+          type="button"
+          class="ui-select-control__option"
+          [class.ui-select-control__option--active]="isActive(index)"
+          [class.ui-select-control__option--selected]="option.value === value"
+          [attr.id]="optionId(index)"
+          [attr.aria-selected]="option.value === value"
+          (mouseenter)="onOptionMouseEnter(index)"
+          (click)="selectOption(option)">
+          {{ option.label }}
+        </button>
+      }
+    </div>
+  }
+</div>

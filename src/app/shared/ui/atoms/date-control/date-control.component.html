@@ -1,0 +1,92 @@
+<div class="ui-date-control">
+  <button
+    type="button"
+    class="ui-date-control__trigger"
+    [class.ui-date-control__trigger--open]="isOpen()"
+    [disabled]="disabled"
+    [attr.aria-label]="triggerAriaLabel()"
+    [attr.aria-expanded]="isOpen()"
+    (click)="toggleOpen()">
+    <span class="ui-date-control__trigger-value" [class.ui-date-control__trigger-value--placeholder]="!value">
+      {{ displayLabel() }}
+    </span>
+
+    <lucide-icon [img]="calendarIcon" class="ui-date-control__trigger-icon"></lucide-icon>
+  </button>
+
+  @if (isOpen()) {
+    <div class="ui-date-control__panel" role="dialog" [attr.aria-label]="panelAriaLabel()">
+      <div class="ui-date-control__panel-header">
+        <button
+          type="button"
+          class="ui-date-control__nav"
+          [attr.aria-label]="previousAriaLabel()"
+          [disabled]="!canGoPrevious()"
+          (click)="previous()">
+          <lucide-icon [img]="chevronLeftIcon"></lucide-icon>
+        </button>
+
+        <button type="button" class="ui-date-control__period" [attr.aria-label]="periodAriaLabel()" (click)="cycleViewMode()">
+          {{ periodLabel() }}
+        </button>
+
+        <button type="button" class="ui-date-control__nav" [attr.aria-label]="nextAriaLabel()" (click)="next()">
+          <lucide-icon [img]="chevronRightIcon"></lucide-icon>
+        </button>
+      </div>
+
+      @if (viewMode() === 'days') {
+        <div class="ui-date-control__weekdays">
+          @for (weekday of weekdayLabels(); track $index) {
+            <span class="ui-date-control__weekday">{{ weekday }}</span>
+          }
+        </div>
+
+        <div class="ui-date-control__days">
+          @for (cell of dayCells(); track cell.iso) {
+            <button
+              type="button"
+              class="ui-date-control__day"
+              [class.ui-date-control__day--outside]="cell.outsideMonth"
+              [class.ui-date-control__day--selected]="cell.selected"
+              [class.ui-date-control__day--today]="cell.today"
+              [disabled]="cell.disabled"
+              (click)="selectDay(cell)">
+              {{ cell.label }}
+            </button>
+          }
+        </div>
+      }
+
+      @if (viewMode() === 'months') {
+        <div class="ui-date-control__grid ui-date-control__grid--months">
+          @for (month of monthCells(); track month.index) {
+            <button
+              type="button"
+              class="ui-date-control__grid-item"
+              [class.ui-date-control__grid-item--selected]="month.selected"
+              [class.ui-date-control__grid-item--current]="month.current"
+              (click)="selectMonth(month.index)">
+              {{ month.label }}
+            </button>
+          }
+        </div>
+      }
+
+      @if (viewMode() === 'years') {
+        <div class="ui-date-control__grid ui-date-control__grid--years">
+          @for (year of yearCells(); track year.year) {
+            <button
+              type="button"
+              class="ui-date-control__grid-item"
+              [class.ui-date-control__grid-item--selected]="year.selected"
+              [class.ui-date-control__grid-item--current]="year.current"
+              (click)="selectYear(year.year)">
+              {{ year.year }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

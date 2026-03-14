@@ -21,11 +21,12 @@
 }
 
 .game-accounts-page__intro {
-  padding: 0;
+  padding: 10px 0 0;
   display: grid;
   align-content: start;
-  gap: 14px;
-  width: min(100%, 920px);
+  gap: 16px;
+  width: 100%;
+  max-width: 560px;
   justify-self: start;
 }
 
@@ -63,22 +64,28 @@
 
 .game-accounts-page__card {
   display: grid;
-  grid-template-columns: minmax(0, 0.4fr) minmax(0, 0.6fr);
-  gap: 34px;
+  grid-template-columns: minmax(360px, 0.48fr) minmax(0, 0.52fr);
+  gap: 40px;
   padding: 32px;
+  align-items: start;
 }
 
 .game-accounts-page__panel {
   display: grid;
   align-content: start;
-  gap: 20px;
-  justify-items: end;
-  padding-left: 0;
+  gap: 22px;
+  justify-items: center;
+  padding: 24px;
+  border: 1px solid color-mix(in srgb, var(--c-border-control) 82%, transparent);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    color-mix(in srgb, var(--c-surface-dropdown) 50%, transparent);
 }
 
 .game-accounts-page__card-copy {
-  width: min(90%, 620px);
-  justify-self: end;
+  width: 100%;
+  max-width: 620px;
+  justify-self: center;
 }
 
 .game-accounts-page__card-title {
@@ -110,8 +117,9 @@
   display: grid;
   align-content: start;
   gap: 18px;
-  width: min(90%, 620px);
-  justify-self: end;
+  width: 100%;
+  max-width: 620px;
+  justify-self: center;
 }
 
 .game-accounts-page__stepper {
@@ -150,6 +158,23 @@
 .game-accounts-page__step-block {
   display: grid;
   gap: 16px;
+  width: 100%;
+  max-width: 560px;
+  justify-self: center;
+  animation: game-accounts-step-enter 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: top center;
+}
+
+@keyframes game-accounts-step-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .game-accounts-page__step-title {
@@ -231,6 +256,7 @@
 
   .game-accounts-page__intro {
     width: 100%;
+    max-width: none;
   }
 
   .game-accounts-page__title {
@@ -243,7 +269,7 @@
 
   .game-accounts-page__panel {
     justify-items: stretch;
-    padding-left: 0;
+    padding: 24px;
   }
 
   .game-accounts-page__card-copy {
@@ -255,5 +281,9 @@
 @media (max-width: 768px) {
   .game-accounts-page__card {
     padding: 24px;
+  }
+
+  .game-accounts-page__panel {
+    padding: 20px;
   }
 }

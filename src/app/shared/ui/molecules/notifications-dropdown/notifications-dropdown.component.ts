@@ -88,14 +88,28 @@ export class NotificationsDropdownComponent {
   }
 
   async openAction(item: NotificationItem): Promise<void> {
-    const route = item.action?.type === 'route' ? item.action.payload['route'] : null;
-    if (typeof route !== 'string' || !route.startsWith('/dashboard')) {
+    if (item.action?.type === 'route') {
+      const route = item.action.payload['route'];
+      if (typeof route !== 'string' || !route.startsWith('/dashboard')) {
+        return;
+      }
+
+      this.markAsRead(item);
+      this.open.set(false);
+      await this.router.navigateByUrl(route);
       return;
     }
 
-    this.markAsRead(item);
-    this.open.set(false);
-    await this.router.navigateByUrl(route);
+    if (item.action?.type === 'external_url') {
+      const url = item.action.payload['url'];
+      if (typeof url !== 'string' || !/^https:\/\//i.test(url)) {
+        return;
+      }
+
+      this.markAsRead(item);
+      this.open.set(false);
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
   }
 
   @HostListener('document:click', ['$event'])

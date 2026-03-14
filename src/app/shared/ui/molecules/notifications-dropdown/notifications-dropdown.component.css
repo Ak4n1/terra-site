@@ -52,7 +52,7 @@
   grid-template-rows: auto minmax(0, 1fr) auto;
   gap: 12px;
   max-height: min(420px, calc(100vh - 120px));
-  padding: 18px;
+  padding: 21px;
   border: 1px solid var(--c-border-muted);
   background: var(--c-surface-dropdown);
   box-shadow: var(--shadow-dropdown);

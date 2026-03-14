@@ -1,4 +1,4 @@
-<section class="admin-notifications-page">
+<section class="admin-notifications-page fadeIn">
   <article class="admin-notifications-page__hero">
     <div class="admin-notifications-page__hero-copy">
       <p class="admin-notifications-page__eyebrow">{{ t('dashboardAdminNotificationsEyebrow') }}</p>
@@ -44,14 +44,14 @@
     </section>
 
     @if (feedbackKey()) {
-      <section class="admin-notifications-page__feedback-card">
+      <section class="admin-notifications-page__feedback-card ">
         <ui-alert [variant]="feedbackVariant()" [message]="t(feedbackKey()!, feedbackParams())"></ui-alert>
       </section>
     }
 
     @if (activeTab() === 'send') {
       <section class="admin-notifications-page__layout">
-        <article class="admin-notifications-page__card">
+        <article class="admin-notifications-page__card admin-notifications-page__card--overlay">
           <header class="admin-notifications-page__section-header">
             <div>
               <p class="admin-notifications-page__section-eyebrow">{{ t('dashboardAdminNotificationsSendEyebrow') }}</p>
@@ -60,6 +60,10 @@
           </header>
 
           <p class="admin-notifications-page__section-copy">{{ t('dashboardAdminNotificationsSendCopy') }}</p>
+
+          @if (!hasTemplatesForCurrentMode()) {
+            <ui-alert [variant]="'warning'" [message]="t('dashboardAdminNotificationsNoTemplatesConfigured')"></ui-alert>
+          }
 
           <div class="admin-notifications-page__form-grid">
             <ui-select-field
@@ -84,6 +88,7 @@
                 [label]="t('dashboardAdminNotificationsTemplate')"
                 [value]="singleTemplate()"
                 [options]="templateOptions()"
+                [disabled]="!hasTemplatesForCurrentMode()"
                 (valueChange)="onSingleTemplateChange($event)">
               </ui-select-field>
 
@@ -100,6 +105,7 @@
             <div class="admin-notifications-page__actions">
               <ui-button
                 [label]="t('dashboardAdminNotificationsSend')"
+                [disabled]="!hasTemplatesForCurrentMode()"
                 [loading]="dispatchLoading()"
                 (clicked)="openSingleConfirmation()">
               </ui-button>
@@ -110,21 +116,22 @@
                 [label]="t('dashboardAdminNotificationsTemplate')"
                 [value]="broadcastTemplate()"
                 [options]="templateOptions()"
+                [disabled]="!hasTemplatesForCurrentMode()"
                 (valueChange)="onBroadcastTemplateChange($event)">
               </ui-select-field>
 
               <ui-select-field
                 [label]="t('dashboardAdminNotificationsTargetType')"
-                [value]="broadcastTargetType"
+                [value]="broadcastTargetType()"
                 [options]="targetTypeOptions()"
                 (valueChange)="onBroadcastTargetTypeChange($event)">
               </ui-select-field>
 
               <ui-select-field
                 [label]="t('dashboardAdminNotificationsTargetValue')"
-                [value]="broadcastTargetValue"
+                [value]="broadcastTargetValue()"
                 [options]="broadcastTargetOptions()"
-                (valueChange)="broadcastTargetValue = $event">
+                (valueChange)="broadcastTargetValue.set($event)">
               </ui-select-field>
 
               @for (key of selectedBroadcastTemplate()?.paramKeys ?? []; track key) {
@@ -140,6 +147,7 @@
             <div class="admin-notifications-page__actions">
               <ui-button
                 [label]="t('dashboardAdminNotificationsBroadcast')"
+                [disabled]="!hasTemplatesForCurrentMode()"
                 [loading]="broadcastLoading()"
                 (clicked)="openBroadcastConfirmation()">
               </ui-button>
@@ -147,7 +155,7 @@
           }
         </article>
 
-        <article class="admin-notifications-page__card">
+        <article class="admin-notifications-page__card admin-notifications-page__card--overlay">
           <header class="admin-notifications-page__section-header">
             <div>
               <p class="admin-notifications-page__section-eyebrow">{{ t('dashboardAdminNotificationsPreviewEyebrow') }}</p>
@@ -158,11 +166,6 @@
           <p class="admin-notifications-page__section-copy">{{ t('dashboardAdminNotificationsPreviewCopy') }}</p>
 
           <div class="admin-notifications-page__preview">
-            <div class="admin-notifications-page__preview-meta">
-              <span>{{ currentLanguage().toUpperCase() }}</span>
-              <span>{{ previewAllowedTargetLabel() }}</span>
-            </div>
-
             <div class="admin-notifications-page__preview-block">
               <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsPreviewTitleLabel') }}</span>
               <strong>{{ previewTitle() }}</strong>
@@ -187,12 +190,6 @@
               </div>
             }
           </div>
-
-          <ul class="admin-notifications-page__guide-list admin-notifications-page__guide-list--spaced">
-            <li>{{ t('dashboardAdminNotificationsGuidePointOne') }}</li>
-            <li>{{ t('dashboardAdminNotificationsGuidePointTwo') }}</li>
-            <li>{{ t('dashboardAdminNotificationsGuidePointThree') }}</li>
-          </ul>
         </article>
       </section>
     }
@@ -209,20 +206,99 @@
 
           <p class="admin-notifications-page__section-copy">{{ t('dashboardAdminNotificationsAuditCopy') }}</p>
 
+          <section class="admin-notifications-page__audit-summary">
+            <article class="admin-notifications-page__audit-stat">
+              <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsAuditStatTotal') }}</span>
+              <strong>{{ auditSummary().totalEntries }}</strong>
+            </article>
+
+            <article class="admin-notifications-page__audit-stat">
+              <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsAuditStatRecipients') }}</span>
+              <strong>{{ auditSummary().uniqueRecipients }}</strong>
+            </article>
+
+            <article class="admin-notifications-page__audit-stat">
+              <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsAuditStatTemplates') }}</span>
+              <strong>{{ auditSummary().uniqueTemplates }}</strong>
+            </article>
+
+            <article class="admin-notifications-page__audit-stat">
+              <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsAuditStatUnread') }}</span>
+              <strong>{{ auditSummary().unreadEntries }}</strong>
+            </article>
+          </section>
+
           <div class="admin-notifications-page__audit-list">
-            @for (entry of auditEntries(); track entry.id) {
-              <article class="admin-notifications-page__audit-item">
-                <div class="admin-notifications-page__audit-main">
-                  <strong>{{ entry.template }}</strong>
-                  <span>{{ entry.scope }}</span>
+            @if (auditLoading()) {
+              <p class="admin-notifications-page__empty">{{ t('dashboardAdminNotificationsAuditLoading') }}</p>
+            } @else if (auditEntries().length === 0) {
+              <p class="admin-notifications-page__empty">{{ t('dashboardAdminNotificationsAuditEmpty') }}</p>
+            } @else {
+              @for (entry of auditEntries(); track entry.notificationId) {
+                <article class="admin-notifications-page__audit-item">
+                  <div class="admin-notifications-page__audit-row">
+                    <div class="admin-notifications-page__audit-main">
+                      <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsTemplate') }}</span>
+                      <strong>{{ templateLabel(entry.template) }}</strong>
+                    </div>
+
+                    <div class="admin-notifications-page__audit-tags">
+                      <span class="admin-notifications-page__audit-tag">{{ auditSeverityLabel(entry.severity) }}</span>
+                      <span class="admin-notifications-page__audit-tag">{{ auditStatusLabel(entry.status) }}</span>
+                    </div>
+                  </div>
+
+                  <div class="admin-notifications-page__audit-detail-grid">
+                    <div class="admin-notifications-page__audit-detail">
+                      <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsAuditRecipientLabel') }}</span>
+                      <strong>{{ entry.recipientEmail }}</strong>
+                    </div>
+
+                    <div class="admin-notifications-page__audit-detail">
+                      <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsAuditCategoryLabel') }}</span>
+                      <strong>{{ entry.category }}</strong>
+                    </div>
+
+                    <div class="admin-notifications-page__audit-detail">
+                      <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsAuditOccurredLabel') }}</span>
+                      <strong>{{ auditEntryTime(entry.occurredAt) }}</strong>
+                    </div>
+
+                    <div class="admin-notifications-page__audit-detail">
+                      <span class="admin-notifications-page__preview-label">{{ t('dashboardAdminNotificationsAuditNotificationIdLabel') }}</span>
+                      <strong>{{ entry.notificationId }}</strong>
+                    </div>
+                  </div>
+                </article>
+              }
+
+              <div class="admin-notifications-page__pagination" aria-label="Audit pagination">
+                <ui-button
+                  [label]="t('dashboardAdminNotificationsPaginationPrevious')"
+                  [variant]="'white'"
+                  [disabled]="!hasPreviousAuditPage()"
+                  (clicked)="previousAuditPage()">
+                </ui-button>
+
+                <div class="admin-notifications-page__pagination-pages">
+                  @for (page of auditPages(); track page) {
+                    <button
+                      type="button"
+                      class="admin-notifications-page__pagination-page"
+                      [class.admin-notifications-page__pagination-page--active]="page === auditPage()"
+                      [attr.aria-current]="page === auditPage() ? 'page' : null"
+                      (click)="goToAuditPage(page)">
+                      {{ page + 1 }}
+                    </button>
+                  }
                 </div>
-                <div class="admin-notifications-page__audit-meta">
-                  <span>{{ entry.actor }}</span>
-                  <span>{{ entry.createdAt }}</span>
-                  <span>{{ t(entry.statusKey) }}</span>
-                  <span>{{ t('dashboardAdminNotificationsAuditDelivered', { count: entry.delivered }) }}</span>
-                </div>
-              </article>
+
+                <ui-button
+                  [label]="t('dashboardAdminNotificationsPaginationNext')"
+                  [disabled]="!hasNextAuditPage()"
+                  (clicked)="nextAuditPage()">
+                </ui-button>
+              </div>
             }
           </div>
         </article>
@@ -230,16 +306,57 @@
         <article class="admin-notifications-page__card">
           <header class="admin-notifications-page__section-header">
             <div>
-              <p class="admin-notifications-page__section-eyebrow">{{ t('dashboardAdminNotificationsAuditRoadmapEyebrow') }}</p>
-              <h2 class="admin-notifications-page__section-title">{{ t('dashboardAdminNotificationsAuditRoadmapTitle') }}</h2>
+              <p class="admin-notifications-page__section-eyebrow">{{ t('dashboardAdminNotificationsAuditFiltersEyebrow') }}</p>
+              <h2 class="admin-notifications-page__section-title">{{ t('dashboardAdminNotificationsAuditFiltersTitle') }}</h2>
             </div>
           </header>
 
-          <ul class="admin-notifications-page__guide-list">
-            <li>{{ t('dashboardAdminNotificationsAuditRoadmapOne') }}</li>
-            <li>{{ t('dashboardAdminNotificationsAuditRoadmapTwo') }}</li>
-            <li>{{ t('dashboardAdminNotificationsAuditRoadmapThree') }}</li>
-          </ul>
+          <section class="admin-notifications-page__audit-filters admin-notifications-page__audit-filters--sidebar">
+            <ui-date-control
+              [placeholder]="t('dashboardAdminNotificationsAuditFilterDateFrom')"
+              [ariaLabel]="t('dashboardAdminNotificationsAuditFilterDateFrom')"
+              [value]="auditDateFrom()"
+              [max]="auditDateTo() || null"
+              (valueChange)="auditDateFrom.set($event)">
+            </ui-date-control>
+
+            <ui-date-control
+              [placeholder]="t('dashboardAdminNotificationsAuditFilterDateTo')"
+              [ariaLabel]="t('dashboardAdminNotificationsAuditFilterDateTo')"
+              [value]="auditDateTo()"
+              [min]="auditDateFrom() || null"
+              (valueChange)="auditDateTo.set($event)">
+            </ui-date-control>
+
+            <ui-select-field
+              [label]="t('dashboardAdminNotificationsAuditFilterTemplate')"
+              [value]="auditTemplate()"
+              [options]="auditTemplateOptions()"
+              (valueChange)="auditTemplate.set($event)">
+            </ui-select-field>
+
+            <ui-select-field
+              [label]="t('dashboardAdminNotificationsAuditFilterStatus')"
+              [value]="auditStatus()"
+              [options]="auditStatusOptions()"
+              (valueChange)="auditStatus.set($event)">
+            </ui-select-field>
+          </section>
+
+          <div class="admin-notifications-page__audit-filter-actions">
+            <ui-button
+              [label]="t('dashboardAdminNotificationsAuditFilterApply')"
+              [loading]="auditLoading()"
+              (clicked)="applyAuditFilters()">
+            </ui-button>
+
+            <ui-button
+              [label]="t('dashboardAdminNotificationsAuditFilterClear')"
+              [variant]="'white'"
+              [disabled]="!hasActiveAuditFilters()"
+              (clicked)="resetAuditFilters()">
+            </ui-button>
+          </div>
         </article>
       </section>
     }
@@ -266,11 +383,6 @@
     </div>
 
     <div class="admin-notifications-page__confirm-preview">
-      <div class="admin-notifications-page__confirm-preview-meta">
-        <span>{{ currentLanguage().toUpperCase() }}</span>
-        <span>{{ previewAllowedTargetLabel() }}</span>
-      </div>
-
       <article class="admin-notifications-page__confirm-notification">
         <span class="admin-notifications-page__preview-label">{{ t('dashboardNotificationsTitle') }}</span>
 

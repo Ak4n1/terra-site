@@ -4,9 +4,10 @@ import { CookieService } from '../cookie.service';
 import { LanguageService } from '../../i18n/language.service';
 import { environment } from '../../../../environments/environment';
 import { AuthClientConfigService } from '../../../features/auth/services/auth-client-config.service';
+
 const MUTATING_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
-function isApiRequest(url: string, apiBaseUrl: string): boolean {
+export function isApiRequest(url: string, apiBaseUrl: string): boolean {
   return url.startsWith('/api/') || (!!apiBaseUrl && url.startsWith(apiBaseUrl));
 }
 
