@@ -1,4 +1,8 @@
-<label class="ui-input-field">
+<label
+  class="ui-input-field"
+  [class.ui-input-field--disabled]="disabled"
+  [class.ui-input-field--editorial]="variant === 'editorial'"
+  [class.ui-input-field--editorial-plain]="variant === 'editorial-plain' || variant === '2'">
   <ui-field-label [text]="label"></ui-field-label>
   <span class="ui-input-field__wrap">
     <ui-input-control
@@ -6,6 +10,10 @@
       [value]="value"
       [placeholder]="placeholder"
       [autocomplete]="autocomplete"
+      [disabled]="disabled"
+      [maxLength]="maxLength"
+      [variant]="variant"
+      (keydown.escape)="clearValue()"
       (valueChange)="onValueChange($event)">
     </ui-input-control>
 
@@ -13,11 +21,49 @@
       <button
         type="button"
         class="ui-input-field__toggle"
+        [disabled]="disabled"
         [attr.aria-label]="passwordVisible ? 'Hide password' : 'Show password'"
         (click)="togglePasswordVisibility()">
         <lucide-icon
           [img]="passwordVisible ? eyeOffIcon : eyeClosedIcon"
           class="ui-input-field__eye-icon">
+        </lucide-icon>
+      </button>
+    }
+
+    @if (searchMode && type !== 'password') {
+      @if (value.length > 0) {
+        <button
+          type="button"
+          class="ui-input-field__search-action"
+          [disabled]="disabled"
+          aria-label="Clear search"
+          (click)="clearValue()">
+          <lucide-icon
+            [img]="clearIcon"
+            class="ui-input-field__search-icon">
+          </lucide-icon>
+        </button>
+      } @else {
+        <span class="ui-input-field__search-action ui-input-field__search-action--passive" aria-hidden="true">
+          <lucide-icon
+            [img]="searchIcon"
+            class="ui-input-field__search-icon">
+          </lucide-icon>
+        </span>
+      }
+    }
+
+    @if (clearable && !searchMode && type !== 'password' && value.length > 0) {
+      <button
+        type="button"
+        class="ui-input-field__clear"
+        [disabled]="disabled"
+        aria-label="Clear input"
+        (click)="clearValue()">
+        <lucide-icon
+          [img]="clearIcon"
+          class="ui-input-field__clear-icon">
         </lucide-icon>
       </button>
     }

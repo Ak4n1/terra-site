@@ -1,0 +1,32 @@
+:host {
+  display: inline-grid;
+  inline-size: 54px;
+  block-size: 54px;
+}
+
+.ui-orb-spinner {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(224, 136, 33, 0.18);
+  border-top-color: #e08821;
+  border-right-color: rgba(255, 255, 255, 0.8);
+  animation: ui-orb-spinner-spin 0.9s linear infinite;
+}
+
+.ui-orb-spinner::after {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-left-color: rgba(224, 136, 33, 0.8);
+  animation: ui-orb-spinner-spin 1.4s linear infinite reverse;
+}
+
+@keyframes ui-orb-spinner-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

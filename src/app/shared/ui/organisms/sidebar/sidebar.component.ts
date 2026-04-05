@@ -6,7 +6,8 @@ import { firstValueFrom } from 'rxjs';
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { AuthFacadeService } from '../../../../features/auth/services/auth-facade.service';
 import { SessionAvatarService } from '../../../../features/auth/services/session-avatar.service';
-import { ButtonComponent } from '../../atoms/button/button.component';
+import { MaskButtonComponent } from '../../atoms/mask-button/mask-button.component';
+import { MenuToggleComponent } from '../../atoms/menu-toggle/menu-toggle.component';
 import { NavLinkComponent } from '../../atoms/nav-link/nav-link.component';
 
 type SidebarItem = {
@@ -22,7 +23,7 @@ type SidebarSection = {
 @Component({
   selector: 'ui-sidebar',
   standalone: true,
-  imports: [CommonModule, NavLinkComponent, ButtonComponent],
+  imports: [CommonModule, NavLinkComponent, MaskButtonComponent, MenuToggleComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
@@ -35,7 +36,10 @@ export class SidebarComponent {
   private readonly authFacade = inject(AuthFacadeService);
   private readonly sessionAvatarService = inject(SessionAvatarService);
   readonly currentUser = toSignal(this.authFacade.currentUser$, { initialValue: null });
-  readonly sessionAvatar = computed(() => this.sessionAvatarService.resolve(this.currentUser()?.email));
+  readonly sessionAvatar = computed(() => {
+    this.sessionAvatarService.avatarRevision();
+    return this.sessionAvatarService.resolveFromUser(this.currentUser());
+  });
 
   readonly sections = computed<SidebarSection[]>(() => {
     const roles = this.currentUser()?.roles ?? [];

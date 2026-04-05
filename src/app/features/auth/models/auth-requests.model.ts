@@ -1,6 +1,8 @@
 export type LoginRequest = {
   email: string;
   password: string;
+  twoFactorCode?: string;
+  trustDevice?: boolean;
 };
 
 export type RegisterRequest = {

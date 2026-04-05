@@ -1,4 +1,4 @@
-import type { AlertVariant } from '../../shared/ui/atoms/alert/alert.component';
+import type { AlertVariant } from './alert.component';
 
 const ALERT_VARIANT_BY_STATUS: Partial<Record<number, AlertVariant>> = {
   400: 'warning',

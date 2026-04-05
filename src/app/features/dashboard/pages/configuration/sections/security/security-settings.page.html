@@ -1,0 +1,383 @@
+<section class="security-settings-page ">
+  <header class="security-settings-page__header">
+    <p class="security-settings-page__eyebrow">{{ t('dashboardConfigurationTabSecurity') }}</p>
+    <h3 class="security-settings-page__title">{{ t('dashboardConfigurationSecurityTitle') }}</h3>
+    <p class="security-settings-page__copy">{{ t('dashboardConfigurationSecurityCopy') }}</p>
+  </header>
+
+  <div class="security-settings-page__columns">
+    <section class="security-settings-page__column">
+      <article class="security-settings-page__card">
+        <p class="security-settings-page__card-eyebrow">{{ t('dashboardConfigurationSecurityPasswordEyebrow') }}</p>
+        <h4 class="security-settings-page__card-title">{{ t('dashboardConfigurationSecurityPasswordTitle') }}</h4>
+        <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityPasswordCopy') }}</p>
+        @if (passwordMessage.trim().length > 0) {
+          <ui-alert class="security-settings-page__alert" [variant]="alertVariantFor(passwordMessageKind)" [message]="passwordMessage"></ui-alert>
+        }
+        <form
+          class="security-settings-page__setup-form security-settings-page__password-form"
+          (submit)="$event.preventDefault(); submitMasterPasswordChange()">
+          <input
+            class="security-settings-page__sr-only"
+            type="email"
+            name="username"
+            autocomplete="username"
+            [value]="usernameAutocompleteValue()" />
+
+          <ui-input-field
+            [label]="t('dashboardConfigurationSecurityPasswordCurrentLabel')"
+            [type]="'password'"
+            [placeholder]="t('dashboardConfigurationSecurityPasswordCurrentPlaceholder')"
+            variant="editorial-plain"
+            [autocomplete]="'current-password'"
+            [value]="passwordCurrentValue"
+            (valueChange)="onPasswordCurrentValueChange($event)">
+          </ui-input-field>
+
+          <ui-input-field
+            [label]="t('dashboardConfigurationSecurityPasswordNewLabel')"
+            [type]="'password'"
+            [placeholder]="t('dashboardConfigurationSecurityPasswordNewPlaceholder')"
+            variant="editorial-plain"
+            [autocomplete]="'new-password'"
+            [value]="passwordNewValue"
+            (valueChange)="onPasswordNewValueChange($event)">
+          </ui-input-field>
+
+          @if (passwordNewValue.length > 0) {
+            <ui-progress-bar
+              [title]="passwordStrengthLabel"
+              [value]="passwordStrengthValue"
+              variant="main-1"
+              [showPercent]="false">
+            </ui-progress-bar>
+          }
+
+          <ui-input-field
+            [label]="t('dashboardConfigurationSecurityPasswordRepeatLabel')"
+            [type]="'password'"
+            [placeholder]="t('dashboardConfigurationSecurityPasswordRepeatPlaceholder')"
+            variant="editorial-plain"
+            [autocomplete]="'new-password'"
+            [value]="passwordRepeatValue"
+            (valueChange)="onPasswordRepeatValueChange($event)">
+          </ui-input-field>
+
+          <div class="security-settings-page__actions-inline">
+            <ui-button
+              [label]="t('dashboardConfigurationSecurityPasswordCancelAction')"
+              [type]="'button'"
+              [variant]="'white'"
+              [disabled]="changingMasterPassword"
+              (clicked)="cancelMasterPasswordForm()">
+            </ui-button>
+            <ui-button
+              [label]="t('dashboardConfigurationSecurityPasswordSaveAction')"
+              [type]="'submit'"
+              [loading]="changingMasterPassword"
+              [loadingLabel]="t('dashboardConfigurationSecurityPasswordChangingAction')"
+              [variant]="'main-1'"
+              [disabled]="!canSubmitMasterPasswordChange()">
+            </ui-button>
+          </div>
+        </form>
+
+        <div class="security-settings-page__reset-block">
+          <p class="security-settings-page__card-eyebrow">{{ t('dashboardConfigurationSecurityPasswordResetEyebrow') }}</p>
+          <h5 class="security-settings-page__sub-title">{{ t('dashboardConfigurationSecurityPasswordResetTitle') }}</h5>
+          <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityPasswordResetCopy') }}</p>
+          <div class="security-settings-page__actions-inline">
+            <ui-button
+              [label]="t('dashboardConfigurationSecurityPasswordResetRequestAction')"
+              [loading]="requestingMasterPasswordReset"
+              [loadingLabel]="t('dashboardConfigurationSecurityPasswordResetRequestingAction')"
+              [disabled]="requestingMasterPasswordReset || loading"
+              [variant]="'white'"
+              (clicked)="requestMasterPasswordResetEmail()">
+            </ui-button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="security-settings-page__column">
+      <article class="security-settings-page__card security-settings-page__card--full">
+        <p class="security-settings-page__card-eyebrow">{{ t('dashboardConfigurationSecurityTwoFactorEyebrow') }}</p>
+        <h4 class="security-settings-page__card-title">{{ t('dashboardConfigurationSecurityTwoFactorTitle') }}</h4>
+        <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityTwoFactorCopy') }}</p>
+        @if (twoFactorMessage.trim().length > 0) {
+          <ui-alert class="security-settings-page__alert" [variant]="alertVariantFor(twoFactorMessageKind)" [message]="twoFactorMessage"></ui-alert>
+        }
+
+        <div class="security-settings-page__status-line">
+          <span class="security-settings-page__status-label">{{ t('dashboardConfigurationSecurityTwoFactorStatusLabel') }}</span>
+          <span
+            class="security-settings-page__status-chip"
+            [class.security-settings-page__status-chip--on]="securityStatus?.twoFactorEnabled"
+            [class.security-settings-page__status-chip--off]="!securityStatus?.twoFactorEnabled">
+            @if (loading) {
+              {{ t('dashboardConfigurationSecurityLoadingStatus') }}
+            } @else if (securityStatus?.twoFactorEnabled) {
+              {{ t('dashboardConfigurationSecurityTwoFactorEnabled') }}
+            } @else {
+              {{ t('dashboardConfigurationSecurityTwoFactorDisabled') }}
+            }
+          </span>
+        </div>
+
+        <div class="security-settings-page__actions-inline">
+          <ui-button
+            [label]="t('dashboardConfigurationSecurityTrustedDevicesOpenAction')"
+            [variant]="'main-1'"
+            (clicked)="openTrustedDevicesModal()">
+          </ui-button>
+          <ui-button
+            [label]="t('dashboardConfigurationSecurityGuideOpenAction')"
+            [variant]="'white'"
+            (clicked)="openTwoFactorGuideModal()">
+          </ui-button>
+        </div>
+      </article>
+
+      @if (!securityStatus?.twoFactorEnabled) {
+        <article class="security-settings-page__card security-settings-page__card--full">
+          <p class="security-settings-page__card-eyebrow">{{ t('dashboardConfigurationSecurityTwoFactorEyebrow') }}</p>
+          <h4 class="security-settings-page__card-title">{{ t('dashboardConfigurationSecurityTwoFactorSetupTitle') }}</h4>
+          <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityTwoFactorSetupCopy') }}</p>
+
+          <ui-button
+            [label]="t('dashboardConfigurationSecurityTwoFactorStartAction')"
+            [loading]="setupStarting"
+            [loadingLabel]="t('dashboardConfigurationSecurityTwoFactorStartingAction')"
+            [disabled]="setupStarting || setupVerifying"
+            [variant]="'main-1'"
+            (clicked)="startTwoFactorSetup()">
+          </ui-button>
+
+          @if (setupData) {
+            <div class="security-settings-page__setup-grid">
+              <div class="security-settings-page__qr-wrap">
+                <img [src]="setupData.qrImageDataUrl" [alt]="t('dashboardConfigurationSecurityTwoFactorQrAlt')" class="security-settings-page__qr-image" />
+              </div>
+
+              <div class="security-settings-page__setup-form">
+                <p class="security-settings-page__manual-secret">
+                  <span>{{ t('dashboardConfigurationSecurityTwoFactorManualSecretLabel') }}</span>
+                  <strong>{{ setupData.secret }}</strong>
+                </p>
+
+                <ui-input-field
+                  [label]="t('dashboardConfigurationSecurityTwoFactorCodeLabel')"
+                  [placeholder]="t('dashboardConfigurationSecurityTwoFactorCodePlaceholder')"
+                  [variant]="'2'"
+                  [autocomplete]="'one-time-code'"
+                  [value]="setupCode"
+                  (valueChange)="onSetupCodeChange($event)">
+                </ui-input-field>
+
+                <ui-button
+                  [label]="t('dashboardConfigurationSecurityTwoFactorVerifyAction')"
+                  [loading]="setupVerifying"
+                  [loadingLabel]="t('dashboardConfigurationSecurityTwoFactorVerifyingAction')"
+                  [disabled]="!canVerifySetup()"
+                  [variant]="'main-1'"
+                  (clicked)="verifyTwoFactorSetup()">
+                </ui-button>
+              </div>
+            </div>
+          }
+        </article>
+      } @else {
+        <article class="security-settings-page__card security-settings-page__card--full">
+          <p class="security-settings-page__card-eyebrow">{{ t('dashboardConfigurationSecurityTwoFactorEyebrow') }}</p>
+          <h4 class="security-settings-page__card-title">{{ t('dashboardConfigurationSecurityTwoFactorSetupTitle') }}</h4>
+          <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityTwoFactorAlreadyEnabledCopy') }}</p>
+        </article>
+      }
+
+      <article class="security-settings-page__card security-settings-page__card--full">
+        <p class="security-settings-page__card-eyebrow">{{ t('dashboardConfigurationSecurityRecoveryEyebrow') }}</p>
+        <h4 class="security-settings-page__card-title">{{ t('dashboardConfigurationSecurityRecoveryTitle') }}</h4>
+        <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityRecoveryCopy') }}</p>
+        @if (recoveryMessage.trim().length > 0) {
+          <ui-alert class="security-settings-page__alert" [variant]="alertVariantFor(recoveryMessageKind)" [message]="recoveryMessage"></ui-alert>
+        }
+
+        <div class="security-settings-page__actions-inline">
+          <ui-button
+            [label]="t('dashboardConfigurationSecurityRecoveryRequestAction')"
+            [loading]="requestingRecovery"
+            [loadingLabel]="t('dashboardConfigurationSecurityRecoveryRequestingAction')"
+            [disabled]="requestingRecovery || loading"
+            [variant]="'white'"
+            (clicked)="sendRecoveryEmail()">
+          </ui-button>
+        </div>
+
+        @if (hasRecoveryToken()) {
+          <form
+            class="security-settings-page__setup-form"
+            (submit)="$event.preventDefault(); confirmRecovery()">
+            <input
+              class="security-settings-page__sr-only"
+              type="email"
+              name="username"
+              autocomplete="username"
+              [value]="usernameAutocompleteValue()" />
+
+            <ui-input-field
+              [label]="t('dashboardConfigurationSecurityRecoveryPasswordLabel')"
+              [type]="'password'"
+              [placeholder]="t('dashboardConfigurationSecurityRecoveryPasswordPlaceholder')"
+              [autocomplete]="'current-password'"
+              [value]="currentPassword"
+              (valueChange)="onCurrentPasswordChange($event)">
+            </ui-input-field>
+
+            <ui-button
+              [label]="t('dashboardConfigurationSecurityRecoveryApplyAction')"
+              [type]="'submit'"
+              [loading]="confirmingRecovery"
+              [loadingLabel]="t('dashboardConfigurationSecurityRecoveryApplyingAction')"
+              [disabled]="!canConfirmRecovery()"
+              [variant]="'main-1'">
+            </ui-button>
+          </form>
+        }
+      </article>
+    </section>
+  </div>
+</section>
+
+<ui-modal
+  [open]="twoFactorGuideModalOpen"
+  [title]="t('dashboardConfigurationSecurityGuideModalTitle')"
+  [size]="'large'"
+  (closed)="closeTwoFactorGuideModal()">
+  <div modal-body class="security-settings-page__trusted-modal-body">
+    <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityGuideCopy') }}</p>
+
+    <div class="security-settings-page__guide-head">
+      <img
+        src="assets/images/app/2fa/google_authenticator.png"
+        [alt]="t('dashboardConfigurationSecurityGuideLogoAlt')"
+        class="security-settings-page__guide-logo" />
+
+      <div class="security-settings-page__actions-inline">
+        <a class="security-settings-page__guide-link" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" target="_blank" rel="noopener noreferrer">
+          {{ t('dashboardConfigurationSecurityGuideAndroidAction') }}
+        </a>
+        <a class="security-settings-page__guide-link" href="https://apps.apple.com/app/google-authenticator/id388497605" target="_blank" rel="noopener noreferrer">
+          {{ t('dashboardConfigurationSecurityGuideIosAction') }}
+        </a>
+      </div>
+    </div>
+
+    <ol class="security-settings-page__guide-steps">
+      <li>{{ t('dashboardConfigurationSecurityGuideStep1') }}</li>
+      <li>{{ t('dashboardConfigurationSecurityGuideStep2') }}</li>
+      <li>{{ t('dashboardConfigurationSecurityGuideStep3') }}</li>
+      <li>{{ t('dashboardConfigurationSecurityGuideStep4') }}</li>
+    </ol>
+  </div>
+
+  <div modal-footer class="security-settings-page__trusted-modal-footer">
+    <ui-button
+      [label]="t('dashboardConfigurationSecurityTrustedDevicesCloseAction')"
+      [variant]="'white'"
+      (clicked)="closeTwoFactorGuideModal()">
+    </ui-button>
+  </div>
+</ui-modal>
+
+<ui-modal
+  [open]="passwordSessionClosedModalOpen"
+  [title]="t('dashboardConfigurationSecurityPasswordSessionClosedModalTitle')"
+  [size]="'large'"
+  (closed)="closePasswordSessionClosedModal()">
+  <div modal-body class="security-settings-page__trusted-modal-body">
+    <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityPasswordSessionClosedModalCopy') }}</p>
+  </div>
+
+  <div modal-footer class="security-settings-page__trusted-modal-footer">
+    <ui-button
+      [label]="t('dashboardConfigurationSecurityPasswordSessionClosedModalAction')"
+      [variant]="'main-1'"
+      (clicked)="acknowledgePasswordSessionClosedModal()">
+    </ui-button>
+  </div>
+</ui-modal>
+
+<ui-modal
+  [open]="trustedDevicesModalOpen"
+  [title]="t('dashboardConfigurationSecurityTrustedDevicesModalTitle')"
+  [size]="'large'"
+  (closed)="closeTrustedDevicesModal()">
+  <div modal-body class="security-settings-page__trusted-modal-body">
+    <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityTrustedDevicesCopy') }}</p>
+    @if (trustedDevicesMessage.trim().length > 0) {
+      <ui-alert class="security-settings-page__alert" [variant]="alertVariantFor(trustedDevicesMessageKind)" [message]="trustedDevicesMessage"></ui-alert>
+    }
+
+    <div class="security-settings-page__actions-inline security-settings-page__trusted-header">
+      <div class="security-settings-page__trusted-meta">
+        <span class="security-settings-page__trusted-count">{{ trustedDevices.length || 0 }}</span>
+        <span class="security-settings-page__trusted-count-label">{{ t('dashboardConfigurationSecurityTrustedDevicesTitle') }}</span>
+      </div>
+      <div class="security-settings-page__actions-inline">
+        <ui-button
+          [label]="t('dashboardConfigurationSecurityTrustedDevicesReloadAction')"
+          [variant]="'white'"
+          [disabled]="trustedDevicesLoading"
+          (clicked)="loadTrustedDevices()">
+        </ui-button>
+        <ui-button
+          [label]="t('dashboardConfigurationSecurityTrustedDevicesRevokeAllAction')"
+          [loading]="trustedDevicesRevokingAll"
+          [loadingLabel]="t('dashboardConfigurationSecurityTrustedDevicesRevokingAllAction')"
+          [disabled]="trustedDevicesLoading || trustedDevices.length === 0"
+          [variant]="'main-1'"
+          (clicked)="revokeAllTrustedDevices()">
+        </ui-button>
+      </div>
+    </div>
+
+    @if (trustedDevicesLoading) {
+      <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityTrustedDevicesLoading') }}</p>
+    } @else if (trustedDevices.length === 0) {
+      <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityTrustedDevicesEmpty') }}</p>
+    } @else {
+          <div class="security-settings-page__devices-list">
+            @for (device of trustedDevices; track device.sessionId) {
+              <div class="security-settings-page__device-item">
+                <div class="security-settings-page__device-meta">
+                  <p>
+                    <strong>{{ device.currentSession ? t('dashboardConfigurationSecurityTrustedDevicesCurrent') : t('dashboardConfigurationSecurityTrustedDevicesOther') }}</strong>
+                  </p>
+                  <p [attr.title]="device.userAgent || null">{{ t('dashboardConfigurationSecurityTrustedDevicesAgent') }}: {{ formatDeviceAgent(device.userAgent) }}</p>
+                  <p>{{ t('dashboardConfigurationSecurityTrustedDevicesIp') }}: {{ device.ipAddress || '-' }}</p>
+                  <p>{{ t('dashboardConfigurationSecurityTrustedDevicesCreated') }}: {{ formatDeviceDate(device.createdAt) }}</p>
+                  <p>{{ t('dashboardConfigurationSecurityTrustedDevicesExpires') }}: {{ formatDeviceDate(device.expiresAt) }}</p>
+                </div>
+                <ui-button
+                  [label]="t('dashboardConfigurationSecurityTrustedDevicesRevokeOneAction')"
+                  [variant]="'white'"
+                  [loading]="isRevokingDevice(device.sessionId)"
+              [loadingLabel]="t('dashboardConfigurationSecurityTrustedDevicesRevokingOneAction')"
+              [disabled]="isRevokingDevice(device.sessionId)"
+              (clicked)="revokeTrustedDevice(device.sessionId)">
+            </ui-button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <div modal-footer class="security-settings-page__trusted-modal-footer">
+    <ui-button
+      [label]="t('dashboardConfigurationSecurityTrustedDevicesCloseAction')"
+      [variant]="'white'"
+      (clicked)="closeTrustedDevicesModal()">
+    </ui-button>
+  </div>
+</ui-modal>

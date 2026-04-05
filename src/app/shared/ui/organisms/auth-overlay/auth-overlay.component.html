@@ -51,6 +51,42 @@
           </a>
         </form>
       </div>
+    } @else if (currentMode === 'two-factor') {
+      <div class="auth-panel__body">
+        <p class="auth-panel__copy">{{ t('authTwoFactorChallengeDescription') }}</p>
+
+        <form id="auth-two-factor-form" class="auth-form" (submit)="$event.preventDefault(); submitPrimaryAction()">
+          @if (feedbackMessage) {
+            <ui-alert [variant]="feedbackVariant" [message]="feedbackMessage"></ui-alert>
+          }
+
+          <ui-input-field
+            [label]="t('authTwoFactorCodeLabel')"
+            type="text"
+            [placeholder]="t('authTwoFactorCodePlaceholder')"
+            autocomplete="one-time-code"
+            [value]="loginTwoFactorCode"
+            (valueChange)="onLoginTwoFactorCodeChange($event)">
+          </ui-input-field>
+
+          <label class="auth-form__checkbox">
+            <input
+              type="checkbox"
+              [checked]="loginTrustDevice"
+              (change)="onLoginTrustDeviceChange($any($event.target).checked)">
+            <span>{{ t('authTrustDeviceLabel') }}</span>
+          </label>
+
+          <p class="auth-form__helper">{{ t('authTwoFactorCodeHelper') }}</p>
+          <a href="#" class="auth-form__link auth-form__link--effect" (click)="$event.preventDefault(); requestTwoFactorRecovery()">
+            <span class="auth-form__link-inner">
+              <span class="auth-form__link-l"><span>{{ t('authTwoFactorLostCodeAction') }}</span></span>
+              <span class="auth-form__link-r"><span>{{ t('authTwoFactorLostCodeAction') }}</span></span>
+              <span class="auth-form__link-shade"><span>{{ t('authTwoFactorLostCodeAction') }}</span></span>
+            </span>
+          </a>
+        </form>
+      </div>
     } @else if (currentMode === 'register') {
       <div class="auth-panel__body">
         <p class="auth-panel__copy">{{ t('authRegisterDescription') }}</p>

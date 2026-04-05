@@ -24,6 +24,15 @@ import { AuthFacadeService } from '../../../auth/services/auth-facade.service';
 type BroadcastTargetType = 'ROLE' | 'SEGMENT';
 type AdminNotificationsTab = 'send' | 'audit';
 type SendMode = 'single' | 'broadcast';
+type SendFeedbackState = {
+  key: string | null;
+  params?: Record<string, string | number>;
+  variant: AlertVariant;
+};
+type SendFeedbackMap = Record<SendMode, SendFeedbackState>;
+type AuditPaginationItem =
+  | { type: 'page'; page: number }
+  | { type: 'ellipsis'; id: string };
 
 type PreviewField = {
   label: string;
@@ -40,6 +49,8 @@ type PreviewField = {
 })
 export class DashboardAdminNotificationsPage {
   private static readonly AUDIT_PAGE_SIZE = 4;
+  private static readonly AUDIT_PAGINATION_WINDOW = 1;
+  private static readonly AUDIT_PAGINATION_EDGE = 1;
   private readonly languageService = inject(LanguageService);
   private readonly authFacade = inject(AuthFacadeService);
   private readonly adminNotificationsApi = inject(AdminNotificationsApi);
@@ -51,9 +62,10 @@ export class DashboardAdminNotificationsPage {
   readonly auditLoading = signal(false);
   readonly activeTab = signal<AdminNotificationsTab>('send');
   readonly sendMode = signal<SendMode>('single');
-  readonly feedbackKey = signal<string | null>(null);
-  readonly feedbackParams = signal<Record<string, string | number> | undefined>(undefined);
-  readonly feedbackVariant = signal<AlertVariant>('warning');
+  readonly sendFeedbackByMode = signal<SendFeedbackMap>({
+    single: { key: null, params: undefined, variant: 'warning' },
+    broadcast: { key: null, params: undefined, variant: 'warning' }
+  });
   readonly confirmModalOpen = signal(false);
   readonly currentUser = toSignal(this.authFacade.currentUser$, { initialValue: null });
 
@@ -70,6 +82,7 @@ export class DashboardAdminNotificationsPage {
   readonly canSendNotifications = computed(() => this.isAdmin());
   readonly canViewAudit = computed(() => this.isAdmin());
   readonly currentLanguage = this.languageService.language;
+  readonly currentSendFeedback = computed(() => this.sendFeedbackByMode()[this.sendMode()]);
   readonly singleTemplate = signal('');
   readonly broadcastTemplate = signal('');
   readonly visibleTemplates = computed(() => this.templates());
@@ -131,8 +144,8 @@ export class DashboardAdminNotificationsPage {
   readonly auditTotalPages = signal(1);
   readonly hasPreviousAuditPage = computed(() => this.auditPage() > 0);
   readonly hasNextAuditPage = computed(() => this.auditPage() < this.auditTotalPages() - 1);
-  readonly auditPages = computed(() =>
-    Array.from({ length: this.auditTotalPages() }, (_, index) => index)
+  readonly auditPaginationItems = computed<AuditPaginationItem[]>(() =>
+    this.buildAuditPaginationItems(this.auditTotalPages(), this.auditPage())
   );
   readonly auditTemplateOptions = computed<SelectControlOption[]>(() => [
     { value: '', label: this.t('dashboardAdminNotificationsAuditFilterTemplateAll') },
@@ -149,6 +162,8 @@ export class DashboardAdminNotificationsPage {
 
   singleEmail = '';
   singleParams: Record<string, string> = {};
+  private auditLoadingTimer: ReturnType<typeof setTimeout> | null = null;
+  private auditRequestInFlight = false;
 
   readonly broadcastTargetType = signal<BroadcastTargetType>('ROLE');
   readonly broadcastTargetValue = signal('USER');
@@ -215,9 +230,7 @@ export class DashboardAdminNotificationsPage {
     }
 
     this.activeTab.set(tab);
-    this.feedbackKey.set(null);
-    this.feedbackParams.set(undefined);
-    this.feedbackVariant.set('warning');
+    this.clearCurrentSendFeedback();
 
     if (tab === 'audit') {
       void this.loadAudit(0);
@@ -237,9 +250,7 @@ export class DashboardAdminNotificationsPage {
       }
       this.resetBroadcastParams();
     }
-    this.feedbackKey.set(null);
-    this.feedbackParams.set(undefined);
-    this.feedbackVariant.set('warning');
+    this.clearCurrentSendFeedback();
   }
 
   onSingleTemplateChange(templateCode: string): void {
@@ -410,7 +421,12 @@ export class DashboardAdminNotificationsPage {
   }
 
   async loadAudit(page = 0): Promise<void> {
-    this.auditLoading.set(true);
+    if (this.auditRequestInFlight) {
+      return;
+    }
+
+    this.auditRequestInFlight = true;
+    this.startAuditLoading();
     try {
       const filters: AdminNotificationAuditFilters = {
         dateFrom: this.auditDateFrom() || undefined,
@@ -427,12 +443,13 @@ export class DashboardAdminNotificationsPage {
       this.auditPage.set(payload.page);
       this.auditTotalPages.set(Math.max(1, Math.ceil(payload.totalItems / payload.size)));
     } finally {
-      this.auditLoading.set(false);
+      this.auditRequestInFlight = false;
+      this.stopAuditLoading();
     }
   }
 
   goToAuditPage(page: number): void {
-    if (page < 0 || page >= this.auditTotalPages()) {
+    if (this.auditRequestInFlight || page === this.auditPage() || page < 0 || page >= this.auditTotalPages()) {
       return;
     }
 
@@ -445,6 +462,10 @@ export class DashboardAdminNotificationsPage {
 
   nextAuditPage(): void {
     this.goToAuditPage(this.auditPage() + 1);
+  }
+
+  trackAuditPaginationItem(index: number, item: AuditPaginationItem): string {
+    return item.type === 'page' ? `page-${item.page}` : `ellipsis-${item.id}-${index}`;
   }
 
   activeTemplate(): AdminNotificationTemplate | null {
@@ -521,9 +542,7 @@ export class DashboardAdminNotificationsPage {
   }
 
   private setValidationError(key: string, params?: Record<string, string | number>): void {
-    this.feedbackKey.set(key);
-    this.feedbackParams.set(params);
-    this.feedbackVariant.set('error');
+    this.setCurrentSendFeedback(key, 'error', params);
   }
 
   private async sendSingle(): Promise<void> {
@@ -534,12 +553,9 @@ export class DashboardAdminNotificationsPage {
     };
 
     this.dispatchLoading.set(true);
-    this.feedbackKey.set(null);
-    this.feedbackVariant.set('warning');
     try {
       await firstValueFrom(this.adminNotificationsApi.dispatch(request));
-      this.feedbackKey.set('dashboardAdminNotificationsSendSuccess');
-      this.feedbackVariant.set('success');
+      this.setCurrentSendFeedback('dashboardAdminNotificationsSendSuccess', 'success');
       this.singleEmail = '';
       this.resetSingleParams();
       this.confirmModalOpen.set(false);
@@ -559,13 +575,9 @@ export class DashboardAdminNotificationsPage {
     };
 
     this.broadcastLoading.set(true);
-    this.feedbackKey.set(null);
-    this.feedbackVariant.set('warning');
     try {
       const result = await firstValueFrom(this.adminNotificationsApi.broadcast(request));
-      this.feedbackKey.set('dashboardAdminNotificationsBroadcastSuccess');
-      this.feedbackParams.set({ count: result.deliveredCount });
-      this.feedbackVariant.set('success');
+      this.setCurrentSendFeedback('dashboardAdminNotificationsBroadcastSuccess', 'success', { count: result.deliveredCount });
       this.resetBroadcastParams();
       this.confirmModalOpen.set(false);
     } catch (error) {
@@ -577,9 +589,82 @@ export class DashboardAdminNotificationsPage {
 
   private applyError(error: unknown): void {
     const normalized = this.authFacade.normalizeError(error);
-    this.feedbackKey.set(normalized.code ?? 'dashboardAdminNotificationsGenericError');
-    this.feedbackParams.set(undefined);
-    this.feedbackVariant.set('error');
+    this.setCurrentSendFeedback(normalized.code ?? 'dashboardAdminNotificationsGenericError', 'error');
+  }
+
+  private setCurrentSendFeedback(key: string | null, variant: AlertVariant, params?: Record<string, string | number>): void {
+    const mode = this.sendMode();
+    this.sendFeedbackByMode.update(current => ({
+      ...current,
+      [mode]: { key, params, variant }
+    }));
+  }
+
+  private clearCurrentSendFeedback(): void {
+    this.setCurrentSendFeedback(null, 'warning');
+  }
+
+  private buildAuditPaginationItems(totalPages: number, currentPage: number): AuditPaginationItem[] {
+    if (totalPages <= 0) {
+      return [];
+    }
+
+    const maxPage = totalPages - 1;
+    const current = Math.min(Math.max(currentPage, 0), maxPage);
+    const selectedPages = new Set<number>();
+
+    for (let page = 0; page < DashboardAdminNotificationsPage.AUDIT_PAGINATION_EDGE; page += 1) {
+      selectedPages.add(page);
+      selectedPages.add(maxPage - page);
+    }
+
+    for (
+      let page = current - DashboardAdminNotificationsPage.AUDIT_PAGINATION_WINDOW;
+      page <= current + DashboardAdminNotificationsPage.AUDIT_PAGINATION_WINDOW;
+      page += 1
+    ) {
+      if (page >= 0 && page <= maxPage) {
+        selectedPages.add(page);
+      }
+    }
+
+    const orderedPages = Array.from(selectedPages)
+      .filter(page => page >= 0 && page <= maxPage)
+      .sort((left, right) => left - right);
+
+    const items: AuditPaginationItem[] = [];
+    for (let index = 0; index < orderedPages.length; index += 1) {
+      const page = orderedPages[index];
+      const previous = index > 0 ? orderedPages[index - 1] : null;
+
+      if (previous !== null && page - previous > 1) {
+        items.push({ type: 'ellipsis', id: `${previous + 1}-${page - 1}` });
+      }
+
+      items.push({ type: 'page', page });
+    }
+
+    return items;
+  }
+
+  private startAuditLoading(): void {
+    if (this.auditLoadingTimer || this.auditLoading()) {
+      return;
+    }
+
+    this.auditLoadingTimer = setTimeout(() => {
+      this.auditLoading.set(true);
+      this.auditLoadingTimer = null;
+    }, 140);
+  }
+
+  private stopAuditLoading(): void {
+    if (this.auditLoadingTimer) {
+      clearTimeout(this.auditLoadingTimer);
+      this.auditLoadingTimer = null;
+    }
+
+    this.auditLoading.set(false);
   }
 
 }

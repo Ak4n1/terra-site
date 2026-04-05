@@ -1,21 +1,43 @@
-<div class="nk-preloader" #preloader>
+@if (isVisible()) {
   <div
-    #preloaderBG
-    class="nk-preloader-bg"
-    data-close-frames="23"
-    data-close-speed="1.1"
-    data-close-sprites="assets/images/app/preloader/preloader.png"
-    data-open-frames="23"
-    data-open-speed="1.1"
-    data-open-sprites="assets/images/app/preloader/preloader.png">
+    class="site-preloader"
+    [class.site-preloader--hide]="isHiding()"
+    [class.site-preloader--inline]="!fullScreen"
+    [style.--site-preloader-mask-image]="'url(' + maskSrc + ')'"
+    [style.z-index]="zIndex"
+    aria-live="polite"
+    aria-busy="true">
+    <div class="site-preloader__mask" aria-hidden="true"></div>
+
+    @if (showLogo) {
+      <div class="site-preloader__logo">
+        <img [src]="logoSrc" alt="Terra loading" />
+      </div>
+    }
+
+    @if (showProgressBar) {
+      <div class="site-preloader__bar" aria-hidden="true">
+        <span></span>
+      </div>
+    }
+
+    @if (showSignalBars) {
+      <div class="site-preloader__signal-block">
+        <div class="site-preloader__signal-bars" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <p class="site-preloader__loading-label">
+          <span>{{ loadingLabel() }}</span>
+          <span class="site-preloader__loading-dots" aria-hidden="true">
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
+          </span>
+        </p>
+      </div>
+    }
   </div>
-
-  <div class="nk-preloader-content" #content>
-    <div>
-      <div class="nk-preloader-animation" #preloadAnim></div>
-    </div>
-  </div>
-
-  <div class="nk-preloader-skip" #skipBtn>Skip</div>
-</div>
-
+}

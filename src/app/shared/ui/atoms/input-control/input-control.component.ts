@@ -1,5 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
+export type InputControlVariant = 'default' | 'editorial' | 'editorial-plain' | '2';
+
 @Component({
   selector: 'ui-input-control',
   standalone: true,
@@ -18,6 +20,7 @@ export class InputControlComponent {
   @Input() inputMode = '';
   @Input() pattern = '';
   @Input() ariaLabel = '';
+  @Input() variant: InputControlVariant = 'default';
   @Output() readonly valueChange = new EventEmitter<string>();
 
   onInput(event: Event): void {

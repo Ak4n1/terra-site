@@ -211,6 +211,14 @@ export class AuthFacadeService {
     });
   }
 
+  requestTwoFactorRecoveryFromLogin(payload: { email: string }): Observable<ApiResponse<null>> {
+    return this.authService.requestTwoFactorRecoveryFromLogin(payload);
+  }
+
+  confirmTwoFactorRecoveryFromLogin(payload: { token: string; currentPassword: string }): Observable<ApiResponse<null>> {
+    return this.authService.confirmTwoFactorRecoveryFromLogin(payload);
+  }
+
   logoutAll(): Observable<ApiResponse<null>> {
     return defer(() => {
       this.logoutInProgressSubject.next(true);
@@ -303,33 +311,10 @@ export class AuthFacadeService {
       return of(null);
     }
 
-    return this.authService.refreshSession().pipe(
-      tap(() => {
-        this.clearSessionRateLimit();
-        this.publishSyncEvent('session-refresh');
-      }),
-      switchMap(() => this.authService.fetchCurrentSession()),
-      tap(session => {
-        this.clearSessionRateLimit();
-        this.setSession(session);
-      }),
-      map(session => {
-        this.bootstrappingSubject.next(false);
-        this.authResolvedSubject.next(true);
-        return session;
-      }),
-      catchError(refreshError => {
-        this.bootstrappingSubject.next(false);
-        if (refreshError instanceof HttpErrorResponse && refreshError.status === 429) {
-          this.applySessionRateLimit(this.extractRetryAfterSecondsFromError(refreshError));
-          this.authResolvedSubject.next(true);
-          return of(this.sessionSubject.value);
-        }
-        this.clearSession();
-        this.authResolvedSubject.next(true);
-        return of(null);
-      })
-    );
+    this.bootstrappingSubject.next(false);
+    this.clearSession();
+    this.authResolvedSubject.next(true);
+    return of(null);
   }
 
   private extractRetryAfterSecondsFromError(error: HttpErrorResponse): number | null {

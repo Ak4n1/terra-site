@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 export type ModalSize = 'default' | 'large' | 'small';
 
@@ -18,5 +18,12 @@ export class ModalComponent {
 
   close(): void {
     this.closed.emit();
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.open) {
+      this.close();
+    }
   }
 }

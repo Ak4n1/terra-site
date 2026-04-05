@@ -10,14 +10,42 @@
   transition: border-color 0.25s ease, background-color 0.25s ease;
 }
 
+.ui-input-control::placeholder {
+  color: inherit;
+  opacity: 0.56;
+}
+
 .ui-input-control:focus {
   border-color: var(--c-link-hover);
   background: color-mix(in srgb, var(--color-black) 40%, transparent);
 }
 
+.ui-input-control--editorial,
+.ui-input-control--editorial-plain {
+  position: relative;
+  z-index: 1;
+  border: 0;
+  padding: 12px 48px 12px 20px;
+  background: transparent;
+  color: var(--c-text-on-dark);
+  font-family: "Roboto Condensed", var(--font-ui), sans-serif;
+  line-height: 1.2;
+}
+
+.ui-input-control--editorial:focus,
+.ui-input-control--editorial-plain:focus {
+  background: transparent;
+}
+
 .ui-input-control:disabled {
   cursor: not-allowed;
   opacity: 0.65;
+}
+
+.ui-input-control--editorial:disabled,
+.ui-input-control--editorial-plain:disabled {
+  background: transparent;
+  opacity: 0.4;
 }
 
 .ui-input-control:-webkit-autofill,
@@ -29,4 +57,16 @@
   box-shadow: inset 0 0 0 1000px var(--color-shadow-mid);
   -webkit-box-shadow: inset 0 0 0 1000px var(--color-shadow-mid);
   transition: background-color 9999s ease-out 0s;
+}
+
+.ui-input-control--editorial:-webkit-autofill,
+.ui-input-control--editorial:-webkit-autofill:hover,
+.ui-input-control--editorial:-webkit-autofill:focus,
+.ui-input-control--editorial:-webkit-autofill:active,
+.ui-input-control--editorial-plain:-webkit-autofill,
+.ui-input-control--editorial-plain:-webkit-autofill:hover,
+.ui-input-control--editorial-plain:-webkit-autofill:focus,
+.ui-input-control--editorial-plain:-webkit-autofill:active {
+  box-shadow: inset 0 0 0 1000px transparent;
+  -webkit-box-shadow: inset 0 0 0 1000px transparent;
 }

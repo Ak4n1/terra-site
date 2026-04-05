@@ -1,0 +1,145 @@
+:host {
+  display: block;
+}
+
+.test2-page {
+  min-height: calc(100vh - 140px);
+  padding: 48px 24px 96px;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.86)),
+    url("/assets/images/image-1.jpg") center top / cover fixed;
+}
+
+.test2-page__container {
+  width: min(1360px, 100%);
+  margin: 0 auto;
+}
+
+.test2-page__header {
+  margin-bottom: 32px;
+}
+
+.test2-page__eyebrow {
+  margin: 0 0 8px;
+  color: #e08821;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.test2-page__title {
+  margin: 0;
+  color: #fff;
+  font-family: "Marcellus SC", serif;
+  font-size: clamp(2.4rem, 5vw, 4.25rem);
+  line-height: 1;
+}
+
+.test2-page__copy {
+  margin: 12px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 1rem;
+}
+
+.test2-page__section {
+  margin-top: 24px;
+  padding: 36px 28px;
+  background: rgba(14, 14, 14, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.test2-page__section-head {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.test2-page__section-title {
+  margin: 0;
+  color: #fff;
+  font-family: "Marcellus SC", serif;
+  font-size: clamp(1.55rem, 3vw, 2.2rem);
+  line-height: 1.05;
+}
+
+.test2-page__section-copy {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 0.96rem;
+  line-height: 1.55;
+  max-width: 70ch;
+}
+
+.test2-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.test2-page__input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.test2-page__card {
+  display: grid;
+  gap: 18px;
+  padding: 20px 18px 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+    rgba(0, 0, 0, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.test2-page__meta {
+  display: grid;
+  gap: 8px;
+}
+
+.test2-page__variant {
+  margin: 0;
+  color: #fff;
+  font-family: "Marcellus SC", serif;
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.test2-page__description {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.test2-page__preview {
+  display: grid;
+  gap: 14px;
+}
+
+.test2-page__form-preview {
+  display: grid;
+  gap: 22px;
+}
+
+@media (max-width: 768px) {
+  .test2-page {
+    padding: 32px 16px 72px;
+  }
+
+  .test2-page__section {
+    padding: 24px 16px;
+  }
+
+  .test2-page__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .test2-page__input-grid {
+    grid-template-columns: 1fr;
+  }
+}

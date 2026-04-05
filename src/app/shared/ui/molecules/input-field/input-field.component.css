@@ -8,6 +8,78 @@
   display: block;
 }
 
+.ui-input-field--editorial .ui-input-field__wrap {
+  isolation: isolate;
+}
+
+.ui-input-field--editorial .ui-input-field__wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 1px;
+  background:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.012) 0%,
+      rgba(224, 136, 33, 0.01) 100%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition:
+    opacity 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.ui-input-field--editorial .ui-input-field__wrap::after,
+.ui-input-field--editorial-plain .ui-input-field__wrap::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  opacity: 1;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    background-color 0.2s ease,
+    filter 0.2s ease;
+}
+
+.ui-input-field--editorial .ui-input-field__wrap::after {
+  background: var(--color-accent-500);
+  -webkit-mask-image: url('/assets/images/clipping_masks/mask-line.svg');
+  mask-image: url('/assets/images/clipping_masks/mask-line.svg');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  opacity: 0.92;
+}
+
+.ui-input-field--editorial-plain .ui-input-field__wrap::after {
+  background: rgba(64, 64, 64, 1);
+}
+
+.ui-input-field--editorial .ui-input-field__wrap:focus-within::before {
+  opacity: 1;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.03) 100%);
+}
+
+.ui-input-field--editorial .ui-input-field__wrap:focus-within::after {
+  opacity: 1;
+  background: color-mix(in srgb, var(--color-accent-500) 78%, #fff 22%);
+  filter:
+    drop-shadow(0 0 3px rgba(224, 136, 33, 0.48))
+    drop-shadow(0 0 8px rgba(224, 136, 33, 0.22));
+}
+
+.ui-input-field--editorial-plain .ui-input-field__wrap:focus-within::after {
+  background: rgba(255, 255, 255, 1);
+  filter: none;
+}
+
 .ui-input-field__toggle {
   position: absolute;
   top: 0;
@@ -20,6 +92,14 @@
   display: grid;
   place-items: center;
   cursor: pointer;
+  z-index: 2;
+}
+
+.ui-input-field__toggle:disabled,
+.ui-input-field__clear:disabled,
+.ui-input-field__search-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .ui-input-field__eye-icon {
@@ -28,5 +108,96 @@
   color: rgba(255, 255, 255, 0.78);
   display: block;
   margin-bottom: 5px;
+}
 
+.ui-input-field--editorial .ui-input-field__eye-icon,
+.ui-input-field--editorial-plain .ui-input-field__eye-icon {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.68);
+  margin-bottom: 0;
+  transform: translateY(-4px);
+}
+
+.ui-input-field__clear {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 46px;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.ui-input-field__clear-icon {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.62);
+  display: block;
+  margin-bottom: 0;
+  transition: color 0.2s ease;
+}
+
+.ui-input-field__clear:hover .ui-input-field__clear-icon {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ui-input-field--editorial .ui-input-field__clear-icon,
+.ui-input-field--editorial-plain .ui-input-field__clear-icon {
+  width: 15px;
+  height: 15px;
+  color: rgba(255, 255, 255, 0.56);
+  transform: translateY(-4px);
+}
+
+.ui-input-field__search-action {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  width: 20px;
+  height: 20px;
+  transform: translateY(-50%);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 4;
+}
+
+.ui-input-field__search-action--passive {
+  cursor: default;
+  pointer-events: none;
+}
+
+.ui-input-field__search-icon {
+  width: 15px;
+  height: 15px;
+  color: rgba(255, 255, 255, 0.84);
+  display: block;
+  margin-bottom: 7px;
+}
+
+.ui-input-field--editorial .ui-input-field__search-action,
+.ui-input-field--editorial-plain .ui-input-field__search-action {
+  right: 18px;
+}
+
+.ui-input-field--editorial .ui-input-field__search-icon,
+.ui-input-field--editorial-plain .ui-input-field__search-icon {
+  width: 14px;
+  height: 14px;
+  color: rgba(255, 255, 255, 0.64);
+  margin-bottom: 0;
+  transform: translateY(-4px);
+}
+
+.ui-input-field--disabled {
+  opacity: 0.9;
 }

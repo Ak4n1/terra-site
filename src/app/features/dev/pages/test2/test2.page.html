@@ -1,0 +1,137 @@
+<section class="test2-page">
+  <div class="test2-page__container">
+    <header class="test2-page__header">
+      <p class="test2-page__eyebrow">Atoms</p>
+      <h1 class="test2-page__title">Mask Buttons</h1>
+      <p class="test2-page__copy">
+        Galeria de 10 tamanos para `ui-mask-button`, con version base y activa para comparar rapido.
+      </p>
+    </header>
+
+    <section class="test2-page__section">
+      <div class="test2-page__grid">
+        @for (example of sizeExamples; track example.size) {
+          <article class="test2-page__card">
+            <div class="test2-page__meta">
+              <p class="test2-page__variant">{{ example.title }}</p>
+              <p class="test2-page__description">{{ example.copy }}</p>
+            </div>
+
+            <div class="test2-page__preview">
+              <ui-mask-button [label]="'Profile'" [size]="example.size"></ui-mask-button>
+              <ui-mask-button [label]="'Profile'" [size]="example.size" [active]="true"></ui-mask-button>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="test2-page__section">
+      <div class="test2-page__section-head">
+        <p class="test2-page__eyebrow">Atoms</p>
+        <h2 class="test2-page__section-title">Input Field Variants</h2>
+        <p class="test2-page__section-copy">
+          Variante nueva `editorial` inspirada en el template viejo, comparada contra el input actual para revisar rápido.
+        </p>
+      </div>
+
+      <div class="test2-page__input-grid">
+        <article class="test2-page__card">
+          <div class="test2-page__meta">
+            <p class="test2-page__variant">Default</p>
+            <p class="test2-page__description">La version actual con caja completa y fondo lleno.</p>
+          </div>
+
+          <div class="test2-page__form-preview">
+            <ui-input-field
+              label="Email"
+              type="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              [value]="emailDefault"
+              (valueChange)="emailDefault = $event">
+            </ui-input-field>
+          </div>
+        </article>
+
+        <article class="test2-page__card">
+          <div class="test2-page__meta">
+            <p class="test2-page__variant">Editorial</p>
+            <p class="test2-page__description">Linea inferior, fondo transparente y tension visual mas limpia.</p>
+          </div>
+
+          <div class="test2-page__form-preview">
+            <ui-input-field
+              label="Email"
+              type="email"
+              placeholder="Email *"
+              autocomplete="email"
+              variant="editorial"
+              [value]="emailGodlike"
+              (valueChange)="emailGodlike = $event">
+            </ui-input-field>
+
+            <ui-input-field
+              label="Password"
+              type="password"
+              placeholder="Password *"
+              autocomplete="current-password"
+              variant="editorial"
+              [value]="passwordGodlike"
+              (valueChange)="passwordGodlike = $event">
+            </ui-input-field>
+
+            <ui-input-field
+              label="Search"
+              type="text"
+              placeholder="Search..."
+              variant="editorial"
+              [searchMode]="true"
+              [value]="searchGodlike"
+              (valueChange)="searchGodlike = $event">
+            </ui-input-field>
+          </div>
+        </article>
+
+        <article class="test2-page__card">
+          <div class="test2-page__meta">
+            <p class="test2-page__variant">Editorial Plain</p>
+            <p class="test2-page__description">Misma base editorial, pero con underline simple gris a blanco y sin brush SVG.</p>
+          </div>
+
+          <div class="test2-page__form-preview">
+            <ui-input-field
+              label="Email"
+              type="email"
+              placeholder="Email *"
+              autocomplete="email"
+              variant="editorial-plain"
+              [value]="emailGodlikePlain"
+              (valueChange)="emailGodlikePlain = $event">
+            </ui-input-field>
+
+            <ui-input-field
+              label="Password"
+              type="password"
+              placeholder="Password *"
+              autocomplete="current-password"
+              variant="editorial-plain"
+              [value]="passwordGodlikePlain"
+              (valueChange)="passwordGodlikePlain = $event">
+            </ui-input-field>
+
+            <ui-input-field
+              label="Search"
+              type="text"
+              placeholder="Search..."
+              variant="editorial-plain"
+              [searchMode]="true"
+              [value]="searchGodlikePlain"
+              (valueChange)="searchGodlikePlain = $event">
+            </ui-input-field>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+</section>

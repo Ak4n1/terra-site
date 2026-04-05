@@ -8,7 +8,7 @@ import { ProgressBarComponent } from '../../atoms/progress-bar/progress-bar.comp
 import { InputFieldComponent } from '../../molecules/input-field/input-field.component';
 import { ModalComponent } from '../modal/modal.component';
 
-export type AuthOverlayMode = 'login' | 'register' | 'forgot-password' | 'verify-email';
+export type AuthOverlayMode = 'login' | 'register' | 'forgot-password' | 'verify-email' | 'two-factor';
 
 @Component({
   selector: 'ui-auth-overlay',
@@ -29,14 +29,17 @@ export class AuthOverlayComponent implements OnChanges {
   @Output() readonly closed = new EventEmitter<void>();
   @Output() readonly modeChanged = new EventEmitter<AuthOverlayMode>();
   @Output() readonly stateReset = new EventEmitter<void>();
-  @Output() readonly loginSubmitted = new EventEmitter<{ email: string; password: string }>();
+  @Output() readonly loginSubmitted = new EventEmitter<{ email: string; password: string; twoFactorCode?: string; trustDevice?: boolean }>();
   @Output() readonly registerSubmitted = new EventEmitter<{ email: string; password: string; repeatPassword: string }>();
   @Output() readonly forgotPasswordSubmitted = new EventEmitter<{ email: string }>();
   @Output() readonly resendVerificationSubmitted = new EventEmitter<{ email: string }>();
+  @Output() readonly twoFactorRecoveryRequested = new EventEmitter<{ email: string }>();
 
   currentMode: AuthOverlayMode = 'login';
   loginEmail = '';
   loginPassword = '';
+  loginTwoFactorCode = '';
+  loginTrustDevice = true;
   registerEmail = '';
   registerPassword = '';
   registerRepeatPassword = '';
@@ -69,6 +72,10 @@ export class AuthOverlayComponent implements OnChanges {
   }
 
   get modalTitle(): string {
+    if (this.currentMode === 'two-factor') {
+      return this.t('authTwoFactorChallengeTitle');
+    }
+
     if (this.currentMode === 'register') {
       return this.t('authRegisterTitle');
     }
@@ -85,6 +92,10 @@ export class AuthOverlayComponent implements OnChanges {
   }
 
   get actionLabel(): string {
+    if (this.currentMode === 'two-factor') {
+      return this.t('authTwoFactorChallengeAction');
+    }
+
     if (this.currentMode === 'register') {
       return this.t('authRegisterAction');
     }
@@ -101,6 +112,10 @@ export class AuthOverlayComponent implements OnChanges {
   }
 
   get activeFormId(): string {
+    if (this.currentMode === 'two-factor') {
+      return 'auth-two-factor-form';
+    }
+
     if (this.currentMode === 'register') {
       return 'auth-register-form';
     }
@@ -134,6 +149,14 @@ export class AuthOverlayComponent implements OnChanges {
     this.registerPassword = value;
   }
 
+  onLoginTwoFactorCodeChange(value: string): void {
+    this.loginTwoFactorCode = value;
+  }
+
+  onLoginTrustDeviceChange(value: boolean): void {
+    this.loginTrustDevice = value;
+  }
+
   onRegisterEmailChange(value: string): void {
     this.registerEmail = value;
   }
@@ -148,6 +171,13 @@ export class AuthOverlayComponent implements OnChanges {
 
   onVerifyEmailAddressChange(value: string): void {
     this.verifyEmailAddress = value;
+  }
+
+  requestTwoFactorRecovery(): void {
+    if (this.loginEmail.trim().length === 0 || this.submitting) {
+      return;
+    }
+    this.twoFactorRecoveryRequested.emit({ email: this.loginEmail.trim() });
   }
 
   get primaryActionDisabled(): boolean {
@@ -171,6 +201,10 @@ export class AuthOverlayComponent implements OnChanges {
       return this.verifyEmailAddress.trim().length === 0;
     }
 
+    if (this.currentMode === 'two-factor') {
+      return this.loginEmail.trim().length === 0 || this.loginPassword.length === 0 || this.loginTwoFactorCode.trim().length !== 6;
+    }
+
     return this.forgotPasswordEmail.trim().length === 0;
   }
 
@@ -179,10 +213,12 @@ export class AuthOverlayComponent implements OnChanges {
       return;
     }
 
-    if (this.currentMode === 'login') {
+    if (this.currentMode === 'login' || this.currentMode === 'two-factor') {
       this.loginSubmitted.emit({
         email: this.loginEmail,
-        password: this.loginPassword
+        password: this.loginPassword,
+        twoFactorCode: this.loginTwoFactorCode.trim().length > 0 ? this.loginTwoFactorCode.trim() : undefined,
+        trustDevice: this.loginTrustDevice
       });
       return;
     }
@@ -232,6 +268,8 @@ export class AuthOverlayComponent implements OnChanges {
   private resetFormState(): void {
     this.loginEmail = '';
     this.loginPassword = '';
+    this.loginTwoFactorCode = '';
+    this.loginTrustDevice = true;
     this.registerEmail = '';
     this.registerPassword = '';
     this.registerRepeatPassword = '';

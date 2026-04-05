@@ -1,0 +1,71 @@
+<section class="auth-screen">
+  <div class="auth-screen__backdrop" [style.background-position]="backdropPosition()">
+    <img class="auth-screen__footer-corner" src="assets/images/footer-corner.png" alt="" aria-hidden="true" />
+  </div>
+  <div class="auth-screen__shell">
+    <div class="auth-screen__panel">
+      <div class="auth-screen__brand" aria-label="Terra"><span>T</span>erra</div>
+      <p class="auth-screen__eyebrow">{{ t('authRecoverTwoFactorPageEyebrow') }}</p>
+      <h1 class="auth-screen__title">
+        @if (completed()) {
+          {{ t('authRecoverTwoFactorPageSuccessTitle') }}
+        } @else {
+          {{ t('authRecoverTwoFactorPageTitle') }}
+        }
+      </h1>
+      <p class="auth-screen__copy">
+        @if (completed()) {
+          {{ t('authRecoverTwoFactorPageSuccessDescription') }}
+        } @else {
+          {{ t('authRecoverTwoFactorPageDescription') }}
+        }
+      </p>
+
+      @if (!completed()) {
+        <form class="auth-screen__form" (submit)="$event.preventDefault(); submit()">
+          <input
+            class="auth-screen__sr-only"
+            type="email"
+            name="username"
+            autocomplete="username"
+            [value]="usernameAutocompleteValue" />
+
+          @if (feedbackMessage()) {
+            <ui-alert [variant]="feedbackVariant()" [message]="feedbackMessage()"></ui-alert>
+          }
+
+          <ui-input-field
+            [label]="t('authCurrentPasswordLabel')"
+            type="password"
+            [placeholder]="t('authPasswordPlaceholder')"
+            autocomplete="current-password"
+            [value]="currentPassword()"
+            (valueChange)="onCurrentPasswordChange($event)">
+          </ui-input-field>
+
+          <div class="auth-screen__actions">
+            <ui-button
+              [label]="t('authRecoverTwoFactorPageAction')"
+              [loadingLabel]="t('authRecoverTwoFactorPageAction')"
+              variant="main-1"
+              size="x2"
+              type="submit"
+              [loading]="submitting()"
+              [disabled]="submitDisabled()">
+            </ui-button>
+          </div>
+        </form>
+      } @else {
+        <ui-alert [variant]="feedbackVariant()" [message]="feedbackMessage()"></ui-alert>
+        <div class="auth-screen__actions">
+          <ui-button
+            [label]="t('authRecoverTwoFactorPagePrimaryAction')"
+            variant="main-1"
+            size="x2"
+            (clicked)="goHome()">
+          </ui-button>
+        </div>
+      }
+    </div>
+  </div>
+</section>

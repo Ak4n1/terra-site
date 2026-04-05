@@ -1,0 +1,235 @@
+<section class="configuration-profile">
+  <header class="configuration-profile__header">
+    <p class="configuration-profile__eyebrow">{{ t('dashboardConfigurationTabProfile') }}</p>
+    <h3 class="configuration-profile__title">{{ t('dashboardConfigurationProfileTitle') }}</h3>
+    <p class="configuration-profile__copy">{{ t('dashboardConfigurationProfileCopy') }}</p>
+  </header>
+
+  <section class="configuration-profile__row">
+    <div class="configuration-profile__main">
+      <section class="configuration-profile__summary">
+        <h4 class="configuration-profile__summary-title">{{ t('dashboardConfigurationProfileSummaryTitle') }}</h4>
+        <div class="configuration-profile__summary-grid">
+          <article class="configuration-profile__summary-card">
+            <span>{{ t('dashboardConfigurationProfileSummaryLinkedAccounts') }}</span>
+            <strong>{{ linkedAccountsSummary() }}</strong>
+          </article>
+
+          <article class="configuration-profile__summary-card">
+            <span>{{ t('dashboardConfigurationProfileSummaryLastLogin') }}</span>
+            <strong>{{ formatSummaryDate(masterLastLoginAt) }}</strong>
+          </article>
+
+          <article class="configuration-profile__summary-card">
+            <span>{{ t('dashboardConfigurationProfileSummaryCreatedAt') }}</span>
+            <strong>{{ formatSummaryDate(masterCreatedAt) }}</strong>
+          </article>
+        </div>
+      </section>
+
+      <form class="configuration-profile__form" (submit)="$event.preventDefault(); saveProfile()">
+        @if (profileMessage.trim().length > 0) {
+          <ui-alert [variant]="alertVariant(profileMessageKind)" [message]="profileMessage"></ui-alert>
+        }
+
+        <div class="configuration-profile__field configuration-profile__field--readonly">
+          <div class="configuration-profile__readonly-field" [attr.aria-label]="t('dashboardConfigurationProfileEmailLabel')">
+            <span class="configuration-profile__readonly-label">{{ t('dashboardConfigurationProfileEmailLabel') }}</span>
+            <span class="configuration-profile__readonly-value-wrap">
+              <span class="configuration-profile__readonly-value">{{ email }}</span>
+            </span>
+          </div>
+        </div>
+
+        <ui-input-field
+          [label]="t('dashboardConfigurationProfileUsernameLabel')"
+          [placeholder]="t('dashboardConfigurationProfileUsernamePlaceholder')"
+          [value]="username"
+          variant="editorial"
+          [maxLength]="24"
+          [autocomplete]="'nickname'"
+          (valueChange)="onUsernameChange($event)">
+        </ui-input-field>
+
+        <p class="configuration-profile__hint">{{ t('dashboardConfigurationProfileUsernameHint') }}</p>
+
+        <div class="configuration-profile__actions">
+          <ui-button
+            [label]="t('dashboardConfigurationProfileSave')"
+            [loading]="saving"
+            [loadingLabel]="t('dashboardConfigurationProfileSaving')"
+            [disabled]="loading || !usernameTouched"
+            (clicked)="saveProfile()">
+          </ui-button>
+        </div>
+      </form>
+    </div>
+
+    <aside class="configuration-profile__avatar">
+      <header class="configuration-profile__avatar-header">
+        <h4 class="configuration-profile__avatar-title">{{ t('dashboardConfigurationProfileAvatarTitle') }}</h4>
+        <p class="configuration-profile__avatar-copy">{{ t('dashboardConfigurationProfileAvatarCopy') }}</p>
+      </header>
+
+      @if (avatarMessage.trim().length > 0) {
+        <ui-alert [variant]="alertVariant(avatarMessageKind)" [message]="avatarMessage"></ui-alert>
+      }
+
+      <input
+        #avatarFileInput
+        type="file"
+        accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
+        class="configuration-profile__avatar-input"
+        (change)="onCustomAvatarSelected($event)" />
+
+      <section class="configuration-profile__avatar-top">
+        <div class="configuration-profile__avatar-preview-wrap">
+          @if (avatarPreview) {
+            <img
+              class="configuration-profile__avatar-preview"
+              [src]="avatarPreview"
+              [alt]="t('dashboardConfigurationProfileAvatarPreviewAlt')" />
+          } @else {
+            <span class="configuration-profile__avatar-empty">{{ t('dashboardConfigurationProfileAvatarEmpty') }}</span>
+          }
+        </div>
+
+        <div class="configuration-profile__avatar-actions">
+          <ui-button
+            [label]="t('dashboardConfigurationProfileAvatarSave')"
+            [loading]="avatarSaving"
+            [loadingLabel]="t('dashboardConfigurationProfileAvatarSaving')"
+            [disabled]="avatarSaving || !avatarDirty"
+            (clicked)="saveAvatarChanges()">
+          </ui-button>
+          <ui-button
+            [label]="t('dashboardConfigurationProfileAvatarUpload')"
+            [disabled]="avatarSaving"
+            (clicked)="openAvatarPicker(avatarFileInput)">
+          </ui-button>
+        </div>
+      </section>
+
+      <div
+        class="configuration-profile__dropzone"
+        [class.configuration-profile__dropzone--active]="dragOver"
+        (dragover)="onAvatarDropZoneDragOver($event)"
+        (dragleave)="onAvatarDropZoneDragLeave($event)"
+        (drop)="onAvatarDropZoneDrop($event)">
+        <p class="configuration-profile__dropzone-title">{{ t('dashboardConfigurationProfileAvatarDropTitle') }}</p>
+        <p class="configuration-profile__dropzone-copy">{{ t('dashboardConfigurationProfileAvatarDropCopy') }}</p>
+      </div>
+
+      <section class="configuration-profile__avatar-catalog">
+        <div class="configuration-profile__avatar-family-tabs">
+          @for (family of avatarFamilies; track family.key) {
+            <button
+              type="button"
+              class="configuration-profile__avatar-family-tab"
+              [class.configuration-profile__avatar-family-tab--active]="isAvatarFamilyExpanded(family.key)"
+              (click)="toggleAvatarFamily(family.key)">
+              <span>{{ family.label }}</span>
+            </button>
+          }
+        </div>
+
+        @if (activeAvatarFamily(); as family) {
+          @if (isLineageFamily(family)) {
+            <div class="configuration-profile__avatar-sections">
+              @for (section of avatarSectionsForFamily(family); track section.title) {
+                <section class="configuration-profile__avatar-section">
+                  <h5 class="configuration-profile__avatar-section-title">{{ section.title }}</h5>
+                  <div class="configuration-profile__avatar-list">
+                    @for (avatarPath of section.avatars; track avatarPath) {
+                      <button
+                        type="button"
+                        class="configuration-profile__avatar-item"
+                        [class.configuration-profile__avatar-item--active]="isPresetActive(avatarPath)"
+                        [disabled]="avatarSaving"
+                        (click)="choosePreset(avatarPath)">
+                        <img [src]="avatarPath" [alt]="t('dashboardConfigurationProfileAvatarPresetAlt')" />
+                      </button>
+                    }
+                  </div>
+                </section>
+              }
+            </div>
+          } @else {
+            <div class="configuration-profile__avatar-list">
+              @for (avatarPath of displayedPresetAvatarsForFamily(family); track avatarPath) {
+                <button
+                  type="button"
+                  class="configuration-profile__avatar-item"
+                  [class.configuration-profile__avatar-item--active]="isPresetActive(avatarPath)"
+                  [disabled]="avatarSaving"
+                  (click)="choosePreset(avatarPath)">
+                  <img [src]="avatarPath" [alt]="t('dashboardConfigurationProfileAvatarPresetAlt')" />
+                </button>
+              }
+            </div>
+          }
+        }
+      </section>
+    </aside>
+  </section>
+</section>
+
+<ui-modal
+  [open]="profileConfirmModalOpen"
+  [title]="t('dashboardConfigurationProfileConfirmTitle')"
+  size="default"
+  (closed)="onProfileConfirmModalClosed()">
+  <div modal-body class="configuration-profile__confirm-modal-body">
+    <p class="configuration-profile__confirm-modal-copy">{{ t('dashboardConfigurationProfileConfirmCopy') }}</p>
+  </div>
+  <div modal-footer class="configuration-profile__confirm-actions">
+    <ui-button
+      [label]="t('dashboardConfigurationProfileConfirmCancel')"
+      variant="white"
+      (clicked)="cancelProfileSaveConfirmation()">
+    </ui-button>
+    <ui-button
+      [label]="t('dashboardConfigurationProfileConfirmApply')"
+      (clicked)="confirmProfileSave()">
+    </ui-button>
+  </div>
+</ui-modal>
+
+<ui-modal
+  [open]="cropperModalOpen && !!cropperFile"
+  [title]="t('dashboardConfigurationProfileAvatarCropTitle')"
+  size="large"
+  (closed)="onCropperModalClosed()">
+  <div modal-body class="configuration-profile__cropper-modal-body">
+    @if (cropperFile) {
+      <section class="configuration-profile__cropper-panel configuration-profile__cropper-panel--modal">
+        <image-cropper
+          [imageFile]="cropperFile"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="1 / 1"
+          [resizeToWidth]="512"
+          [resizeToHeight]="512"
+          [cropperMinWidth]="128"
+          [cropperMinHeight]="128"
+          [onlyScaleDown]="true"
+          [backgroundColor]="'#0e0e0e'"
+          [format]="'png'"
+          (cropperReady)="onCropperReady()"
+          (imageCropped)="onImageCropped($event)">
+        </image-cropper>
+      </section>
+    }
+  </div>
+  <div modal-footer class="configuration-profile__cropper-actions configuration-profile__cropper-actions--modal">
+    <ui-button
+      [label]="t('dashboardConfigurationProfileAvatarCropCancel')"
+      variant="white"
+      (clicked)="cancelCroppedAvatar()">
+    </ui-button>
+    <ui-button
+      [label]="t('dashboardConfigurationProfileAvatarCropApply')"
+      [disabled]="!cropperReady || !avatarDraftBlob"
+      (clicked)="applyCroppedAvatar()">
+    </ui-button>
+  </div>
+</ui-modal>

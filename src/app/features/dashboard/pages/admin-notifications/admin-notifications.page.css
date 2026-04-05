@@ -5,7 +5,6 @@
 
 .admin-notifications-page__hero,
 .admin-notifications-page__nav-card,
-.admin-notifications-page__feedback-card,
 .admin-notifications-page__card,
 .admin-notifications-page__audit-item {
   position: relative;
@@ -69,7 +68,6 @@
 
 .admin-notifications-page__copy,
 .admin-notifications-page__empty,
-.admin-notifications-page__feedback,
 .admin-notifications-page__section-copy,
 .admin-notifications-page__guide-list,
 .admin-notifications-page__audit-meta {
@@ -140,7 +138,6 @@
   cursor: not-allowed;
 }
 
-.admin-notifications-page__feedback-card,
 .admin-notifications-page__card {
   padding: var(--dashboard-panel-padding);
 }
@@ -265,6 +262,7 @@
 }
 
 .admin-notifications-page__audit-list {
+  position: relative;
   display: grid;
   gap: 16px;
   margin-top: 20px;
@@ -385,7 +383,10 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  max-width: 100%;
+  overflow-x: auto;
+  padding-bottom: 4px;
 }
 
 .admin-notifications-page__pagination-page {
@@ -402,6 +403,12 @@
   transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
+.admin-notifications-page__pagination-page:disabled {
+  opacity: 0.55;
+  cursor: wait;
+  transform: none;
+}
+
 .admin-notifications-page__pagination-page:hover {
   border-color: rgba(255, 255, 255, 0.34);
   color: var(--c-text-on-dark);
@@ -415,8 +422,14 @@
   box-shadow: inset 0 0 0 1px rgba(224, 136, 33, 0.24);
 }
 
-.admin-notifications-page__feedback {
-  margin: 0;
+.admin-notifications-page__pagination-ellipsis {
+  min-width: 28px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.52);
+  font-family: var(--font-ui);
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  user-select: none;
 }
 
 .admin-notifications-page__confirm {
@@ -517,7 +530,6 @@
 
 @media (max-width: 768px) {
   .admin-notifications-page__hero,
-  .admin-notifications-page__feedback-card,
   .admin-notifications-page__card {
     padding: var(--dashboard-panel-padding-mobile);
   }

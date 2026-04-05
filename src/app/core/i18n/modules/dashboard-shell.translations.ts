@@ -665,7 +665,7 @@ export const DASHBOARD_SHELL_TRANSLATIONS_DE: TranslationMap = {
   dashboardSidebarCreateAccount: 'Konto erstellen',
   dashboardSidebarChangePassword: 'Passwort andern',
   dashboardSidebarConfiguration: 'Konfiguration',
-  dashboardSidebarAdminNotifications: 'Admin-Benachrichtigungen',
+  dashboardSidebarAdminNotifications: 'Benachrichtigungen',
   dashboardSidebarAccountLabel: 'Masterkonto',
   dashboardNotificationsLabel: 'Benachrichtigungen offnen',
   dashboardNotificationsTitle: 'Benachrichtigungen',

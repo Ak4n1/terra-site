@@ -343,7 +343,7 @@
   position: relative;
   border: 1px solid var(--c-border-subtle);
   background: rgba(255, 255, 255, 0.04);
-  border-radius: 50%;
+  border-radius: 999px;
   overflow: hidden;
   cursor: pointer;
   display: inline-flex;
@@ -357,15 +357,15 @@
 
 .terra-account-menu__avatar {
   position: absolute;
-  inset: -2px;
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   max-width: none;
   object-fit: cover;
   object-position: center;
   display: block;
-  border-radius: 50%;
-  transform: translate(2px, 2px);
+  border-radius: 999px;
+  transform: none;
 }
 
 .terra-account-menu__eyebrow {
@@ -569,7 +569,7 @@ ui-menu-toggle {
 .terra-mobile-session__avatar {
   width: 48px;
   height: 48px;
-  border-radius: 50%;
+  border-radius: 999px;
   object-fit: cover;
   border: 1px solid var(--c-border-subtle);
 }

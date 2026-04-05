@@ -1,0 +1,9 @@
+{
+  "entries": [
+    {
+      "number": 1,
+      "label": "angular-dev",
+      "command": "ak capture --label angular-dev -- ng serve"
+    }
+  ]
+}

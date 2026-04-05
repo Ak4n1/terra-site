@@ -1,2 +1,27 @@
-<section class="dashboard-page-placeholder"></section>
+<section class="dashboard-configuration-page">
+  <article class="dashboard-configuration-page__hero">
+    <div class="dashboard-configuration-page__hero-copy">
+      <p class="dashboard-configuration-page__eyebrow">{{ t('dashboardConfigurationTabsLabel') }}</p>
+      <h1 class="dashboard-configuration-page__title">{{ t('dashboardConfigurationTitle') }}</h1>
+      <p class="dashboard-configuration-page__copy">{{ t('dashboardConfigurationSubtitle') }}</p>
+    </div>
+  </article>
 
+  <nav class="dashboard-configuration-page__nav-card" [attr.aria-label]="t('dashboardConfigurationTabsLabel')">
+    <ui-mask-button
+      *ngFor="let tab of tabs"
+      class="dashboard-configuration-page__tab-item"
+      [class.dashboard-configuration-page__tab-item--active]="isTabActive(tab.route)"
+      [mask]="tab.mask"
+      [label]="t(tab.labelKey)"
+      [routerLink]="tab.route"
+      size="xs"
+      [active]="isTabActive(tab.route)"
+      [ariaLabel]="t(tab.labelKey)">
+    </ui-mask-button>
+  </nav>
+
+  <section class="dashboard-configuration-page__content-card">
+    <router-outlet></router-outlet>
+  </section>
+</section>

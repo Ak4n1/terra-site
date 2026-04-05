@@ -50,7 +50,8 @@ export const DASHBOARD_ROUTES: Routes = [
       },
       {
         path: 'configuration',
-        component: DashboardConfigurationPage
+        component: DashboardConfigurationPage,
+        loadChildren: () => import('./pages/configuration/routes').then(m => m.DASHBOARD_CONFIGURATION_ROUTES)
       },
       {
         path: 'admin-notifications',

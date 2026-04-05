@@ -3,6 +3,7 @@ import { Component, OnDestroy, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DashboardTopbarComponent } from '../../../../shared/ui/organisms/dashboard-topbar/dashboard-topbar.component';
 import { SidebarComponent } from '../../../../shared/ui/organisms/sidebar/sidebar.component';
+import { SitePreloaderComponent } from '../../../../shared/ui/organisms/site-preloader/site-preloader.component';
 
 @Component({
   selector: 'app-dashboard-shell',

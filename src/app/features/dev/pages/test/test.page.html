@@ -11,18 +11,29 @@
 
       <div class="test-page__examples">
         @for (example of buttonExamples; track example.name) {
-          <article class="test-page__example">
-            <p class="test-page__variant">{{ example.name }}</p>
-            <ui-button
-              [label]="example.label"
-              [variant]="example.variant"
-              [size]="example.size"
-              [disabled]="example.disabled ?? false"
-              [loading]="example.loading ?? false"
-              [loadingLabel]="example.loadingLabel ?? null"></ui-button>
-          </article>
+        <article class="test-page__example">
+          <p class="test-page__variant">{{ example.name }}</p>
+          <ui-button [label]="example.label" [variant]="example.variant" [size]="example.size"
+            [disabled]="example.disabled ?? false" [loading]="example.loading ?? false"
+            [loadingLabel]="example.loadingLabel ?? null"></ui-button>
+        </article>
         }
       </div>
+    </section>
+    <section class="test-page__section">
+      <h2 class="test-page__section-title">Pricing table</h2>
+
+      <div class="princig-table__main1">
+        <div class="pricing-table__header">
+          <h2>Enterprise License</h2>
+        </div>
+        <div class="pricing-table__body">
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae tenetur nisi quam minus asperiores! Itaque quisquam modi, iure quae nulla incidunt molestias mollitia ut porro quis veritatis quos dolorum animi!
+          </p>
+        </div>
+      </div>
+
     </section>
 
     <section class="test-page__section">
@@ -41,29 +52,20 @@
       </div>
 
       <div class="test-page__pagination" aria-label="Pagination showcase">
-        <ui-button
-          label="Previous"
-          variant="white"
-          [disabled]="!hasPreviousPaginationPage()"
+        <ui-button label="Previous" variant="white" [disabled]="!hasPreviousPaginationPage()"
           (clicked)="previousPaginationPage()"></ui-button>
 
         <div class="test-page__pagination-pages">
           @for (page of paginationShowcasePages; track page.id; let index = $index) {
-            <button
-              type="button"
-              class="test-page__pagination-page"
-              [class.test-page__pagination-page--active]="index === currentPaginationPage()"
-              [attr.aria-current]="index === currentPaginationPage() ? 'page' : null"
-              (click)="goToPaginationPage(index)">
-              {{ index + 1 }}
-            </button>
+          <button type="button" class="test-page__pagination-page"
+            [class.test-page__pagination-page--active]="index === currentPaginationPage()"
+            [attr.aria-current]="index === currentPaginationPage() ? 'page' : null" (click)="goToPaginationPage(index)">
+            {{ index + 1 }}
+          </button>
           }
         </div>
 
-        <ui-button
-          label="Next"
-          variant="main-1"
-          [disabled]="!hasNextPaginationPage()"
+        <ui-button label="Next" variant="main-1" [disabled]="!hasNextPaginationPage()"
           (clicked)="nextPaginationPage()"></ui-button>
       </div>
     </section>
@@ -74,37 +76,28 @@
       <div class="test-page__pager-copy">
         <p class="test-page__variant">Audit filter direction</p>
         <h3 class="test-page__pager-title">Custom date atom</h3>
-        <p class="test-page__pager-text">Base visual para futuros filtros de auditoria como rango desde / hasta, manteniendo picker nativo por debajo.</p>
+        <p class="test-page__pager-text">Base visual para futuros filtros de auditoria como rango desde / hasta,
+          manteniendo picker nativo por debajo.</p>
       </div>
 
       <div class="test-page__date-grid">
         <article class="test-page__date-card">
           <p class="test-page__variant">Desde</p>
-          <ui-date-control
-            ariaLabel="Audit date from"
-            placeholder="Seleccionar fecha"
-            [value]="auditDateFrom()"
+          <ui-date-control ariaLabel="Audit date from" placeholder="Seleccionar fecha" [value]="auditDateFrom()"
             (valueChange)="auditDateFrom.set($event)">
           </ui-date-control>
         </article>
 
         <article class="test-page__date-card">
           <p class="test-page__variant">Hasta</p>
-          <ui-date-control
-            ariaLabel="Audit date to"
-            placeholder="Seleccionar fecha"
-            [value]="auditDateTo()"
-            [min]="auditDateFrom()"
-            (valueChange)="auditDateTo.set($event)">
+          <ui-date-control ariaLabel="Audit date to" placeholder="Seleccionar fecha" [value]="auditDateTo()"
+            [min]="auditDateFrom()" (valueChange)="auditDateTo.set($event)">
           </ui-date-control>
         </article>
 
         <article class="test-page__date-card">
           <p class="test-page__variant">Disabled</p>
-          <ui-date-control
-            ariaLabel="Disabled date control"
-            placeholder="Fecha bloqueada"
-            [value]="'2026-03-20'"
+          <ui-date-control ariaLabel="Disabled date control" placeholder="Fecha bloqueada" [value]="'2026-03-20'"
             [disabled]="true">
           </ui-date-control>
         </article>
@@ -155,7 +148,8 @@
             </div>
             <div class="test-page__mail-body">
               <p class="test-page__mail-copy">Hello <strong>player@l2terra.online</strong>,</p>
-              <p class="test-page__mail-copy">We received a request to reset your password. Continue only if you started this flow.</p>
+              <p class="test-page__mail-copy">We received a request to reset your password. Continue only if you started
+                this flow.</p>
               <div class="test-page__mail-cta">
                 <ui-button label="Reset password" variant="main-1" size="x2"></ui-button>
               </div>
@@ -283,7 +277,8 @@
               <span></span>
             </div>
             <h3 class="test-page__auth-loading-title">Sending secure instructions</h3>
-            <p class="test-page__auth-loading-copy">A compact loader for the forgot-password flow inside the modal body.</p>
+            <p class="test-page__auth-loading-copy">A compact loader for the forgot-password flow inside the modal body.
+            </p>
           </div>
         </article>
       </div>
@@ -403,8 +398,10 @@
       <h2 class="test-page__section-title">Auth Overlay</h2>
 
       <div class="test-page__auth-launchers">
-        <ui-button [label]="t('authOpenLogin')" variant="white" size="x2" (clicked)="openAuthPanel('login')"></ui-button>
-        <ui-button [label]="t('authOpenRegister')" variant="main-1" size="x2" (clicked)="openAuthPanel('register')"></ui-button>
+        <ui-button [label]="t('authOpenLogin')" variant="white" size="x2"
+          (clicked)="openAuthPanel('login')"></ui-button>
+        <ui-button [label]="t('authOpenRegister')" variant="main-1" size="x2"
+          (clicked)="openAuthPanel('register')"></ui-button>
       </div>
     </section>
 

@@ -33,6 +33,7 @@ pnpm-debug.log*
 .sass-cache/
 /connect.lock
 /coverage
+/.lighthouse/
 /libpeerconnection.log
 testem.log
 /typings
@@ -40,6 +41,7 @@ __screenshots__/
 .cache/
 .tmp/
 tmp/
+/tmp-*
 *.tmp
 *.temp
 

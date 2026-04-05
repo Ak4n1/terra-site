@@ -1209,3 +1209,9 @@
     padding: 20px 16px 24px;
   }
 }
+
+.princig-table__main1 {
+  width: 400px;
+  height: 600px;
+  background:#b56d19;
+}

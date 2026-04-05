@@ -47,7 +47,8 @@ export class AuthStatusScreenService {
     const path = this.currentPath();
     return path.startsWith('/dashboard')
       || path.startsWith('/verify-email')
-      || path.startsWith('/reset-password');
+      || path.startsWith('/reset-password')
+      || path.startsWith('/dashboard-reset-password');
   });
 
   private authStatusShownAt: number | null = null;
@@ -106,4 +107,3 @@ export class AuthStatusScreenService {
     this.authStatusHideTimerId = null;
   }
 }
-

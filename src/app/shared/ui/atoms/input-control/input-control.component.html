@@ -1,6 +1,8 @@
 <input
   #inputRef
   class="ui-input-control"
+  [class.ui-input-control--editorial]="variant === 'editorial'"
+  [class.ui-input-control--editorial-plain]="variant === 'editorial-plain' || variant === '2'"
   [type]="type"
   [value]="value"
   [disabled]="disabled"

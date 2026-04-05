@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -8,6 +8,10 @@ import { evaluatePassword, isPasswordCompliant } from '../../../../core/utils/pa
 import type { AlertVariant } from '../../../../shared/ui/atoms/alert/alert.component';
 import { AlertComponent } from '../../../../shared/ui/atoms/alert/alert.component';
 import { ButtonComponent } from '../../../../shared/ui/atoms/button/button.component';
+import {
+  MaskButtonComponent,
+  type MaskButtonMask
+} from '../../../../shared/ui/atoms/mask-button/mask-button.component';
 import { ProgressBarComponent } from '../../../../shared/ui/atoms/progress-bar/progress-bar.component';
 import { InputFieldComponent } from '../../../../shared/ui/molecules/input-field/input-field.component';
 import { VerificationCodeInputComponent } from '../../../../shared/ui/molecules/verification-code-input/verification-code-input.component';
@@ -16,11 +20,22 @@ import { AuthFacadeService } from '../../../auth/services/auth-facade.service';
 import { GameAccountCreateService } from '../../services/game-account-create.service';
 
 type CreateAccountStep = 'send-email' | 'verify-code' | 'create-account' | 'done';
+type CreateAccountMessageKind = 'success' | 'error' | 'neutral';
+type CreateAccountStepMessageState = {
+  message: string;
+  kind: CreateAccountMessageKind;
+};
+type CreateAccountStepMessageMap = Record<CreateAccountStep, CreateAccountStepMessageState>;
+type CreateAccountStepIndicator = {
+  label: string;
+  activeFrom: number;
+  mask: MaskButtonMask;
+};
 
 @Component({
   selector: 'app-game-accounts-page',
   standalone: true,
-  imports: [CommonModule, AlertComponent, ButtonComponent, ProgressBarComponent, InputFieldComponent, VerificationCodeInputComponent, SingleItemCarouselComponent],
+  imports: [CommonModule, AlertComponent, ButtonComponent, MaskButtonComponent, ProgressBarComponent, InputFieldComponent, VerificationCodeInputComponent, SingleItemCarouselComponent],
   templateUrl: './game-accounts.page.html',
   styleUrl: './game-accounts.page.css'
 })
@@ -29,6 +44,7 @@ export class GameAccountsPage {
   private readonly router = inject(Router);
   private readonly gameAccountCreateService = inject(GameAccountCreateService);
   private readonly authFacade = inject(AuthFacadeService);
+  private readonly cdr = inject(ChangeDetectorRef);
   readonly currentUser = toSignal(this.authFacade.currentUser$, { initialValue: null });
   readonly promoSlides: SingleItemCarouselSlide[] = [
     {
@@ -48,20 +64,36 @@ export class GameAccountsPage {
       imageSrc: 'assets/images/app/slider-create-account/mithilmines.webp'
     }
   ];
+  readonly stepIndicators: readonly CreateAccountStepIndicator[] = [
+    { label: '1', activeFrom: 1, mask: 2 },
+    { label: '2', activeFrom: 2, mask: 3 },
+    { label: '3', activeFrom: 3, mask: 4 },
+    { label: '4', activeFrom: 4, mask: 5 }
+  ];
 
   step: CreateAccountStep = 'send-email';
   verificationCode = '';
+  verificationToken = '';
   accountName = '';
   password = '';
   confirmPassword = '';
-  formMessage = '';
-  formMessageKind: 'success' | 'error' | 'neutral' = 'neutral';
+  private readonly stepMessages: CreateAccountStepMessageMap = {
+    'send-email': { message: '', kind: 'neutral' },
+    'verify-code': { message: '', kind: 'neutral' },
+    'create-account': { message: '', kind: 'neutral' },
+    done: { message: '', kind: 'neutral' }
+  };
   sendingEmail = false;
   verifyingCode = false;
   creatingAccount = false;
+  hasRequestedCode = false;
 
   t(key: string): string {
     return this.languageService.t(key);
+  }
+
+  checklistLabel(key: string): string {
+    return this.t(key).replace(/^\d+\.\s*/, '');
   }
 
   isStep(currentStep: CreateAccountStep): boolean {
@@ -84,11 +116,6 @@ export class GameAccountsPage {
     this.confirmPassword = value;
   }
 
-  onCreateAccountEnter(event: Event): void {
-    event.preventDefault();
-    this.createAccount();
-  }
-
   contactEmail(): string {
     return this.currentUser()?.email ?? '';
   }
@@ -102,9 +129,11 @@ export class GameAccountsPage {
   }
 
   canCreateAccount(): boolean {
-    return this.accountName.trim().length >= 3
+    return this.accountName.trim().length >= 4
+      && this.verificationToken.trim().length > 0
       && this.confirmPassword.trim().length > 0
       && isPasswordCompliant(this.password)
+      && this.password.length <= 16
       && !this.creatingAccount;
   }
 
@@ -130,19 +159,25 @@ export class GameAccountsPage {
       return;
     }
 
+    this.step = 'verify-code';
+    this.verificationCode = '';
+    this.verificationToken = '';
+    this.hasRequestedCode = true;
     this.sendingEmail = true;
-    this.showMessage('dashboardGameAccountsSendingCodeStatus', 'neutral');
     this.gameAccountCreateService.sendEmailCode(this.contactEmail()).pipe(
       finalize(() => {
         this.sendingEmail = false;
+        this.cdr.detectChanges();
       })
     ).subscribe({
       next: () => {
-        this.step = 'verify-code';
-        this.verificationCode = '';
         this.showMessage('dashboardGameAccountsCodeSent', 'success');
+        this.cdr.detectChanges();
       },
-      error: () => this.showMessage('dashboardGameAccountsGenericError', 'error')
+      error: (error: unknown) => {
+        this.handleApiError(error, 'dashboardGameAccountsGenericError');
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -153,22 +188,22 @@ export class GameAccountsPage {
     }
 
     this.verifyingCode = true;
-    this.showMessage('dashboardGameAccountsVerifyingCodeStatus', 'neutral');
     this.gameAccountCreateService.verifyEmailCode(this.verificationCode).pipe(
       finalize(() => {
         this.verifyingCode = false;
+        this.cdr.detectChanges();
       })
     ).subscribe({
-      next: isValid => {
-        if (!isValid) {
-          this.showMessage('dashboardGameAccountsInvalidCode', 'error');
-          return;
-        }
-
+      next: result => {
+        this.verificationToken = result.verificationToken;
         this.step = 'create-account';
         this.showMessage('dashboardGameAccountsCodeVerified', 'success');
+        this.cdr.detectChanges();
       },
-      error: () => this.showMessage('dashboardGameAccountsGenericError', 'error')
+      error: (error: unknown) => {
+        this.handleApiError(error, 'dashboardGameAccountsInvalidCode');
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -184,46 +219,57 @@ export class GameAccountsPage {
     }
 
     this.creatingAccount = true;
-    this.showMessage('dashboardGameAccountsCreatingStatus', 'neutral');
+    this.showMessage('', 'neutral');
     this.gameAccountCreateService.createGameAccount({
       accountName: this.accountName,
       password: this.password,
-      confirmPassword: this.confirmPassword
+      verificationToken: this.verificationToken
     }).pipe(
       finalize(() => {
         this.creatingAccount = false;
+        this.cdr.detectChanges();
       })
     ).subscribe({
-      next: created => {
-        if (!created) {
-          this.showMessage('dashboardGameAccountsInvalidForm', 'error');
-          return;
-        }
-
+      next: () => {
         this.step = 'done';
         this.showMessage('dashboardGameAccountsCreated', 'success');
+        this.cdr.detectChanges();
       },
-      error: () => this.showMessage('dashboardGameAccountsGenericError', 'error')
+      error: (error: unknown) => {
+        this.handleApiError(error, 'dashboardGameAccountsGenericError');
+        this.cdr.detectChanges();
+      }
     });
   }
 
   goBackToSendEmail(): void {
     this.step = 'send-email';
-    this.verificationCode = '';
-    this.showMessage('dashboardGameAccountsBackToEmail', 'neutral');
+    this.showMessage('', 'neutral');
   }
 
   goBackToVerifyCode(): void {
     this.step = 'verify-code';
-    this.showMessage('dashboardGameAccountsBackToEmail', 'neutral');
+    this.verificationToken = '';
+    this.showMessage('', 'neutral');
+  }
+
+  goToVerifyWithoutResend(): void {
+    if (this.sendingEmail) {
+      return;
+    }
+
+    this.step = 'verify-code';
+    this.showMessage('', 'neutral');
   }
 
   resetFlow(): void {
     this.step = 'send-email';
     this.verificationCode = '';
+    this.verificationToken = '';
     this.accountName = '';
     this.password = '';
     this.confirmPassword = '';
+    this.hasRequestedCode = false;
     this.showMessage('', 'neutral');
   }
 
@@ -244,24 +290,23 @@ export class GameAccountsPage {
   }
 
   alertVariant(): AlertVariant {
-    if (this.formMessageKind === 'success') {
+    if (this.currentStepMessageKind() === 'success') {
       return 'success';
     }
 
-    if (this.formMessageKind === 'error') {
+    if (this.currentStepMessageKind() === 'error') {
       return 'error';
     }
 
     return 'warning';
   }
 
-  isProcessMessage(): boolean {
-    return this.formMessageKind === 'neutral' && this.formMessage.trim().length > 0;
+  shouldShowStepAlert(): boolean {
+    return this.currentStepMessage().trim().length > 0;
   }
 
-  hasFinalAlert(): boolean {
-    return (this.formMessageKind === 'success' || this.formMessageKind === 'error')
-      && this.formMessage.trim().length > 0;
+  currentStepMessage(): string {
+    return this.stepMessages[this.step].message;
   }
 
   onPromoAction(actionId: string): void {
@@ -270,8 +315,46 @@ export class GameAccountsPage {
     }
   }
 
-  private showMessage(messageKey: string, kind: 'success' | 'error' | 'neutral'): void {
-    this.formMessage = messageKey ? this.t(messageKey) : '';
-    this.formMessageKind = kind;
+  private showMessage(messageKey: string, kind: CreateAccountMessageKind): void {
+    this.setStepMessage(this.step, messageKey ? this.t(messageKey) : '', kind);
+  }
+
+  private handleApiError(error: unknown, fallbackKey: string): void {
+    const normalized = this.authFacade.normalizeError(error);
+    const mappedKey = this.mapApiCodeToI18nKey(normalized.code);
+    let message = mappedKey ? this.t(mappedKey) : normalized.message;
+    if (normalized.retryAfterSeconds && normalized.retryAfterSeconds > 0) {
+      message = `${message} (${normalized.retryAfterSeconds}s)`;
+    }
+
+    this.setStepMessage(this.step, message, normalized.status === 429 ? 'neutral' : 'error');
+    if (!this.currentStepMessage() || this.currentStepMessage().trim().length === 0) {
+      this.setStepMessage(this.step, this.t(fallbackKey), 'error');
+    }
+  }
+
+  private currentStepMessageKind(): CreateAccountMessageKind {
+    return this.stepMessages[this.step].kind;
+  }
+
+  private setStepMessage(step: CreateAccountStep, message: string, kind: CreateAccountMessageKind): void {
+    this.stepMessages[step] = { message, kind };
+  }
+
+  private mapApiCodeToI18nKey(code: string | null): string | null {
+    if (!code) {
+      return null;
+    }
+    const map: Record<string, string> = {
+      'game.create_code_invalid': 'dashboardGameAccountsInvalidCode',
+      'game.create_code_expired': 'dashboardGameAccountsInvalidCode',
+      'game.account_already_exists': 'dashboardGameAccountsAccountAlreadyExists',
+      'game.create_code_verification_required': 'dashboardGameAccountsInvalidCode',
+      'game.master_email_not_verified': 'dashboardGameAccountsMasterEmailNotVerified',
+      'game.create_code_cooldown_active': 'dashboardGameAccountsCodeCooldownActive',
+      'game.create_code_attempts_exceeded': 'dashboardGameAccountsRateLimitExceeded',
+      'rate_limit.exceeded': 'dashboardGameAccountsRateLimitExceeded'
+    };
+    return map[code] ?? null;
   }
 }

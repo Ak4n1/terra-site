@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Architectural Dashboard - Profile Configuration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#d6e3fb",
+              "error-container": "#fe8983",
+              "primary-fixed": "#dae2ff",
+              "secondary-fixed": "#d6e3fb",
+              "error": "#9f403d",
+              "on-primary-fixed": "#003993",
+              "primary-dim": "#004aba",
+              "error-dim": "#4e0309",
+              "on-tertiary-container": "#524c68",
+              "tertiary-dim": "#554f6b",
+              "on-tertiary-fixed-variant": "#5c5672",
+              "secondary-dim": "#475467",
+              "secondary-fixed-dim": "#c8d5ec",
+              "surface-container-highest": "#dbe4e7",
+              "outline": "#737c7f",
+              "background": "#f8f9fa",
+              "on-error-container": "#752121",
+              "on-secondary-fixed": "#334052",
+              "surface": "#f8f9fa",
+              "inverse-primary": "#5c8bff",
+              "secondary": "#536073",
+              "tertiary-container": "#e3dbfd",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary": "#f8f8ff",
+              "on-secondary-fixed-variant": "#4f5c70",
+              "on-primary-container": "#004ab9",
+              "primary": "#0c56d0",
+              "tertiary-fixed": "#e3dbfd",
+              "inverse-surface": "#0c0f10",
+              "surface-container-high": "#e2e9ec",
+              "on-secondary-container": "#465365",
+              "tertiary-fixed-dim": "#d5cdee",
+              "surface-container": "#eaeff1",
+              "on-tertiary": "#fcf7ff",
+              "on-primary": "#f8f7ff",
+              "primary-container": "#dae2ff",
+              "inverse-on-surface": "#9b9d9e",
+              "on-surface": "#2b3437",
+              "surface-tint": "#0c56d0",
+              "on-surface-variant": "#586064",
+              "surface-variant": "#dbe4e7",
+              "surface-container-low": "#f1f4f6",
+              "outline-variant": "#abb3b7",
+              "primary-fixed-dim": "#c6d3ff",
+              "surface-dim": "#d1dce0",
+              "on-primary-fixed-variant": "#0253cd",
+              "on-tertiary-fixed": "#3f3a54",
+              "on-background": "#2b3437",
+              "surface-bright": "#f8f9fa",
+              "tertiary": "#615b77",
+              "on-error": "#fff7f6"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      .ghost-border { outline: 1px solid rgba(171, 179, 183, 0.15); }
+      .primary-gradient { background: linear-gradient(135deg, #0c56d0 0%, #004aba 100%); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-950 flex flex-col p-6 gap-y-8 z-40">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+</div>
+<div>
+<h1 class="text-xl font-black tracking-tight text-slate-900 dark:text-slate-50">Atelier Studio</h1>
+<p class="text-[0.6875rem] font-medium uppercase tracking-wider text-on-surface-variant">Precision Workspace</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<div class="px-2 py-3 mb-2">
+<p class="text-xs font-semibold text-on-surface-variant truncate">johndoe@example.com</p>
+</div>
+<!-- Navigation Items -->
+<a class="flex items-center gap-3 px-3 py-2 text-blue-700 dark:text-blue-400 bg-white dark:bg-slate-900 shadow-sm rounded-md transition-transform duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-medium text-[0.875rem]">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md transition-transform duration-200 cursor-pointer hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+<span class="font-medium text-[0.875rem]">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md transition-transform duration-200 cursor-pointer hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+<span class="font-medium text-[0.875rem]">Configurations</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md transition-transform duration-200 cursor-pointer hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-medium text-[0.875rem]">Team</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md transition-transform duration-200 cursor-pointer hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-medium text-[0.875rem]">Analytics</span>
+</a>
+</nav>
+<button class="primary-gradient text-on-primary py-2.5 rounded-md text-[0.875rem] font-semibold active:scale-95 transition-transform">
+            New Project
+        </button>
+</aside>
+<!-- Top Navigation -->
+<header class="w-full h-16 sticky top-0 z-30 bg-slate-50 dark:bg-slate-900 ml-64 max-w-[calc(1368px-16rem)] flex items-center justify-between px-8 font-['Inter'] antialiased text-sm tracking-tight">
+<div class="flex items-center gap-8">
+<a class="text-blue-700 dark:text-blue-400 font-semibold border-b-2 border-blue-700 dark:border-blue-400 pb-4 mt-4" href="#">Profile</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 pb-4 mt-4 transition-colors" href="#">Security</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 pb-4 mt-4 transition-colors" href="#">Activity</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-2 bg-surface-container-highest">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="close-up portrait of a professional male architect in a clean studio environment with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJDXSd-5vzuW29lgO0B-xRQZhDefBvVgqa52I7oL0IHvW9bDpOvtoAUmRkTPYl2stst_GVnqmLFu_s7wpt64z8xibeVIjXtHpbuOTa9CxvXJetDH1X062N8JGJSIzG7zaA9ab9rO1qqmTNRdkVveYjoyJwaOiJ_Mp4sW3B4UIxABXkkZXtNtXELfM-WOG6kHfBZbfqLYF1qE0tP4rLoazWyd0TvmYO7FCgLG_e9ogVdq-YhrQbW7qRLmeZqN3mp0Jl-HPseSxCFhCC"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-10 max-w-[calc(1368px-16rem)] min-h-[calc(100vh-4rem)]">
+<!-- Header Section -->
+<header class="mb-12">
+<p class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant mb-1">Settings</p>
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface mb-2">Profile</h2>
+<p class="text-[0.875rem] text-on-surface-variant max-w-2xl">Manage your public and private details to keep your digital identity secure and professional.</p>
+</header>
+<!-- Metrics Grid -->
+<section class="grid grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container-low p-6 rounded-lg transition-colors hover:bg-surface-container-high">
+<p class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant mb-1">Accounts</p>
+<p class="text-lg font-bold text-on-surface">Game accounts linked: 5</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg transition-colors hover:bg-surface-container-high">
+<p class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant mb-1">System Access</p>
+<p class="text-lg font-bold text-on-surface">Last login: 2026-01-20</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg transition-colors hover:bg-surface-container-high">
+<p class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant mb-1">Tenure</p>
+<p class="text-lg font-bold text-on-surface">Created: 2025-05-10</p>
+</div>
+</section>
+<!-- Config Grid (60/40) -->
+<div class="grid grid-cols-1 md:grid-cols-10 gap-10">
+<!-- Main Form Block (60%) -->
+<section class="md:col-span-6 space-y-10">
+<div class="bg-surface-container-lowest p-8 rounded-xl ghost-border">
+<h3 class="text-lg font-bold tracking-tight mb-6">Identity Details</h3>
+<div class="space-y-6">
+<!-- Read-only Email -->
+<div class="space-y-1.5">
+<label class="text-[0.875rem] font-medium text-on-surface-variant">Registered Email</label>
+<div class="bg-surface-container-high px-4 py-3 rounded-sm text-on-surface font-medium cursor-not-allowed">
+                                johndoe@example.com
+                            </div>
+</div>
+<!-- Editable Username -->
+<div class="space-y-1.5">
+<label class="text-[0.875rem] font-medium text-on-surface-variant">Display Name</label>
+<input class="w-full bg-surface-container-highest border-none ghost-border focus:ring-2 focus:ring-primary/40 rounded-sm px-4 py-3 text-on-surface font-medium" type="text" value="JohnDoe"/>
+<p class="text-[0.6875rem] text-on-surface-variant">Your unique display name used across the workspace.</p>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-outline-variant/10">
+<button class="primary-gradient text-on-primary px-8 py-2.5 rounded-md text-[0.875rem] font-semibold active:scale-95 transition-transform">
+                            Save Profile
+                        </button>
+</div>
+</div>
+</section>
+<!-- Avatar Block (40%) -->
+<section class="md:col-span-4 space-y-8">
+<div class="bg-surface-container-lowest p-8 rounded-xl ghost-border">
+<div class="mb-6">
+<h3 class="text-lg font-bold tracking-tight">Avatar</h3>
+<p class="text-[0.875rem] text-on-surface-variant">Choose your look</p>
+</div>
+<!-- Current Avatar & Primary Actions -->
+<div class="flex items-center gap-6 mb-8">
+<div class="w-20 h-20 rounded-full bg-surface-container-highest ghost-border flex-shrink-0 p-1">
+<img alt="Current avatar preview" class="w-full h-full rounded-full object-cover" data-alt="stylized 3D character avatar of a modern creative professional with minimalist features and clean lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSal-CteKx01rHw1vZJlc0isQ7hZgs4_3ttyzX_wjvVtHtc1g7rHemi1s5hlWCoOCNDJdRDzAGMJHjv_DcX8XT_uY5t0FuiU2TbTBNR7Wa0TD3fF5kMgQYztW-R7xX1duI5yucnOnIvtMWBPsyU4W6kIikyUVlWI2hiJnG0TF_Vbkzj_1UsVaHeTDmxDe4BZYqZpt9_VBnOLMOIn53sGcl_lh3jQv8l-kd6ievKQUv-_jq4aBibTQWtMi4kNnlwwwnJMxnhP_i8WVf"/>
+</div>
+<div class="flex flex-col gap-2 w-full">
+<button class="primary-gradient text-on-primary py-2 rounded-md text-[0.875rem] font-semibold active:scale-95 transition-transform w-full">
+                                Save Changes
+                            </button>
+<button class="bg-surface-container-high text-on-surface py-2 rounded-md text-[0.875rem] font-semibold hover:bg-surface-container-highest transition-colors active:scale-95 w-full">
+                                Upload Custom
+                            </button>
+</div>
+</div>
+<!-- Drag and Drop Zone -->
+<div class="border-2 border-dashed border-outline-variant/30 rounded-lg p-8 text-center bg-surface-container-low mb-8 transition-colors hover:bg-surface-container-high cursor-pointer">
+<span class="material-symbols-outlined text-outline-variant text-3xl mb-2" data-icon="cloud_upload">cloud_upload</span>
+<p class="text-[0.875rem] font-medium text-on-surface">Drag and drop file</p>
+<p class="text-[0.6875rem] text-on-surface-variant">PNG or JPG, max 2MB</p>
+</div>
+<!-- Catalog Header -->
+<div class="flex items-center gap-4 mb-4 overflow-x-auto no-scrollbar pb-2">
+<button class="text-[0.6875rem] font-bold uppercase tracking-wider text-primary border-b-2 border-primary pb-1 whitespace-nowrap">Human</button>
+<button class="text-[0.6875rem] font-bold uppercase tracking-wider text-on-surface-variant hover:text-on-surface pb-1 whitespace-nowrap transition-colors">Bot</button>
+<button class="text-[0.6875rem] font-bold uppercase tracking-wider text-on-surface-variant hover:text-on-surface pb-1 whitespace-nowrap transition-colors">Animal</button>
+</div>
+<!-- Avatar Grid -->
+<div class="grid grid-cols-4 gap-3">
+<!-- 12 Placeholder Grid items -->
+<div class="aspect-square bg-surface-container-low rounded-md ghost-border transition-all hover:scale-105 cursor-pointer ring-2 ring-primary">
+<img alt="Avatar option" class="w-full h-full p-1 rounded-md" data-alt="minimalist illustrated human character head with geometric features and professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpNbnYYiuf4yjQZI30RFcC82KKfmbKcRA-5SNM3Zz98zwudVQI8vtL8WMYUuK4R2Nsxx5eF17e2Iq071j8wC8uDY7PG2m6FqlYq_3ITAH8M4Pt07aoJwehOWBPTevlasDoFX_2vtObRizFRQIgHJeTe72Cb1P187jVSZXRS45iiba6sfpyoozeu2pZikkFQ2SN3HH2WsYvxmNXKR8EwusM2idIS7D_Ec-JPHOo6px0WN-T7d1LJl_LJvolP728R-T0lqy1xUYeFzp7"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-md ghost-border transition-all hover:scale-105 cursor-pointer hover:ring-2 hover:ring-primary/40">
+<img alt="Avatar option" class="w-full h-full p-1 rounded-md" data-alt="minimalist illustrated human character head with geometric features and professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr23vpcEBpBXurAMdcOfpfUhqK0nSuK55w6dWuGdoUTarRORyTo1bhlaJi1CjcLA_wQK4HzU8NQ9vO852-hxTbANcK_b7gbw5LN8kLCXgdRsVSEtlTLD8oojF2m_nTWBfDlMjRHCc-FwmCsA00SZHQlQJphGnFGiOwUD2rCJohEjxcZXst--nzD5V2YhY0qTUyUtCqJhOuKbE8QjSIvovPUNreSSbmiyMOz24mIzIvRZZEswOoFlqAdFiSrbFVxY4OADvTZAhO_sVR"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-md ghost-border transition-all hover:scale-105 cursor-pointer hover:ring-2 hover:ring-primary/40">
+<img alt="Avatar option" class="w-full h-full p-1 rounded-md" data-alt="minimalist illustrated human character head with geometric features and professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEidnq_FJ8g_lNEtJK43FOXNFuH0Iykw3azu7YTRtPW21bhqivjZBtMNJyG-dQPaIJY2r82sDsv9Ovbk2lhyxLk73N-3mdKcOZqekMgPHRju7rax4pjpjg8feqU5AJDgCVoHHFH4MIirWdb2gLvSk04SZGUf__OKt15fzqhI-etHZlEpCCDssxt_a3EmTDgjLi7hjXWxkqsSwuf9vp77xlMQpSWIBv8AllQ-8UphDYokAtPQGtni0o5uHsdTCNUrLPAhH76isGTLbL"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-md ghost-border transition-all hover:scale-105 cursor-pointer hover:ring-2 hover:ring-primary/40">
+<img alt="Avatar option" class="w-full h-full p-1 rounded-md" data-alt="minimalist illustrated human character head with geometric features and professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK6nFOy52tW3ZTN0VppkwNIgxoeY98jnzvvFw7V9mxKLQ_4dMgZsmnCaWROunESFrszs6gRKZmzjAKafduBBdGgUgQSqDIrxxoGGMaVhk3PKrLVG5Y293hAOco5n7grwDYooI9xybD8T78nyUUMNvf4cGAUE2UQi40-ycEGt8JaX40L635zCcmvYaPz-gSIsB44788uMk6YoBnqSAKic7B8GbrGNJOP8XQjtk8H0l4-YzJS1_Nloz49Q1bzo1FA2Wr4YqqWwdzcR2o"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-md ghost-border transition-all hover:scale-105 cursor-pointer hover:ring-2 hover:ring-primary/40">
+<img alt="Avatar option" class="w-full h-full p-1 rounded-md" data-alt="minimalist illustrated human character head with geometric features and professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUIQCa1JfEVVnHB2nE1A0zRNJaDzPCtq9sehLaDa41IjR-EnZz5r1SGXLH48AvlYCdkdSg79rfJC7Tp1WSWpPNeakbS9E1-TlJHelHwz0TuRpgDtFYyx5B1SjkBh_LIHrq-YmbMUbDYweT7U37LDFjIXl8zMxWlw-lmm8AfmtOqYOLogxykJXZN9RGGG3gTw8dhqfZ2dFvz4yLZUPHtL0TphPMXv8TyYIDiySeS02uFVWFv5HDD5_BBkjOGKC7ha6xPTfkWO88BHDL"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-md ghost-border transition-all hover:scale-105 cursor-pointer hover:ring-2 hover:ring-primary/40">
+<img alt="Avatar option" class="w-full h-full p-1 rounded-md" data-alt="minimalist illustrated human character head with geometric features and professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNQDBysah_zHmhUPZv6gevIEkpljsQopEm79QBqx0hGL32mdwQGRCNHaFMTOCZE1-jK3WAxpkwj3ghE-zNfzrPlATWS2cHXaX1PNLRRUD5cG6UnZW7m0YXcN9TPop5W8TkSi-h7PDttT7SiNCr4aTk4Nzv0G2sahErWEJx_qHQ27tXPuPF4x4SuqHButIam-OF7CN9_X6C1loAGhKz-zh1TgeHBS1VhvPqES-YQXJ5JyPH7G7srplAMn5sCM1CinP60GwnNZRREJlH"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-md ghost-border transition-all hover:scale-105 cursor-pointer hover:ring-2 hover:ring-primary/40">
+<img alt="Avatar option" class="w-full h-full p-1 rounded-md" data-alt="minimalist illustrated human character head with geometric features and professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfqbuZ_W6ZImAy3WvleGrwrfMM8jjplYn2Oi04QMJY8yGgcQmTvI0oqMAyRC43fcbkp40wlaWgczRGDv4h7bgyc3ScgueQ-7uqK7ilKqam2-19KfWroHNFMdW8eKKaOcnB5Xkf8ThrATC4JqbRX9w0bCzw1dq1KqUJZy_UEkgu8rts_bt0CVEZwnOLIzh321ImYqyMLqiH_ALIKKKMBCkC8l565e7-vWMKvl53fQeS5mui_t_JuLTdvIQcd9Bqsa7GnAYo6CzhKJhn"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-md ghost-border transition-all hover:scale-105 cursor-pointer hover:ring-2 hover:ring-primary/40">
+<img alt="Avatar option" class="w-full h-full p-1 rounded-md" data-alt="minimalist illustrated human character head with geometric features and professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWDxakM_u3e7JR4uJwA6Zl2_WGk-G1N1TJbmJKWkQCtF3wr0SqE_T-hHoxUUm4uGsMaoqGWh-uhLhd8JHL1bVbF9XtpFGRTrBZb5nNZTVZrT0GwtnNtUTNUCZDWYU9UOFH1tP1TpEFgTpyV8waTSgg5CS-h-Xi_U9i4ViebhhCJrFKBP3-3CdDulId6Pn4mOAghLoJ7O2Mxs9MXoe-GqLMx771fxlxgqZptiSShSSwEpNFquXjjyoxG_Mt5IKAOXD4tkVqxg3HeOOr"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-md ghost-border transition-all hover:scale-105 cursor-pointer hover:ring-2 hover:ring-primary/40">
+<img alt="Avatar option" class="w-full h-full p-1 rounded-md" data-alt="minimalist illustrated human character head with geometric features and professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHWDtVMEyOnnmPmbCvrhz5N8emXdh_HKcqQbV7qjKTcyaONiKiUzU1DTkZUEYqWqd8pPlWLAudJopB4irfA0Q0pnyjHc31bfH3nXBHC69-UXeJxcJ_C-URO3BGxuYWyB3gQJupM-6sy1-w3hbZQUEMqEAxaORUBdQ2AGMxtlQ09O3GW52Sls5sBOuMU6ISPlz7_ZdxkjPx_kRHT_keaNrHosrKcnFi23cCVGONK9rgVtZ75q_3fDyOYh_qg388bEPl4zDXMNbY1pdH"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-md ghost-border transition-all hover:scale-105 cursor-pointer hover:ring-2 hover:ring-primary/40">
+<img alt="Avatar option" class="w-full h-full p-1 rounded-md" data-alt="minimalist illustrated human character head with geometric features and professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGpr7T3SA1MclMJ8bgUN3NidxHK1vXhaQjWN0LGyNdBJM8OSl-9WEJ2FtVZZWrCv9MLgw1PU_3wEA1D7O7OVdFFrRRMGEvaw74ayyakPwAhKZs3px98289uwztyqFJebNcjiyyY_oLY9WNqnLlfBGZ1rKaF-MrvwGzb7Z65gTId_8RezBJ2IP87968PsZYTipnp3s0eOnGDsvuEPdqiJ1DKSk1kQaw8l0jM-TbXirK2POR594x0rxCFiQ7ue_NSeric_JDTssiVH5Q"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-md ghost-border transition-all hover:scale-105 cursor-pointer hover:ring-2 hover:ring-primary/40">
+<img alt="Avatar option" class="w-full h-full p-1 rounded-md" data-alt="minimalist illustrated human character head with geometric features and professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAGMBUjz2VMpRvMzUqqMKMFqXp4UO4daTzVEmb-kmub1XNxxtlLO31gdDkH7nDs9ky_A-sBf687GJuEoWOO7HcOqJ6P6EETcSd0_ekwOuWxzk0aLiRIUPvzOeKZgrL9cxussSZb0od2e6-Rrdv-ZsI6Y39O7gSsJx4PJRzO6nC4yO_o9ewuAjOuN3F4bpmUigeMJ71qURojQm7p4Y5QdpLHV9G0kvW3mMLOamqLhtnq8vbOpjM5lh5Io2ZiWzMpbAHauaT-vte-9Fm"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-md ghost-border transition-all hover:scale-105 cursor-pointer hover:ring-2 hover:ring-primary/40">
+<img alt="Avatar option" class="w-full h-full p-1 rounded-md" data-alt="minimalist illustrated human character head with geometric features and professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVZi1EdQEHS_5CC-FEavnr7gNx5fyKn_Qzbw16IcXf5whdJEGcu8aodDaZeIc26aoR4c5-5BgdCl_R1wTFYX3DMOCF33gI8trXyQOQSnZ5kMWhDt3q-k4TBhcNSWf568aFR__lxWaoGzvhAigA1Rqdl05V5DhiK7p31zJTT4tZUIKcyBAQOA_sVEwTssA5R65S-S8JeWFMfwIU-xiOLfNrU7IUrJ3wCQ-Kyb2ZongrFcXSoliwkdimZi4YHMHZLjHM_dpjKANhjLXx"/>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

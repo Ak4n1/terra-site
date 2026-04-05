@@ -186,14 +186,15 @@ export class NavbarComponent implements OnDestroy {
 
   constructor() {
     effect(() => {
-      const email = this.sessionEmail();
-      if (!email) {
+      this.sessionAvatarService.avatarRevision();
+      const user = this.currentUser();
+      if (!user?.email) {
         this.sessionAvatar.set(this.sessionAvatarService.resolve(null));
         this.isAccountMenuOpen = false;
         return;
       }
 
-      this.sessionAvatar.set(this.sessionAvatarService.resolve(email));
+      this.sessionAvatar.set(this.sessionAvatarService.resolveFromUser(user));
     });
   }
 

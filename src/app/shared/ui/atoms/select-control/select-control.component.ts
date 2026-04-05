@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output, computed, signal } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, signal } from '@angular/core';
 
 export type SelectControlOption = {
   value: string;
@@ -23,9 +23,12 @@ export class SelectControlComponent {
 
   readonly open = signal(false);
   readonly activeIndex = signal(-1);
-  readonly selectedOption = computed(() => this.options.find(option => option.value === this.value) ?? null);
 
   constructor(private readonly elementRef: ElementRef<HTMLElement>) {}
+
+  selectedOption(): SelectControlOption | null {
+    return this.options.find(option => option.value === this.value) ?? null;
+  }
 
   toggle(): void {
     if (this.disabled) {

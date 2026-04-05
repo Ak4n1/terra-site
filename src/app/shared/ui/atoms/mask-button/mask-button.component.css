@@ -1,0 +1,206 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.ui-mask-button {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: var(--ui-mask-button-size-min-height, var(--ui-mask-button-min-height, 92px));
+  padding: var(--ui-mask-button-size-padding, var(--ui-mask-button-padding, 16px 22px));
+  border: 0;
+  color: var(--ui-mask-button-color, var(--c-text-on-dark));
+  background: var(
+    --ui-mask-button-bg,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(10, 10, 10, 0.84)
+  );
+  text-align: center;
+  text-decoration: none;
+  appearance: none;
+  cursor: pointer;
+  backdrop-filter: blur(var(--ui-mask-button-blur, 4px));
+  filter: var(
+    --ui-mask-button-filter,
+    drop-shadow(0 8px 12px rgba(0, 0, 0, 0.34))
+      drop-shadow(0 14px 18px rgba(0, 0, 0, 0.24))
+  );
+  -webkit-mask-image: var(
+    --ui-mask-button-mask-image,
+    url('/assets/images/clipping_masks/button.svg?v=2')
+  );
+  mask-image: var(
+    --ui-mask-button-mask-image,
+    url('/assets/images/clipping_masks/button.svg?v=2')
+  );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  transition:
+    background 0.2s ease,
+    filter 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.ui-mask-button::before,
+.ui-mask-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ui-mask-button::before {
+  background: var(
+    --ui-mask-button-overlay,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0)),
+    transparent
+  );
+}
+
+.ui-mask-button::after {
+  inset: 0 0 auto;
+  height: var(--ui-mask-button-rim-height, 18px);
+  background: var(
+    --ui-mask-button-rim,
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--dashboard-tab-border-inactive) 82%, transparent),
+      transparent
+    )
+  );
+  opacity: var(--ui-mask-button-rim-opacity, 0.62);
+}
+
+.ui-mask-button__label {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  max-width: 100%;
+  color: inherit;
+  font-family: var(--ui-mask-button-font-family, var(--font-display));
+  font-size: var(--ui-mask-button-size-font-size, var(--ui-mask-button-font-size, 0.96rem));
+  font-weight: var(--ui-mask-button-font-weight, 400);
+  line-height: var(--ui-mask-button-line-height, 1.08);
+  letter-spacing: var(--ui-mask-button-letter-spacing, 0);
+  text-wrap: balance;
+}
+
+.ui-mask-button:hover:not(.ui-mask-button--disabled) {
+  background: var(--ui-mask-button-bg-hover, var(--ui-mask-button-bg));
+  filter: var(
+    --ui-mask-button-filter-hover,
+    drop-shadow(0 10px 16px rgba(0, 0, 0, 0.38))
+      drop-shadow(0 18px 24px rgba(0, 0, 0, 0.28))
+  );
+}
+
+.ui-mask-button--active {
+  color: var(--ui-mask-button-color-active, var(--c-text-on-dark));
+  background: var(--ui-mask-button-bg-active, var(--ui-mask-button-bg));
+  filter: var(
+    --ui-mask-button-filter-active,
+    drop-shadow(0 10px 16px rgba(0, 0, 0, 0.4))
+      drop-shadow(0 20px 26px rgba(0, 0, 0, 0.3))
+  );
+}
+
+.ui-mask-button--active::before,
+.ui-mask-button--active::after {
+  opacity: 0;
+}
+
+.ui-mask-button--disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.ui-mask-button--2xs {
+  --ui-mask-button-size-min-height: 58px;
+  --ui-mask-button-size-padding: 10px 16px;
+  --ui-mask-button-size-font-size: 0.68rem;
+}
+
+.ui-mask-button--xs {
+  --ui-mask-button-size-min-height: 64px;
+  --ui-mask-button-size-padding: 11px 18px;
+  --ui-mask-button-size-font-size: 0.82rem;
+  --ui-mask-button-size-font-size-mobile: 0.8rem;
+}
+
+.ui-mask-button--sm {
+  --ui-mask-button-size-min-height: 72px;
+  --ui-mask-button-size-padding: 12px 20px;
+  --ui-mask-button-size-font-size: 0.8rem;
+}
+
+.ui-mask-button--md {
+  --ui-mask-button-size-min-height: 84px;
+  --ui-mask-button-size-padding: 14px 22px;
+  --ui-mask-button-size-font-size: 0.9rem;
+}
+
+.ui-mask-button--lg {
+  --ui-mask-button-size-min-height: 96px;
+  --ui-mask-button-size-padding: 16px 24px;
+  --ui-mask-button-size-font-size: 0.98rem;
+}
+
+.ui-mask-button--xl {
+  --ui-mask-button-size-min-height: 110px;
+  --ui-mask-button-size-padding: 18px 26px;
+  --ui-mask-button-size-font-size: 1.06rem;
+}
+
+.ui-mask-button--2xl {
+  --ui-mask-button-size-min-height: 124px;
+  --ui-mask-button-size-padding: 22px 28px;
+  --ui-mask-button-size-font-size: 1.14rem;
+}
+
+.ui-mask-button--3xl {
+  --ui-mask-button-size-min-height: 140px;
+  --ui-mask-button-size-padding: 24px 30px;
+  --ui-mask-button-size-font-size: 1.22rem;
+}
+
+.ui-mask-button--4xl {
+  --ui-mask-button-size-min-height: 158px;
+  --ui-mask-button-size-padding: 28px 34px;
+  --ui-mask-button-size-font-size: 1.32rem;
+}
+
+.ui-mask-button--5xl {
+  --ui-mask-button-size-min-height: 178px;
+  --ui-mask-button-size-padding: 32px 38px;
+  --ui-mask-button-size-font-size: 1.44rem;
+}
+
+@media (max-width: 900px) {
+  .ui-mask-button {
+    min-height: var(
+      --ui-mask-button-size-min-height-mobile,
+      var(--ui-mask-button-min-height-mobile, var(--ui-mask-button-size-min-height, var(--ui-mask-button-min-height, 98px)))
+    );
+    padding: var(
+      --ui-mask-button-size-padding-mobile,
+      var(--ui-mask-button-padding-mobile, var(--ui-mask-button-size-padding, var(--ui-mask-button-padding, 18px 20px)))
+    );
+  }
+
+  .ui-mask-button__label {
+    font-size: var(
+      --ui-mask-button-size-font-size-mobile,
+      var(--ui-mask-button-font-size-mobile, var(--ui-mask-button-size-font-size, var(--ui-mask-button-font-size, 1rem)))
+    );
+  }
+}

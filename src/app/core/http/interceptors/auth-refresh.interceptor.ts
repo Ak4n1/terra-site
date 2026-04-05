@@ -1,8 +1,11 @@
-import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { HttpContextToken, HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, finalize, Observable, shareReplay, switchMap, tap, throwError } from 'rxjs';
+import { catchError, finalize, from, Observable, shareReplay, switchMap, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { CookieService } from '../cookie.service';
+import { LanguageService } from '../../i18n/language.service';
 import { AuthFacadeService } from '../../../features/auth/services/auth-facade.service';
+import { AuthClientConfigService } from '../../../features/auth/services/auth-client-config.service';
 import { AuthService } from '../../../features/auth/services/auth.service';
 import { isApiRequest } from './api-http.interceptor';
 
@@ -17,6 +20,8 @@ const PUBLIC_AUTH_ENDPOINTS = new Set([
 ]);
 
 let refreshRequest$: Observable<unknown> | null = null;
+const CSRF_RETRY_CONTEXT = new HttpContextToken<boolean>(() => false);
+const MUTATING_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
 function getApiPath(url: string, apiBaseUrl: string): string {
   if (url.startsWith('/api/')) {
@@ -51,9 +56,44 @@ function getRefreshRequest(authService: AuthService): Observable<unknown> {
   return refreshRequest$;
 }
 
+async function canProbeSessionAfterFailedRefresh(apiBaseUrl: string, language: string): Promise<boolean> {
+  const authMeUrl = `${apiBaseUrl}/api/auth/me`;
+
+  try {
+    const response = await fetch(authMeUrl, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Accept-Language': language,
+        'X-Language': language
+      }
+    });
+
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+function isInvalidCsrfError(error: HttpErrorResponse): boolean {
+  const body = error.error;
+  if (body && typeof body === 'object' && 'code' in body) {
+    return String((body as { code?: unknown }).code) === 'auth.invalid_csrf_token';
+  }
+
+  if (typeof body === 'string') {
+    return body.toLowerCase().includes('csrf');
+  }
+
+  return false;
+}
+
 export const authRefreshInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const authFacade = inject(AuthFacadeService);
+  const authClientConfig = inject(AuthClientConfigService);
+  const cookieService = inject(CookieService);
+  const languageService = inject(LanguageService);
   const apiBaseUrl = environment.apiBaseUrl;
 
   if (!isApiRequest(req.url, apiBaseUrl)) {
@@ -62,7 +102,37 @@ export const authRefreshInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError(error => {
-      if (!(error instanceof HttpErrorResponse) || error.status !== 401) {
+      if (!(error instanceof HttpErrorResponse)) {
+        return throwError(() => error);
+      }
+
+      if (error.status === 401
+        && isInvalidCsrfError(error)
+        && MUTATING_METHODS.has(req.method.toUpperCase())
+        && !req.context.get(CSRF_RETRY_CONTEXT)) {
+        const authConfigUrl = `${apiBaseUrl}/api/auth/config`;
+        const language = languageService.language();
+        return from(fetch(authConfigUrl, {
+          credentials: 'include',
+          headers: {
+            'Accept-Language': language,
+            'X-Language': language
+          }
+        })).pipe(
+          switchMap(() => {
+            const csrfToken = cookieService.get(authClientConfig.csrfCookieName);
+            const retryReq = req.clone({
+              context: req.context.set(CSRF_RETRY_CONTEXT, true),
+              setHeaders: csrfToken
+                ? { [authClientConfig.csrfHeaderName]: csrfToken }
+                : {}
+            });
+            return next(retryReq);
+          })
+        );
+      }
+
+      if (error.status !== 401) {
         return throwError(() => error);
       }
 
@@ -71,10 +141,36 @@ export const authRefreshInterceptor: HttpInterceptorFn = (req, next) => {
       }
 
       return getRefreshRequest(authService).pipe(
-        switchMap(() => next(req)),
+        switchMap(() => {
+          const csrfToken = cookieService.get(authClientConfig.csrfCookieName);
+          const retryReq = req.clone({
+            setHeaders: csrfToken
+              ? { [authClientConfig.csrfHeaderName]: csrfToken }
+              : {}
+          });
+          return next(retryReq);
+        }),
         catchError(refreshError => {
-          authFacade.handleRefreshFailure();
-          return throwError(() => refreshError);
+          return from(canProbeSessionAfterFailedRefresh(apiBaseUrl, languageService.language())).pipe(
+            switchMap(recovered => {
+              if (!recovered) {
+                authFacade.handleRefreshFailure();
+                return throwError(() => refreshError);
+              }
+
+              const csrfToken = cookieService.get(authClientConfig.csrfCookieName);
+              const retryReq = req.clone({
+                setHeaders: csrfToken
+                  ? { [authClientConfig.csrfHeaderName]: csrfToken }
+                  : {}
+              });
+              return next(retryReq);
+            }),
+            catchError(() => {
+              authFacade.handleRefreshFailure();
+              return throwError(() => refreshError);
+            })
+          );
         })
       );
     })

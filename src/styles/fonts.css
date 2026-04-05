@@ -71,6 +71,46 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "A Bite";
+  src: url("/assets/fonts/a_bite/ABITE.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pixel Crash";
+  src: url("/assets/fonts/pixel_crash/PIXELCRASH%20TRIAL.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Defused";
+  src: url("/assets/fonts/defused/defused.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nowharehouse";
+  src: url("/assets/fonts/nowharehouse/Nowharehouse.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Base 02";
+  src: url("/assets/fonts/base_02/Base%2002.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 .font-beaufort-regular {
   font-family: "Beaufort", sans-serif;
   font-weight: 400;

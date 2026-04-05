@@ -6,6 +6,7 @@
   font-family: "Roboto Condensed", sans-serif;
   font-size: 0.98rem;
   line-height: 1.6;
+  white-space: pre-line;
 }
 
 .ui-alert--warning {

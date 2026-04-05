@@ -1,0 +1,30 @@
+@if (isLink) {
+  <a
+    [attr.href]="disabled || routerLink ? null : href"
+    [routerLink]="disabled ? null : routerLink"
+    class="ui-mask-button"
+    [style.--ui-mask-button-mask-image]="maskImage"
+    [ngClass]="sizeClass"
+    [class.ui-mask-button--active]="active"
+    [class.ui-mask-button--disabled]="disabled"
+    [attr.aria-current]="active ? 'page' : null"
+    [attr.aria-disabled]="disabled ? 'true' : null"
+    [attr.aria-label]="ariaLabel || null"
+    [attr.tabindex]="disabled ? -1 : null"
+    (click)="onClick($event)">
+    <span class="ui-mask-button__label">{{ label }}</span>
+  </a>
+} @else {
+  <button
+    [type]="type"
+    class="ui-mask-button"
+    [style.--ui-mask-button-mask-image]="maskImage"
+    [ngClass]="sizeClass"
+    [class.ui-mask-button--active]="active"
+    [class.ui-mask-button--disabled]="disabled"
+    [disabled]="disabled"
+    [attr.aria-label]="ariaLabel || null"
+    (click)="onClick($event)">
+    <span class="ui-mask-button__label">{{ label }}</span>
+  </button>
+}

@@ -1,4 +1,4 @@
-<section class="admin-notifications-page fadeIn">
+<section class="admin-notifications-page">
   <article class="admin-notifications-page__hero">
     <div class="admin-notifications-page__hero-copy">
       <p class="admin-notifications-page__eyebrow">{{ t('dashboardAdminNotificationsEyebrow') }}</p>
@@ -43,12 +43,6 @@
       </button>
     </section>
 
-    @if (feedbackKey()) {
-      <section class="admin-notifications-page__feedback-card ">
-        <ui-alert [variant]="feedbackVariant()" [message]="t(feedbackKey()!, feedbackParams())"></ui-alert>
-      </section>
-    }
-
     @if (activeTab() === 'send') {
       <section class="admin-notifications-page__layout">
         <article class="admin-notifications-page__card admin-notifications-page__card--overlay">
@@ -60,6 +54,13 @@
           </header>
 
           <p class="admin-notifications-page__section-copy">{{ t('dashboardAdminNotificationsSendCopy') }}</p>
+
+          @if (currentSendFeedback().key) {
+            <ui-alert
+              [variant]="currentSendFeedback().variant"
+              [message]="t(currentSendFeedback().key!, currentSendFeedback().params)">
+            </ui-alert>
+          }
 
           @if (!hasTemplatesForCurrentMode()) {
             <ui-alert [variant]="'warning'" [message]="t('dashboardAdminNotificationsNoTemplatesConfigured')"></ui-alert>
@@ -229,11 +230,46 @@
           </section>
 
           <div class="admin-notifications-page__audit-list">
-            @if (auditLoading()) {
-              <p class="admin-notifications-page__empty">{{ t('dashboardAdminNotificationsAuditLoading') }}</p>
-            } @else if (auditEntries().length === 0) {
-              <p class="admin-notifications-page__empty">{{ t('dashboardAdminNotificationsAuditEmpty') }}</p>
+            @if (auditEntries().length === 0) {
+              @if (auditLoading()) {
+                <p class="admin-notifications-page__empty">{{ t('dashboardAdminNotificationsAuditLoading') }}</p>
+              } @else {
+                <p class="admin-notifications-page__empty">{{ t('dashboardAdminNotificationsAuditEmpty') }}</p>
+              }
             } @else {
+              <div class="admin-notifications-page__pagination" aria-label="Audit pagination top">
+                <ui-button
+                  [label]="t('dashboardAdminNotificationsPaginationPrevious')"
+                  [variant]="'white'"
+                  [disabled]="auditLoading() || !hasPreviousAuditPage()"
+                  (clicked)="previousAuditPage()">
+                </ui-button>
+
+                <div class="admin-notifications-page__pagination-pages">
+                  @for (item of auditPaginationItems(); track trackAuditPaginationItem($index, item)) {
+                    @if (item.type === 'page') {
+                      <button
+                        type="button"
+                        class="admin-notifications-page__pagination-page"
+                        [class.admin-notifications-page__pagination-page--active]="item.page === auditPage()"
+                        [attr.aria-current]="item.page === auditPage() ? 'page' : null"
+                        [disabled]="auditLoading()"
+                        (click)="goToAuditPage(item.page)">
+                        {{ item.page + 1 }}
+                      </button>
+                    } @else {
+                      <span class="admin-notifications-page__pagination-ellipsis" aria-hidden="true">...</span>
+                    }
+                  }
+                </div>
+
+                <ui-button
+                  [label]="t('dashboardAdminNotificationsPaginationNext')"
+                  [disabled]="auditLoading() || !hasNextAuditPage()"
+                  (clicked)="nextAuditPage()">
+                </ui-button>
+              </div>
+
               @for (entry of auditEntries(); track entry.notificationId) {
                 <article class="admin-notifications-page__audit-item">
                   <div class="admin-notifications-page__audit-row">
@@ -276,26 +312,31 @@
                 <ui-button
                   [label]="t('dashboardAdminNotificationsPaginationPrevious')"
                   [variant]="'white'"
-                  [disabled]="!hasPreviousAuditPage()"
+                  [disabled]="auditLoading() || !hasPreviousAuditPage()"
                   (clicked)="previousAuditPage()">
                 </ui-button>
 
                 <div class="admin-notifications-page__pagination-pages">
-                  @for (page of auditPages(); track page) {
-                    <button
-                      type="button"
-                      class="admin-notifications-page__pagination-page"
-                      [class.admin-notifications-page__pagination-page--active]="page === auditPage()"
-                      [attr.aria-current]="page === auditPage() ? 'page' : null"
-                      (click)="goToAuditPage(page)">
-                      {{ page + 1 }}
-                    </button>
+                  @for (item of auditPaginationItems(); track trackAuditPaginationItem($index, item)) {
+                    @if (item.type === 'page') {
+                      <button
+                        type="button"
+                        class="admin-notifications-page__pagination-page"
+                        [class.admin-notifications-page__pagination-page--active]="item.page === auditPage()"
+                        [attr.aria-current]="item.page === auditPage() ? 'page' : null"
+                        [disabled]="auditLoading()"
+                        (click)="goToAuditPage(item.page)">
+                        {{ item.page + 1 }}
+                      </button>
+                    } @else {
+                      <span class="admin-notifications-page__pagination-ellipsis" aria-hidden="true">...</span>
+                    }
                   }
                 </div>
 
                 <ui-button
                   [label]="t('dashboardAdminNotificationsPaginationNext')"
-                  [disabled]="!hasNextAuditPage()"
+                  [disabled]="auditLoading() || !hasNextAuditPage()"
                   (clicked)="nextAuditPage()">
                 </ui-button>
               </div>
@@ -346,7 +387,7 @@
           <div class="admin-notifications-page__audit-filter-actions">
             <ui-button
               [label]="t('dashboardAdminNotificationsAuditFilterApply')"
-              [loading]="auditLoading()"
+              [disabled]="auditLoading()"
               (clicked)="applyAuditFilters()">
             </ui-button>
 

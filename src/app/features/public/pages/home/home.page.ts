@@ -2,12 +2,13 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { AboutGameSectionComponent } from '../../components/home/about-game-section/about-game-section.component';
 import { GameFeaturesSectionComponent } from '../../components/home/game-features-section/game-features-section.component';
 import { HeroHomeComponent } from '../../components/home/hero-home/hero-home.component';
+import { SitePreloaderComponent } from '../../../../shared/ui/organisms/site-preloader/site-preloader.component';
 import type { SpotlightSlide } from '../../../../shared/ui/organisms/sliders/spotlight-carousel/spotlight-carousel.types';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [HeroHomeComponent, GameFeaturesSectionComponent, AboutGameSectionComponent],
+  imports: [HeroHomeComponent, GameFeaturesSectionComponent, AboutGameSectionComponent, SitePreloaderComponent],
   templateUrl: './home.page.html',
   styleUrl: './home.page.css'
 })

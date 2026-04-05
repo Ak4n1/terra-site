@@ -1,1 +1,184 @@
+.my-characters-page {
+  --my-characters-max-width: min(980px, 100%);
+  padding: clamp(16px, 2.4vw, 30px);
+  display: grid;
+  gap: clamp(14px, 1.8vw, 22px);
+}
 
+.my-characters-page .wp-block-group__inner-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+.my-characters-page .wp-block-group.is-style-horr-mask-2 {
+  max-width: var(--my-characters-max-width) !important;
+  margin-inline: auto !important;
+  padding: clamp(16px, 2vw, 28px);
+  background-color: var(--c-surface-dropdown, #0e0e0e);
+  backdrop-filter: blur(8px);
+  filter:
+    drop-shadow(0 12px 16px rgba(0, 0, 0, 0.48))
+    drop-shadow(0 24px 26px rgba(0, 0, 0, 0.38));
+  -webkit-mask-image: url('/assets/images/horr-mask-block-2.svg');
+  mask-image: url('/assets/images/horr-mask-block-2.svg');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.my-characters-page .wp-block-group.is-style-clipping-mask-264 {
+  max-width: var(--my-characters-max-width) !important;
+  margin-inline: auto !important;
+  padding: clamp(18px, 2.2vw, 32px) clamp(18px, 2.6vw, 34px);
+  background: transparent;
+  -webkit-mask-image: none;
+  mask-image: none;
+  backdrop-filter: none;
+  filter: none;
+}
+
+.my-characters-card {
+  display: grid;
+  gap: 14px;
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: clamp(20px, 2.5vw, 34px);
+  color: var(--c-text-on-dark);
+}
+
+.my-characters-card--clipping {
+  position: relative;
+  isolation: isolate;
+  width: min(920px, 100%);
+  aspect-ratio: 3 / 2;
+  min-height: clamp(420px, 46vw, 620px);
+  margin: 0;
+  padding: 0;
+}
+
+.my-characters-card--clipping::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(130% 140% at 10% 0%, rgba(96, 196, 255, 0.35) 0%, rgba(96, 196, 255, 0) 48%),
+    linear-gradient(140deg, #182947 0%, #101d34 55%, #0b1526 100%);
+  -webkit-mask-image: url('/assets/images/clipping_masks/264393576_78128796-2273-436a-a0a2-63b15bd1d647.svg?v=5');
+  mask-image: url('/assets/images/clipping_masks/264393576_78128796-2273-436a-a0a2-63b15bd1d647.svg?v=5');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.my-characters-card--clipping .my-characters-card__content {
+  width: min(410px, 46%);
+  margin-inline: auto;
+  padding-block: clamp(120px, 19%, 150px);
+  display: grid;
+  gap: 14px;
+}
+
+.my-characters-card--clipping .my-characters-card__title {
+  font-size: clamp(1.95rem, 2.8vw, 2.75rem);
+  line-height: 1.04;
+}
+
+.my-characters-card--clipping .my-characters-card__copy {
+  max-width: 34ch;
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.my-characters-card--clipping .my-characters-card__eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.24em;
+}
+
+.my-characters-card--clipping .my-characters-card__status {
+  padding: 10px 0 0;
+  font-size: 0.94rem;
+  letter-spacing: 0.08em;
+  white-space: normal;
+  line-height: 1.35;
+}
+
+.my-characters-card__eyebrow {
+  margin: 0;
+  color: var(--color-accent-500);
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.my-characters-card__title {
+  margin: 0;
+  color: var(--c-text-on-dark);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.05;
+}
+
+.my-characters-card__copy {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--c-text-secondary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.my-characters-card__status {
+  width: fit-content;
+  padding: 10px 16px;
+  color: var(--c-text-on-dark);
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .my-characters-page .wp-block-group.is-style-horr-mask-2 {
+    padding: 12px;
+  }
+
+  .my-characters-page .wp-block-group.is-style-clipping-mask-264 {
+    padding: 8px 12px;
+  }
+
+  .my-characters-card--clipping {
+    width: min(560px, 100%);
+    min-height: clamp(320px, 92vw, 420px);
+  }
+
+  .my-characters-card--clipping .my-characters-card__content {
+    width: min(320px, 82%);
+    margin-inline-start: clamp(20px, 8vw, 42px);
+    padding-block: clamp(48px, 12vw, 72px);
+    gap: 12px;
+  }
+
+  .my-characters-card--clipping .my-characters-card__title {
+    font-size: clamp(1.6rem, 6vw, 2.1rem);
+  }
+
+  .my-characters-card--clipping .my-characters-card__copy {
+    font-size: 0.95rem;
+  }
+
+  .my-characters-card {
+    width: 100%;
+    padding: 18px 14px;
+    gap: 12px;
+  }
+}

@@ -51,6 +51,27 @@
   margin-bottom: 2px;
 }
 
+.auth-form__checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--c-text-secondary);
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+}
+
+.auth-form__checkbox input {
+  accent-color: var(--c-link-hover);
+}
+
+.auth-form__helper {
+  margin: -6px 0 0;
+  color: var(--c-text-muted);
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
 .auth-form__link {
   width: fit-content;
   color: var(--c-text-secondary);
