@@ -35,3 +35,14 @@ export interface NotificationBulkMutationPayload {
   unreadCount: number;
   updatedCount: number;
 }
+
+export type NotificationSortDirection = 'asc' | 'desc';
+export type NotificationStatusFilter = 'ALL' | 'UNREAD' | 'READ';
+
+export interface NotificationListFilters {
+  unreadOnly?: boolean;
+  status?: 'UNREAD' | 'READ';
+  sort?: NotificationSortDirection;
+  dateFrom?: string;
+  dateTo?: string;
+}

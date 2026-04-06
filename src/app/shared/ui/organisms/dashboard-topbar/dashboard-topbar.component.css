@@ -188,6 +188,7 @@
 }
 
 .dashboard-language__menu {
+  --dashboard-language-menu-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_1.svg');
   position: absolute;
   top: calc(100% + 10px);
   left: 50%;
@@ -197,9 +198,21 @@
   margin: 0;
   padding: 8px 0;
   list-style: none;
-  border: 1px solid var(--c-border-muted);
-  background: var(--c-surface-dropdown);
-  box-shadow: var(--shadow-dropdown);
+  border: 0;
+  background:
+    linear-gradient(180deg, #1a1a1a, #0e0e0e),
+    #0e0e0e;
+  filter:
+    drop-shadow(0 12px 16px rgba(0, 0, 0, 0.48))
+    drop-shadow(0 24px 26px rgba(0, 0, 0, 0.38));
+  -webkit-mask-image: var(--dashboard-language-menu-mask-image);
+  mask-image: var(--dashboard-language-menu-mask-image);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
   z-index: 20;
 }
 

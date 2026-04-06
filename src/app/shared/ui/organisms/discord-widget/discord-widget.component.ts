@@ -7,12 +7,13 @@ import type { DiscordCommunityMember, DiscordCommunitySnapshot } from '../../../
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { AlertComponent } from '../../atoms/alert/alert.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
+import { MaskButtonComponent } from '../../atoms/mask-button/mask-button.component';
 import { InputFieldComponent } from '../../molecules/input-field/input-field.component';
 
 @Component({
   selector: 'ui-discord-widget',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, AlertComponent, InputFieldComponent],
+  imports: [CommonModule, ButtonComponent, MaskButtonComponent, AlertComponent, InputFieldComponent],
   templateUrl: './discord-widget.component.html',
   styleUrl: './discord-widget.component.css'
 })

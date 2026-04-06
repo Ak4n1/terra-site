@@ -10,7 +10,6 @@
 
 .activity-settings-page__eyebrow {
   margin: 0;
-  padding-left: 5px;
   color: var(--c-link-hover);
   font-family: var(--font-ui);
   font-size: 0.75rem;
@@ -28,57 +27,119 @@
 
 .activity-settings-page__copy {
   margin: 0;
+  max-width: 62ch;
   color: var(--c-text-secondary);
   font-family: var(--font-body);
   line-height: 1.7;
-  max-width: 62ch;
 }
 
+.activity-settings-page__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.36fr) minmax(0, 0.64fr);
+  gap: 18px;
+  align-items: start;
+  min-height: 680px;
+}
+
+.activity-settings-page__sidebar {
+  display: grid;
+  gap: 12px;
+}
+
+.activity-settings-page__card,
+.activity-settings-page__inbox {
+  border: 0;
+  background: transparent;
+  padding: 16px;
+}
+
+.activity-settings-page__card {
+  display: grid;
+  gap: 12px;
+}
+
+.activity-settings-page__card-header {
+  display: grid;
+  gap: 6px;
+}
+
+.activity-settings-page__card-title {
+  margin: 0;
+  color: var(--c-text-on-dark);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+}
+
+.activity-settings-page__card-copy,
 .activity-settings-page__state {
   margin: 0;
   color: var(--c-text-secondary);
   font-family: var(--font-body);
-  line-height: 1.7;
+  line-height: 1.55;
 }
 
-.activity-settings-page__controls {
+.activity-settings-page__dates-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.activity-settings-page__date-field {
+  display: grid;
+  gap: 6px;
+}
+
+.activity-settings-page__date-label {
+  color: rgba(255, 255, 255, 0.76);
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.activity-settings-page__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.activity-settings-page__inbox {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  min-height: 680px;
+}
+
+.activity-settings-page__inbox-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
 
-.activity-settings-page__controls-pagination {
-  display: flex;
-  align-items: center;
+.activity-settings-page__list {
+  display: grid;
+  align-content: start;
   gap: 8px;
 }
 
-.activity-settings-page__sort {
-  display: block;
-  width: min(220px, 100%);
-  flex: 0 1 220px;
-}
-
 .activity-settings-page__list-loader {
-  min-height: 132px;
-  border: 1px solid var(--c-border-control);
-  background: color-mix(in srgb, var(--c-surface-dropdown) 56%, transparent);
+  min-height: 220px;
   display: grid;
   place-items: center;
-  padding: 16px;
 }
 
 .activity-settings-page__list-shell {
   position: relative;
 }
 
-.activity-settings-page__list {
+.activity-settings-page__list-stack {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
-.activity-settings-page__list--busy {
+.activity-settings-page__list-stack--busy {
   opacity: 0.42;
 }
 
@@ -100,13 +161,14 @@
 .activity-settings-page__item {
   --activity-settings-item-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_3.svg');
   --activity-settings-item-bg:
-    radial-gradient(circle at 50% 52%, #131313 0%, rgba(19, 19, 19, 0) 58%),
     linear-gradient(180deg, #1a1a1a, #0e0e0e),
     #0e0e0e;
   position: relative;
+  border: 0;
+  background: transparent;
+  padding: 18px 34px 19px 22px;
   display: grid;
-  gap: 6px;
-  padding: 20px 40px 21px 46px;
+  gap: 8px;
   isolation: isolate;
 }
 
@@ -117,12 +179,12 @@
   background: var(--activity-settings-item-bg);
   -webkit-mask-image: var(--activity-settings-item-mask-image);
   mask-image: var(--activity-settings-item-mask-image);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
   filter:
     drop-shadow(0 6px 10px rgba(0, 0, 0, 0.22))
     drop-shadow(0 10px 14px rgba(0, 0, 0, 0.14));
@@ -138,15 +200,15 @@
 .activity-settings-page__item-head {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  align-items: baseline;
+  align-items: start;
   gap: 10px;
 }
 
 .activity-settings-page__item-title {
   margin: 0;
   color: var(--c-text-on-dark);
-  font-family: var(--font-ui);
-  font-size: 0.98rem;
+  font-family: var(--font-display);
+  font-size: 0.97rem;
   line-height: 1.3;
 }
 
@@ -182,45 +244,39 @@
 
 .activity-settings-page__pagination {
   display: flex;
-  justify-content: flex-end;
-  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
 }
 
-@media (max-width: 640px) {
-  .activity-settings-page__controls {
-    flex-direction: column;
-    align-items: stretch;
+@media (max-width: 1100px) {
+  .activity-settings-page__layout {
+    grid-template-columns: 1fr;
+    min-height: 0;
   }
 
-  .activity-settings-page__controls-pagination {
-    width: 100%;
-    justify-content: stretch;
+  .activity-settings-page__inbox {
+    min-height: 460px;
   }
+}
 
-  .activity-settings-page__controls-pagination ui-button {
-    flex: 1 1 0;
-  }
-
-  .activity-settings-page__sort {
-    width: 100%;
-    flex-basis: auto;
+@media (max-width: 700px) {
+  .activity-settings-page__dates-row {
+    grid-template-columns: 1fr;
   }
 
   .activity-settings-page__item-head {
     grid-template-columns: 1fr;
-    align-items: flex-start;
-    gap: 4px;
-  }
-
-  .activity-settings-page__item-side {
-    justify-content: flex-start;
+    gap: 5px;
   }
 
   .activity-settings-page__item-date {
-    text-align: left;
     white-space: normal;
   }
-  .activity-settings-page__pagination {
-    justify-content: stretch;
+
+  .activity-settings-page__inbox-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

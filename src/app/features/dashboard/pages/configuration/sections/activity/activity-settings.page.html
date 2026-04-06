@@ -1,87 +1,141 @@
-<section class="activity-settings-page ">
+<section class="activity-settings-page">
   <header class="activity-settings-page__header">
     <p class="activity-settings-page__eyebrow">{{ t('dashboardConfigurationTabActivity') }}</p>
     <h3 class="activity-settings-page__title">{{ t('dashboardConfigurationActivityTitle') }}</h3>
     <p class="activity-settings-page__copy">{{ t('dashboardConfigurationActivityCopy') }}</p>
   </header>
 
-  <div class="activity-settings-page__controls">
-    <ui-select-control
-      class="activity-settings-page__sort"
-      [value]="sort"
-      [options]="sortOptions()"
-      [disabled]="loading"
-      [ariaLabel]="t('dashboardConfigurationActivitySortLabel')"
-      (valueChange)="changeSort($event)">
-    </ui-select-control>
-
-    <div class="activity-settings-page__controls-pagination">
-      <ui-button
-        [label]="t('dashboardConfigurationActivityPaginationPrevious')"
-        [variant]="'white'"
-        [disabled]="!canGoPrevious()"
-        (clicked)="previousPage()">
-      </ui-button>
-
-      <ui-button
-        [label]="t('dashboardConfigurationActivityPaginationNext')"
-        [disabled]="!canGoNext()"
-        (clicked)="nextPage()">
-      </ui-button>
-    </div>
-  </div>
-
   @if (message.trim().length > 0) {
     <ui-alert [variant]="alertVariant()" [message]="message"></ui-alert>
   }
 
-  @if (loading && items.length === 0) {
-    <div
-      class="activity-settings-page__list-loader"
-      role="status"
-      aria-live="polite"
-      [attr.aria-label]="t('dashboardConfigurationActivityLoading')">
-      <ui-orb-spinner aria-hidden="true"></ui-orb-spinner>
-    </div>
-  } @else if (items.length === 0) {
-    <p class="activity-settings-page__state">{{ t('dashboardConfigurationActivityEmpty') }}</p>
-  } @else {
-    <div class="activity-settings-page__list-shell">
-      <div class="activity-settings-page__list" [class.activity-settings-page__list--busy]="loading">
-        @for (entry of items; track trackActivity($index, entry); let index = $index) {
-          <article
-            class="activity-settings-page__item"
-            [style.--activity-settings-item-mask-image]="itemMaskImageForPage(index)">
-            <div class="activity-settings-page__item-head">
-              <h4 class="activity-settings-page__item-title">{{ eventTitle(entry) }}</h4>
+  <section class="activity-settings-page__layout">
+    <aside class="activity-settings-page__sidebar">
+      <article class="activity-settings-page__card">
+        <header class="activity-settings-page__card-header">
+          <h4 class="activity-settings-page__card-title">{{ t('dashboardConfigurationNotificationsFiltersTitle') }}</h4>
+          <p class="activity-settings-page__card-copy">{{ t('dashboardConfigurationNotificationsFiltersCopy') }}</p>
+        </header>
 
-              <div class="activity-settings-page__item-side">
-                <span class="activity-settings-page__item-date">{{ formatOccurredAt(entry.occurredAt) }}</span>
+        <ui-select-field
+          [label]="t('dashboardConfigurationActivitySortLabel')"
+          [value]="sort"
+          [options]="sortOptions()"
+          (valueChange)="onSortFilterChange($event)">
+        </ui-select-field>
+
+        <div class="activity-settings-page__dates-row">
+          <div class="activity-settings-page__date-field">
+            <span class="activity-settings-page__date-label">{{ t('dashboardConfigurationNotificationsFilterDateFrom') }}</span>
+            <ui-date-control
+              [value]="dateFrom"
+              [max]="dateTo || null"
+              [placeholder]="t('dashboardConfigurationNotificationsFilterDateFrom')"
+              [ariaLabel]="t('dashboardConfigurationNotificationsFilterDateFrom')"
+              (valueChange)="onDateFromChange($event)">
+            </ui-date-control>
+          </div>
+
+          <div class="activity-settings-page__date-field">
+            <span class="activity-settings-page__date-label">{{ t('dashboardConfigurationNotificationsFilterDateTo') }}</span>
+            <ui-date-control
+              [value]="dateTo"
+              [min]="dateFrom || null"
+              [placeholder]="t('dashboardConfigurationNotificationsFilterDateTo')"
+              [ariaLabel]="t('dashboardConfigurationNotificationsFilterDateTo')"
+              (valueChange)="onDateToChange($event)">
+            </ui-date-control>
+          </div>
+        </div>
+
+        <div class="activity-settings-page__actions">
+          <ui-button
+            [label]="t('dashboardConfigurationNotificationsFilterApply')"
+            [disabled]="loading"
+            (clicked)="applyFilters()">
+          </ui-button>
+          <ui-button
+            [label]="t('dashboardConfigurationNotificationsFilterClear')"
+            [variant]="'white'"
+            [disabled]="!hasActiveFilters()"
+            (clicked)="clearFilters()">
+          </ui-button>
+        </div>
+      </article>
+    </aside>
+
+    <article class="activity-settings-page__inbox">
+      <header class="activity-settings-page__inbox-header">
+        <h4 class="activity-settings-page__card-title">{{ t('dashboardConfigurationActivityTitle') }}</h4>
+      </header>
+
+      <section class="activity-settings-page__list">
+        @if (loading && items.length === 0) {
+          <div
+            class="activity-settings-page__list-loader"
+            role="status"
+            aria-live="polite"
+            [attr.aria-label]="t('dashboardConfigurationActivityLoading')">
+            <ui-orb-spinner aria-hidden="true"></ui-orb-spinner>
+          </div>
+        } @else if (items.length === 0) {
+          <p class="activity-settings-page__state">{{ t('dashboardConfigurationActivityEmpty') }}</p>
+        } @else {
+          <div class="activity-settings-page__list-shell">
+            <div class="activity-settings-page__list-stack" [class.activity-settings-page__list-stack--busy]="loading">
+              @for (entry of items; track trackActivity($index, entry); let index = $index) {
+                <article
+                  class="activity-settings-page__item"
+                  [style.--activity-settings-item-mask-image]="itemMaskImageForPage(index)">
+                  <div class="activity-settings-page__item-head">
+                    <h4 class="activity-settings-page__item-title">{{ eventTitle(entry) }}</h4>
+
+                    <div class="activity-settings-page__item-side">
+                      <span class="activity-settings-page__item-date">{{ formatOccurredAt(entry.occurredAt) }}</span>
+                    </div>
+                  </div>
+
+                  <div class="activity-settings-page__meta">
+                    <p class="activity-settings-page__meta-line">
+                      {{ t('dashboardConfigurationActivityMetaIp') }} {{ displayValue(entry.ipAddress) }}
+                    </p>
+                    <p class="activity-settings-page__meta-line" [attr.title]="entry.userAgent || null">
+                      {{ t('dashboardConfigurationActivityMetaDevice') }} {{ deviceSummary(entry.userAgent) }}
+                    </p>
+                  </div>
+                </article>
+              }
+            </div>
+
+            @if (loading) {
+              <div
+                class="activity-settings-page__list-overlay"
+                role="status"
+                aria-live="polite"
+                [attr.aria-label]="t('dashboardConfigurationActivityLoading')">
+                <ui-orb-spinner aria-hidden="true"></ui-orb-spinner>
               </div>
-            </div>
-
-            <div class="activity-settings-page__meta">
-              <p class="activity-settings-page__meta-line">
-                {{ t('dashboardConfigurationActivityMetaIp') }} {{ displayValue(entry.ipAddress) }}
-              </p>
-              <p class="activity-settings-page__meta-line" [attr.title]="entry.userAgent || null">
-                {{ t('dashboardConfigurationActivityMetaDevice') }} {{ deviceSummary(entry.userAgent) }}
-              </p>
-            </div>
-          </article>
+            }
+          </div>
         }
-      </div>
+      </section>
 
-      @if (loading) {
+      @if (items.length > 0) {
         <div
-          class="activity-settings-page__list-overlay"
-          role="status"
-          aria-live="polite"
-          [attr.aria-label]="t('dashboardConfigurationActivityLoading')">
-          <ui-orb-spinner aria-hidden="true"></ui-orb-spinner>
+          class="activity-settings-page__pagination">
+          <ui-button
+            [label]="t('dashboardConfigurationActivityPaginationPrevious')"
+            [variant]="'white'"
+            [disabled]="!canGoPrevious()"
+            (clicked)="previousPage()">
+          </ui-button>
+          <ui-button
+            [label]="t('dashboardConfigurationActivityPaginationNext')"
+            [disabled]="!canGoNext()"
+            (clicked)="nextPage()">
+          </ui-button>
         </div>
       }
-    </div>
-  }
-
+    </article>
+  </section>
 </section>

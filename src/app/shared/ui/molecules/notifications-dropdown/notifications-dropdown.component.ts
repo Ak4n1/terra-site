@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, computed, inject, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Bell, LucideAngularModule } from 'lucide-angular';
 import { LanguageService } from '../../../../core/i18n/language.service';
@@ -15,6 +15,7 @@ import { RealtimeStoreService } from '../../../../core/realtime/realtime-store.s
   styleUrl: './notifications-dropdown.component.css'
 })
 export class NotificationsDropdownComponent {
+  @Input() dashboardMode = false;
   private readonly host = inject(ElementRef<HTMLElement>);
   private readonly router = inject(Router);
   private readonly languageService = inject(LanguageService);

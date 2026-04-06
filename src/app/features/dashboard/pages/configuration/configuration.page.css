@@ -95,7 +95,7 @@
 
 .dashboard-configuration-page__nav-card {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 220px));
+  grid-template-columns: repeat(4, minmax(0, 220px));
   justify-content: start;
   gap: 12px;
   padding: 0 0 8px;

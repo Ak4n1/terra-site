@@ -1,5 +1,6 @@
 <aside
   class="dashboard-sidebar"
+  [class.dashboard-sidebar--mode-switching]="sidebarModeSwitching()"
   [class.dashboard-sidebar--mobile-open]="mobileOpen"
   [attr.aria-label]="t('dashboardSidebarLabel')">
   <div class="dashboard-sidebar__scroll">
@@ -12,6 +13,21 @@
         (toggle)="closeMobileSidebar()">
       </ui-menu-toggle>
     </div>
+
+    @if (canUsePrivilegedMode()) {
+      <div class="dashboard-sidebar__mode-toggle" role="group" aria-label="Sidebar mode">
+        <button
+          type="button"
+          class="dashboard-sidebar__mode-switch"
+          [class.dashboard-sidebar__mode-switch--privileged]="isMode('privileged')"
+          [attr.aria-label]="'Cambiar modo de sidebar'"
+          [attr.aria-pressed]="isMode('privileged')"
+          (click)="setSidebarMode(isMode('privileged') ? 'account' : 'privileged')">
+          <span class="dashboard-sidebar__mode-thumb" aria-hidden="true"></span>
+        </button>
+        <span class="dashboard-sidebar__mode-copy">{{ sidebarModeCopy() }}</span>
+      </div>
+    }
 
     <div class="dashboard-sidebar__content">
       <section *ngFor="let section of sections()" class="dashboard-sidebar__section">

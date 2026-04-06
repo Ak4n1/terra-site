@@ -1,0 +1,169 @@
+<section class="notifications-settings-page" [attr.data-lang]="language()">
+  <header class="notifications-settings-page__header">
+    <p class="notifications-settings-page__eyebrow">{{ t('dashboardConfigurationTabNotifications') }}</p>
+    <h3 class="notifications-settings-page__title">{{ t('dashboardConfigurationNotificationsTitle') }}</h3>
+    <p class="notifications-settings-page__copy">{{ t('dashboardConfigurationNotificationsCopy') }}</p>
+  </header>
+
+  @if (message.trim().length > 0) {
+    <ui-alert [variant]="alertVariant()" [message]="message"></ui-alert>
+  }
+
+  <section class="notifications-settings-page__layout">
+    <aside class="notifications-settings-page__sidebar">
+      <article class="notifications-settings-page__card">
+        <header class="notifications-settings-page__card-header">
+          <h4 class="notifications-settings-page__card-title">{{ t('dashboardConfigurationNotificationsFiltersTitle') }}</h4>
+          <p class="notifications-settings-page__card-copy">{{ t('dashboardConfigurationNotificationsFiltersCopy') }}</p>
+        </header>
+
+        <div class="notifications-settings-page__filters-grid">
+          <ui-select-field
+            [label]="t('dashboardConfigurationNotificationsFilterStatusLabel')"
+            [value]="statusFilter"
+            [options]="statusOptions()"
+            (valueChange)="onStatusFilterChange($event)">
+          </ui-select-field>
+
+          <ui-select-field
+            [label]="t('dashboardConfigurationNotificationsFilterSortLabel')"
+            [value]="sortFilter"
+            [options]="sortOptions()"
+            (valueChange)="onSortFilterChange($event)">
+          </ui-select-field>
+
+          <div class="notifications-settings-page__dates-row">
+            <div class="notifications-settings-page__date-field">
+              <span class="notifications-settings-page__date-label">{{ t('dashboardConfigurationNotificationsFilterDateFrom') }}</span>
+              <ui-date-control
+                [value]="dateFrom"
+                [max]="dateTo || null"
+                [placeholder]="t('dashboardConfigurationNotificationsFilterDateFrom')"
+                [ariaLabel]="t('dashboardConfigurationNotificationsFilterDateFrom')"
+                (valueChange)="onDateFromChange($event)">
+              </ui-date-control>
+            </div>
+
+            <div class="notifications-settings-page__date-field">
+              <span class="notifications-settings-page__date-label">{{ t('dashboardConfigurationNotificationsFilterDateTo') }}</span>
+              <ui-date-control
+                [value]="dateTo"
+                [min]="dateFrom || null"
+                [placeholder]="t('dashboardConfigurationNotificationsFilterDateTo')"
+                [ariaLabel]="t('dashboardConfigurationNotificationsFilterDateTo')"
+                (valueChange)="onDateToChange($event)">
+              </ui-date-control>
+            </div>
+          </div>
+        </div>
+
+        <div class="notifications-settings-page__actions">
+          <ui-button
+            [label]="t('dashboardConfigurationNotificationsFilterApply')"
+            [disabled]="loading"
+            (clicked)="applyFilters()">
+          </ui-button>
+
+          <ui-button
+            [label]="t('dashboardConfigurationNotificationsFilterClear')"
+            [variant]="'white'"
+            [disabled]="!hasActiveFilters()"
+            (clicked)="clearFilters()">
+          </ui-button>
+        </div>
+      </article>
+
+      <article class="notifications-settings-page__card">
+        <header class="notifications-settings-page__card-header">
+          <h4 class="notifications-settings-page__card-title">{{ t('dashboardConfigurationNotificationsPreferencesTitle') }}</h4>
+          <p class="notifications-settings-page__card-copy">{{ t('dashboardConfigurationNotificationsPreferencesCopy') }}</p>
+        </header>
+
+        <p class="notifications-settings-page__preferences-empty">
+          {{ t('dashboardConfigurationNotificationsPreferencesEmpty') }}
+        </p>
+      </article>
+    </aside>
+
+    <article class="notifications-settings-page__inbox">
+      <header class="notifications-settings-page__inbox-header">
+        <h4 class="notifications-settings-page__card-title">{{ t('dashboardConfigurationNotificationsInboxTitle') }}</h4>
+        <span class="notifications-settings-page__inbox-unread">
+          {{ t('dashboardConfigurationNotificationsUnreadCount', { count: totalUnread }) }}
+        </span>
+      </header>
+
+      <section class="notifications-settings-page__list">
+        @if (loading && notifications.length === 0) {
+          <div class="notifications-settings-page__list-loader" role="status" aria-live="polite">
+            <ui-orb-spinner aria-hidden="true"></ui-orb-spinner>
+          </div>
+        } @else if (notifications.length === 0) {
+          <p class="notifications-settings-page__state">{{ t('dashboardConfigurationNotificationsEmpty') }}</p>
+        } @else {
+          @for (item of notifications; track item.id; let index = $index) {
+            <article
+              class="notifications-settings-page__item"
+              [class.notifications-settings-page__item--unread]="isUnread(item)"
+              [style.--notifications-settings-item-mask-image]="notificationMaskImageFor(index)">
+              <header class="notifications-settings-page__item-head">
+                <h5 class="notifications-settings-page__item-title">{{ t(item.titleKey, item.params) }}</h5>
+                <span class="notifications-settings-page__item-date">{{ formatOccurredAt(item.occurredAt) }}</span>
+              </header>
+
+              <p class="notifications-settings-page__item-copy">{{ t(item.bodyKey, item.params) }}</p>
+
+              <div class="notifications-settings-page__item-actions">
+                @if (isUnread(item)) {
+                  <ui-button
+                    [label]="t('dashboardConfigurationNotificationsMarkRead')"
+                    [variant]="'white'"
+                    [disabled]="marking"
+                    (clicked)="markAsRead(item)">
+                  </ui-button>
+                } @else {
+                  <span class="notifications-settings-page__item-read">{{ t('dashboardConfigurationNotificationsReadTag') }}</span>
+                }
+              </div>
+            </article>
+          }
+        }
+      </section>
+
+      @if (notifications.length > 0) {
+        <div class="notifications-settings-page__pagination">
+          <ui-button
+            [label]="t('dashboardConfigurationNotificationsPaginationPrevious')"
+            [variant]="'white'"
+            [disabled]="!canGoPrevious()"
+            (clicked)="previousPage()">
+          </ui-button>
+
+          <div class="notifications-settings-page__pagination-pages">
+            @for (item of paginationItems(); track trackPaginationItem($index, item)) {
+              @if (item.type === 'page') {
+                <button
+                  type="button"
+                  class="notifications-settings-page__pagination-page"
+                  [class.notifications-settings-page__pagination-page--active]="item.page === page"
+                  [attr.aria-current]="item.page === page ? 'page' : null"
+                  [disabled]="loading"
+                  (click)="goToPage(item.page)">
+                  {{ item.page + 1 }}
+                </button>
+              } @else {
+                <span class="notifications-settings-page__pagination-ellipsis" aria-hidden="true">...</span>
+              }
+            }
+          </div>
+
+          <ui-button
+            [label]="t('dashboardConfigurationNotificationsPaginationNext')"
+            [disabled]="!canGoNext()"
+            (clicked)="nextPage()">
+          </ui-button>
+        </div>
+      }
+    </article>
+  </section>
+</section>

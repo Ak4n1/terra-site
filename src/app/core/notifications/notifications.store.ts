@@ -1,5 +1,5 @@
 import { DestroyRef, Injectable, computed, inject, signal } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { AuthFacadeService } from '../../features/auth/services/auth-facade.service';
 import type { RealtimeEventMessage } from '../realtime/realtime.models';
 import { RealtimeService } from '../realtime/realtime.service';
@@ -26,6 +26,8 @@ export class NotificationsStore {
   readonly hasMore = signal(false);
   readonly currentPage = signal(0);
   readonly hasUnread = computed(() => this.unreadCount() > 0);
+  private readonly syncEventsSubject = new Subject<NotificationSyncEvent>();
+  readonly syncEvents$ = this.syncEventsSubject.asObservable();
 
   constructor() {
     const subscription = new Subscription();
@@ -68,6 +70,12 @@ export class NotificationsStore {
       next: payload => {
         this.remove(payload.notification.id);
         this.unreadCount.set(payload.unreadCount);
+        this.syncEventsSubject.next({
+          type: 'read',
+          notificationId: payload.notification.id,
+          unreadCount: payload.unreadCount,
+          readAt: payload.notification.readAt
+        });
       }
     });
   }
@@ -79,7 +87,26 @@ export class NotificationsStore {
         this.unreadCount.set(payload.unreadCount);
         this.hasMore.set(false);
         this.currentPage.set(0);
+        this.syncEventsSubject.next({
+          type: 'read_all',
+          unreadCount: payload.unreadCount
+        });
       }
+    });
+  }
+
+  syncReadFromExternal(notificationId: string, unreadCount: number, readAt: string | null): void {
+    if (!notificationId) {
+      return;
+    }
+
+    this.remove(notificationId);
+    this.unreadCount.set(this.toUnreadCount(unreadCount));
+    this.syncEventsSubject.next({
+      type: 'read',
+      notificationId,
+      unreadCount: this.toUnreadCount(unreadCount),
+      readAt
     });
   }
 
@@ -117,16 +144,29 @@ export class NotificationsStore {
     switch (message.type) {
       case 'notification.created': {
         const source = this.asRecord(message.data);
-        const wasInserted = this.upsert(this.mapper.toItem(source['notification']));
-        this.unreadCount.set(this.toUnreadCount(source['unreadCount']));
+        const notification = this.mapper.toItem(source['notification']);
+        const wasInserted = this.upsert(notification);
+        const unreadCount = this.toUnreadCount(source['unreadCount']);
+        this.unreadCount.set(unreadCount);
+        this.syncEventsSubject.next({
+          type: 'created',
+          notification,
+          unreadCount
+        });
         if (wasInserted) {
           this.notificationSoundService.play();
         }
         break;
       }
-      case 'notification.unread_count':
-        this.unreadCount.set(this.toUnreadCount(this.asRecord(message.data)['unreadCount']));
+      case 'notification.unread_count': {
+        const unreadCount = this.toUnreadCount(this.asRecord(message.data)['unreadCount']);
+        this.unreadCount.set(unreadCount);
+        this.syncEventsSubject.next({
+          type: 'unread_count',
+          unreadCount
+        });
         break;
+      }
       default:
         break;
     }
@@ -157,3 +197,9 @@ export class NotificationsStore {
     return value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
   }
 }
+
+export type NotificationSyncEvent =
+  | { type: 'created'; notification: NotificationItem; unreadCount: number }
+  | { type: 'read'; notificationId: string; unreadCount: number; readAt: string | null }
+  | { type: 'read_all'; unreadCount: number }
+  | { type: 'unread_count'; unreadCount: number };

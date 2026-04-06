@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, computed, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
@@ -27,7 +27,7 @@ type SidebarSection = {
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnDestroy {
   @Input() mobileOpen = false;
   @Output() readonly closeRequested = new EventEmitter<void>();
 
@@ -40,11 +40,39 @@ export class SidebarComponent {
     this.sessionAvatarService.avatarRevision();
     return this.sessionAvatarService.resolveFromUser(this.currentUser());
   });
+  readonly sidebarMode = signal<'account' | 'privileged'>('account');
+  readonly sidebarModeSwitching = signal(false);
+  private static readonly MODE_TEXT_HIDE_BEFORE_SWITCH_MS = 90;
+  private static readonly MODE_SPIN_DURATION_MS = 1000;
+  private modeSwitchTimer: ReturnType<typeof setTimeout> | null = null;
+  private modeSwitchStartTimer: ReturnType<typeof setTimeout> | null = null;
+  private modeInitialized = false;
+
+  readonly canUsePrivilegedMode = computed(() => {
+    const roles = this.currentUser()?.roles ?? [];
+    return roles.includes('MODERATOR') || roles.includes('ADMIN') || roles.includes('SUPER_ADMIN');
+  });
+  readonly highestRole = computed(() => {
+    const roles = this.currentUser()?.roles ?? [];
+    const roleRank: Record<string, number> = {
+      USER: 1,
+      MODERATOR: 2,
+      ADMIN: 3,
+      SUPER_ADMIN: 4
+    };
+
+    if (!roles.length) {
+      return 'USER';
+    }
+
+    return roles
+      .slice()
+      .sort((left, right) => (roleRank[right] ?? 0) - (roleRank[left] ?? 0))[0] ?? 'USER';
+  });
+  readonly sidebarModeCopy = computed(() => (this.sidebarMode() === 'account' ? 'USER' : this.highestRole()));
 
   readonly sections = computed<SidebarSection[]>(() => {
-    const roles = this.currentUser()?.roles ?? [];
-    const isAdmin = roles.includes('ADMIN') || roles.includes('SUPER_ADMIN');
-    const sections: SidebarSection[] = [
+    const accountSections: SidebarSection[] = [
       {
         titleKey: 'dashboardSidebarSectionAccount',
         items: [
@@ -64,8 +92,9 @@ export class SidebarComponent {
       }
     ];
 
-    if (isAdmin) {
-      sections.push({
+    const privilegedSections: SidebarSection[] = [];
+    if (this.canUsePrivilegedMode()) {
+      privilegedSections.push({
         titleKey: 'dashboardSidebarSectionAdmin',
         items: [
           { labelKey: 'dashboardSidebarAdminNotifications', route: '/dashboard/admin-notifications' }
@@ -73,13 +102,26 @@ export class SidebarComponent {
       });
     }
 
-    return sections;
+    const wantsPrivileged = this.sidebarMode() === 'privileged' && this.canUsePrivilegedMode();
+    return wantsPrivileged ? privilegedSections : accountSections;
   });
 
   readonly footerItem: SidebarItem = {
     labelKey: 'dashboardSidebarConfiguration',
     route: '/dashboard/configuration'
   };
+
+  constructor() {
+    effect(() => {
+      const user = this.currentUser();
+      if (!user || this.modeInitialized) {
+        return;
+      }
+
+      this.sidebarMode.set('account');
+      this.modeInitialized = true;
+    });
+  }
 
   t(key: string): string {
     return this.languageService.t(key);
@@ -103,5 +145,47 @@ export class SidebarComponent {
 
   closeMobileSidebar(): void {
     this.closeRequested.emit();
+  }
+
+  setSidebarMode(mode: 'account' | 'privileged'): void {
+    const nextMode = mode === 'privileged' && !this.canUsePrivilegedMode() ? 'account' : mode;
+    if (nextMode === this.sidebarMode()) {
+      return;
+    }
+
+    this.sidebarModeSwitching.set(false);
+    if (this.modeSwitchStartTimer) {
+      clearTimeout(this.modeSwitchStartTimer);
+    }
+    if (this.modeSwitchTimer) {
+      clearTimeout(this.modeSwitchTimer);
+    }
+
+    this.modeSwitchStartTimer = setTimeout(() => {
+      this.sidebarMode.set(nextMode);
+      this.sidebarModeSwitching.set(true);
+      this.modeSwitchStartTimer = null;
+
+      this.modeSwitchTimer = setTimeout(() => {
+        this.sidebarModeSwitching.set(false);
+        this.modeSwitchTimer = null;
+      }, SidebarComponent.MODE_SPIN_DURATION_MS);
+    }, SidebarComponent.MODE_TEXT_HIDE_BEFORE_SWITCH_MS);
+  }
+
+  isMode(mode: 'account' | 'privileged'): boolean {
+    return this.sidebarMode() === mode;
+  }
+
+  ngOnDestroy(): void {
+    if (this.modeSwitchStartTimer) {
+      clearTimeout(this.modeSwitchStartTimer);
+      this.modeSwitchStartTimer = null;
+    }
+
+    if (this.modeSwitchTimer) {
+      clearTimeout(this.modeSwitchTimer);
+      this.modeSwitchTimer = null;
+    }
   }
 }

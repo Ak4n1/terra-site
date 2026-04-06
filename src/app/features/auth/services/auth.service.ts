@@ -59,6 +59,11 @@ export type AccountActivityListResponse = {
   size: number;
 };
 
+export type AccountActivityFilters = {
+  dateFrom?: string;
+  dateTo?: string;
+};
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
@@ -259,9 +264,22 @@ export class AuthService {
     return this.http.post<ApiResponse<null>>(`${this.accountSettingsUrl}/security/password/reset/request`, {}, options);
   }
 
-  getAccountActivity(page = 0, size = 10, sort: AccountActivitySortOrder = 'desc'): Observable<AccountActivityListResponse> {
+  getAccountActivity(
+    page = 0,
+    size = 10,
+    sort: AccountActivitySortOrder = 'desc',
+    filters?: AccountActivityFilters
+  ): Observable<AccountActivityListResponse> {
+    const queryParts = [`page=${page}`, `size=${size}`, `sort=${sort}`];
+    if (filters?.dateFrom) {
+      queryParts.push(`dateFrom=${encodeURIComponent(filters.dateFrom)}`);
+    }
+    if (filters?.dateTo) {
+      queryParts.push(`dateTo=${encodeURIComponent(filters.dateTo)}`);
+    }
+
     return this.http.get<ApiResponse<AccountActivityListResponse>>(
-      `${this.accountSettingsUrl}/activity?page=${page}&size=${size}&sort=${sort}`
+      `${this.accountSettingsUrl}/activity?${queryParts.join('&')}`
     ).pipe(
       map(response => this.mapData(response))
     );

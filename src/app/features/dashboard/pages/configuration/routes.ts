@@ -17,5 +17,9 @@ export const DASHBOARD_CONFIGURATION_ROUTES: Routes = [
   {
     path: 'activity',
     loadComponent: () => import('./sections/activity/activity-settings.page').then(m => m.ActivitySettingsPage)
+  },
+  {
+    path: 'notifications',
+    loadComponent: () => import('./sections/notifications/notifications-settings.page').then(m => m.NotificationsSettingsPage)
   }
 ];

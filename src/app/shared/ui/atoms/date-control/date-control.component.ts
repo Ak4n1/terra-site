@@ -55,6 +55,8 @@ export class DateControlComponent {
   private readonly valueState = signal('');
   private readonly minState = signal<string | null>(null);
   private readonly maxState = signal<string | null>(null);
+  private readonly placeholderState = signal('Select a date');
+  private readonly ariaLabelState = signal('');
 
   @Input()
   set value(next: string) {
@@ -71,7 +73,15 @@ export class DateControlComponent {
     return this._value;
   }
 
-  @Input() placeholder = 'Select a date';
+  @Input()
+  set placeholder(next: string) {
+    this.placeholderState.set(next ?? 'Select a date');
+  }
+
+  get placeholder(): string {
+    return this.placeholderState();
+  }
+
   @Input() disabled = false;
 
   @Input()
@@ -92,7 +102,15 @@ export class DateControlComponent {
     return this.maxState();
   }
 
-  @Input() ariaLabel = '';
+  @Input()
+  set ariaLabel(next: string) {
+    this.ariaLabelState.set(next ?? '');
+  }
+
+  get ariaLabel(): string {
+    return this.ariaLabelState();
+  }
+
   @Output() readonly valueChange = new EventEmitter<string>();
 
   readonly calendarIcon = CalendarDays;
@@ -120,12 +138,14 @@ export class DateControlComponent {
   });
 
   readonly selectedDate = computed(() => parseIsoDate(this.valueState()));
-  readonly triggerAriaLabel = computed(() => this.ariaLabel || this.placeholder || this.languageService.t('dateControlPlaceholder'));
-  readonly panelAriaLabel = computed(() => this.ariaLabel || this.languageService.t('dateControlPanelLabel'));
+  readonly triggerAriaLabel = computed(() =>
+    this.ariaLabelState() || this.placeholderState() || this.languageService.t('dateControlPlaceholder')
+  );
+  readonly panelAriaLabel = computed(() => this.ariaLabelState() || this.languageService.t('dateControlPanelLabel'));
   readonly displayLabel = computed(() => {
     const selected = this.selectedDate();
     if (!selected) {
-      return this.placeholder || this.languageService.t('dateControlPlaceholder');
+      return this.placeholderState() || this.languageService.t('dateControlPlaceholder');
     }
 
     return new Intl.DateTimeFormat(this.currentLocale(), { dateStyle: 'medium' }).format(selected);

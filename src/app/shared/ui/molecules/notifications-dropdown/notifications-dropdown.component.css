@@ -59,11 +59,38 @@
   z-index: 20;
 }
 
+.notifications-dropdown--dashboard .notifications-dropdown__menu {
+  --notifications-dropdown-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_3.svg');
+  border: 0;
+  background:
+    linear-gradient(180deg, #1a1a1a, #0e0e0e),
+    #0e0e0e;
+  box-shadow: none;
+  filter:
+    drop-shadow(0 12px 16px rgba(0, 0, 0, 0.48))
+    drop-shadow(0 24px 26px rgba(0, 0, 0, 0.38));
+  -webkit-mask-image: var(--notifications-dropdown-mask-image);
+  mask-image: var(--notifications-dropdown-mask-image);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  gap: 14px;
+  padding: 24px;
+}
+
 .notifications-dropdown__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  padding: 0;
+}
+
+.notifications-dropdown--dashboard .notifications-dropdown__header {
+  padding: 0 2px;
 }
 
 @media (max-width: 1024px) {
@@ -120,22 +147,13 @@
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-  scrollbar-width: thin;
-  scrollbar-color: var(--c-link-hover) color-mix(in srgb, var(--c-surface-topbar) 70%, transparent);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .notifications-dropdown__list-wrap::-webkit-scrollbar {
-  width: 8px;
-}
-
-.notifications-dropdown__list-wrap::-webkit-scrollbar-track {
-  background: color-mix(in srgb, var(--c-surface-topbar) 70%, transparent);
-}
-
-.notifications-dropdown__list-wrap::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--c-link-hover) 82%, black);
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--c-surface-topbar) 70%, transparent);
+  width: 0;
+  height: 0;
 }
 
 .notifications-dropdown__item {
@@ -143,6 +161,11 @@
   gap: 8px;
   padding: 12px 0;
   border-top: 1px solid var(--c-border-subtle);
+}
+
+.notifications-dropdown--dashboard .notifications-dropdown__item {
+  gap: 10px;
+  padding: 14px 2px;
 }
 
 .notifications-dropdown__item:first-child {
@@ -226,6 +249,10 @@
   flex-wrap: wrap;
   padding-top: 12px;
   border-top: 1px solid var(--c-border-subtle);
+}
+
+.notifications-dropdown--dashboard .notifications-dropdown__actions {
+  padding: 14px 2px 0;
 }
 
 .notifications-dropdown__action {

@@ -5,12 +5,14 @@
       <h2 class="discord-widget__title">{{ discordSnapshot()?.serverName || t('dashboardHomeDiscordTitle') }}</h2>
     </div>
 
-    <ui-button
+    <ui-mask-button
+      class="discord-widget__join"
       [label]="t('dashboardHomeDiscordJoinAction')"
-      [variant]="'white'"
+      [mask]="1"
+      size="2xs"
       [disabled]="discordLoading()"
       (clicked)="openDiscordInvite()">
-    </ui-button>
+    </ui-mask-button>
   </header>
 
   @if (discordLoading()) {
@@ -43,6 +45,7 @@
           [label]="t('dashboardHomeDiscordSearchLabel')"
           [type]="'text'"
           [placeholder]="t('dashboardHomeDiscordSearchPlaceholder')"
+          [variant]="'2'"
           [value]="discordSearch()"
           [clearable]="true"
           [searchMode]="true"

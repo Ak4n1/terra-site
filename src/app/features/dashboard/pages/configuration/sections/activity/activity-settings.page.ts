@@ -6,6 +6,7 @@ import { formatUserAgentSummary } from '../../../../../../core/utils/user-agent.
 import { LanguageService } from '../../../../../../core/i18n/language.service';
 import { AlertComponent, type AlertVariant } from '../../../../../../shared/ui/atoms/alert/alert.component';
 import { ButtonComponent } from '../../../../../../shared/ui/atoms/button/button.component';
+import { DateControlComponent } from '../../../../../../shared/ui/atoms/date-control/date-control.component';
 import { OrbSpinnerComponent } from '../../../../../../shared/ui/atoms/orb-spinner/orb-spinner.component';
 import {
   AuthService,
@@ -14,15 +15,13 @@ import {
   type AccountActivitySortOrder
 } from '../../../../../auth/services/auth.service';
 import { AuthFacadeService } from '../../../../../auth/services/auth-facade.service';
-import {
-  SelectControlComponent,
-  type SelectControlOption
-} from '../../../../../../shared/ui/atoms/select-control/select-control.component';
+import { SelectFieldComponent } from '../../../../../../shared/ui/molecules/select-field/select-field.component';
+import type { SelectControlOption } from '../../../../../../shared/ui/atoms/select-control/select-control.component';
 
 @Component({
   selector: 'app-activity-settings-page',
   standalone: true,
-  imports: [CommonModule, AlertComponent, ButtonComponent, OrbSpinnerComponent, SelectControlComponent],
+  imports: [CommonModule, AlertComponent, ButtonComponent, DateControlComponent, OrbSpinnerComponent, SelectFieldComponent],
   templateUrl: './activity-settings.page.html',
   styleUrl: './activity-settings.page.css'
 })
@@ -48,6 +47,8 @@ export class ActivitySettingsPage implements OnInit {
   page = 0;
   size = ActivitySettingsPage.DEFAULT_PAGE_SIZE;
   sort: AccountActivitySortOrder = 'desc';
+  dateFrom = '';
+  dateTo = '';
   hasMore = false;
   message = '';
   messageKind: 'warning' | 'error' = 'warning';
@@ -79,17 +80,26 @@ export class ActivitySettingsPage implements OnInit {
     ];
   }
 
-  changeSort(value: string): void {
-    if (value !== 'asc' && value !== 'desc') {
+  onSortFilterChange(value: string): void {
+    this.sort = value === 'asc' ? 'asc' : 'desc';
+  }
+
+  applyFilters(): void {
+    if (!this.validateDateRange()) {
       return;
     }
-
-    if (value === this.sort) {
-      return;
-    }
-
-    this.sort = value;
     this.loadActivity(0);
+  }
+
+  clearFilters(): void {
+    this.dateFrom = '';
+    this.dateTo = '';
+    this.message = '';
+    this.loadActivity(0);
+  }
+
+  hasActiveFilters(): boolean {
+    return this.dateFrom.trim().length > 0 || this.dateTo.trim().length > 0;
   }
 
   previousPage(): void {
@@ -138,6 +148,14 @@ export class ActivitySettingsPage implements OnInit {
     return formatUserAgentSummary(value) ?? this.t('dashboardConfigurationActivityUnknownValue');
   }
 
+  onDateFromChange(value: string): void {
+    this.dateFrom = value;
+  }
+
+  onDateToChange(value: string): void {
+    this.dateTo = value;
+  }
+
   private loadActivity(page: number): void {
     const loadSequence = ++this.loadSequence;
     const loadStartedAt = Date.now();
@@ -147,7 +165,10 @@ export class ActivitySettingsPage implements OnInit {
       this.message = '';
     });
 
-    this.authService.getAccountActivity(page, this.size, this.sort).pipe(
+    this.authService.getAccountActivity(page, this.size, this.sort, {
+      dateFrom: this.dateFrom || undefined,
+      dateTo: this.dateTo || undefined
+    }).pipe(
       finalize(() => {
         const elapsed = Date.now() - loadStartedAt;
         const remaining = Math.max(0, ActivitySettingsPage.LOADING_MIN_MS - elapsed);
@@ -236,6 +257,22 @@ export class ActivitySettingsPage implements OnInit {
     this.message = normalized.message?.trim().length
       ? normalized.message
       : this.t('dashboardConfigurationActivityLoadError');
+  }
+
+  private validateDateRange(): boolean {
+    if (!this.dateFrom || !this.dateTo) {
+      this.message = '';
+      return true;
+    }
+
+    if (this.dateFrom <= this.dateTo) {
+      this.message = '';
+      return true;
+    }
+
+    this.messageKind = 'warning';
+    this.message = this.t('dashboardConfigurationNotificationsDateRangeInvalid');
+    return false;
   }
 
   private runInUi(action: () => void): void {

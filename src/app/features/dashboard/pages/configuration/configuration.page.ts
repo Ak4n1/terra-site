@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { LanguageService } from '../../../../core/i18n/language.service';
 import {
   MaskButtonComponent,
   type MaskButtonMask
 } from '../../../../shared/ui/atoms/mask-button/mask-button.component';
+import { NotificationsSettingsCacheService } from './sections/notifications/notifications-settings-cache.service';
 
 type ConfigurationTab = {
-  key: 'profile' | 'security' | 'activity';
+  key: 'profile' | 'security' | 'activity' | 'notifications';
   route: string;
   labelKey: string;
   mask: MaskButtonMask;
@@ -21,9 +22,10 @@ type ConfigurationTab = {
   templateUrl: './configuration.page.html',
   styleUrl: './configuration.page.css'
 })
-export class DashboardConfigurationPage {
+export class DashboardConfigurationPage implements OnInit {
   private readonly languageService = inject(LanguageService);
   private readonly router = inject(Router);
+  private readonly notificationsSettingsCache = inject(NotificationsSettingsCacheService);
 
   readonly tabs: ConfigurationTab[] = [
     {
@@ -39,12 +41,22 @@ export class DashboardConfigurationPage {
       mask: 3
     },
     {
+      key: 'notifications',
+      route: '/dashboard/configuration/notifications',
+      labelKey: 'dashboardConfigurationTabNotifications',
+      mask: 4
+    },
+    {
       key: 'activity',
       route: '/dashboard/configuration/activity',
       labelKey: 'dashboardConfigurationTabActivity',
       mask: 2
-    }
+    },
   ];
+
+  ngOnInit(): void {
+    this.notificationsSettingsCache.prefetchDefault();
+  }
 
   t(key: string): string {
     return this.languageService.t(key);

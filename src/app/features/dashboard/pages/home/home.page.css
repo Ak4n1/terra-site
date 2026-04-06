@@ -5,22 +5,6 @@
   align-items: start;
   min-height: calc(100dvh - 150px);
 }
-.mierda {
-  width: 528px;
-  height: 528px;
-  background-image: url('/assets/images/app/bgcard.png');
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-
-  padding: 20px;
-  box-sizing: border-box;
-
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
 .dashboard-home__left-column {
   min-height: 320px;
 }
