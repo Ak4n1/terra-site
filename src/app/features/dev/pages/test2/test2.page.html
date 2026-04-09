@@ -28,6 +28,67 @@
 
     <section class="test2-page__section">
       <div class="test2-page__section-head">
+        <p class="test2-page__eyebrow">OAuth</p>
+        <h2 class="test2-page__section-title">Continue With Google Buttons</h2>
+        <p class="test2-page__section-copy">
+          Opciones visuales para el CTA de Google usando `ui-button` + icono Lucide.
+        </p>
+      </div>
+
+      <div class="test2-page__oauth-grid">
+        <article class="test2-page__card">
+          <div class="test2-page__meta">
+            <p class="test2-page__variant">Google / MD</p>
+            <p class="test2-page__description">Variante recomendada para modal de login.</p>
+          </div>
+
+          <div class="test2-page__preview">
+            <ui-button
+              [label]="'Continue with Google'"
+              [icon]="googleIcon"
+              variant="google"
+              (clicked)="onGoogleContinue('google-md')">
+            </ui-button>
+          </div>
+        </article>
+
+        <article class="test2-page__card">
+          <div class="test2-page__meta">
+            <p class="test2-page__variant">Google / X2</p>
+            <p class="test2-page__description">Version mas protagonista para pantallas dedicate auth.</p>
+          </div>
+
+          <div class="test2-page__preview">
+            <ui-button
+              [label]="'Continue with Google'"
+              [icon]="googleIcon"
+              variant="google"
+              size="x2"
+              (clicked)="onGoogleContinue('google-x2')">
+            </ui-button>
+          </div>
+        </article>
+
+        <article class="test2-page__card">
+          <div class="test2-page__meta">
+            <p class="test2-page__variant">White Alt</p>
+            <p class="test2-page__description">Alternativa neutra para comparar contra el azul Google.</p>
+          </div>
+
+          <div class="test2-page__preview">
+            <ui-button
+              [label]="'Continue with Google'"
+              [icon]="googleIcon"
+              variant="white"
+              (clicked)="onGoogleContinue('white-md')">
+            </ui-button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="test2-page__section">
+      <div class="test2-page__section-head">
         <p class="test2-page__eyebrow">Atoms</p>
         <h2 class="test2-page__section-title">Input Field Variants</h2>
         <p class="test2-page__section-copy">

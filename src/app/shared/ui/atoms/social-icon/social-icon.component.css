@@ -58,3 +58,101 @@
 .mobile-social-link:hover i {
   filter: brightness(1.15);
 }
+
+.social-link--topbar,
+.social-link--topbar.mobile-social-link {
+  width: auto;
+  height: auto;
+  padding: 3px 14px;
+  border-radius: 3px;
+  color: inherit;
+  transition: background-color 0.3s ease;
+  transform: none !important;
+  position: relative;
+  overflow: visible;
+}
+
+.social-link--topbar + .social-link--topbar,
+.social-link--topbar.mobile-social-link + .social-link--topbar.mobile-social-link {
+  margin-left: 5px;
+}
+
+.social-link--topbar i,
+.social-link--topbar.mobile-social-link i {
+  width: auto;
+  height: auto;
+  line-height: 1;
+  font-size: inherit;
+  border-radius: 0;
+  background: transparent !important;
+  color: currentColor !important;
+  transition: transform 0.3s ease;
+  filter: none !important;
+}
+
+.social-link--topbar:hover,
+.social-link--topbar.mobile-social-link:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.social-link__effect {
+  display: inline-block;
+  position: relative;
+  line-height: 1;
+}
+
+.social-link__effect::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  right: -10px;
+  border-bottom: 1px solid currentColor;
+  opacity: 0.5;
+  transform: scaleX(0);
+  transform-origin: 100% 0;
+  transition: transform 0.3s ease;
+  pointer-events: none;
+}
+
+.social-link__effect-shade {
+  opacity: 0;
+}
+
+.social-link__effect-l,
+.social-link__effect-r {
+  position: absolute;
+  overflow: hidden;
+  top: -50%;
+  transition: 0.3s 0.1s transform;
+}
+
+.social-link__effect-l > span,
+.social-link__effect-r > span {
+  display: inline-block;
+  transform: translateY(50%);
+}
+
+.social-link__effect-r {
+  top: 50%;
+}
+
+.social-link__effect-r > span {
+  transform: translateY(-50%);
+}
+
+.social-link--topbar:hover .social-link__effect::after,
+.social-link--topbar.mobile-social-link:hover .social-link__effect::after {
+  transform: scaleX(1);
+  transform-origin: 0 0;
+}
+
+.social-link--topbar:hover .social-link__effect-l,
+.social-link--topbar.mobile-social-link:hover .social-link__effect-l {
+  transform: translateX(-2px);
+}
+
+.social-link--topbar:hover .social-link__effect-r,
+.social-link--topbar.mobile-social-link:hover .social-link__effect-r {
+  transform: translateX(2px);
+}

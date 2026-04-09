@@ -1,0 +1,121 @@
+:root {
+  /*
+   * Botones auth mobile (navbar publica)
+   * Impacto principal:
+   * - src/app/shared/ui/organisms/navbar/navbar.component.css
+   */
+  --c-btn-bg: rgba(14, 14, 14, 0.9);
+  --c-btn-bg-hover: #0e0e0e;
+  --c-btn-hover-shadow: rgba(14, 14, 14, 0.4);
+  --c-btn-accent-border: #b56d19;
+  --c-btn-accent-active: #885213;
+
+  /*
+   * Header/navbar publica
+   * Impacto principal:
+   * - src/app/shared/ui/organisms/navbar/navbar.component.css
+   * - src/app/shared/ui/atoms/nav-link/nav-link.component.css
+   * - ruta /
+   */
+  --header-z-index: 2101;
+  --header-container-max-width: 1320px;
+  --header-container-gutter: 20px;
+  --header-topbar-padding-y: 15px;
+  --header-main-padding-y: 26px;
+  --header-main-padding-y-mobile: 12px;
+  --header-logo-min-width: 120px;
+  --header-logo-size: 2.7rem;
+  --header-logo-letter-spacing: 0.02em;
+  --header-social-gap: 10px;
+  --header-social-padding-left: 12px;
+  --header-social-margin-left: 2px;
+  --header-actions-gap: 14px;
+  --header-auth-offset-right: 20px;
+  --header-main-links-shift-x: -70px;
+  --header-main-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+  --dropdown-margin-top: 28px;
+  --dropdown-padding-y: 30px;
+  --dropdown-shift-y: 6px;
+  --dropdown-sub-gap: 2px;
+  --dropdown-sub-shift-x: 6px;
+
+  /*
+   * Header: selector de idioma
+   */
+  --language-trigger-min-width: 56px;
+  --language-trigger-height: 34px;
+  --language-trigger-padding-left: 10px;
+  --language-trigger-padding-right: 26px;
+  --language-menu-gap: 6px;
+  --language-menu-padding-y: 8px;
+  --language-menu-hitbox-height: 12px;
+  --language-option-padding-y: 6px;
+  --language-option-padding-x: 12px;
+  --flag-width: 18px;
+  --flag-height: 12px;
+  --language-caret-size: 6px;
+  --language-caret-right: 12px;
+
+  /*
+   * Header: menu toggle mobile
+   */
+  --menu-toggle-width: 44px;
+  --menu-toggle-height: 36px;
+  --menu-toggle-bar-width: 22px;
+  --menu-toggle-bar-height: 2px;
+  --menu-toggle-bar-offset-top: -6px;
+  --menu-toggle-bar-offset-bottom: 4px;
+
+  /*
+   * Header: links de navegacion
+   */
+  --nav-font-family: "Marcellus SC", "Beaufort", serif;
+  --nav-font-size: 1rem;
+  --nav-font-size-dropdown: 0.9rem;
+  --nav-font-weight: 700;
+  --nav-link-padding-y: 5px;
+  --nav-link-padding-x: 25px;
+  --nav-link-padding-dropdown-y: 8px;
+  --nav-link-padding-dropdown-right: 40px;
+  --nav-link-padding-dropdown-left: 50px;
+  --nav-link-effect-line-inset: 10px;
+  --nav-link-effect-shift: 2px;
+  --nav-dot-size: 3px;
+  --nav-dot-spacing: 5px;
+  --nav-mobile-link-padding-y: 12px;
+  --nav-mobile-link-padding-x: 40px;
+  --nav-mobile-link-padding-right-drop: 56px;
+  --nav-mobile-link-indicator-right: 24px;
+  --nav-mobile-link-indicator-left: 28px;
+
+  /*
+   * Header: menu mobile y acciones auth
+   */
+  --mobile-menu-width: 250px;
+  --mobile-menu-width-small: 200px;
+  --mobile-menu-padding-y: 40px;
+  --mobile-menu-padding-y-compact: 24px;
+  --mobile-menu-header-padding-x: 35px;
+  --mobile-menu-header-padding-bottom: 15px;
+  --mobile-menu-header-padding-bottom-compact: 12px;
+  --mobile-menu-auth-gap: 10px;
+  --mobile-menu-auth-padding-top: 16px;
+  --mobile-menu-auth-padding-top-compact: 12px;
+  --mobile-menu-auth-margin-top-compact: 12px;
+  --mobile-menu-auth-padding-x: 20px;
+  --mobile-menu-auth-link-padding-y: 14px;
+  --mobile-menu-auth-link-padding-y-compact: 11px;
+  --mobile-menu-auth-link-padding-x: 12px;
+  --mobile-menu-auth-link-inset: 6px;
+  --mobile-nav-padding-top: 12px;
+  --mobile-nav-padding-top-compact: 8px;
+  --mobile-nav-trigger-padding-y: 12px;
+  --mobile-nav-trigger-padding-y-compact: 10px;
+  --mobile-nav-trigger-padding-x: 40px;
+  --mobile-nav-trigger-padding-left: 56px;
+  --mobile-nav-trigger-padding-right: 40px;
+  --mobile-nav-trigger-back-padding-left: 56px;
+  --mobile-nav-trigger-back-indicator-left: 30px;
+  --mobile-menu-overlay-opacity: 0.8;
+  --header-topbar-row-gap-mobile: 12px;
+}

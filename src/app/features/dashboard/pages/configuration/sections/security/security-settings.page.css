@@ -134,7 +134,7 @@
 
 .security-settings-page__qr-wrap {
   border: 1px solid var(--c-border-control);
-  background: #0f0f0f;
+  background: var(--account-master-surface-deep);
   padding: 10px;
   width: 280px;
   height: 280px;
@@ -221,7 +221,7 @@
   height: 56px;
   object-fit: contain;
   border: 1px solid var(--c-border-control);
-  background: #0f0f0f;
+  background: var(--account-master-surface-deep);
   padding: 6px;
 }
 

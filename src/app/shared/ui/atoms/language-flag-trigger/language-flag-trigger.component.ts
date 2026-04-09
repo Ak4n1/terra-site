@@ -9,6 +9,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class LanguageFlagTriggerComponent {
   @Input() flagSrc = '';
   @Input() flagAlt = '';
+  @Input() label = '';
   @Input() ariaLabel = 'Language';
   @Input() expanded = false;
 

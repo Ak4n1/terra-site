@@ -23,14 +23,9 @@
 
     @if (showSignalBars) {
       <div class="site-preloader__signal-block">
-        <div class="site-preloader__signal-bars" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+        <ui-orb-spinner class="site-preloader__orb" aria-hidden="true"></ui-orb-spinner>
         <p class="site-preloader__loading-label">
-          <span>{{ loadingLabel() }}</span>
+          <span class="site-preloader__loading-text">{{ loadingLabel() }}</span>
           <span class="site-preloader__loading-dots" aria-hidden="true">
             <span>.</span>
             <span>.</span>

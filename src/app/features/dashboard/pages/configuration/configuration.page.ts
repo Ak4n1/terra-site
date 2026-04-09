@@ -2,18 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { LanguageService } from '../../../../core/i18n/language.service';
-import {
-  MaskButtonComponent,
-  type MaskButtonMask
-} from '../../../../shared/ui/atoms/mask-button/mask-button.component';
+import { MaskButtonComponent } from '../../../../shared/ui/atoms/mask-button/mask-button.component';
 import { NotificationsSettingsCacheService } from './sections/notifications/notifications-settings-cache.service';
-
-type ConfigurationTab = {
-  key: 'profile' | 'security' | 'activity' | 'notifications';
-  route: string;
-  labelKey: string;
-  mask: MaskButtonMask;
-};
+import { CONFIGURATION_TABS, type ConfigurationTab, type ConfigurationTabKey } from './configuration-tabs.config';
 
 @Component({
   selector: 'app-dashboard-configuration-page',
@@ -27,32 +18,7 @@ export class DashboardConfigurationPage implements OnInit {
   private readonly router = inject(Router);
   private readonly notificationsSettingsCache = inject(NotificationsSettingsCacheService);
 
-  readonly tabs: ConfigurationTab[] = [
-    {
-      key: 'profile',
-      route: '/dashboard/configuration/profile',
-      labelKey: 'dashboardConfigurationTabProfile',
-      mask: 5
-    },
-    {
-      key: 'security',
-      route: '/dashboard/configuration/security',
-      labelKey: 'dashboardConfigurationTabSecurity',
-      mask: 3
-    },
-    {
-      key: 'notifications',
-      route: '/dashboard/configuration/notifications',
-      labelKey: 'dashboardConfigurationTabNotifications',
-      mask: 4
-    },
-    {
-      key: 'activity',
-      route: '/dashboard/configuration/activity',
-      labelKey: 'dashboardConfigurationTabActivity',
-      mask: 2
-    },
-  ];
+  readonly tabs: ReadonlyArray<ConfigurationTab> = CONFIGURATION_TABS;
 
   ngOnInit(): void {
     this.notificationsSettingsCache.prefetchDefault();
@@ -69,5 +35,9 @@ export class DashboardConfigurationPage implements OnInit {
       fragment: 'ignored',
       matrixParams: 'ignored'
     });
+  }
+
+  trackByTabKey(_: number, tab: ConfigurationTab): ConfigurationTabKey {
+    return tab.key;
   }
 }

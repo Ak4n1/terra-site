@@ -1,3 +1,18 @@
-<a [href]="href" target="_blank" rel="noopener noreferrer" [title]="title" class="social-link" [class.mobile-social-link]="mobile">
-  <i [class]="iconClass"></i>
+<a
+  [href]="href"
+  target="_blank"
+  rel="noopener noreferrer"
+  [title]="title"
+  class="social-link"
+  [class.mobile-social-link]="mobile"
+  [class.social-link--topbar]="variant === 'topbar'">
+  @if (variant === 'topbar') {
+    <span class="social-link__effect">
+      <span class="social-link__effect-l"><span><i [class]="iconClass"></i></span></span>
+      <span class="social-link__effect-r"><span><i [class]="iconClass"></i></span></span>
+      <span class="social-link__effect-shade"><i [class]="iconClass"></i></span>
+    </span>
+  } @else {
+    <i [class]="iconClass"></i>
+  }
 </a>

@@ -97,7 +97,7 @@
 }
 
 .notifications-settings-page__date-label {
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--account-master-date-label-color);
   font-family: var(--font-ui);
   font-size: 0.76rem;
   letter-spacing: 0.09em;
@@ -147,9 +147,7 @@
 
 .notifications-settings-page__item {
   --notifications-settings-item-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_3.svg');
-  --notifications-settings-item-bg:
-    linear-gradient(180deg, #1a1a1a, #0e0e0e),
-    #0e0e0e;
+  --notifications-settings-item-bg: var(--account-master-item-bg);
   position: relative;
   border: 0;
   background: transparent;
@@ -172,9 +170,7 @@
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  filter:
-    drop-shadow(0 6px 10px rgba(0, 0, 0, 0.22))
-    drop-shadow(0 10px 14px rgba(0, 0, 0, 0.14));
+  filter: var(--account-master-item-shadow);
   pointer-events: none;
   z-index: 0;
 }
@@ -182,8 +178,7 @@
 .notifications-settings-page__item--unread::before {
   background:
     linear-gradient(180deg, rgba(255, 219, 143, 0.12), rgba(255, 219, 143, 0)),
-    linear-gradient(180deg, #1a1a1a, #0e0e0e),
-    #0e0e0e;
+    var(--account-master-item-bg);
 }
 
 .notifications-settings-page__item > * {
@@ -255,10 +250,10 @@
 .notifications-settings-page__pagination-page {
   min-width: 40px;
   height: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--account-master-pagination-border);
   padding: 0 12px;
-  background: rgba(14, 14, 14, 0.82);
-  color: rgba(255, 255, 255, 0.76);
+  background: var(--account-master-pagination-bg);
+  color: var(--account-master-pagination-fg);
   font-family: var(--font-ui);
   font-size: 0.92rem;
   line-height: 1;
@@ -267,22 +262,22 @@
 }
 
 .notifications-settings-page__pagination-page:hover {
-  border-color: rgba(255, 255, 255, 0.34);
+  border-color: var(--account-master-pagination-border-hover);
   color: var(--c-text-on-dark);
   transform: translateY(-1px);
 }
 
 .notifications-settings-page__pagination-page--active {
   border-color: var(--c-link-hover);
-  background: rgba(224, 136, 33, 0.14);
+  background: var(--account-master-pagination-active-bg);
   color: var(--c-text-on-dark);
-  box-shadow: inset 0 0 0 1px rgba(224, 136, 33, 0.24);
+  box-shadow: var(--account-master-pagination-active-ring);
 }
 
 .notifications-settings-page__pagination-ellipsis {
   min-width: 26px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.52);
+  color: var(--account-master-pagination-fg-muted);
   font-family: var(--font-ui);
   font-size: 0.92rem;
 }

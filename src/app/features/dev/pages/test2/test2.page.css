@@ -85,6 +85,12 @@
   gap: 20px;
 }
 
+.test2-page__oauth-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
 .test2-page__card {
   display: grid;
   gap: 18px;
@@ -140,6 +146,10 @@
   }
 
   .test2-page__input-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .test2-page__oauth-grid {
     grid-template-columns: 1fr;
   }
 }

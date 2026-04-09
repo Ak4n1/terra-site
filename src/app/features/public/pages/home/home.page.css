@@ -34,6 +34,48 @@
   z-index: 1;
 }
 
+.home-page__legal-footer {
+  display: grid;
+  gap: 12px;
+  padding: 24px clamp(16px, 4vw, 48px) calc(24px + env(safe-area-inset-bottom));
+  margin-top: 16px;
+  border-top: 1px solid rgba(224, 136, 33, 0.28);
+  background: rgba(7, 9, 13, 0.82);
+  backdrop-filter: blur(3px);
+}
+
+.home-page__legal-copy {
+  margin: 0;
+  color: rgba(248, 243, 232, 0.86);
+  font-family: var(--font-body, "Arial", sans-serif);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.home-page__legal-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.home-page__legal-link {
+  color: #f4c26f;
+  text-decoration: none;
+  font-family: var(--font-ui, "Arial", sans-serif);
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.home-page__legal-link:hover {
+  text-decoration: underline;
+}
+
+.home-page__legal-separator {
+  color: rgba(248, 243, 232, 0.45);
+}
+
 :host ::ng-deep .rev_slider_wrapper,
 :host ::ng-deep .rev_slider,
 :host ::ng-deep .tp-revslider-mainul,

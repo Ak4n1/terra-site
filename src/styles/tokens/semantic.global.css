@@ -1,0 +1,40 @@
+:root {
+  /*
+   * Superficies y texto global
+   * Impacto principal:
+   * - src/styles.css (fondo base de toda la app)
+   * - src/app/app.css (pantalla de recuperacion de sesion)
+   * - rutas /dashboard/*
+   */
+  --c-page-bg: var(--color-black);
+  --c-page-text: var(--color-white);
+  --c-dashboard-shell-bg: var(--color-panel-900);
+  --c-text-secondary: var(--color-white-a80);
+  --c-text-strong: var(--color-white-a90);
+  --c-surface-topbar: #060606;
+  --c-surface-dropdown: #0e0e0e;
+  --c-surface-overlay: #0e0e0e;
+  --c-border-weak: var(--color-white-a08);
+  --c-border-subtle: var(--color-white-a04);
+  --c-border-muted: var(--color-white-a16);
+  --c-border-control: var(--color-white-a12);
+  --c-text-primary: var(--color-white-a95);
+  --c-text-on-dark: var(--color-white);
+  --c-text-icon: var(--color-white-a90);
+  --c-link-hover: var(--color-accent-500);
+  --c-focus-ring: rgba(224, 136, 33, 0.7);
+  --c-caret: var(--color-white-a80);
+  --shadow-dropdown: 0 5px 15px 0 var(--color-shadow-strong);
+  --shadow-mobile-menu: 0 0 15px 5px var(--color-shadow-strong);
+  --dashboard-panel-border: var(--c-border-weak);
+  --dashboard-panel-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(12, 12, 12, 0.82);
+  --dashboard-panel-padding: 32px;
+  --dashboard-panel-padding-mobile: 24px;
+  --dashboard-eyebrow-letter-spacing: 0.24em;
+  --dashboard-tab-border-active: var(--c-link-hover);
+  --dashboard-tab-border-inactive: transparent;
+  --dashboard-tab-bg-active: color-mix(in srgb, var(--c-surface-dropdown) 82%, transparent);
+  --dashboard-tab-bg-hover: color-mix(in srgb, var(--c-surface-dropdown) 68%, transparent);
+}

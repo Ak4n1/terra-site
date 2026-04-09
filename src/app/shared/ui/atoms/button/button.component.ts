@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { LucideAngularModule, type LucideIconData } from 'lucide-angular';
 
 export type ButtonVariant =
   | 'main-1'
@@ -7,6 +8,7 @@ export type ButtonVariant =
   | 'main-3'
   | 'main-4'
   | 'main-5'
+  | 'google'
   | 'white';
 
 export type ButtonSize = 'md' | 'x2';
@@ -14,12 +16,13 @@ export type ButtonSize = 'md' | 'x2';
 @Component({
   selector: 'ui-button',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LucideAngularModule],
   templateUrl: './button.component.html',
   styleUrl: './button.component.css'
 })
 export class ButtonComponent {
   @Input() label = 'Button';
+  @Input() icon: LucideIconData | null = null;
   @Input() variant: ButtonVariant = 'main-1';
   @Input() size: ButtonSize = 'md';
   @Input() type: 'button' | 'submit' | 'reset' = 'button';

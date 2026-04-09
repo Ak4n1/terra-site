@@ -7,6 +7,9 @@
   [attr.aria-busy]="loading"
   (click)="onClick($event)">
   <span class="btn__label">
+    @if (icon) {
+      <lucide-icon [img]="icon" class="btn__icon" aria-hidden="true"></lucide-icon>
+    }
     <span class="btn__effect-inner">
       <span class="btn__effect-l"><span>{{ label }}</span></span>
       <span class="btn__effect-r"><span>{{ label }}</span></span>

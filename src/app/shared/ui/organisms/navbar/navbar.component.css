@@ -16,7 +16,6 @@
 
 .terra-header__main {
   background-color: var(--c-surface-dropdown);
-  border-top: 1px solid var(--c-border-subtle);
   box-shadow: var(--header-main-shadow);
 }
 
@@ -150,15 +149,16 @@
   display: flex;
   align-items: center;
   gap: var(--header-actions-gap, 14px);
+  font-size: 0.8rem;
 }
 
 .terra-header__socials {
   display: flex;
   align-items: center;
-  gap: var(--header-social-gap, 10px);
-  padding-left: var(--header-social-padding-left, 12px);
-  margin-left: var(--header-social-margin-left, 2px);
-  border-left: 1px solid var(--c-border-muted);
+  gap: 0;
+  padding-left: 0;
+  margin-left: 0;
+  border-left: 0;
 }
 
 .terra-language,
@@ -189,8 +189,9 @@
   left: 0;
   right: auto;
   transform: none;
-  min-width: var(--language-trigger-min-width, 56px);
-  padding: var(--language-menu-padding-y, 8px) 0;
+  min-width: 0;
+  width: max-content;
+  padding: var(--language-menu-padding-y, 4px) 0;
 }
 
 .terra-account-menu__dropdown {
@@ -213,11 +214,12 @@
 }
 
 .terra-language__option {
-  width: 100%;
+  width: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: var(--language-option-padding-y, 6px) var(--language-option-padding-x, 12px);
+  justify-content: flex-start;
+  gap: 6px;
+  padding: var(--language-option-padding-y, 4px) var(--language-option-padding-x, 8px);
   border: 0;
   background: transparent;
   cursor: pointer;
@@ -232,6 +234,16 @@
   height: var(--flag-height, 12px);
   object-fit: cover;
   display: block;
+}
+
+.terra-language__label {
+  color: var(--c-text-on-dark);
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .terra-main-links {
@@ -352,7 +364,7 @@
 }
 
 .terra-account-menu__trigger:hover {
-  border-color: var(--c-link-hover);
+  filter: drop-shadow(0px 0px 5px var(--color-accent-500));
 }
 
 .terra-account-menu__avatar {
@@ -364,8 +376,15 @@
   object-fit: cover;
   object-position: center;
   display: block;
-  border-radius: 999px;
   transform: none;
+  -webkit-mask-image: url('/assets/images/clipping_masks/circle_mask3.svg');
+  mask-image: url('/assets/images/clipping_masks/circle_mask3.svg');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
 .terra-account-menu__eyebrow {
@@ -569,9 +588,16 @@ ui-menu-toggle {
 .terra-mobile-session__avatar {
   width: 48px;
   height: 48px;
-  border-radius: 999px;
   object-fit: cover;
   border: 1px solid var(--c-border-subtle);
+  -webkit-mask-image: url('/assets/images/clipping_masks/circle_mask3.svg');
+  mask-image: url('/assets/images/clipping_masks/circle_mask3.svg');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
 .terra-mobile-session__eyebrow {
@@ -730,6 +756,12 @@ ui-menu-toggle {
   .terra-header__top-actions {
     margin-left: auto;
     padding-right: 6px;
+  }
+
+  .terra-language__menu {
+    left: auto;
+    right: 0;
+    transform: none;
   }
 
   .terra-main-links {

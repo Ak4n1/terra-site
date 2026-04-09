@@ -7,6 +7,7 @@ import { HOME_TRANSLATIONS_ES } from '../modules/home.translations';
 import { NAVBAR_TRANSLATIONS_ES } from '../modules/navbar.translations';
 import { RAID_CAROUSEL_TRANSLATIONS_ES } from '../modules/raid-carousel.translations';
 import { TOAST_TRANSLATIONS_ES } from '../modules/toast.translations';
+import { LEGAL_TRANSLATIONS_ES } from '../modules/legal.translations';
 
 export const TRANSLATIONS_ES: TranslationMap = {
   ...AUTH_TRANSLATIONS_ES,
@@ -16,5 +17,6 @@ export const TRANSLATIONS_ES: TranslationMap = {
   ...NAVBAR_TRANSLATIONS_ES,
   ...HOME_TRANSLATIONS_ES,
   ...RAID_CAROUSEL_TRANSLATIONS_ES,
-  ...TOAST_TRANSLATIONS_ES
+  ...TOAST_TRANSLATIONS_ES,
+  ...LEGAL_TRANSLATIONS_ES
 };

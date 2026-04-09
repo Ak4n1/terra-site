@@ -9,7 +9,7 @@
 
   <nav class="dashboard-configuration-page__nav-card" [attr.aria-label]="t('dashboardConfigurationTabsLabel')">
     <ui-mask-button
-      *ngFor="let tab of tabs"
+      *ngFor="let tab of tabs; trackBy: trackByTabKey"
       class="dashboard-configuration-page__tab-item"
       [class.dashboard-configuration-page__tab-item--active]="isTabActive(tab.route)"
       [mask]="tab.mask"

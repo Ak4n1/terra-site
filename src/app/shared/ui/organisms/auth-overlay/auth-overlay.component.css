@@ -64,6 +64,22 @@
   accent-color: var(--c-link-hover);
 }
 
+.auth-form__checkbox--consent {
+  align-items: flex-start;
+  line-height: 1.45;
+}
+
+.auth-form__checkbox--consent a {
+  color: var(--c-link-hover);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.auth-form__checkbox--consent a:hover {
+  color: color-mix(in srgb, var(--c-link-hover) 80%, white);
+  text-decoration: underline;
+}
+
 .auth-form__helper {
   margin: -6px 0 0;
   color: var(--c-text-muted);
@@ -140,6 +156,32 @@
 
 .auth-form__link--effect:hover .auth-form__link-r {
   transform: translateX(2px);
+}
+
+.auth-form__oauth-separator {
+  position: relative;
+  margin: 4px 0;
+  text-align: center;
+  color: var(--c-text-muted);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.auth-form__oauth-separator::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 1px solid var(--c-border-muted);
+}
+
+.auth-form__oauth-separator > span {
+  position: relative;
+  padding: 0 12px;
+  background: var(--c-bg-surface, #0d0f14);
 }
 
 @media (max-width: 768px) {

@@ -1,0 +1,74 @@
+<ui-site-preloader></ui-site-preloader>
+<section class="legal-page">
+  <div class="legal-page__video-backdrop" aria-hidden="true">
+    <video
+      class="legal-page__video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster="assets/videos/fire_2/bg.png">
+      <source src="assets/videos/fire_2/fire.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <section class="legal-page__hero">
+    <div class="legal-page__hero-media">
+      <img
+        src="assets/images/app/privacy-terms/terms2.png"
+        alt=""z
+        aria-hidden="true"
+        [style.transform]="'translate3d(0, ' + (-heroParallaxOffset) + 'px, 0)'"/>
+      <h1 class="legal-page__hero-title">{{ t('legalTermsTitle') }}asdasd</h1>
+    </div>
+
+    <nav class="legal-page__switch" aria-label="Legal pages">
+      <ui-button
+        class="legal-page__switch-btn"
+        [label]="t('legalCommonViewTerms')"
+        [variant]="isTermsPage ? 'main-1' : 'white'"
+        (clicked)="goToTerms()">
+      </ui-button>
+      <ui-button
+        class="legal-page__switch-btn"
+        [label]="t('legalCommonViewPrivacy')"
+        [variant]="!isTermsPage ? 'main-1' : 'white'"
+        (clicked)="goToPrivacy()">
+      </ui-button>
+    </nav>
+  </section>
+
+  <section class="legal-page__content-shell">
+    <article class="legal-page__panel">
+      <header class="legal-page__header">
+        <h2 class="legal-page__title">{{ t('legalTermsTitle') }}</h2>
+        <p class="legal-page__intro">{{ t('legalTermsIntro') }}</p>
+      </header>
+
+      @for (section of sections; track section.titleKey) {
+        <section class="legal-page__section">
+          <h2 class="legal-page__section-title">{{ t(section.titleKey) }}</h2>
+
+          @for (paragraphKey of section.paragraphs; track paragraphKey) {
+            <p class="legal-page__paragraph">{{ t(paragraphKey) }}</p>
+          }
+
+          @if (section.bullets?.length) {
+            <ul class="legal-page__list">
+              @for (bulletKey of section.bullets; track bulletKey) {
+                <li>{{ t(bulletKey) }}</li>
+              }
+            </ul>
+          }
+        </section>
+      }
+
+      <p class="legal-page__closing">{{ t('legalTermsClosing') }}</p>
+
+      <footer class="legal-page__footer">
+        <p class="legal-page__updated">{{ t('legalCommonLastUpdated') }}</p>
+      </footer>
+    </article>
+  </section>
+</section>

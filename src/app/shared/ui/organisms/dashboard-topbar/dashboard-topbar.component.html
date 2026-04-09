@@ -36,6 +36,7 @@
       <ui-language-flag-trigger
         [flagSrc]="selectedLanguage.flag"
         [flagAlt]="selectedLanguageLabel"
+        [label]="selectedLanguageShortLabel"
         [expanded]="isLanguageMenuOpen"
         [ariaLabel]="t('uiLanguageSelector')"
         (trigger)="toggleLanguageMenu()">
@@ -49,6 +50,7 @@
             [attr.aria-label]="t(option.label)"
             (click)="selectLanguage(option.code)">
             <img class="dashboard-language__flag" [src]="option.flag" [alt]="t(option.label)" />
+            <span class="dashboard-language__label">{{ t(option.shortLabel) }}</span>
           </button>
         </li>
       </ul>

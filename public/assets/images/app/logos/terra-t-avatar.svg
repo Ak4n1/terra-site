@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny-ps" viewBox="0 0 512 512">
+  <title>Terra T Avatar</title>
+  <g>
+    <circle cx="256" cy="256" r="220" fill="#0F1115"/>
+    <circle cx="256" cy="256" r="214" fill="none" stroke="#C6A15B" stroke-width="8"/>
+
+    <path d="M128 140 L384 140 L354 206 L158 206 Z" fill="#F8F3E8"/>
+    <path d="M215 206 L297 206 L282 374 L230 374 Z" fill="#F8F3E8"/>
+
+  </g>
+</svg>

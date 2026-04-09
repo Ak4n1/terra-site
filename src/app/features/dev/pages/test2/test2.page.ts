@@ -4,6 +4,8 @@ import {
   MaskButtonComponent,
   type MaskButtonSize
 } from '../../../../shared/ui/atoms/mask-button/mask-button.component';
+import { ButtonComponent } from '../../../../shared/ui/atoms/button/button.component';
+import { Chrome, type LucideIconData } from 'lucide-angular';
 
 type MaskButtonSizeExample = {
   size: MaskButtonSize;
@@ -14,11 +16,13 @@ type MaskButtonSizeExample = {
 @Component({
   selector: 'app-test2-page',
   standalone: true,
-  imports: [MaskButtonComponent, InputFieldComponent],
+  imports: [MaskButtonComponent, InputFieldComponent, ButtonComponent],
   templateUrl: './test2.page.html',
   styleUrl: './test2.page.css'
 })
 export class Test2Page {
+  readonly googleIcon: LucideIconData = Chrome;
+
   readonly sizeExamples: MaskButtonSizeExample[] = [
     { size: '2xs', title: '2XS', copy: 'Ultra compacta para labels breves o filtros chicos.' },
     { size: 'xs', title: 'XS', copy: 'Sirve para acciones secundarias densas.' },
@@ -39,4 +43,9 @@ export class Test2Page {
   passwordGodlikePlain = '';
   searchGodlike = 'Lineage';
   searchGodlikePlain = 'Aden Castle';
+
+  onGoogleContinue(variant: string): void {
+    // Demo visual para test2: cuando conectemos Firebase, este handler llamara al flujo real.
+    console.log(`Google continue click (${variant})`);
+  }
 }

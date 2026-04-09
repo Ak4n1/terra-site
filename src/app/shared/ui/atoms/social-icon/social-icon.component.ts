@@ -11,4 +11,5 @@ export class SocialIconComponent {
   @Input() title = '';
   @Input() iconClass = '';
   @Input() mobile = false;
+  @Input() variant: 'badge' | 'topbar' = 'badge';
 }

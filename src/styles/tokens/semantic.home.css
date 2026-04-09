@@ -1,0 +1,108 @@
+:root {
+  /*
+   * Home: layout compartido
+   * Impacto principal:
+   * - src/app/features/public/pages/home/home.page.css
+   * - src/app/features/public/components/home/*
+   */
+  --home-section-max-width: 1200px;
+  --home-section-gutter-desktop: 24px;
+  --home-section-gutter-mobile: 16px;
+  --home-section-text-max-width: 900px;
+  --home-section-card-text-max-width: 360px;
+  --home-section-padding-mobile: 96px;
+  --home-section-grid-gap: 60px;
+
+  /*
+   * Home: tipografia y color de secciones
+   * Impacto principal:
+   * - hero-home, about-game-section, game-features-section, game-stat-card
+   */
+  --home-section-title-size: clamp(2.25rem, 4vw, 3.6rem);
+  --home-section-title-line-height: 1.08;
+  --home-section-copy-size: 1rem;
+  --home-section-copy-line-height: 1.75;
+  --home-section-intro-gap: 24px;
+  --home-section-paragraph-gap: 18px;
+  --home-display-font: var(--font-display);
+  --home-body-font: var(--font-body);
+  --home-text-primary: var(--color-white);
+  --home-text-strong: var(--c-text-strong);
+  --home-text-secondary: var(--c-text-secondary);
+
+  /*
+   * Home: About
+   */
+  --home-about-stats-gap: 56px;
+  --home-about-padding-top: 96px;
+  --home-about-padding-bottom: 108px;
+  --home-about-padding-top-tablet: 80px;
+  --home-about-padding-bottom-tablet: 88px;
+  --home-about-padding-top-mobile: 68px;
+  --home-about-padding-bottom-mobile: 80px;
+
+  /*
+   * Home: Features
+   */
+  --home-features-padding-top: 160px;
+  --home-features-padding-bottom: 160px;
+  --home-features-padding-top-tablet: 120px;
+  --home-features-padding-bottom-tablet: 120px;
+  --home-feature-title-size: 1.4rem;
+  --home-feature-copy-size: 0.98rem;
+  --home-feature-copy-line-height: 1.72;
+
+  /*
+   * Home: Hero / sliders
+   * Impacto principal:
+   * - hero-home
+   * - spotlight-carousel y spotlight-carousel-v2
+   */
+  --home-hero-title-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  --home-hero-copy-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+  --home-hero-copy-max-width: 640px;
+  --home-hero-header-height: 740px;
+  --home-hero-header-height-tablet: 580px;
+  --home-hero-header-height-mobile: 430px;
+  --home-hero-content-padding-top: 28px;
+  --home-hero-content-padding-x: 20px;
+  --home-hero-content-padding-bottom: 200px;
+  --home-hero-content-padding-top-tablet: 24px;
+  --home-hero-content-padding-bottom-tablet: 126px;
+  --home-hero-content-padding-top-mobile: 18px;
+  --home-hero-content-padding-bottom-mobile: 88px;
+  --home-hero-bg-inset-top: -420px;
+  --home-hero-bg-inset-top-mobile: -260px;
+  --home-hero-copy-gap: 6px;
+  --home-feature-icon-box-size: 70px;
+  --home-feature-icon-scale: 1.37;
+  --home-feature-icon-stroke: 2.35;
+  --home-feature-icon-offset-top: 10px;
+  --home-feature-icon-gap: 40px;
+  --home-feature-title-gap: 40px;
+  --home-features-min-height: 466px;
+  --spotlight-overlap-desktop: -160px;
+  --spotlight-overlap-laptop: -86px;
+  --spotlight-overlap-tablet: -120px;
+  --spotlight-overlap-mobile: -80px;
+  --spotlight-caption-side: 16px;
+  --spotlight-caption-side-tablet: 12px;
+  --spotlight-caption-bottom: 74px;
+  --spotlight-caption-bottom-tablet: 54px;
+  --spotlight-title-size: clamp(1rem, 2.55vw, 1.45rem);
+  --spotlight-title-shadow: 0 2px 9px rgba(0, 0, 0, 0.8);
+  --spotlight-copy-size: clamp(0.66rem, 0.88vw, 0.82rem);
+  --spotlight-copy-gap: 6px;
+  --spotlight-copy-shadow: 0 1px 8px rgba(0, 0, 0, 0.88);
+
+  /*
+   * Home: stats cards
+   */
+  --home-stats-card-padding-y: 40px;
+  --home-stats-card-padding-x: 32px;
+  --home-stats-card-padding-y-mobile: 28px;
+  --home-stats-card-padding-x-mobile: 20px;
+  --home-stats-label-gap: 18px;
+  --home-stats-divider-inset: 2rem;
+  --home-stats-mobile-divider-inset: 2rem;
+}

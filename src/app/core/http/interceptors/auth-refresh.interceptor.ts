@@ -11,6 +11,10 @@ import { isApiRequest } from './api-http.interceptor';
 
 const PUBLIC_AUTH_ENDPOINTS = new Set([
   '/login',
+  '/oauth/google',
+  '/oauth/google/start',
+  '/oauth/google/verify-email-code',
+  '/oauth/google/resend-email-code',
   '/register',
   '/forgot-password',
   '/verify-email',

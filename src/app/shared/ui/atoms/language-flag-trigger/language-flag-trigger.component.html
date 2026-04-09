@@ -7,5 +7,8 @@
   [attr.aria-label]="ariaLabel"
   (click)="onTrigger()">
   <img class="language-flag-trigger__flag" [src]="flagSrc" [alt]="flagAlt" />
+  @if (label) {
+    <span class="language-flag-trigger__label">{{ label }}</span>
+  }
   <span class="language-flag-trigger__caret" aria-hidden="true"></span>
 </button>

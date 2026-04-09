@@ -4,7 +4,7 @@
       <button
         type="button"
         class="auth-panel__tab"
-        [class.auth-panel__tab--active]="currentMode === 'login'"
+        [class.auth-panel__tab--active]="currentMode === 'login' || currentMode === 'two-factor' || currentMode === 'forgot-password' || currentMode === 'verify-email' || currentMode === 'oauth-email-code'"
         (click)="setMode('login')">
         {{ t('authLoginAction') }}
       </button>
@@ -49,6 +49,20 @@
               <span class="auth-form__link-shade"><span>{{ t('authForgotPassword') }}</span></span>
             </span>
           </a>
+
+          <div class="auth-form__oauth-separator">
+            <span>{{ t('authOauthSeparator') }}</span>
+          </div>
+
+          <ui-button
+            [label]="t('authContinueWithGoogle')"
+            [loadingLabel]="t('authContinueWithGoogle')"
+            [icon]="googleIcon"
+            variant="white"
+            size="x2"
+            type="button"
+            [disabled]="submitting"
+            (clicked)="requestGoogleLogin()"></ui-button>
         </form>
       </div>
     } @else if (currentMode === 'two-factor') {
@@ -83,6 +97,52 @@
               <span class="auth-form__link-l"><span>{{ t('authTwoFactorLostCodeAction') }}</span></span>
               <span class="auth-form__link-r"><span>{{ t('authTwoFactorLostCodeAction') }}</span></span>
               <span class="auth-form__link-shade"><span>{{ t('authTwoFactorLostCodeAction') }}</span></span>
+            </span>
+          </a>
+        </form>
+      </div>
+    } @else if (currentMode === 'oauth-email-code') {
+      <div class="auth-panel__body">
+        <p class="auth-panel__copy">{{ t('authGoogleEmailCodeDescription') }}</p>
+        @if (oauthGoogleMaskedEmail) {
+          <p class="auth-form__helper">{{ t('authGoogleEmailCodeHelper') }} <strong>{{ oauthGoogleMaskedEmail }}</strong>.</p>
+        }
+
+        <form id="auth-oauth-email-code-form" class="auth-form" (submit)="$event.preventDefault(); submitPrimaryAction()">
+          @if (feedbackMessage) {
+            <ui-alert [variant]="feedbackVariant" [message]="feedbackMessage"></ui-alert>
+          }
+
+          <ui-input-field
+            [label]="t('authGoogleEmailCodeLabel')"
+            type="text"
+            [placeholder]="t('authGoogleEmailCodePlaceholder')"
+            autocomplete="one-time-code"
+            [value]="googleEmailCode"
+            (valueChange)="onGoogleEmailCodeChange($event)">
+          </ui-input-field>
+
+          <label class="auth-form__checkbox">
+            <input
+              type="checkbox"
+              [checked]="googleCodeTrustDevice"
+              (change)="onGoogleCodeTrustDeviceChange($any($event.target).checked)">
+            <span>{{ t('authTrustDeviceLabel') }}</span>
+          </label>
+
+          <a href="#" class="auth-form__link auth-form__link--effect" (click)="$event.preventDefault(); requestGoogleEmailCodeResend()">
+            <span class="auth-form__link-inner">
+              <span class="auth-form__link-l"><span>{{ t('authGoogleEmailCodeResendAction') }}</span></span>
+              <span class="auth-form__link-r"><span>{{ t('authGoogleEmailCodeResendAction') }}</span></span>
+              <span class="auth-form__link-shade"><span>{{ t('authGoogleEmailCodeResendAction') }}</span></span>
+            </span>
+          </a>
+
+          <a href="#" class="auth-form__link auth-form__link--effect" (click)="$event.preventDefault(); setMode('login')">
+            <span class="auth-form__link-inner">
+              <span class="auth-form__link-l"><span>{{ t('authBackToLogin') }}</span></span>
+              <span class="auth-form__link-r"><span>{{ t('authBackToLogin') }}</span></span>
+              <span class="auth-form__link-shade"><span>{{ t('authBackToLogin') }}</span></span>
             </span>
           </a>
         </form>
@@ -129,6 +189,19 @@
             [value]="registerRepeatPassword"
             (valueChange)="onRegisterRepeatPasswordChange($event)">
           </ui-input-field>
+
+          <label class="auth-form__checkbox auth-form__checkbox--consent">
+            <input
+              type="checkbox"
+              [checked]="registerAcceptedLegal"
+              (change)="onRegisterAcceptedLegalChange($any($event.target).checked)">
+            <span>
+              {{ t('authRegisterConsentPrefix') }}
+              <a href="/terms-of-service" target="_blank" rel="noopener noreferrer">{{ t('authRegisterConsentTerms') }}</a>
+              {{ t('authRegisterConsentAnd') }}
+              <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">{{ t('authRegisterConsentPrivacy') }}</a>
+            </span>
+          </label>
         </form>
       </div>
     } @else if (currentMode === 'forgot-password') {

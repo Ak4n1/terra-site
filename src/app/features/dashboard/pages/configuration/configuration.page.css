@@ -5,27 +5,11 @@
   --dashboard-configuration-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_3.svg');
   --dashboard-configuration-hero-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_5.svg');
   --dashboard-configuration-step-mask-image: url('/assets/images/clipping_masks/button.svg?v=2');
-  --dashboard-configuration-mask-bg:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
-    rgba(12, 12, 12, 0.82);
-  --dashboard-configuration-hero-bg: rgba(255, 255, 255, 0.03);
+  --dashboard-configuration-mask-bg: var(--account-master-panel-bg);
+  --dashboard-configuration-hero-bg: var(--account-master-panel-hero-tint);
   --dashboard-configuration-step-bg: var(--dashboard-configuration-hero-bg);
   --dashboard-configuration-step-bg-hover: var(--dashboard-configuration-hero-bg);
-  --dashboard-configuration-step-bg-active:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--color-accent-500) 100%, rgba(255, 255, 255, 0.06)),
-      color-mix(in srgb, var(--color-accent-500) 92%, rgba(0, 0, 0, 0))
-    ),
-    var(--color-accent-500);
-  --dashboard-configuration-edge-image: url('/assets/images/clipping_masks/svg.svg?v=1');
-  --dashboard-configuration-surface-base: rgba(12, 12, 12, 0.82);
-  --dashboard-configuration-edge-top-tint: rgba(255, 255, 255, 0.03);
-  --dashboard-configuration-edge-bottom-tint: rgba(255, 255, 255, 0);
-  --dashboard-configuration-surface:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
-    var(--dashboard-configuration-surface-base);
-  --dashboard-configuration-edge-height: 54px;
+  --dashboard-configuration-step-bg-active: var(--account-master-tab-active-bg);
   --dashboard-configuration-content-offset: 14px;
 }
 
@@ -38,26 +22,21 @@
 }
 
 .dashboard-configuration-page__hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: clamp(40px, 3.4vw, 52px) clamp(50px, 4.4vw, 64px);
   border: 0;
   background: var(--dashboard-configuration-hero-bg);
   backdrop-filter: blur(8px);
-  filter:
-    drop-shadow(0 12px 16px rgba(0, 0, 0, 0.48))
-    drop-shadow(0 24px 26px rgba(0, 0, 0, 0.38));
+  filter: var(--account-master-elevated-shadow);
   -webkit-mask-image: var(--dashboard-configuration-hero-mask-image);
   mask-image: var(--dashboard-configuration-hero-mask-image);
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-}
-
-.dashboard-configuration-page__hero {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 24px;
-  padding: clamp(40px, 3.4vw, 52px) clamp(50px, 4.4vw, 64px);
 }
 
 .dashboard-configuration-page__hero-copy {
@@ -109,15 +88,9 @@
   --ui-mask-button-min-height: 124px;
   --ui-mask-button-padding: 24px 28px;
   --ui-mask-button-blur: 5px;
-  --ui-mask-button-filter:
-    drop-shadow(0 8px 12px rgba(0, 0, 0, 0.34))
-    drop-shadow(0 14px 18px rgba(0, 0, 0, 0.24));
-  --ui-mask-button-filter-hover:
-    drop-shadow(0 10px 16px rgba(0, 0, 0, 0.38))
-    drop-shadow(0 18px 24px rgba(0, 0, 0, 0.28));
-  --ui-mask-button-filter-active:
-    drop-shadow(0 10px 16px rgba(0, 0, 0, 0.4))
-    drop-shadow(0 20px 26px rgba(0, 0, 0, 0.3));
+  --ui-mask-button-filter: var(--account-master-tab-shadow);
+  --ui-mask-button-filter-hover: var(--account-master-tab-shadow-hover);
+  --ui-mask-button-filter-active: var(--account-master-tab-shadow-active);
   --ui-mask-button-font-family: var(--nav-font-family);
   --ui-mask-button-font-size: 0.94rem;
   --ui-mask-button-font-weight: var(--nav-font-weight, 700);
@@ -143,15 +116,10 @@
     bottom: -14px;
     width: 18px;
     height: 12px;
-    background:
-      radial-gradient(circle at 50% 12%, rgba(255, 233, 179, 0.92), rgba(255, 201, 79, 0.62) 34%, rgba(255, 168, 26, 0) 68%),
-      linear-gradient(180deg, color-mix(in srgb, var(--color-accent-500) 88%, #ffd37a), var(--color-accent-500));
+    background: var(--account-master-tab-indicator-bg);
     clip-path: polygon(50% 100%, 0 0, 100% 0);
     transform: translateX(-50%);
-    filter:
-      drop-shadow(0 2px 4px rgba(255, 217, 128, 0.28))
-      drop-shadow(0 5px 10px rgba(255, 153, 0, 0.28))
-      drop-shadow(0 0 12px rgba(255, 136, 0, 0.2));
+    filter: var(--account-master-tab-indicator-shadow);
     pointer-events: none;
   }
 }
@@ -169,9 +137,7 @@
   border: 0;
   background: var(--dashboard-configuration-mask-bg);
   backdrop-filter: blur(8px);
-  filter:
-    drop-shadow(0 12px 16px rgba(0, 0, 0, 0.48))
-    drop-shadow(0 24px 26px rgba(0, 0, 0, 0.38));
+  filter: var(--account-master-elevated-shadow);
   -webkit-mask-image: var(--dashboard-configuration-mask-image);
   mask-image: var(--dashboard-configuration-mask-image);
   -webkit-mask-size: 100% 100%;

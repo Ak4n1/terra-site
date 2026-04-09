@@ -212,7 +212,7 @@
           [cropperMinWidth]="128"
           [cropperMinHeight]="128"
           [onlyScaleDown]="true"
-          [backgroundColor]="'#0e0e0e'"
+          [backgroundColor]="'var(--account-master-cropper-overlay-color)'"
           [format]="'png'"
           (cropperReady)="onCropperReady()"
           (imageCropped)="onImageCropped($event)">

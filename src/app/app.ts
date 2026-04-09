@@ -39,9 +39,14 @@ export class App {
   readonly hidePublicChrome = this.authStatusScreenService.hidePublicChrome;
 
   constructor() {
+    if (this.authFacade.hasPendingGoogleRedirect()) {
+      this.authOverlayMode.set('login');
+      this.authOverlayOpen.set(true);
+    }
+
     void this.realtimeService;
     void this.notificationsStore;
-    void firstValueFrom(this.authFacade.bootstrapSession());
+    void firstValueFrom(this.authFacade.bootstrapSession()).catch(() => undefined);
   }
 
   openAuthOverlay(mode: 'login' | 'register'): void {

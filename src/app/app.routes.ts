@@ -7,6 +7,8 @@ import { RecoverTwoFactorPage } from './features/auth/pages/recover-two-factor/r
 import { VerifyEmailPage } from './features/auth/pages/verify-email/verify-email.page';
 import { TestPage } from './features/dev/pages/test/test.page';
 import { Test2Page } from './features/dev/pages/test2/test2.page';
+import { TermsOfServicePage } from './features/public/pages/terms-of-service/terms-of-service.page';
+import { PrivacyPolicyPage } from './features/public/pages/privacy-policy/privacy-policy.page';
 
 export const routes: Routes = [
   { path: '', component: HomePage },
@@ -14,6 +16,8 @@ export const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordPage },
   { path: 'dashboard-reset-password', component: DashboardResetPasswordPage },
   { path: 'recover-2fa', component: RecoverTwoFactorPage },
+  { path: 'terms-of-service', component: TermsOfServicePage },
+  { path: 'privacy-policy', component: PrivacyPolicyPage },
   { path: 'dashboard', canMatch: [authMatchGuard], loadChildren: () => import('./features/dashboard/routes').then(m => m.DASHBOARD_ROUTES) },
   { path: 'test', component: TestPage },
   { path: 'test2', component: Test2Page },

@@ -1,7 +1,7 @@
 .language-flag-trigger {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-width: var(--language-trigger-min-width, 56px);
   height: var(--language-trigger-height, 34px);
   padding: 0 var(--language-trigger-padding-right, 26px) 0 var(--language-trigger-padding-left, 10px);
@@ -23,6 +23,20 @@
   height: var(--flag-height, 12px);
   object-fit: cover;
   display: block;
+  flex: 0 0 auto;
+}
+
+.language-flag-trigger__label {
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  line-height: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .language-flag-trigger__caret {

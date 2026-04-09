@@ -1,0 +1,16 @@
+:root {
+  /*
+   * Shared: iconos sociales
+   */
+  --social-icon-size: 28px;
+  --social-icon-font-size: 14px;
+  --social-icon-hover-shift: -1px;
+
+  /*
+   * Shared: bordes decorativos de pagina
+   * Impacto principal:
+   * - src/app/app.css
+   */
+  --page-border-size: 100px;
+  --page-border-size-mobile: 50px;
+}

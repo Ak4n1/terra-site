@@ -14,6 +14,7 @@ import { AuthFacadeService } from '../../../../features/auth/services/auth-facad
 type LanguageOption = {
   code: AppLanguage;
   label: string;
+  shortLabel: string;
   flag: string;
 };
 
@@ -37,11 +38,11 @@ export class DashboardTopbarComponent {
   isLanguageMenuOpen = false;
 
   readonly languageOptions: LanguageOption[] = [
-    { code: 'us', label: 'languageEnglish', flag: 'assets/flags/us.webp' },
-    { code: 'es', label: 'languageSpanish', flag: 'assets/flags/spain.webp' },
-    { code: 'pt', label: 'languagePortuguese', flag: 'assets/flags/portugal.webp' },
-    { code: 'fr', label: 'languageFrench', flag: 'assets/flags/france.webp' },
-    { code: 'de', label: 'languageGerman', flag: 'assets/flags/germany.webp' }
+    { code: 'us', label: 'languageEnglish', shortLabel: 'languageEnglishShort', flag: 'assets/flags/us.webp' },
+    { code: 'es', label: 'languageSpanish', shortLabel: 'languageSpanishShort', flag: 'assets/flags/spain.webp' },
+    { code: 'pt', label: 'languagePortuguese', shortLabel: 'languagePortugueseShort', flag: 'assets/flags/portugal.webp' },
+    { code: 'fr', label: 'languageFrench', shortLabel: 'languageFrenchShort', flag: 'assets/flags/france.webp' },
+    { code: 'de', label: 'languageGerman', shortLabel: 'languageGermanShort', flag: 'assets/flags/germany.webp' }
   ];
 
   get currentLanguage(): AppLanguage {
@@ -54,6 +55,10 @@ export class DashboardTopbarComponent {
 
   get selectedLanguageLabel(): string {
     return this.t(this.selectedLanguage.label);
+  }
+
+  get selectedLanguageShortLabel(): string {
+    return this.t(this.selectedLanguage.shortLabel);
   }
 
   t(key: string): string {

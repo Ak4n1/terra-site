@@ -61,7 +61,7 @@
 }
 
 .configuration-profile__readonly-label {
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--account-master-readonly-label);
   font-family: "Roboto Condensed", sans-serif;
   font-size: 0.85rem;
   letter-spacing: 0.08em;
@@ -293,27 +293,27 @@
 
 .configuration-profile__cropper-modal-body {
   padding: 0;
-  background: color-mix(in srgb, var(--dashboard-panel-bg) 94%, #000);
+  background: var(--account-master-cropper-modal-bg);
 }
 
 .configuration-profile__cropper-panel--modal {
   border: 0;
   padding: 18px;
-  background: color-mix(in srgb, var(--dashboard-panel-bg) 90%, #000);
+  background: var(--account-master-cropper-panel-bg);
 }
 
 .configuration-profile__cropper-panel--modal image-cropper {
   min-height: 420px;
-  background: color-mix(in srgb, var(--dashboard-panel-bg) 86%, #000);
-  border: 1px solid #0e0e0e;
-  --cropper-border: 1px solid rgba(255, 255, 255, 0.82);
-  --cropper-hover-border: 1px solid rgba(255, 255, 255, 0.92);
-  --cropper-focus-border: 1px solid rgba(255, 255, 255, 0.96);
-  --cropper-outline-color: rgba(0, 0, 0, 0.62);
-  --cropper-overlay-color: #0e0e0e;
-  --cropper-color: #ffffff;
-  --cropper-resize-square-bg: #ffffff;
-  --cropper-resize-square-border: 1px solid rgba(255, 255, 255, 0.92);
+  background: var(--account-master-cropper-image-bg);
+  border: 1px solid var(--account-master-cropper-image-border);
+  --cropper-border: var(--account-master-cropper-border);
+  --cropper-hover-border: var(--account-master-cropper-hover-border);
+  --cropper-focus-border: var(--account-master-cropper-focus-border);
+  --cropper-outline-color: var(--account-master-cropper-outline-color);
+  --cropper-overlay-color: var(--account-master-cropper-overlay-color);
+  --cropper-color: var(--account-master-cropper-color);
+  --cropper-resize-square-bg: var(--account-master-cropper-resize-square-bg);
+  --cropper-resize-square-border: var(--account-master-cropper-resize-square-border);
 }
 
 .configuration-profile__cropper-panel--modal image-cropper ::ng-deep .source-image,
@@ -324,7 +324,7 @@
 .configuration-profile__cropper-panel--modal image-cropper ::ng-deep .ngx-ic-overlay,
 .configuration-profile__cropper-panel--modal image-cropper ::ng-deep .ngx-ic-loading,
 .configuration-profile__cropper-panel--modal image-cropper ::ng-deep canvas {
-  background: color-mix(in srgb, var(--dashboard-panel-bg) 90%, #000) !important;
+  background: var(--account-master-cropper-panel-bg) !important;
 }
 
 .configuration-profile__cropper-actions {

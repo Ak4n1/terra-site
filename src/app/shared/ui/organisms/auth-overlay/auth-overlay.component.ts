@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
+import { Chrome, type LucideIconData } from 'lucide-angular';
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { evaluatePassword, isPasswordCompliant } from '../../../../core/utils/password-policy';
 import { AlertComponent, type AlertVariant } from '../../atoms/alert/alert.component';
@@ -8,7 +9,7 @@ import { ProgressBarComponent } from '../../atoms/progress-bar/progress-bar.comp
 import { InputFieldComponent } from '../../molecules/input-field/input-field.component';
 import { ModalComponent } from '../modal/modal.component';
 
-export type AuthOverlayMode = 'login' | 'register' | 'forgot-password' | 'verify-email' | 'two-factor';
+export type AuthOverlayMode = 'login' | 'register' | 'forgot-password' | 'verify-email' | 'two-factor' | 'oauth-email-code';
 
 @Component({
   selector: 'ui-auth-overlay',
@@ -23,6 +24,8 @@ export class AuthOverlayComponent implements OnChanges {
   @Input() open = false;
   @Input() mode: AuthOverlayMode = 'login';
   @Input() verificationEmail = '';
+  @Input() oauthGoogleChallengeId = '';
+  @Input() oauthGoogleMaskedEmail = '';
   @Input() feedbackMessage = '';
   @Input() feedbackVariant: AlertVariant = 'warning';
   @Input() submitting = false;
@@ -34,6 +37,9 @@ export class AuthOverlayComponent implements OnChanges {
   @Output() readonly forgotPasswordSubmitted = new EventEmitter<{ email: string }>();
   @Output() readonly resendVerificationSubmitted = new EventEmitter<{ email: string }>();
   @Output() readonly twoFactorRecoveryRequested = new EventEmitter<{ email: string }>();
+  @Output() readonly googleEmailCodeSubmitted = new EventEmitter<{ challengeId: string; code: string; trustDevice?: boolean }>();
+  @Output() readonly googleEmailCodeResendRequested = new EventEmitter<{ challengeId: string }>();
+  @Output() readonly googleLoginRequested = new EventEmitter<void>();
 
   currentMode: AuthOverlayMode = 'login';
   loginEmail = '';
@@ -43,8 +49,12 @@ export class AuthOverlayComponent implements OnChanges {
   registerEmail = '';
   registerPassword = '';
   registerRepeatPassword = '';
+  registerAcceptedLegal = false;
   forgotPasswordEmail = '';
   verifyEmailAddress = '';
+  googleEmailCode = '';
+  googleCodeTrustDevice = true;
+  readonly googleIcon: LucideIconData = Chrome;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mode']) {
@@ -72,6 +82,10 @@ export class AuthOverlayComponent implements OnChanges {
   }
 
   get modalTitle(): string {
+    if (this.currentMode === 'oauth-email-code') {
+      return this.t('authGoogleEmailCodeTitle');
+    }
+
     if (this.currentMode === 'two-factor') {
       return this.t('authTwoFactorChallengeTitle');
     }
@@ -92,6 +106,10 @@ export class AuthOverlayComponent implements OnChanges {
   }
 
   get actionLabel(): string {
+    if (this.currentMode === 'oauth-email-code') {
+      return this.t('authGoogleEmailCodeAction');
+    }
+
     if (this.currentMode === 'two-factor') {
       return this.t('authTwoFactorChallengeAction');
     }
@@ -112,6 +130,10 @@ export class AuthOverlayComponent implements OnChanges {
   }
 
   get activeFormId(): string {
+    if (this.currentMode === 'oauth-email-code') {
+      return 'auth-oauth-email-code-form';
+    }
+
     if (this.currentMode === 'two-factor') {
       return 'auth-two-factor-form';
     }
@@ -157,12 +179,20 @@ export class AuthOverlayComponent implements OnChanges {
     this.loginTrustDevice = value;
   }
 
+  onGoogleCodeTrustDeviceChange(value: boolean): void {
+    this.googleCodeTrustDevice = value;
+  }
+
   onRegisterEmailChange(value: string): void {
     this.registerEmail = value;
   }
 
   onRegisterRepeatPasswordChange(value: string): void {
     this.registerRepeatPassword = value;
+  }
+
+  onRegisterAcceptedLegalChange(value: boolean): void {
+    this.registerAcceptedLegal = value;
   }
 
   onForgotPasswordEmailChange(value: string): void {
@@ -173,11 +203,31 @@ export class AuthOverlayComponent implements OnChanges {
     this.verifyEmailAddress = value;
   }
 
+  onGoogleEmailCodeChange(value: string): void {
+    this.googleEmailCode = value;
+  }
+
   requestTwoFactorRecovery(): void {
     if (this.loginEmail.trim().length === 0 || this.submitting) {
       return;
     }
     this.twoFactorRecoveryRequested.emit({ email: this.loginEmail.trim() });
+  }
+
+  requestGoogleLogin(): void {
+    if (this.submitting) {
+      return;
+    }
+
+    this.googleLoginRequested.emit();
+  }
+
+  requestGoogleEmailCodeResend(): void {
+    if (this.submitting || this.oauthGoogleChallengeId.trim().length === 0) {
+      return;
+    }
+
+    this.googleEmailCodeResendRequested.emit({ challengeId: this.oauthGoogleChallengeId.trim() });
   }
 
   get primaryActionDisabled(): boolean {
@@ -194,11 +244,16 @@ export class AuthOverlayComponent implements OnChanges {
         || this.registerPassword.length === 0
         || this.registerRepeatPassword.length === 0
         || !isPasswordCompliant(this.registerPassword)
-        || this.registerPassword !== this.registerRepeatPassword;
+        || this.registerPassword !== this.registerRepeatPassword
+        || !this.registerAcceptedLegal;
     }
 
     if (this.currentMode === 'verify-email') {
       return this.verifyEmailAddress.trim().length === 0;
+    }
+
+    if (this.currentMode === 'oauth-email-code') {
+      return this.oauthGoogleChallengeId.trim().length === 0 || this.googleEmailCode.trim().length !== 6;
     }
 
     if (this.currentMode === 'two-factor') {
@@ -239,6 +294,15 @@ export class AuthOverlayComponent implements OnChanges {
       return;
     }
 
+    if (this.currentMode === 'oauth-email-code') {
+      this.googleEmailCodeSubmitted.emit({
+        challengeId: this.oauthGoogleChallengeId.trim(),
+        code: this.googleEmailCode.trim(),
+        trustDevice: this.googleCodeTrustDevice
+      });
+      return;
+    }
+
     this.forgotPasswordSubmitted.emit({
       email: this.forgotPasswordEmail
     });
@@ -273,8 +337,11 @@ export class AuthOverlayComponent implements OnChanges {
     this.registerEmail = '';
     this.registerPassword = '';
     this.registerRepeatPassword = '';
+    this.registerAcceptedLegal = false;
     this.forgotPasswordEmail = '';
     this.verifyEmailAddress = this.verificationEmail;
+    this.googleEmailCode = '';
+    this.googleCodeTrustDevice = true;
     this.currentMode = this.mode;
     this.stateReset.emit();
   }

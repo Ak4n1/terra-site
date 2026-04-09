@@ -20,7 +20,15 @@
 .btn__label {
   position: relative;
   z-index: 2;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn__icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
 }
 
 .btn__loading {
@@ -204,6 +212,24 @@
 
 .btn-color-main-5:active:not(:disabled) {
   color: #751b1b;
+}
+
+.btn-color-google {
+  color: #ffffff;
+  background: linear-gradient(180deg, #1f5ec4 0%, #184da5 100%);
+}
+
+.btn-color-google::before {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.btn-color-google:hover:not(:disabled) {
+  background: linear-gradient(180deg, #2a6fdc 0%, #1f5ec4 100%);
+  box-shadow: 0 6px 18px rgba(20, 80, 170, 0.45);
+}
+
+.btn-color-google:active:not(:disabled) {
+  color: #dbe8ff;
 }
 
 .btn-color-white {

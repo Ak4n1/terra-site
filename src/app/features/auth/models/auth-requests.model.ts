@@ -26,3 +26,18 @@ export type VerifyEmailRequest = {
 export type ResendVerificationRequest = {
   email: string;
 };
+
+export type OAuthGoogleRequest = {
+  idToken: string;
+  trustDevice?: boolean;
+};
+
+export type OAuthGoogleVerifyEmailCodeRequest = {
+  challengeId: string;
+  code: string;
+  trustDevice?: boolean;
+};
+
+export type OAuthGoogleResendEmailCodeRequest = {
+  challengeId: string;
+};

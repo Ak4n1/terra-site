@@ -1,4 +1,4 @@
-import type { TranslationMap } from '../types';
+﻿import type { TranslationMap } from '../types';
 
 export const NAVBAR_TRANSLATIONS_US: TranslationMap = {
   languageEnglish: 'English',
@@ -6,6 +6,11 @@ export const NAVBAR_TRANSLATIONS_US: TranslationMap = {
   languagePortuguese: 'Portuguese',
   languageFrench: 'French',
   languageGerman: 'German',
+  languageEnglishShort: 'ENG',
+  languageSpanishShort: 'ESP',
+  languagePortugueseShort: 'POR',
+  languageFrenchShort: 'FRA',
+  languageGermanShort: 'DEU',
   uiToggleMenu: 'Toggle menu',
   uiLanguageSelector: 'Language',
   navSupport: 'Support',
@@ -73,6 +78,11 @@ export const NAVBAR_TRANSLATIONS_ES: TranslationMap = {
   languagePortuguese: 'Portugués',
   languageFrench: 'Francés',
   languageGerman: 'Alemán',
+  languageEnglishShort: 'ENG',
+  languageSpanishShort: 'ESP',
+  languagePortugueseShort: 'POR',
+  languageFrenchShort: 'FRA',
+  languageGermanShort: 'DEU',
   uiToggleMenu: 'Abrir menú',
   uiLanguageSelector: 'Idioma',
   navSupport: 'Soporte',
@@ -133,13 +143,17 @@ export const NAVBAR_TRANSLATIONS_ES: TranslationMap = {
   mediaVideos: 'Vídeos',
   mediaWallpapers: 'Fondos'
 };
-
 export const NAVBAR_TRANSLATIONS_PT: TranslationMap = {
   languageEnglish: 'Inglês',
   languageSpanish: 'Espanhol',
   languagePortuguese: 'Português',
   languageFrench: 'Francês',
   languageGerman: 'Alemão',
+  languageEnglishShort: 'ENG',
+  languageSpanishShort: 'ESP',
+  languagePortugueseShort: 'POR',
+  languageFrenchShort: 'FRA',
+  languageGermanShort: 'DEU',
   uiToggleMenu: 'Abrir menu',
   uiLanguageSelector: 'Idioma',
   navSupport: 'Suporte',
@@ -198,7 +212,7 @@ export const NAVBAR_TRANSLATIONS_PT: TranslationMap = {
   newsEvents: 'Eventos',
   mediaScreenshots: 'Capturas',
   mediaVideos: 'Vídeos',
-  mediaWallpapers: 'Papeis de parede'
+  mediaWallpapers: 'Papéis de parede'
 };
 
 export const NAVBAR_TRANSLATIONS_FR: TranslationMap = {
@@ -207,6 +221,11 @@ export const NAVBAR_TRANSLATIONS_FR: TranslationMap = {
   languagePortuguese: 'Portugais',
   languageFrench: 'Français',
   languageGerman: 'Allemand',
+  languageEnglishShort: 'ENG',
+  languageSpanishShort: 'ESP',
+  languagePortugueseShort: 'POR',
+  languageFrenchShort: 'FRA',
+  languageGermanShort: 'DEU',
   uiToggleMenu: 'Ouvrir le menu',
   uiLanguageSelector: 'Langue',
   navSupport: 'Assistance',
@@ -274,6 +293,11 @@ export const NAVBAR_TRANSLATIONS_DE: TranslationMap = {
   languagePortuguese: 'Portugiesisch',
   languageFrench: 'Französisch',
   languageGerman: 'Deutsch',
+  languageEnglishShort: 'ENG',
+  languageSpanishShort: 'ESP',
+  languagePortugueseShort: 'POR',
+  languageFrenchShort: 'FRA',
+  languageGermanShort: 'DEU',
   uiToggleMenu: 'Menü öffnen',
   uiLanguageSelector: 'Sprache',
   navSupport: 'Hilfe',

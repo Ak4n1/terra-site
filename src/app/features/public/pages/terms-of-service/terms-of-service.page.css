@@ -1,0 +1,220 @@
+:host {
+  display: block;
+}
+
+.legal-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 0 0 72px;
+  background: #07080d;
+}
+
+.legal-page__video-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #000;
+}
+
+.legal-page__video-backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 8, 14, 0.72);
+}
+
+.legal-page__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.legal-page__hero {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+}
+
+.legal-page__hero {
+  margin-bottom: 0;
+}
+
+.legal-page__hero-media {
+  position: relative;
+  height: clamp(280px, 38vw, 410px);
+  overflow: hidden;
+}
+
+.legal-page__hero-media img {
+  width: 100%;
+  height: calc(100% + 140px);
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  will-change: transform;
+}
+
+.legal-page__hero-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(9, 13, 22, 0.36), rgba(9, 13, 22, 0.76));
+}
+
+.legal-page__hero-title {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  color: #f4f6fc;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: 'Marcellus SC', serif;
+  font-size: clamp(1.6rem, 3.2vw, 2.7rem);
+  text-shadow: 0 6px 22px rgba(0, 0, 0, 0.55);
+}
+
+.legal-page__switch {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 0;
+  background: rgba(10, 10, 10, 0.96);
+  padding: 10px 16px;
+}
+
+.legal-page__switch-btn {
+  display: inline-flex;
+}
+
+:host ::ng-deep .legal-page__switch-btn .btn {
+  min-width: 220px;
+}
+
+.legal-page__content-shell {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 36px 16px 0;
+}
+
+.legal-page__panel {
+  width: min(100%, 1220px);
+  margin: 0 auto;
+  padding:
+    clamp(40px, 5vw, 64px)
+    clamp(44px, 6vw, 72px)
+    clamp(56px, 7vw, 88px)
+    clamp(44px, 6vw, 72px);
+  background: rgba(10, 10, 10, 0.96);
+  border: 0;
+  -webkit-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_5.svg');
+  mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_5.svg');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+.legal-page__header {
+  margin-bottom: 24px;
+}
+
+.legal-page__title {
+  margin: 0;
+  color: #f2f3f7;
+  font-family: 'Marcellus SC', serif;
+  font-size: clamp(1.6rem, 2.9vw, 2.25rem);
+}
+
+.legal-page__intro,
+.legal-page__paragraph,
+.legal-page__closing,
+.legal-page__updated,
+.legal-page__list li {
+  margin: 0;
+  color: rgba(235, 239, 250, 0.9);
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.legal-page__section {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.legal-page__section-title {
+  margin: 0;
+  color: var(--color-accent-500);
+  font-family: 'Marcellus SC', serif;
+  font-size: 1.35rem;
+}
+
+.legal-page__list {
+  margin: 2px 0 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 8px;
+}
+
+.legal-page__closing {
+  margin-top: 26px;
+  font-weight: 700;
+}
+
+.legal-page__footer {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .legal-page {
+    padding-bottom: 56px;
+  }
+
+  .legal-page__content-shell {
+    padding-top: 24px;
+  }
+
+  .legal-page__panel {
+    padding:
+      clamp(26px, 6vw, 34px)
+      clamp(22px, 5vw, 30px)
+      clamp(42px, 8vw, 56px)
+      clamp(22px, 5vw, 30px);
+  }
+
+  .legal-page__section-title {
+    font-size: 1.2rem;
+  }
+
+  .legal-page__switch {
+    flex-direction: column;
+  }
+
+  .legal-page__switch-btn {
+    width: 100%;
+  }
+
+  :host ::ng-deep .legal-page__switch-btn .btn {
+    width: 100%;
+    min-width: 0;
+  }
+}
+

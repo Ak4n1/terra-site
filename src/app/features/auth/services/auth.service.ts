@@ -2,9 +2,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import type { ApiResponse } from '../models/api-response.model';
-import type { ForgotPasswordRequest, LoginRequest, RegisterRequest, ResendVerificationRequest, ResetPasswordRequest, VerifyEmailRequest } from '../models/auth-requests.model';
+import type {
+  ForgotPasswordRequest,
+  LoginRequest,
+  OAuthGoogleResendEmailCodeRequest,
+  OAuthGoogleRequest,
+  OAuthGoogleVerifyEmailCodeRequest,
+  RegisterRequest,
+  ResendVerificationRequest,
+  ResetPasswordRequest,
+  VerifyEmailRequest
+} from '../models/auth-requests.model';
 import type { AuthSession } from '../models/auth-session.model';
 import type { AuthUser } from '../models/auth-user.model';
+import type { OAuthGoogleEmailCodeChallenge, OAuthGoogleStartResponse } from '../models/oauth-google.model';
 import type { RefreshSessionResponse } from '../models/refresh-session.model';
 import type { AppLanguage } from '../../../core/i18n/types';
 import { environment } from '../../../../environments/environment';
@@ -72,6 +83,22 @@ export class AuthService {
 
   login(payload: LoginRequest): Observable<ApiResponse<AuthSession>> {
     return this.http.post<ApiResponse<AuthSession>>(this.endpoint('/login'), payload);
+  }
+
+  oauthGoogle(payload: OAuthGoogleRequest): Observable<ApiResponse<AuthSession>> {
+    return this.http.post<ApiResponse<AuthSession>>(this.endpoint('/oauth/google'), payload);
+  }
+
+  oauthGoogleStart(payload: OAuthGoogleRequest): Observable<ApiResponse<OAuthGoogleStartResponse>> {
+    return this.http.post<ApiResponse<OAuthGoogleStartResponse>>(this.endpoint('/oauth/google/start'), payload);
+  }
+
+  oauthGoogleVerifyEmailCode(payload: OAuthGoogleVerifyEmailCodeRequest): Observable<ApiResponse<AuthSession>> {
+    return this.http.post<ApiResponse<AuthSession>>(this.endpoint('/oauth/google/verify-email-code'), payload);
+  }
+
+  oauthGoogleResendEmailCode(payload: OAuthGoogleResendEmailCodeRequest): Observable<ApiResponse<OAuthGoogleEmailCodeChallenge>> {
+    return this.http.post<ApiResponse<OAuthGoogleEmailCodeChallenge>>(this.endpoint('/oauth/google/resend-email-code'), payload);
   }
 
   register(payload: RegisterRequest): Observable<ApiResponse<AuthUser>> {

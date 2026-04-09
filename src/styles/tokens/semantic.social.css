@@ -1,0 +1,12 @@
+:root {
+  /*
+   * Redes / iconos sociales
+   * Impacto principal:
+   * - src/app/shared/ui/atoms/social-icon/social-icon.component.css
+   */
+  --c-social-instagram-bg: var(--gradient-instagram);
+  --c-social-facebook-bg: var(--color-facebook-500);
+  --c-social-discord-bg: var(--color-discord-500);
+  --c-social-youtube-bg: var(--color-youtube-500);
+  --c-social-icon-fg: var(--color-white);
+}

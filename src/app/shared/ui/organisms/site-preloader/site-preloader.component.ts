@@ -1,9 +1,11 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { OrbSpinnerComponent } from '../../atoms/orb-spinner/orb-spinner.component';
 
 @Component({
   selector: 'ui-site-preloader',
   standalone: true,
+  imports: [OrbSpinnerComponent],
   templateUrl: './site-preloader.component.html',
   styleUrl: './site-preloader.component.css'
 })

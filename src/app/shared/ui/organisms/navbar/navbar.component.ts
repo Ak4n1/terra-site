@@ -29,6 +29,7 @@ type SocialItem = {
 type LanguageOption = {
   code: AppLanguage;
   label: string;
+  shortLabel: string;
   flag: string;
 };
 
@@ -177,11 +178,11 @@ export class NavbarComponent implements OnDestroy {
   ];
 
   readonly languageOptions: LanguageOption[] = [
-    { code: 'us', label: 'languageEnglish', flag: 'assets/flags/us.webp' },
-    { code: 'es', label: 'languageSpanish', flag: 'assets/flags/spain.webp' },
-    { code: 'pt', label: 'languagePortuguese', flag: 'assets/flags/portugal.webp' },
-    { code: 'fr', label: 'languageFrench', flag: 'assets/flags/france.webp' },
-    { code: 'de', label: 'languageGerman', flag: 'assets/flags/germany.webp' }
+    { code: 'us', label: 'languageEnglish', shortLabel: 'languageEnglishShort', flag: 'assets/flags/us.webp' },
+    { code: 'es', label: 'languageSpanish', shortLabel: 'languageSpanishShort', flag: 'assets/flags/spain.webp' },
+    { code: 'pt', label: 'languagePortuguese', shortLabel: 'languagePortugueseShort', flag: 'assets/flags/portugal.webp' },
+    { code: 'fr', label: 'languageFrench', shortLabel: 'languageFrenchShort', flag: 'assets/flags/france.webp' },
+    { code: 'de', label: 'languageGerman', shortLabel: 'languageGermanShort', flag: 'assets/flags/germany.webp' }
   ];
 
   constructor() {
@@ -208,6 +209,10 @@ export class NavbarComponent implements OnDestroy {
 
   get selectedLanguageLabel(): string {
     return this.t(this.selectedLanguage.label);
+  }
+
+  get selectedLanguageShortLabel(): string {
+    return this.t(this.selectedLanguage.shortLabel);
   }
 
   t(key: string): string {

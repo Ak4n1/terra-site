@@ -23,6 +23,8 @@ type AuthOverlayFeedbackMap = Record<AuthOverlayMode, ModeFeedbackState>;
       [open]="open"
       [mode]="currentMode()"
       [verificationEmail]="verificationEmail()"
+      [oauthGoogleChallengeId]="oauthGoogleChallengeId()"
+      [oauthGoogleMaskedEmail]="oauthGoogleMaskedEmail()"
       [feedbackMessage]="currentFeedback().message"
       [feedbackVariant]="currentFeedback().variant"
       [submitting]="submitting()"
@@ -33,11 +35,15 @@ type AuthOverlayFeedbackMap = Record<AuthOverlayMode, ModeFeedbackState>;
       (registerSubmitted)="handleRegister($event)"
       (forgotPasswordSubmitted)="handleForgotPassword($event)"
       (resendVerificationSubmitted)="handleResendVerification($event)"
-      (twoFactorRecoveryRequested)="handleTwoFactorRecoveryRequest($event)">
+      (twoFactorRecoveryRequested)="handleTwoFactorRecoveryRequest($event)"
+      (googleEmailCodeSubmitted)="handleGoogleEmailCodeSubmit($event)"
+      (googleEmailCodeResendRequested)="handleGoogleEmailCodeResend($event)"
+      (googleLoginRequested)="handleGoogleLogin()">
     </ui-auth-overlay>
   `
 })
 export class AuthOverlayContainerComponent implements OnChanges {
+  private redirectResumeAttempted = false;
   private readonly authFacade = inject(AuthFacadeService);
   private readonly languageService = inject(LanguageService);
 
@@ -50,6 +56,8 @@ export class AuthOverlayContainerComponent implements OnChanges {
   readonly submitting = signal(false);
   readonly currentMode = signal<AuthOverlayMode>('login');
   readonly verificationEmail = signal('');
+  readonly oauthGoogleChallengeId = signal('');
+  readonly oauthGoogleMaskedEmail = signal('');
   readonly currentFeedback = computed(() => this.feedbackByMode()[this.currentMode()]);
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -59,8 +67,14 @@ export class AuthOverlayContainerComponent implements OnChanges {
 
     if (changes['open'] && !this.open) {
       this.verificationEmail.set('');
+      this.oauthGoogleChallengeId.set('');
+      this.oauthGoogleMaskedEmail.set('');
       this.currentMode.set(this.mode);
       this.clearAllFeedback();
+    }
+
+    if (changes['open'] && this.open) {
+      void this.tryResumeGoogleRedirectFlow();
     }
   }
 
@@ -72,6 +86,8 @@ export class AuthOverlayContainerComponent implements OnChanges {
       await firstValueFrom(this.authFacade.login(credentials));
       this.currentMode.set('login');
       this.verificationEmail.set('');
+      this.oauthGoogleChallengeId.set('');
+      this.oauthGoogleMaskedEmail.set('');
       this.loginCompleted.emit();
     } catch (error) {
       const normalized = this.authFacade.normalizeError(error);
@@ -82,6 +98,80 @@ export class AuthOverlayContainerComponent implements OnChanges {
         this.currentMode.set('two-factor');
       }
       this.applyNormalizedError(normalized);
+    } finally {
+      this.submitting.set(false);
+    }
+  }
+
+  async handleGoogleLogin(): Promise<void> {
+    this.submitting.set(true);
+    this.clearFeedback();
+
+    try {
+      const response = await firstValueFrom(this.authFacade.loginWithGoogle());
+      if (response.data?.requiresEmailCode) {
+        this.oauthGoogleChallengeId.set(response.data.challengeId ?? '');
+        this.oauthGoogleMaskedEmail.set(response.data.maskedEmail ?? '');
+        this.currentMode.set('oauth-email-code');
+        this.setCurrentFeedback(response.message, resolveAlertVariant(200));
+        return;
+      }
+
+      if (response.data?.session) {
+        this.currentMode.set('login');
+        this.verificationEmail.set('');
+        this.oauthGoogleChallengeId.set('');
+        this.oauthGoogleMaskedEmail.set('');
+        this.loginCompleted.emit();
+        return;
+      }
+
+      this.setCurrentFeedback(this.languageService.t('auth.oauthGooglePopupFailed'), 'warning');
+    } catch (error) {
+      const normalized = this.authFacade.normalizeError(error);
+      if (normalized.code === 'auth.oauthGoogleRedirectInProgress') {
+        return;
+      }
+
+      this.applyNormalizedError(normalized);
+    } finally {
+      this.submitting.set(false);
+    }
+  }
+
+  async handleGoogleEmailCodeSubmit(payload: { challengeId: string; code: string; trustDevice?: boolean }): Promise<void> {
+    this.submitting.set(true);
+    this.clearFeedback();
+
+    try {
+      await firstValueFrom(this.authFacade.verifyGoogleEmailCode(payload));
+      this.currentMode.set('login');
+      this.verificationEmail.set('');
+      this.oauthGoogleChallengeId.set('');
+      this.oauthGoogleMaskedEmail.set('');
+      this.loginCompleted.emit();
+    } catch (error) {
+      this.applyError(error);
+    } finally {
+      this.submitting.set(false);
+    }
+  }
+
+  async handleGoogleEmailCodeResend(payload: { challengeId: string }): Promise<void> {
+    this.submitting.set(true);
+    this.clearFeedback();
+
+    try {
+      const response = await firstValueFrom(this.authFacade.resendGoogleEmailCode(payload));
+      if (response.data?.challengeId) {
+        this.oauthGoogleChallengeId.set(response.data.challengeId);
+      }
+      if (response.data?.maskedEmail) {
+        this.oauthGoogleMaskedEmail.set(response.data.maskedEmail);
+      }
+      this.setCurrentFeedback(response.message, resolveAlertVariant(200));
+    } catch (error) {
+      this.applyError(error);
     } finally {
       this.submitting.set(false);
     }
@@ -174,6 +264,15 @@ export class AuthOverlayContainerComponent implements OnChanges {
     this.updateFeedbackForMode(this.currentMode(), '', 'warning');
   }
 
+  private async tryResumeGoogleRedirectFlow(): Promise<void> {
+    if (this.redirectResumeAttempted || !this.authFacade.hasPendingGoogleRedirect()) {
+      return;
+    }
+
+    this.redirectResumeAttempted = true;
+    await this.handleGoogleLogin();
+  }
+
   private formatFeedbackMessage(message: string, retryAfterSeconds: number | null): string {
     if (!retryAfterSeconds) {
       return message;
@@ -203,7 +302,8 @@ export class AuthOverlayContainerComponent implements OnChanges {
       register: { message: '', variant: 'warning' },
       'forgot-password': { message: '', variant: 'warning' },
       'verify-email': { message: '', variant: 'warning' },
-      'two-factor': { message: '', variant: 'warning' }
+      'two-factor': { message: '', variant: 'warning' },
+      'oauth-email-code': { message: '', variant: 'warning' }
     };
   }
 }

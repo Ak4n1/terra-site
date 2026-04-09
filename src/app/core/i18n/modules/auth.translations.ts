@@ -36,6 +36,18 @@ export const AUTH_TRANSLATIONS_US: TranslationMap = {
   authRecoverTwoFactorPagePrimaryAction: 'Return to homepage',
   authCurrentPasswordLabel: 'Current password',
   authForgotPassword: 'Forgot your password?',
+  authOauthSeparator: 'Or continue with',
+  authContinueWithGoogle: 'Continue with Google',
+  authGoogleEmailCodeTitle: 'Verify your Google login',
+  authGoogleEmailCodeDescription: 'For security, enter the 6-digit code we sent to your email before continuing.',
+  authGoogleEmailCodeAction: 'Verify code',
+  authGoogleEmailCodeLabel: 'Verification code',
+  authGoogleEmailCodePlaceholder: '123456',
+  authGoogleEmailCodeHelper: 'We sent a code to',
+  authGoogleEmailCodeResendAction: 'Resend code',
+  'auth.oauthGooglePopupCancelled': 'Google login was cancelled.',
+  'auth.oauthGooglePopupFailed': 'Google login could not be completed. Try again.',
+  'auth.oauthGoogleTokenMissing': 'Google login token is missing. Please try again.',
   authForgotPasswordTitle: 'Reset password',
   authForgotPasswordDescription: 'Enter the email associated with your account and we will send you instructions to reset your password.',
   authForgotPasswordAction: 'Send reset instructions',
@@ -60,7 +72,11 @@ export const AUTH_TRANSLATIONS_US: TranslationMap = {
   authResetPasswordPagePrimaryAction: 'Return to homepage',
   authBackToLogin: 'Back to login',
   authLoginAction: 'Login',
-  authRegisterAction: 'Register'
+  authRegisterAction: 'Register',
+  authRegisterConsentPrefix: 'I agree to the',
+  authRegisterConsentTerms: 'Terms of Service',
+  authRegisterConsentAnd: 'and',
+  authRegisterConsentPrivacy: 'Privacy Policy'
 };
 
 export const AUTH_TRANSLATIONS_ES: TranslationMap = {
@@ -99,6 +115,18 @@ export const AUTH_TRANSLATIONS_ES: TranslationMap = {
   authRecoverTwoFactorPagePrimaryAction: 'Volver al inicio',
   authCurrentPasswordLabel: 'Contraseña actual',
   authForgotPassword: '¿Olvidaste tu contraseña?',
+  authOauthSeparator: 'O continua con',
+  authContinueWithGoogle: 'Continuar con Google',
+  authGoogleEmailCodeTitle: 'Verifica tu ingreso con Google',
+  authGoogleEmailCodeDescription: 'Por seguridad, ingresa el codigo de 6 digitos que enviamos a tu email antes de continuar.',
+  authGoogleEmailCodeAction: 'Verificar codigo',
+  authGoogleEmailCodeLabel: 'Codigo de verificacion',
+  authGoogleEmailCodePlaceholder: '123456',
+  authGoogleEmailCodeHelper: 'Enviamos un codigo a',
+  authGoogleEmailCodeResendAction: 'Reenviar codigo',
+  'auth.oauthGooglePopupCancelled': 'Se cancelo el login con Google.',
+  'auth.oauthGooglePopupFailed': 'No se pudo completar el login con Google. Intenta de nuevo.',
+  'auth.oauthGoogleTokenMissing': 'Falta el token de Google. Intenta nuevamente.',
   authForgotPasswordTitle: 'Restablecer contraseña',
   authForgotPasswordDescription: 'Ingresa el correo electrónico asociado a tu cuenta y te enviaremos instrucciones para restablecer tu contraseña.',
   authForgotPasswordAction: 'Enviar instrucciones',
@@ -123,7 +151,11 @@ export const AUTH_TRANSLATIONS_ES: TranslationMap = {
   authResetPasswordPagePrimaryAction: 'Volver al inicio',
   authBackToLogin: 'Volver al ingreso',
   authLoginAction: 'Ingresar',
-  authRegisterAction: 'Registrarse'
+  authRegisterAction: 'Registrarse',
+  authRegisterConsentPrefix: 'Acepto los',
+  authRegisterConsentTerms: 'Terminos de Servicio',
+  authRegisterConsentAnd: 'y la',
+  authRegisterConsentPrivacy: 'Politica de Privacidad'
 };
 
 export const AUTH_TRANSLATIONS_PT: TranslationMap = {
@@ -162,6 +194,18 @@ export const AUTH_TRANSLATIONS_PT: TranslationMap = {
   authRecoverTwoFactorPagePrimaryAction: 'Voltar para a home',
   authCurrentPasswordLabel: 'Senha atual',
   authForgotPassword: 'Esqueceu sua senha?',
+  authOauthSeparator: 'Ou continue com',
+  authContinueWithGoogle: 'Continuar com Google',
+  authGoogleEmailCodeTitle: 'Verifique seu login com Google',
+  authGoogleEmailCodeDescription: 'Por seguranca, informe o codigo de 6 digitos enviado ao seu email antes de continuar.',
+  authGoogleEmailCodeAction: 'Verificar codigo',
+  authGoogleEmailCodeLabel: 'Codigo de verificacao',
+  authGoogleEmailCodePlaceholder: '123456',
+  authGoogleEmailCodeHelper: 'Enviamos um codigo para',
+  authGoogleEmailCodeResendAction: 'Reenviar codigo',
+  'auth.oauthGooglePopupCancelled': 'O login com Google foi cancelado.',
+  'auth.oauthGooglePopupFailed': 'Nao foi possivel concluir o login com Google. Tente novamente.',
+  'auth.oauthGoogleTokenMissing': 'Token do Google ausente. Tente novamente.',
   authForgotPasswordTitle: 'Redefinir senha',
   authForgotPasswordDescription: 'Informe o email vinculado à sua conta e enviaremos as instruções para redefinir sua senha.',
   authForgotPasswordAction: 'Enviar instruções',
@@ -186,7 +230,11 @@ export const AUTH_TRANSLATIONS_PT: TranslationMap = {
   authResetPasswordPagePrimaryAction: 'Voltar para a home',
   authBackToLogin: 'Voltar ao login',
   authLoginAction: 'Entrar',
-  authRegisterAction: 'Cadastrar'
+  authRegisterAction: 'Cadastrar',
+  authRegisterConsentPrefix: 'Eu aceito os',
+  authRegisterConsentTerms: 'Termos de Servico',
+  authRegisterConsentAnd: 'e a',
+  authRegisterConsentPrivacy: 'Politica de Privacidade'
 };
 
 export const AUTH_TRANSLATIONS_FR: TranslationMap = {
@@ -225,6 +273,18 @@ export const AUTH_TRANSLATIONS_FR: TranslationMap = {
   authRecoverTwoFactorPagePrimaryAction: 'Retour à l accueil',
   authCurrentPasswordLabel: 'Mot de passe actuel',
   authForgotPassword: 'Mot de passe oublié ?',
+  authOauthSeparator: 'Ou continuer avec',
+  authContinueWithGoogle: 'Continuer avec Google',
+  authGoogleEmailCodeTitle: 'Verifiez votre connexion Google',
+  authGoogleEmailCodeDescription: 'Pour la securite, saisissez le code a 6 chiffres envoye a votre email avant de continuer.',
+  authGoogleEmailCodeAction: 'Verifier le code',
+  authGoogleEmailCodeLabel: 'Code de verification',
+  authGoogleEmailCodePlaceholder: '123456',
+  authGoogleEmailCodeHelper: 'Nous avons envoye un code a',
+  authGoogleEmailCodeResendAction: 'Renvoyer le code',
+  'auth.oauthGooglePopupCancelled': 'La connexion Google a ete annulee.',
+  'auth.oauthGooglePopupFailed': 'La connexion Google a echoue. Reessayez.',
+  'auth.oauthGoogleTokenMissing': 'Token Google manquant. Veuillez reessayer.',
   authForgotPasswordTitle: 'Réinitialiser le mot de passe',
   authForgotPasswordDescription: 'Saisissez l’email associé à votre compte et nous vous enverrons les instructions pour réinitialiser votre mot de passe.',
   authForgotPasswordAction: 'Envoyer les instructions',
@@ -249,7 +309,11 @@ export const AUTH_TRANSLATIONS_FR: TranslationMap = {
   authResetPasswordPagePrimaryAction: 'Retour à l’accueil',
   authBackToLogin: 'Retour à la connexion',
   authLoginAction: 'Connexion',
-  authRegisterAction: 'Inscription'
+  authRegisterAction: 'Inscription',
+  authRegisterConsentPrefix: 'J accepte les',
+  authRegisterConsentTerms: 'Conditions de Service',
+  authRegisterConsentAnd: 'et la',
+  authRegisterConsentPrivacy: 'Politique de Confidentialite'
 };
 
 export const AUTH_TRANSLATIONS_DE: TranslationMap = {
@@ -288,6 +352,18 @@ export const AUTH_TRANSLATIONS_DE: TranslationMap = {
   authRecoverTwoFactorPagePrimaryAction: 'Zur Startseite',
   authCurrentPasswordLabel: 'Aktuelles Passwort',
   authForgotPassword: 'Passwort vergessen?',
+  authOauthSeparator: 'Oder weiter mit',
+  authContinueWithGoogle: 'Mit Google fortfahren',
+  authGoogleEmailCodeTitle: 'Google Login bestaetigen',
+  authGoogleEmailCodeDescription: 'Aus Sicherheitsgruenden gib den 6-stelligen Code ein, den wir per E-Mail gesendet haben.',
+  authGoogleEmailCodeAction: 'Code bestaetigen',
+  authGoogleEmailCodeLabel: 'Verifizierungscode',
+  authGoogleEmailCodePlaceholder: '123456',
+  authGoogleEmailCodeHelper: 'Wir haben einen Code gesendet an',
+  authGoogleEmailCodeResendAction: 'Code erneut senden',
+  'auth.oauthGooglePopupCancelled': 'Google Login wurde abgebrochen.',
+  'auth.oauthGooglePopupFailed': 'Google Login konnte nicht abgeschlossen werden. Bitte erneut versuchen.',
+  'auth.oauthGoogleTokenMissing': 'Google Token fehlt. Bitte erneut versuchen.',
   authForgotPasswordTitle: 'Passwort zurücksetzen',
   authForgotPasswordDescription: 'Gib die mit deinem Konto verknüpfte Email ein und wir senden dir Anweisungen zum Zurücksetzen deines Passworts.',
   authForgotPasswordAction: 'Anweisungen senden',
@@ -312,5 +388,9 @@ export const AUTH_TRANSLATIONS_DE: TranslationMap = {
   authResetPasswordPagePrimaryAction: 'Zur Startseite',
   authBackToLogin: 'Zurück zum Login',
   authLoginAction: 'Anmelden',
-  authRegisterAction: 'Registrieren'
+  authRegisterAction: 'Registrieren',
+  authRegisterConsentPrefix: 'Ich akzeptiere die',
+  authRegisterConsentTerms: 'Nutzungsbedingungen',
+  authRegisterConsentAnd: 'und die',
+  authRegisterConsentPrivacy: 'Datenschutzrichtlinie'
 };

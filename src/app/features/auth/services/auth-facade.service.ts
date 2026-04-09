@@ -1,18 +1,22 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, combineLatest, defer, distinctUntilChanged, filter, finalize, map, of, shareReplay, switchMap, take, tap, throwError, timer } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, combineLatest, defer, distinctUntilChanged, filter, finalize, from, map, of, shareReplay, switchMap, take, tap, throwError, timer } from 'rxjs';
 import type { ApiResponse, ApiValidationErrorResponse } from '../models/api-response.model';
 import type {
   ForgotPasswordRequest,
   LoginRequest,
+  OAuthGoogleResendEmailCodeRequest,
+  OAuthGoogleVerifyEmailCodeRequest,
   RegisterRequest,
   ResendVerificationRequest,
   ResetPasswordRequest,
   VerifyEmailRequest
 } from '../models/auth-requests.model';
 import type { AuthSession } from '../models/auth-session.model';
+import type { OAuthGoogleEmailCodeChallenge, OAuthGoogleStartResponse } from '../models/oauth-google.model';
 import { AuthService } from './auth.service';
+import { FirebaseAuthService } from './firebase-auth.service';
 import { LanguageService } from '../../../core/i18n/language.service';
 import type { AppLanguage } from '../../../core/i18n/types';
 
@@ -25,6 +29,7 @@ export class AuthFacadeService {
   private static readonly SESSION_RATE_LIMIT_KEY = 'terra.auth.session-rate-limit-until';
 
   private readonly authService = inject(AuthService);
+  private readonly firebaseAuthService = inject(FirebaseAuthService);
   private readonly languageService = inject(LanguageService);
   private readonly document = inject(DOCUMENT);
   private readonly sessionSubject = new BehaviorSubject<AuthSession | null>(null);
@@ -162,6 +167,35 @@ export class AuthFacadeService {
     );
   }
 
+  loginWithGoogle(trustDevice = false): Observable<ApiResponse<OAuthGoogleStartResponse>> {
+    return defer(() => from(this.firebaseAuthService.signInWithGoogleIdToken())).pipe(
+      switchMap(idToken => this.authService.oauthGoogleStart({ idToken, trustDevice })),
+      tap(response => {
+        if (response.data?.session) {
+          this.clearSessionRateLimit();
+          this.setSession(response.data.session);
+          this.publishSyncEvent('login');
+        }
+      })
+    );
+  }
+
+  verifyGoogleEmailCode(payload: OAuthGoogleVerifyEmailCodeRequest): Observable<ApiResponse<AuthSession>> {
+    return this.authService.oauthGoogleVerifyEmailCode(payload).pipe(
+      tap(response => {
+        if (response.data) {
+          this.clearSessionRateLimit();
+          this.setSession(response.data);
+          this.publishSyncEvent('login');
+        }
+      })
+    );
+  }
+
+  resendGoogleEmailCode(payload: OAuthGoogleResendEmailCodeRequest): Observable<ApiResponse<OAuthGoogleEmailCodeChallenge>> {
+    return this.authService.oauthGoogleResendEmailCode(payload);
+  }
+
   register(payload: RegisterRequest): Observable<ApiResponse<unknown>> {
     return this.authService.register(payload);
   }
@@ -259,6 +293,10 @@ export class AuthFacadeService {
   normalizeError(error: unknown): { message: string; code: string | null; status: number; retryAfterSeconds: number | null } {
     const fallbackMessage = 'Unexpected error.';
 
+    if (error instanceof Error && error.message.startsWith('auth.')) {
+      return { message: this.languageService.t(error.message), code: error.message, status: 0, retryAfterSeconds: null };
+    }
+
     if (!(error instanceof HttpErrorResponse)) {
       return { message: fallbackMessage, code: null, status: 0, retryAfterSeconds: null };
     }
@@ -288,6 +326,10 @@ export class AuthFacadeService {
     this.clearSession();
     this.authResolvedSubject.next(true);
     this.publishSyncEvent('logout');
+  }
+
+  hasPendingGoogleRedirect(): boolean {
+    return this.firebaseAuthService.hasPendingGoogleRedirect();
   }
 
   private tryRecoverSession(error: unknown): Observable<AuthSession | null> {

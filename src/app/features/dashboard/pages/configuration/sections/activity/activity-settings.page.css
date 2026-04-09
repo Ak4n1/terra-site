@@ -91,7 +91,7 @@
 }
 
 .activity-settings-page__date-label {
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--account-master-date-label-color);
   font-family: var(--font-ui);
   font-size: 0.76rem;
   letter-spacing: 0.09em;
@@ -160,9 +160,7 @@
 
 .activity-settings-page__item {
   --activity-settings-item-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_3.svg');
-  --activity-settings-item-bg:
-    linear-gradient(180deg, #1a1a1a, #0e0e0e),
-    #0e0e0e;
+  --activity-settings-item-bg: var(--account-master-item-bg);
   position: relative;
   border: 0;
   background: transparent;
@@ -185,9 +183,7 @@
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  filter:
-    drop-shadow(0 6px 10px rgba(0, 0, 0, 0.22))
-    drop-shadow(0 10px 14px rgba(0, 0, 0, 0.14));
+  filter: var(--account-master-item-shadow);
   pointer-events: none;
   z-index: 0;
 }
