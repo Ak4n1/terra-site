@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  --auth-overlay-panel-mask-bg: var(--c-surface-dropdown);
+}
+
 .auth-panel__header {
   display: flex;
   gap: 10px;
@@ -181,7 +186,17 @@
 .auth-form__oauth-separator > span {
   position: relative;
   padding: 0 12px;
-  background: var(--c-bg-surface, #0d0f14);
+  background: var(--auth-overlay-panel-mask-bg);
+}
+
+.auth-form__oauth-action {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 2px;
+}
+
+.auth-form__oauth-button {
+  display: inline-block;
 }
 
 @media (max-width: 768px) {

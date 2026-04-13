@@ -1,6 +1,5 @@
 export const environment = {
   production: false,
-  googleOauthFlow: 'redirect',
   apiBaseUrl: 'http://localhost:8080',
   discordGuildId: 'YOUR_DISCORD_GUILD_ID',
   discordInviteUrl: 'YOUR_DISCORD_INVITE_URL',

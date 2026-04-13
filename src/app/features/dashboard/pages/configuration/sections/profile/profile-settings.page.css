@@ -354,8 +354,8 @@
 }
 
 .configuration-profile__avatar-catalog {
-  border: 1px solid var(--c-border-control);
   background: color-mix(in srgb, var(--c-surface-dropdown) 34%, transparent);
+  border: 1px solid var(--c-border-control);
   display: grid;
   gap: 0;
 }

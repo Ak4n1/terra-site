@@ -116,8 +116,8 @@
     clamp(44px, 6vw, 72px);
   background: rgba(10, 10, 10, 0.96);
   border: 0;
-  -webkit-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_5.svg');
-  mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_5.svg');
+  -webkit-mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_5.svg');
+  mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_5.svg');
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;

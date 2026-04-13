@@ -26,22 +26,22 @@
 
 .terra-page-border__top {
   top: 0;
-  background-image: url("/assets/images/border-top.png");
+  background-image: url("/assets/images/app/borders/border-top.png");
 }
 
 .terra-page-border__bottom {
   bottom: 0;
-  background-image: url("/assets/images/border-bottom.png");
+  background-image: url("/assets/images/app/borders/border-bottom.png");
 }
 
 .terra-page-border__left {
   left: 0;
-  background-image: url("/assets/images/border-left.png");
+  background-image: url("/assets/images/app/borders/border-left.png");
 }
 
 .terra-page-border__right {
   right: 0;
-  background-image: url("/assets/images/border-right.png");
+  background-image: url("/assets/images/app/borders/border-right.png");
 }
 
 .terra-auth-status-screen {

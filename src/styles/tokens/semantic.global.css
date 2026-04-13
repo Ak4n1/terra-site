@@ -28,7 +28,19 @@
   --shadow-mobile-menu: 0 0 15px 5px var(--color-shadow-strong);
   --dashboard-panel-border: var(--c-border-weak);
   --dashboard-panel-bg:
+    linear-gradient(180deg, #1a1a1a, rgba(255, 255, 255, 0)),
+    rgba(12, 12, 12, 0.82);
+  --dashboard-panel-bg-brushed:
     linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(12, 12, 12, 0.82);
+  --dashboard-panel-bg-brushed-inverse:
+    linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(12, 12, 12, 0.82);
+  --dashboard-panel-bg-brushed-rotated:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(12, 12, 12, 0.82);
+  --dashboard-panel-bg-brushed-rotated-inverse:
+    linear-gradient(270deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
     rgba(12, 12, 12, 0.82);
   --dashboard-panel-padding: 32px;
   --dashboard-panel-padding-mobile: 24px;

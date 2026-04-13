@@ -6,57 +6,8 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="terra_icon_l2t.ico">
-  <script>
-    (function () {
-      var path = window.location.pathname || "/";
-      var isDashboard = path === "/dashboard" || path.indexOf("/dashboard/") === 0;
-      if (isDashboard) {
-        document.documentElement.setAttribute("data-hide-legal-fallback", "1");
-      }
-    })();
-  </script>
-  <style>
-    .oauth-branding-fallback {
-      padding: 10px 14px;
-      border-top: 1px solid rgba(224, 136, 33, 0.45);
-      background: #0b0b0b;
-      color: #f4f4f4;
-      font: 14px/1.5 Arial, sans-serif;
-      text-align: center;
-      position: relative;
-      z-index: 9999;
-    }
-
-    .oauth-branding-fallback__brand {
-      font-weight: 700;
-      letter-spacing: 0.03em;
-    }
-
-    .oauth-branding-fallback__link {
-      color: #e08821;
-      text-decoration: none;
-      margin-left: 12px;
-    }
-
-    .oauth-branding-fallback__separator {
-      margin: 0 6px;
-      color: #a8a8a8;
-    }
-
-    html[data-hide-legal-fallback="1"] .oauth-branding-fallback {
-      display: none;
-    }
-  </style>
-
 </head>
 <body>
-  <div id="oauth-branding-fallback" class="oauth-branding-fallback" role="contentinfo" aria-label="Public legal links">
-    <span class="oauth-branding-fallback__brand">L2 Terra</span>
-    <span> is an unofficial, fan-operated Lineage 2 private server portal.</span>
-    <a class="oauth-branding-fallback__link" href="https://l2terra.online/privacy-policy">Privacy Policy</a>
-    <span class="oauth-branding-fallback__separator">|</span>
-    <a class="oauth-branding-fallback__link" href="https://l2terra.online/terms-of-service">Terms of Service</a>
-  </div>
   <app-root></app-root>
 </body>
 </html>

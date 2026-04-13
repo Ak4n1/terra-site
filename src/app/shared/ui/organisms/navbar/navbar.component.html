@@ -1,5 +1,5 @@
 <header class="terra-header">
-  <div class="terra-header__topbar">
+  <div class="terra-header__topbar" #topbar>
     <div class="terra-header__container terra-header__container--topbar">
       <div class="terra-header__topbar-links">
         <a href="#">
@@ -52,7 +52,10 @@
     </div>
   </div>
 
-  <div class="terra-header__main">
+  <div
+    class="terra-header__main"
+    [class.terra-header__main--floating]="isMainNavFloating"
+    [class.terra-header__main--hidden]="isMainNavHidden">
     <div class="terra-header__container terra-header__container--main">
       <a [routerLink]="'/'" class="terra-logo terra-logo--main">Terra</a>
 
@@ -135,68 +138,70 @@
   <div *ngIf="isMobileMenuOpen" class="terra-mobile-overlay terra-mobile-overlay--open" (click)="closeMobileMenu()"></div>
 
   <aside class="terra-mobile-menu" [class.terra-mobile-menu--open]="isMobileMenuOpen" aria-hidden="{{ !isMobileMenuOpen }}">
-    <div class="terra-mobile-menu__header">
-      <a [routerLink]="'/'" class="terra-logo" (click)="closeMobileMenu()">Terra</a>
-    </div>
+    <div class="terra-mobile-menu__scroll">
+      <div class="terra-mobile-menu__header">
+        <a [routerLink]="'/'" class="terra-logo" (click)="closeMobileMenu()">Terra</a>
+      </div>
 
-    <ul class="terra-mobile-nav" *ngIf="!mobileActiveParent; else mobileSubmenu">
-      <li *ngFor="let item of navItems" class="terra-mobile-nav__item">
-        <ng-container *ngIf="item.children?.length; else mobileSingle">
-          <button type="button" class="terra-mobile-nav__trigger terra-mobile-nav__trigger--drop" (click)="openMobileSubmenu(item)">
-            {{ t(item.labelKey) }}
-          </button>
-        </ng-container>
-        <ng-template #mobileSingle>
-          <ui-nav-link
-            [label]="t(item.labelKey)"
-            [href]="item.href"
-            [routerLink]="item.href.startsWith('/') ? item.href : null"
-            [mobile]="true"
-            [showDots]="true"
-            [dotPosition]="'left'"
-            (click)="closeMobileMenu()">
-          </ui-nav-link>
-        </ng-template>
-      </li>
-    </ul>
-
-    <ng-template #mobileSubmenu>
-      <ul class="terra-mobile-nav">
-        <li class="terra-mobile-nav__item">
-          <button type="button" class="terra-mobile-nav__trigger terra-mobile-nav__trigger--back" (click)="closeMobileSubmenu()">
-            {{ t('navBack') }}
-          </button>
-        </li>
-        <li *ngFor="let child of mobileActiveParent?.children" class="terra-mobile-nav__item">
-          <ui-nav-link [label]="t(child.labelKey)" [href]="child.href" [mobile]="true" [showDots]="true" [dotPosition]="'left'"></ui-nav-link>
+      <ul class="terra-mobile-nav" *ngIf="!mobileActiveParent; else mobileSubmenu">
+        <li *ngFor="let item of navItems" class="terra-mobile-nav__item">
+          <ng-container *ngIf="item.children?.length; else mobileSingle">
+            <button type="button" class="terra-mobile-nav__trigger terra-mobile-nav__trigger--drop" (click)="openMobileSubmenu(item)">
+              {{ t(item.labelKey) }}
+            </button>
+          </ng-container>
+          <ng-template #mobileSingle>
+            <ui-nav-link
+              [label]="t(item.labelKey)"
+              [href]="item.href"
+              [routerLink]="item.href.startsWith('/') ? item.href : null"
+              [mobile]="true"
+              [showDots]="true"
+              [dotPosition]="'left'"
+              (click)="closeMobileMenu()">
+            </ui-nav-link>
+          </ng-template>
         </li>
       </ul>
-    </ng-template>
 
-    <ng-container *ngIf="!authPending()">
-      <div class="terra-mobile-auth" *ngIf="!loggedIn(); else sessionMenuMobile">
-        <a href="#" class="terra-mobile-auth__link" (click)="requestAuth('register', $event)"><span>{{ t('navRegister') }}</span></a>
-        <a href="#" class="terra-mobile-auth__link" (click)="requestAuth('login', $event)"><span>{{ t('navLogin') }}</span></a>
-      </div>
-    </ng-container>
+      <ng-template #mobileSubmenu>
+        <ul class="terra-mobile-nav">
+          <li class="terra-mobile-nav__item">
+            <button type="button" class="terra-mobile-nav__trigger terra-mobile-nav__trigger--back" (click)="closeMobileSubmenu()">
+              {{ t('navBack') }}
+            </button>
+          </li>
+          <li *ngFor="let child of mobileActiveParent?.children" class="terra-mobile-nav__item">
+            <ui-nav-link [label]="t(child.labelKey)" [href]="child.href" [mobile]="true" [showDots]="true" [dotPosition]="'left'"></ui-nav-link>
+          </li>
+        </ul>
+      </ng-template>
 
-    <ng-template #sessionMenuMobile>
-      <div class="terra-mobile-session">
-        <div class="terra-mobile-session__identity">
-          <img *ngIf="sessionAvatar()" class="terra-mobile-session__avatar" [src]="sessionAvatar()!" [alt]="sessionEmail()" />
-          <div>
-            <p class="terra-mobile-session__eyebrow">{{ t('navLoggedInAs') }}</p>
-            <p class="terra-mobile-session__email">{{ sessionEmail() }}</p>
+      <ng-container *ngIf="!authPending()">
+        <div class="terra-mobile-auth" *ngIf="!loggedIn(); else sessionMenuMobile">
+          <a href="#" class="terra-mobile-auth__link" (click)="requestAuth('register', $event)"><span>{{ t('navRegister') }}</span></a>
+          <a href="#" class="terra-mobile-auth__link" (click)="requestAuth('login', $event)"><span>{{ t('navLogin') }}</span></a>
+        </div>
+      </ng-container>
+
+      <ng-template #sessionMenuMobile>
+        <div class="terra-mobile-session">
+          <div class="terra-mobile-session__identity">
+            <img *ngIf="sessionAvatar()" class="terra-mobile-session__avatar" [src]="sessionAvatar()!" [alt]="sessionEmail()" />
+            <div>
+              <p class="terra-mobile-session__eyebrow">{{ t('navLoggedInAs') }}</p>
+              <p class="terra-mobile-session__email">{{ sessionEmail() }}</p>
+            </div>
+          </div>
+
+          <div class="terra-mobile-session__actions">
+            <a href="#" class="terra-mobile-auth__link" (click)="goToPanel($event)"><span>{{ t('navPanel') }}</span></a>
+            <a href="#" class="terra-mobile-auth__link" (click)="goToConfiguration($event)"><span>{{ t('navConfiguration') }}</span></a>
+            <a href="#" class="terra-mobile-auth__link" (click)="logout($event)"><span>{{ t('navLogout') }}</span></a>
           </div>
         </div>
-
-        <div class="terra-mobile-session__actions">
-          <a href="#" class="terra-mobile-auth__link" (click)="goToPanel($event)"><span>{{ t('navPanel') }}</span></a>
-          <a href="#" class="terra-mobile-auth__link" (click)="goToConfiguration($event)"><span>{{ t('navConfiguration') }}</span></a>
-          <a href="#" class="terra-mobile-auth__link" (click)="logout($event)"><span>{{ t('navLogout') }}</span></a>
-        </div>
-      </div>
-    </ng-template>
+      </ng-template>
+    </div>
 
   </aside>
 </header>

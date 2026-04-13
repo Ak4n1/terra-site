@@ -29,10 +29,10 @@ export class ActivitySettingsPage implements OnInit {
   private static readonly DEFAULT_PAGE_SIZE = 5;
   private static readonly LOADING_MIN_MS = 0;
   private static readonly ITEM_MASK_IMAGES = [
-    "url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_1.svg')",
-    "url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_2.svg')",
-    "url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_3.svg')",
-    "url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_5.svg')"
+    "url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_1.svg')",
+    "url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_2.svg')",
+    "url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_3.svg')",
+    "url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_5.svg')"
   ] as const;
 
   private readonly languageService = inject(LanguageService);

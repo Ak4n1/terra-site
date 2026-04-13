@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
-import { Chrome, type LucideIconData } from 'lucide-angular';
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { evaluatePassword, isPasswordCompliant } from '../../../../core/utils/password-policy';
 import { AlertComponent, type AlertVariant } from '../../atoms/alert/alert.component';
@@ -29,6 +28,7 @@ export class AuthOverlayComponent implements OnChanges {
   @Input() feedbackMessage = '';
   @Input() feedbackVariant: AlertVariant = 'warning';
   @Input() submitting = false;
+  @Input() googleSubmitting = false;
   @Output() readonly closed = new EventEmitter<void>();
   @Output() readonly modeChanged = new EventEmitter<AuthOverlayMode>();
   @Output() readonly stateReset = new EventEmitter<void>();
@@ -54,7 +54,6 @@ export class AuthOverlayComponent implements OnChanges {
   verifyEmailAddress = '';
   googleEmailCode = '';
   googleCodeTrustDevice = true;
-  readonly googleIcon: LucideIconData = Chrome;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mode']) {
@@ -215,7 +214,7 @@ export class AuthOverlayComponent implements OnChanges {
   }
 
   requestGoogleLogin(): void {
-    if (this.submitting) {
+    if (this.submitting || this.googleSubmitting) {
       return;
     }
 
@@ -231,7 +230,7 @@ export class AuthOverlayComponent implements OnChanges {
   }
 
   get primaryActionDisabled(): boolean {
-    if (this.submitting) {
+    if (this.submitting || this.googleSubmitting) {
       return true;
     }
 

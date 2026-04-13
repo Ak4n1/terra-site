@@ -17,12 +17,12 @@ export type MaskButtonSize =
 export type MaskButtonMask = 1 | 2 | 3 | 4 | 5 | 6 | '1' | '2' | '3' | '4' | '5' | '6';
 
 const MASK_BUTTON_IMAGE_BY_INDEX: Record<1 | 2 | 3 | 4 | 5 | 6, string> = {
-  1: "url('/assets/images/clipping_masks/button.svg?v=2')",
-  2: "url('/assets/images/clipping_masks/386962049_c269581b-ec84-479a-9422-e89e15d91770_horizontal.svg')",
-  3: "url('/assets/images/clipping_masks/386959710_3a06fd87-3345-4af4-a922-9dca76d8fa3d_horizontal.svg')",
-  4: "url('/assets/images/clipping_masks/386962801_e8c7810c-56f2-487c-8666-b92352741cf6_horizontal.svg')",
-  5: "url('/assets/images/clipping_masks/386960688_7989817e-80ee-4b0a-bf16-2d9a7da18a8c_horizontal.svg')",
-  6: "url('/assets/images/clipping_masks/386959795_e196bc93-4ad0-4733-9137-f97443f09a8f_horizontal.svg')"
+  1: "url('/assets/images/app/masks/stains/button.svg?v=2')",
+  2: "url('/assets/images/app/masks/stains/386962049_c269581b-ec84-479a-9422-e89e15d91770_horizontal.svg')",
+  3: "url('/assets/images/app/masks/stains/386959710_3a06fd87-3345-4af4-a922-9dca76d8fa3d_horizontal.svg')",
+  4: "url('/assets/images/app/masks/stains/386962801_e8c7810c-56f2-487c-8666-b92352741cf6_horizontal.svg')",
+  5: "url('/assets/images/app/masks/stains/386960688_7989817e-80ee-4b0a-bf16-2d9a7da18a8c_horizontal.svg')",
+  6: "url('/assets/images/app/masks/stains/386959795_e196bc93-4ad0-4733-9137-f97443f09a8f_horizontal.svg')"
 };
 
 @Component({

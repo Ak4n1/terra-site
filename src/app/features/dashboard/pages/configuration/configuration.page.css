@@ -2,15 +2,18 @@
   display: grid;
   gap: 28px;
   overflow-x: clip;
-  --dashboard-configuration-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_3.svg');
-  --dashboard-configuration-hero-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_5.svg');
-  --dashboard-configuration-step-mask-image: url('/assets/images/clipping_masks/button.svg?v=2');
-  --dashboard-configuration-mask-bg: var(--account-master-panel-bg);
-  --dashboard-configuration-hero-bg: var(--account-master-panel-hero-tint);
-  --dashboard-configuration-step-bg: var(--dashboard-configuration-hero-bg);
-  --dashboard-configuration-step-bg-hover: var(--dashboard-configuration-hero-bg);
+  --dashboard-configuration-mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_3.svg');
+  --dashboard-configuration-hero-mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_5.svg');
+  --dashboard-configuration-step-mask-image: url('/assets/images/app/masks/stains/button.svg?v=2');
+  --dashboard-configuration-mask-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(12, 12, 12, 0.82);
+  --dashboard-configuration-hero-bg: rgba(255, 255, 255, 0.03);
+  --dashboard-configuration-step-bg: rgba(255, 255, 255, 0.03);
+  --dashboard-configuration-step-bg-hover: rgba(255, 255, 255, 0.03);
   --dashboard-configuration-step-bg-active: var(--account-master-tab-active-bg);
   --dashboard-configuration-content-offset: 14px;
+
 }
 
 .dashboard-configuration-page__hero,

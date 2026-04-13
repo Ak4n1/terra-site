@@ -27,6 +27,30 @@
   padding-bottom: 48px;
 }
 
+.auth-screen__panel {
+  width: min(100%, 680px);
+  padding:
+    clamp(40px, 4vw, 50px)
+    clamp(44px, 4.4vw, 58px)
+    clamp(44px, 4.4vw, 54px);
+  border: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(10, 10, 10, 0.94);
+  box-shadow: none;
+  backdrop-filter: blur(8px);
+  filter: drop-shadow(0 26px 44px rgba(0, 0, 0, 0.48));
+  isolation: isolate;
+  -webkit-mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_5.svg');
+  mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_5.svg');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
 .auth-screen__footer-corner {
   position: fixed;
   left: 0;
@@ -44,4 +68,10 @@
   font-size: clamp(26px, 3vw, 38px);
   max-width: 26ch;
   line-height: 1.08;
+}
+
+@media (max-width: 768px) {
+  .auth-screen__panel {
+    padding: 34px 28px 40px 32px;
+  }
 }

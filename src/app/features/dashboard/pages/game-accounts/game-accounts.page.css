@@ -1,9 +1,10 @@
 .game-accounts-page {
   display: grid;
   gap: 28px;
-  --game-accounts-card-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_5.svg');
-  --game-accounts-carousel-mask-image: url('/assets/images/horr-mask-block-2.svg');
-  --game-accounts-mask-bg: var(--account-master-panel-bg);
+  --game-accounts-card-mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_5.svg');
+  --game-accounts-carousel-mask-image: url('/assets/images/app/masks/squares/horr-mask-block-2.svg');
+  --game-accounts-mask-bg: var(--dashboard-panel-bg-brushed-inverse);
+  
 }
 
 .game-accounts-page > * {
@@ -46,7 +47,7 @@
 }
 
 .game-accounts-page__intro {
-  padding: clamp(16px, 1.4vw, 20px) 0 0 clamp(18px, 1.6vw, 24px);
+  padding: clamp(16px, 1.4vw, 20px) 0 0 clamp(30px, 2.6vw, 40px);
   display: grid;
   align-content: start;
   gap: 16px;
@@ -354,7 +355,7 @@
   }
 
   .game-accounts-page__intro {
-    padding: 0 0 6px;
+    padding: 0 0 6px 14px;
     width: 100%;
     max-width: none;
   }
@@ -392,6 +393,6 @@
   }
 
   .game-accounts-page__intro {
-    padding: 0 0 6px;
+    padding: 0 0 6px 12px;
   }
 }

@@ -34,10 +34,10 @@ export class NotificationsSettingsPage implements OnInit, OnDestroy {
   private static readonly PAGINATION_WINDOW = 1;
   private static readonly PAGINATION_EDGE = 1;
   private static readonly ITEM_MASK_IMAGES = [
-    "url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_1.svg')",
-    "url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_2.svg')",
-    "url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_3.svg')",
-    "url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_5.svg')"
+    "url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_1.svg')",
+    "url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_2.svg')",
+    "url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_3.svg')",
+    "url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_5.svg')"
   ] as const;
 
   private readonly languageService = inject(LanguageService);

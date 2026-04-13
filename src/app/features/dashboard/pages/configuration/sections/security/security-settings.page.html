@@ -84,8 +84,11 @@
 
         <div class="security-settings-page__reset-block">
           <p class="security-settings-page__card-eyebrow">{{ t('dashboardConfigurationSecurityPasswordResetEyebrow') }}</p>
-          <h5 class="security-settings-page__sub-title">{{ t('dashboardConfigurationSecurityPasswordResetTitle') }}</h5>
-          <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityPasswordResetCopy') }}</p>
+          <h4 class="security-settings-page__card-title">{{ t('dashboardConfigurationSecurityPasswordResetTitle') }}</h4>
+          <div class="security-settings-page__copy-stack">
+            <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityPasswordResetCopy') }}</p>
+            <p class="security-settings-page__card-copy">{{ t('dashboardConfigurationSecurityPasswordResetProviderCopy') }}</p>
+          </div>
           <div class="security-settings-page__actions-inline">
             <ui-button
               [label]="t('dashboardConfigurationSecurityPasswordResetRequestAction')"
@@ -250,6 +253,7 @@
 </section>
 
 <ui-modal
+  class="security-settings-page__two-factor-guide-modal"
   [open]="twoFactorGuideModalOpen"
   [title]="t('dashboardConfigurationSecurityGuideModalTitle')"
   [size]="'large'"
@@ -309,6 +313,7 @@
 </ui-modal>
 
 <ui-modal
+  class="security-settings-page__trusted-devices-modal"
   [open]="trustedDevicesModalOpen"
   [title]="t('dashboardConfigurationSecurityTrustedDevicesModalTitle')"
   [size]="'large'"

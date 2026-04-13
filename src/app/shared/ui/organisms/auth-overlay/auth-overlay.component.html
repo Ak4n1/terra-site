@@ -29,6 +29,7 @@
           <ui-input-field
             [label]="t('authEmailLabel')"
             type="email"
+            variant="2"
             [placeholder]="t('authEmailPlaceholder')"
             autocomplete="email"
             [value]="loginEmail"
@@ -37,6 +38,7 @@
           <ui-input-field
             [label]="t('authPasswordLabel')"
             type="password"
+            variant="2"
             [placeholder]="t('authPasswordPlaceholder')"
             autocomplete="current-password"
             [value]="loginPassword"
@@ -54,15 +56,18 @@
             <span>{{ t('authOauthSeparator') }}</span>
           </div>
 
-          <ui-button
-            [label]="t('authContinueWithGoogle')"
-            [loadingLabel]="t('authContinueWithGoogle')"
-            [icon]="googleIcon"
-            variant="white"
-            size="x2"
-            type="button"
-            [disabled]="submitting"
-            (clicked)="requestGoogleLogin()"></ui-button>
+          <div class="auth-form__oauth-action">
+            <ui-button
+              class="auth-form__oauth-button"
+              [label]="t('authContinueWithGoogle')"
+              [loadingLabel]="t('authContinueWithGoogle')"
+              variant="white"
+              size="md"
+              type="button"
+              [loading]="googleSubmitting"
+              [disabled]="submitting || googleSubmitting"
+              (clicked)="requestGoogleLogin()"></ui-button>
+          </div>
         </form>
       </div>
     } @else if (currentMode === 'two-factor') {
@@ -77,6 +82,7 @@
           <ui-input-field
             [label]="t('authTwoFactorCodeLabel')"
             type="text"
+            variant="2"
             [placeholder]="t('authTwoFactorCodePlaceholder')"
             autocomplete="one-time-code"
             [value]="loginTwoFactorCode"
@@ -116,6 +122,7 @@
           <ui-input-field
             [label]="t('authGoogleEmailCodeLabel')"
             type="text"
+            variant="2"
             [placeholder]="t('authGoogleEmailCodePlaceholder')"
             autocomplete="one-time-code"
             [value]="googleEmailCode"
@@ -159,6 +166,7 @@
           <ui-input-field
             [label]="t('authEmailLabel')"
             type="email"
+            variant="2"
             [placeholder]="t('authEmailPlaceholder')"
             autocomplete="email"
             [value]="registerEmail"
@@ -167,6 +175,7 @@
           <ui-input-field
             [label]="t('authPasswordLabel')"
             type="password"
+            variant="2"
             [placeholder]="t('authPasswordPlaceholder')"
             autocomplete="new-password"
             [value]="registerPassword"
@@ -184,6 +193,7 @@
           <ui-input-field
             [label]="t('authRepeatPasswordLabel')"
             type="password"
+            variant="2"
             [placeholder]="t('authRepeatPasswordPlaceholder')"
             autocomplete="new-password"
             [value]="registerRepeatPassword"
@@ -216,6 +226,7 @@
           <ui-input-field
             [label]="t('authEmailLabel')"
             type="email"
+            variant="2"
             [placeholder]="t('authEmailPlaceholder')"
             autocomplete="email"
             [value]="forgotPasswordEmail"
@@ -235,6 +246,7 @@
           <ui-input-field
             [label]="t('authEmailLabel')"
             type="email"
+            variant="2"
             [placeholder]="t('authEmailPlaceholder')"
             autocomplete="email"
             [value]="verifyEmailAddress"

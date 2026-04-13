@@ -6,9 +6,9 @@
   [disabled]="resolvedDisabled"
   [attr.aria-busy]="loading"
   (click)="onClick($event)">
-  <span class="btn__label">
+  <span class="btn__label" [class.btn__label--with-icon]="icon">
     @if (icon) {
-      <lucide-icon [img]="icon" class="btn__icon" aria-hidden="true"></lucide-icon>
+      <lucide-icon [img]="icon" [size]="18" class="btn__icon" aria-hidden="true"></lucide-icon>
     }
     <span class="btn__effect-inner">
       <span class="btn__effect-l"><span>{{ label }}</span></span>

@@ -1,7 +1,16 @@
 .about-game-section {
+  --about-game-mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_5.svg');
   position: relative;
   z-index: 1;
   background: rgba(10, 10, 10, 0.96);
+  -webkit-mask-image: var(--about-game-mask-image);
+  mask-image: var(--about-game-mask-image);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 .about-game-section__inner {
@@ -10,7 +19,7 @@
   padding:
     var(--home-about-padding-top, 96px)
     var(--home-section-gutter-desktop, 24px)
-    var(--home-about-padding-bottom, 108px);
+    var(--home-about-padding-bottom, 132px);
 }
 
 .about-game-section__content {
@@ -55,7 +64,7 @@
 @media (max-width: 991px) {
   .about-game-section__inner {
     padding-top: var(--home-about-padding-top-tablet, 80px);
-    padding-bottom: var(--home-about-padding-bottom-tablet, 88px);
+    padding-bottom: var(--home-about-padding-bottom-tablet, 102px);
   }
 }
 
@@ -64,7 +73,7 @@
     padding:
       var(--home-about-padding-top-mobile, 68px)
       var(--home-section-gutter-mobile, 16px)
-      var(--home-about-padding-bottom-mobile, 80px);
+      var(--home-about-padding-bottom-mobile, 92px);
   }
 
   .about-game-section__intro,

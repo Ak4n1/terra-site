@@ -1,0 +1,37 @@
+<section class="server-vote" aria-labelledby="server-vote-title">
+  <div class="server-vote__inner">
+    <div class="server-vote__copy">
+      <p class="server-vote__eyebrow">{{ t('homeVoteEyebrow') }}</p>
+      <h2 id="server-vote-title" class="server-vote__title">{{ t('homeVoteTitle') }}</h2>
+      <p class="server-vote__description">{{ t('homeVoteDescription') }}</p>
+    </div>
+
+    <div class="server-vote__actions">
+      <article class="server-vote__site">
+        <h3 class="server-vote__site-title">HopZone</h3>
+        <p class="server-vote__site-copy">{{ t('homeVoteHopzoneCopy') }}</p>
+        <ui-button
+          [label]="t('homeVoteHopzoneAction')"
+          [loadingLabel]="t('homeVoteHopzoneAction')"
+          variant="main-1"
+          size="md"
+          type="button"
+          (clicked)="openVote('hopzone', $event)">
+        </ui-button>
+      </article>
+
+      <article class="server-vote__site">
+        <h3 class="server-vote__site-title">L2JBrasil</h3>
+        <p class="server-vote__site-copy">{{ t('homeVoteL2JBrasilCopy') }}</p>
+        <ui-button
+          [label]="t('homeVoteL2JBrasilAction')"
+          [loadingLabel]="t('homeVoteL2JBrasilAction')"
+          variant="white"
+          size="md"
+          type="button"
+          (clicked)="openVote('l2jbrasil', $event)">
+        </ui-button>
+      </article>
+    </div>
+  </div>
+</section>

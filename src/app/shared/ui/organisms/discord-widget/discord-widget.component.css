@@ -1,12 +1,10 @@
 .discord-widget {
-  --discord-widget-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_5.svg');
-  --discord-widget-metric-mask-image-a: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_3.svg');
-  --discord-widget-member-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_3.svg');
-  --discord-widget-status-mask-image: url('/assets/images/clipping_masks/386962049_c269581b-ec84-479a-9422-e89e15d91770_horizontal.svg');
+  --discord-widget-mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_5.svg');
+  --discord-widget-metric-mask-image-a: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_3.svg');
+  --discord-widget-member-mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_3.svg');
+  --discord-widget-status-mask-image: url('/assets/images/app/masks/stains/386962049_c269581b-ec84-479a-9422-e89e15d91770_horizontal.svg');
   --discord-widget-safe-inline: clamp(8px, 0.8vw, 12px);
-  --discord-widget-surface:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
-    rgba(12, 12, 12, 0.82);
+  --discord-widget-surface: var(--dashboard-panel-bg-brushed);
   position: relative;
   overflow: hidden;
   border: 0;

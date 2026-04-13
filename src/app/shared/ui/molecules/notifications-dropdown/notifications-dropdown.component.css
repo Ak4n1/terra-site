@@ -1,3 +1,16 @@
+:host {
+  --notifications-dropdown-mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_5.svg');
+  --notifications-dropdown-menu-bg: var(--c-surface-dropdown);
+  --notifications-dropdown-menu-shadow:
+    drop-shadow(0 12px 16px rgba(0, 0, 0, 0.42))
+    drop-shadow(0 24px 26px rgba(0, 0, 0, 0.28));
+  --notifications-dropdown-menu-gap: 14px;
+  --notifications-dropdown-menu-padding: 24px;
+  --notifications-dropdown-header-padding: 0 2px;
+  --notifications-dropdown-item-padding: 14px 2px;
+  --notifications-dropdown-actions-padding: 14px 2px 0;
+}
+
 .notifications-dropdown {
   position: relative;
 }
@@ -50,25 +63,13 @@
   width: min(320px, calc(100vw - 40px));
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 12px;
+  gap: var(--notifications-dropdown-menu-gap, 14px);
   max-height: min(420px, calc(100vh - 120px));
-  padding: 21px;
-  border: 1px solid var(--c-border-muted);
-  background: var(--c-surface-dropdown);
-  box-shadow: var(--shadow-dropdown);
-  z-index: 20;
-}
-
-.notifications-dropdown--dashboard .notifications-dropdown__menu {
-  --notifications-dropdown-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_3.svg');
+  padding: var(--notifications-dropdown-menu-padding, 24px);
   border: 0;
-  background:
-    linear-gradient(180deg, #1a1a1a, #0e0e0e),
-    #0e0e0e;
+  background: var(--notifications-dropdown-menu-bg, var(--c-surface-dropdown));
   box-shadow: none;
-  filter:
-    drop-shadow(0 12px 16px rgba(0, 0, 0, 0.48))
-    drop-shadow(0 24px 26px rgba(0, 0, 0, 0.38));
+  filter: var(--notifications-dropdown-menu-shadow);
   -webkit-mask-image: var(--notifications-dropdown-mask-image);
   mask-image: var(--notifications-dropdown-mask-image);
   -webkit-mask-size: 100% 100%;
@@ -77,8 +78,22 @@
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  gap: 14px;
-  padding: 24px;
+  z-index: 20;
+}
+
+.notifications-dropdown--dashboard .notifications-dropdown__menu {
+  --notifications-dropdown-mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_3.svg');
+  --notifications-dropdown-menu-bg:
+    linear-gradient(180deg, #1a1a1a, #0e0e0e),
+    #0e0e0e;
+  --notifications-dropdown-menu-shadow:
+    drop-shadow(0 12px 16px rgba(0, 0, 0, 0.48))
+    drop-shadow(0 24px 26px rgba(0, 0, 0, 0.38));
+  --notifications-dropdown-menu-gap: 14px;
+  --notifications-dropdown-menu-padding: 24px;
+  --notifications-dropdown-header-padding: 0 2px;
+  --notifications-dropdown-item-padding: 14px 2px;
+  --notifications-dropdown-actions-padding: 14px 2px 0;
 }
 
 .notifications-dropdown__header {
@@ -86,11 +101,11 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 0;
+  padding: var(--notifications-dropdown-header-padding, 0 2px);
 }
 
 .notifications-dropdown--dashboard .notifications-dropdown__header {
-  padding: 0 2px;
+  padding: var(--notifications-dropdown-header-padding, 0 2px);
 }
 
 @media (max-width: 1024px) {
@@ -157,13 +172,13 @@
 .notifications-dropdown__item {
   display: grid;
   gap: 8px;
-  padding: 12px 0;
+  padding: var(--notifications-dropdown-item-padding, 14px 2px);
   border-top: 1px solid var(--c-border-subtle);
 }
 
 .notifications-dropdown--dashboard .notifications-dropdown__item {
   gap: 10px;
-  padding: 14px 2px;
+  padding: var(--notifications-dropdown-item-padding, 14px 2px);
 }
 
 .notifications-dropdown__item:first-child {
@@ -245,12 +260,12 @@
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
-  padding-top: 12px;
+  padding: var(--notifications-dropdown-actions-padding, 14px 2px 0);
   border-top: 1px solid var(--c-border-subtle);
 }
 
 .notifications-dropdown--dashboard .notifications-dropdown__actions {
-  padding: 14px 2px 0;
+  padding: var(--notifications-dropdown-actions-padding, 14px 2px 0);
 }
 
 .notifications-dropdown__action {

@@ -1,0 +1,91 @@
+<footer class="brand-footer" aria-label="Legal links">
+  <img
+    class="brand-footer__corner"
+    src="assets/images/app/borders/footer-corner.webp"
+    alt=""
+    loading="lazy"
+    decoding="async"
+    aria-hidden="true" />
+
+  <div class="brand-footer__band">
+    <div class="brand-footer__band-inner">
+      <div class="brand-footer__band-actions" role="group" aria-label="Authentication actions">
+        <ui-button
+          class="brand-footer__band-button"
+          [label]="t('navRegister')"
+          [loadingLabel]="t('navRegister')"
+          variant="main-1"
+          size="md"
+          type="button"
+          (clicked)="requestAuth('register', $event)">
+        </ui-button>
+        <ui-button
+          class="brand-footer__band-button"
+          [label]="t('navLogin')"
+          [loadingLabel]="t('navLogin')"
+          variant="white"
+          size="md"
+          type="button"
+          (clicked)="requestAuth('login', $event)">
+        </ui-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-footer__inner">
+    <div class="brand-footer__logos" aria-label="Project and rating logos">
+      <a class="brand-footer__logo-link brand-footer__logo-item brand-footer__logo-item--terra" href="/">
+        <picture>
+          <source srcset="assets/images/app/logos/logo_terra_blanco_cropped.webp" type="image/webp" />
+          <img
+            class="brand-footer__logo brand-footer__logo--terra"
+            src="assets/images/app/logos/logo_terra_blanco_cropped.png"
+            alt="L2 Terra"
+            loading="lazy"
+            decoding="async" />
+        </picture>
+      </a>
+
+      <span class="brand-footer__logo-wrap brand-footer__logo-item brand-footer__logo-item--adults">
+        <img
+          class="brand-footer__logo brand-footer__logo--adults"
+          src="assets/images/app/footer/adults_r8.png"
+          alt="Adults Only"
+          loading="lazy"
+          decoding="async" />
+      </span>
+
+      <span class="brand-footer__logo-wrap brand-footer__logo-item brand-footer__logo-item--plus18">
+        <img
+          class="brand-footer__logo brand-footer__logo--plus18"
+          src="assets/images/app/footer/+18_tight.png"
+          alt="18 Plus"
+          loading="lazy"
+          decoding="async" />
+      </span>
+    </div>
+
+    <div class="brand-footer__grid">
+      <div class="brand-footer__legal">
+        <p class="brand-footer__copy brand-footer__copy--small">{{ t('homeFooterGplLine1') }}</p>
+        <p class="brand-footer__copy brand-footer__copy--small">{{ t('homeFooterGplLine2') }}</p>
+        <p class="brand-footer__copy brand-footer__copy--small">{{ t('homeFooterGplLine3') }}</p>
+      </div>
+
+      <nav class="brand-footer__nav" aria-label="Policies">
+        <ui-nav-link
+          class="brand-footer__nav-link"
+          [label]="t('homeFooterTermsLink')"
+          [routerLink]="'/terms-of-service'">
+        </ui-nav-link>
+        <ui-nav-link
+          class="brand-footer__nav-link"
+          [label]="t('homeFooterPrivacyLink')"
+          [routerLink]="'/privacy-policy'">
+        </ui-nav-link>
+      </nav>
+    </div>
+
+    <p class="brand-footer__copy brand-footer__copy--tiny">{{ footerCopyright() }}</p>
+  </div>
+</footer>

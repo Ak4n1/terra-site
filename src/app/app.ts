@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { CheckCircle2 } from 'lucide-angular';
 import { firstValueFrom } from 'rxjs';
@@ -7,7 +7,7 @@ import { AuthStatusScreenService } from './core/auth/services/auth-status-screen
 import { NotificationsStore } from './core/notifications/notifications.store';
 import { RealtimeService } from './core/realtime/realtime.service';
 import { AuthFacadeService } from './features/auth/services/auth-facade.service';
-import type { AuthOverlayMode } from './shared/ui/organisms/auth-overlay/auth-overlay.component';
+import { AuthOverlayStateService } from './features/auth/services/auth-overlay-state.service';
 import { AuthOverlayContainerComponent } from './features/auth/containers/auth-overlay-container.component';
 import { NavbarComponent } from './shared/ui/organisms/navbar/navbar.component';
 import { ToastOutletComponent } from './shared/ui/organisms/toast-outlet/toast-outlet.component';
@@ -27,9 +27,10 @@ export class App {
   private readonly realtimeService = inject(RealtimeService);
   private readonly notificationsStore = inject(NotificationsStore);
   private readonly toastService = inject(ToastService);
+  private readonly authOverlayState = inject(AuthOverlayStateService);
 
-  readonly authOverlayOpen = signal(false);
-  readonly authOverlayMode = signal<AuthOverlayMode>('login');
+  readonly authOverlayOpen = this.authOverlayState.isOpen;
+  readonly authOverlayMode = this.authOverlayState.mode;
   readonly authStatusOpen = this.authStatusScreenService.authStatusOpen;
   readonly showRouterOutlet = this.authStatusScreenService.showRouterOutlet;
   readonly authStatusTitle = this.authStatusScreenService.authStatusTitle;
@@ -39,23 +40,17 @@ export class App {
   readonly hidePublicChrome = this.authStatusScreenService.hidePublicChrome;
 
   constructor() {
-    if (this.authFacade.hasPendingGoogleRedirect()) {
-      this.authOverlayMode.set('login');
-      this.authOverlayOpen.set(true);
-    }
-
     void this.realtimeService;
     void this.notificationsStore;
     void firstValueFrom(this.authFacade.bootstrapSession()).catch(() => undefined);
   }
 
   openAuthOverlay(mode: 'login' | 'register'): void {
-    this.authOverlayMode.set(mode);
-    this.authOverlayOpen.set(true);
+    this.authOverlayState.open(mode);
   }
 
   closeAuthOverlay(): void {
-    this.authOverlayOpen.set(false);
+    this.authOverlayState.close();
   }
 
   async handleLoginCompleted(): Promise<void> {
@@ -67,7 +62,7 @@ export class App {
       );
     }
 
-    this.authOverlayOpen.set(false);
+    this.authOverlayState.close();
     await this.router.navigateByUrl('/dashboard');
   }
 }

@@ -1,4 +1,6 @@
 .btn {
+  --btn-icon-size: 18px;
+  --btn-icon-gap: 8px;
   display: inline-block;
   position: relative;
   border: 0;
@@ -22,13 +24,23 @@
   z-index: 2;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--btn-icon-gap);
+  line-height: inherit;
 }
 
-.btn__icon {
-  width: 16px;
-  height: 16px;
+.btn__label--with-icon {
+  transform: translateX(calc((var(--btn-icon-size) + var(--btn-icon-gap)) / -2));
+}
+
+lucide-icon.btn__icon {
+  width: var(--btn-icon-size);
+  height: var(--btn-icon-size);
   flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  transform: translateY(-0.1px);
 }
 
 .btn__loading {
@@ -69,8 +81,10 @@
 }
 
 .btn__effect-inner {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   position: relative;
+  line-height: inherit;
 }
 
 .btn__effect-inner::after {

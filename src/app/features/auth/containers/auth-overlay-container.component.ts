@@ -28,6 +28,7 @@ type AuthOverlayFeedbackMap = Record<AuthOverlayMode, ModeFeedbackState>;
       [feedbackMessage]="currentFeedback().message"
       [feedbackVariant]="currentFeedback().variant"
       [submitting]="submitting()"
+      [googleSubmitting]="googleSubmitting()"
       (modeChanged)="handleModeChanged($event)"
       (stateReset)="clearFeedback()"
       (closed)="closed.emit()"
@@ -43,7 +44,6 @@ type AuthOverlayFeedbackMap = Record<AuthOverlayMode, ModeFeedbackState>;
   `
 })
 export class AuthOverlayContainerComponent implements OnChanges {
-  private redirectResumeAttempted = false;
   private readonly authFacade = inject(AuthFacadeService);
   private readonly languageService = inject(LanguageService);
 
@@ -54,6 +54,7 @@ export class AuthOverlayContainerComponent implements OnChanges {
 
   readonly feedbackByMode = signal<AuthOverlayFeedbackMap>(this.buildInitialFeedbackMap());
   readonly submitting = signal(false);
+  readonly googleSubmitting = signal(false);
   readonly currentMode = signal<AuthOverlayMode>('login');
   readonly verificationEmail = signal('');
   readonly oauthGoogleChallengeId = signal('');
@@ -69,13 +70,12 @@ export class AuthOverlayContainerComponent implements OnChanges {
       this.verificationEmail.set('');
       this.oauthGoogleChallengeId.set('');
       this.oauthGoogleMaskedEmail.set('');
+      this.submitting.set(false);
+      this.googleSubmitting.set(false);
       this.currentMode.set(this.mode);
       this.clearAllFeedback();
     }
 
-    if (changes['open'] && this.open) {
-      void this.tryResumeGoogleRedirectFlow();
-    }
   }
 
   async handleLogin(credentials: { email: string; password: string; twoFactorCode?: string; trustDevice?: boolean }): Promise<void> {
@@ -104,7 +104,11 @@ export class AuthOverlayContainerComponent implements OnChanges {
   }
 
   async handleGoogleLogin(): Promise<void> {
-    this.submitting.set(true);
+    if (this.googleSubmitting() || this.submitting()) {
+      return;
+    }
+
+    this.googleSubmitting.set(true);
     this.clearFeedback();
 
     try {
@@ -129,13 +133,9 @@ export class AuthOverlayContainerComponent implements OnChanges {
       this.setCurrentFeedback(this.languageService.t('auth.oauthGooglePopupFailed'), 'warning');
     } catch (error) {
       const normalized = this.authFacade.normalizeError(error);
-      if (normalized.code === 'auth.oauthGoogleRedirectInProgress') {
-        return;
-      }
-
       this.applyNormalizedError(normalized);
     } finally {
-      this.submitting.set(false);
+      this.googleSubmitting.set(false);
     }
   }
 
@@ -262,15 +262,6 @@ export class AuthOverlayContainerComponent implements OnChanges {
 
   clearFeedback(): void {
     this.updateFeedbackForMode(this.currentMode(), '', 'warning');
-  }
-
-  private async tryResumeGoogleRedirectFlow(): Promise<void> {
-    if (this.redirectResumeAttempted || !this.authFacade.hasPendingGoogleRedirect()) {
-      return;
-    }
-
-    this.redirectResumeAttempted = true;
-    await this.handleGoogleLogin();
   }
 
   private formatFeedbackMessage(message: string, retryAfterSeconds: number | null): string {

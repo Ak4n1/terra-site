@@ -159,7 +159,7 @@
 }
 
 .activity-settings-page__item {
-  --activity-settings-item-mask-image: url('/assets/images/clipping_masks/34294919_rectangle_brushes_shape_3.svg');
+  --activity-settings-item-mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_3.svg');
   --activity-settings-item-bg: var(--account-master-item-bg);
   position: relative;
   border: 0;

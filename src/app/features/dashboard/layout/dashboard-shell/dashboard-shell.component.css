@@ -10,7 +10,7 @@
   --dashboard-shell-panel-surface:
     linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
     var(--dashboard-shell-panel-surface-base);
-  --dashboard-sidebar-edge-image: url('/assets/images/clipping_masks/svg_top_half.svg?v=1');
+  --dashboard-sidebar-edge-image: url('/assets/images/app/masks/rectangles/938878_ODHGG71_divider_04.svg?v=1');
   --dashboard-sidebar-edge-height: 26px;
   --dashboard-sidebar-edge-overlap: 0px;
   --dashboard-sidebar-edge-inset-y: 0px;
@@ -26,7 +26,7 @@
   min-height: 100vh;
   overflow-x: clip;
   overflow-y: visible;
-  background: var(--c-dashboard-shell-bg);
+  background: #0c0c0c;
 }
 
 .dashboard-shell__overlay {

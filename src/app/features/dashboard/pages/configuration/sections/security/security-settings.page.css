@@ -52,7 +52,7 @@
 .security-settings-page__card {
   padding: 18px;
   display: grid;
-  gap: 12px;
+  gap: 5px;
 }
 
 .security-settings-page__card--full {
@@ -81,6 +81,11 @@
   font-family: var(--font-body);
   font-size: 0.95rem;
   line-height: 1.6;
+}
+
+.security-settings-page__copy-stack {
+  display: grid;
+  gap: 8px;
 }
 
 .security-settings-page__alert {
@@ -324,6 +329,20 @@
 .security-settings-page__trusted-modal-body {
   display: grid;
   gap: 12px;
+}
+
+:host ::ng-deep ui-modal.security-settings-page__two-factor-guide-modal {
+  --modal-title-offset-x: 25px;
+  --modal-title-offset-y: 10px;
+  --modal-close-offset-y: 10px;
+  --modal-close-offset-y-mobile: 3px;
+}
+
+:host ::ng-deep ui-modal.security-settings-page__trusted-devices-modal {
+  --modal-title-offset-x: 25px;
+  --modal-title-offset-y: 10px;
+  --modal-close-offset-y: 10px;
+  --modal-close-offset-y-mobile: 3px;
 }
 
 .security-settings-page__trusted-modal-footer {

@@ -328,10 +328,6 @@ export class AuthFacadeService {
     this.publishSyncEvent('logout');
   }
 
-  hasPendingGoogleRedirect(): boolean {
-    return this.firebaseAuthService.hasPendingGoogleRedirect();
-  }
-
   private tryRecoverSession(error: unknown): Observable<AuthSession | null> {
     if (!(error instanceof HttpErrorResponse)) {
       this.bootstrappingSubject.next(false);

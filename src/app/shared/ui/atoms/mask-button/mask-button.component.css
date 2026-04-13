@@ -30,11 +30,11 @@
   );
   -webkit-mask-image: var(
     --ui-mask-button-mask-image,
-    url('/assets/images/clipping_masks/button.svg?v=2')
+    url('/assets/images/app/masks/stains/button.svg?v=2')
   );
   mask-image: var(
     --ui-mask-button-mask-image,
-    url('/assets/images/clipping_masks/button.svg?v=2')
+    url('/assets/images/app/masks/stains/button.svg?v=2')
   );
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;

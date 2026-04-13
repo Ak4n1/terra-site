@@ -16,40 +16,40 @@ export type AvatarPresetFamily = {
 const STORAGE_KEY = 'terra.account.avatar.selection.v1';
 
 const LINEAGE_AVATAR_PATHS = [
-  'assets/images/app/avatars/Lineage/FaceIcon_Darkelf_magician_M.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Darkelf_magician_W.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Darkelf_soldier_M.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Darkelf_soldier_W.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Dwarf_soldier_M.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Dwarf_soldier_W.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Elf_magician_M.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Elf_magician_W.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Elf_soldier_M.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Elf_soldier_W.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Ertheia_magician_W.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Ertheia_soldier_W.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Human_magician_M.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Human_magician_W.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Human_soldier_M.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Human_soldier_W.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Kamael_soldier_M.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Kamael_soldier_W.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Orc_magician_M.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Orc_magician_W.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Orc_soldier_M.png',
-  'assets/images/app/avatars/Lineage/FaceIcon_Orc_soldier_W.png'
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Darkelf_magician_M.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Darkelf_magician_W.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Darkelf_soldier_M.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Darkelf_soldier_W.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Dwarf_soldier_M.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Dwarf_soldier_W.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Elf_magician_M.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Elf_magician_W.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Elf_soldier_M.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Elf_soldier_W.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Ertheia_magician_W.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Ertheia_soldier_W.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Human_magician_M.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Human_magician_W.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Human_soldier_M.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Human_soldier_W.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Kamael_soldier_M.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Kamael_soldier_W.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Orc_magician_M.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Orc_magician_W.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Orc_soldier_M.webp',
+  'assets/images/app/avatars/Lineage/webp/FaceIcon_Orc_soldier_W.webp'
 ] as const;
 
 const ELEMENTAL_AVATAR_PATHS = [
-  'assets/images/app/avatars/Elemental/elemental_crystal.png',
-  'assets/images/app/avatars/Elemental/elemental_fire.png',
-  'assets/images/app/avatars/Elemental/elemental_land.png',
-  'assets/images/app/avatars/Elemental/elemental_sun.png',
-  'assets/images/app/avatars/Elemental/elemental_terra.png',
-  'assets/images/app/avatars/Elemental/elemental_thunder.png',
-  'assets/images/app/avatars/Elemental/elemental_venom.png',
-  'assets/images/app/avatars/Elemental/elemental_waters.png',
-  'assets/images/app/avatars/Elemental/elemental_wind.png'
+  'assets/images/app/avatars/Elemental/webp/elemental_crystal.webp',
+  'assets/images/app/avatars/Elemental/webp/elemental_fire.webp',
+  'assets/images/app/avatars/Elemental/webp/elemental_land.webp',
+  'assets/images/app/avatars/Elemental/webp/elemental_sun.webp',
+  'assets/images/app/avatars/Elemental/webp/elemental_terra.webp',
+  'assets/images/app/avatars/Elemental/webp/elemental_thunder.webp',
+  'assets/images/app/avatars/Elemental/webp/elemental_venom.webp',
+  'assets/images/app/avatars/Elemental/webp/elemental_waters.webp',
+  'assets/images/app/avatars/Elemental/webp/elemental_wind.webp'
 ] as const;
 
 const AVATAR_FAMILIES: readonly AvatarPresetFamily[] = [
@@ -57,6 +57,7 @@ const AVATAR_FAMILIES: readonly AvatarPresetFamily[] = [
   { key: 'elemental', label: 'Elementals', avatars: ELEMENTAL_AVATAR_PATHS }
 ];
 
+const DEFAULT_AVATAR_PATH = 'assets/images/app/avatars/default.png';
 const AVATAR_PATHS = [...LINEAGE_AVATAR_PATHS, ...ELEMENTAL_AVATAR_PATHS] as const;
 
 @Injectable({ providedIn: 'root' })
@@ -115,7 +116,7 @@ export class SessionAvatarService {
     const explicitSelection = this.selections.get(email)?.value ?? null;
     if (this.currentEmail !== email || !this.currentAvatar || (explicitSelection && explicitSelection !== this.currentAvatar)) {
       this.currentEmail = email;
-      this.currentAvatar = explicitSelection ?? this.pickStableAvatar(email);
+      this.currentAvatar = explicitSelection ?? DEFAULT_AVATAR_PATH;
     }
 
     return this.currentAvatar;
@@ -169,20 +170,9 @@ export class SessionAvatarService {
 
     this.selections.delete(email);
     if (this.currentEmail === email) {
-      this.currentAvatar = this.pickStableAvatar(email);
+      this.currentAvatar = DEFAULT_AVATAR_PATH;
     }
     this.persistAndNotify();
-  }
-
-  private pickStableAvatar(email: string): string {
-    let hash = 0;
-    for (let index = 0; index < email.length; index += 1) {
-      hash = (hash << 5) - hash + email.charCodeAt(index);
-      hash |= 0;
-    }
-    const normalized = Math.abs(hash);
-    const index = normalized % AVATAR_PATHS.length;
-    return AVATAR_PATHS[index];
   }
 
   private hydrateFromStorage(): void {
@@ -216,7 +206,7 @@ export class SessionAvatarService {
 
       if (this.currentEmail) {
         const explicitSelection = this.selections.get(this.currentEmail)?.value ?? null;
-        this.currentAvatar = explicitSelection ?? this.pickStableAvatar(this.currentEmail);
+        this.currentAvatar = explicitSelection ?? DEFAULT_AVATAR_PATH;
       } else {
         this.currentAvatar = null;
       }
