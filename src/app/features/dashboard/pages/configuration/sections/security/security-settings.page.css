@@ -352,6 +352,7 @@
 }
 
 @media (max-width: 900px) {
+
   .security-settings-page__columns,
   .security-settings-page__grid,
   .security-settings-page__setup-grid {
@@ -367,5 +368,18 @@
     height: auto;
     aspect-ratio: 1 / 1;
     margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .security-settings-page__header {
+    margin-top: 35px;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .security-settings-page__actions-inline {
+    margin-bottom: 30px;
   }
 }

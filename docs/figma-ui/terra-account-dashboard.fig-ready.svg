@@ -1,0 +1,374 @@
+<svg width="1900" height="1120" viewBox="0 0 1900 1120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>Terra Account Dashboard UI Concept</title>
+  <desc>Figma-ready SVG with desktop and mobile dashboard frames for Terra.</desc>
+  <defs>
+    <linearGradient id="bgDesktop" x1="90" y1="64" x2="1490" y2="1032" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#171412"/>
+      <stop offset="0.46" stop-color="#090A0D"/>
+      <stop offset="1" stop-color="#10120F"/>
+    </linearGradient>
+    <linearGradient id="bgMobile" x1="1540" y1="118" x2="1830" y2="1008" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#171412"/>
+      <stop offset="0.52" stop-color="#090A0D"/>
+      <stop offset="1" stop-color="#12100D"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#1D1B18"/>
+      <stop offset="1" stop-color="#0D0D0D"/>
+    </linearGradient>
+    <linearGradient id="panelWarm" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#24201B"/>
+      <stop offset="0.56" stop-color="#111111"/>
+      <stop offset="1" stop-color="#090A0D"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#F4D39A"/>
+      <stop offset="0.42" stop-color="#E08821"/>
+      <stop offset="1" stop-color="#8A4F12"/>
+    </linearGradient>
+    <linearGradient id="coin" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFE6A7"/>
+      <stop offset="0.38" stop-color="#E08821"/>
+      <stop offset="1" stop-color="#5D3410"/>
+    </linearGradient>
+    <linearGradient id="emerald" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#85F0C4"/>
+      <stop offset="1" stop-color="#1E8068"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#F09681"/>
+      <stop offset="1" stop-color="#8E2B22"/>
+    </linearGradient>
+    <radialGradient id="heroGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1028 316) rotate(118) scale(420 520)">
+      <stop stop-color="#E08821" stop-opacity="0.38"/>
+      <stop offset="0.42" stop-color="#7C4C22" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="steelGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(620 862) rotate(20) scale(520 260)">
+      <stop stop-color="#547D91" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="noise" width="96" height="96" patternUnits="userSpaceOnUse">
+      <path d="M4 10H5V11H4V10ZM16 38H17V39H16V38ZM78 20H79V21H78V20ZM42 70H43V71H42V70ZM88 84H89V85H88V84ZM24 92H25V93H24V92ZM62 50H63V51H62V50Z" fill="#FFFFFF" fill-opacity="0.14"/>
+      <path d="M30 16H31V17H30V16ZM66 12H67V13H66V12ZM8 62H9V63H8V62ZM82 58H83V59H82V58ZM52 34H53V35H52V34Z" fill="#E08821" fill-opacity="0.14"/>
+    </pattern>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#000000" flood-opacity="0.42"/>
+    </filter>
+    <filter id="tightShadow" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000000" flood-opacity="0.32"/>
+    </filter>
+    <clipPath id="desktopClip">
+      <rect x="72" y="64" width="1416" height="992" rx="28"/>
+    </clipPath>
+    <clipPath id="mobileClip">
+      <rect x="1540" y="118" width="320" height="884" rx="38"/>
+    </clipPath>
+    <clipPath id="avatarClip">
+      <path d="M958 256C1016 214 1084 220 1124 270C1162 318 1152 393 1101 436C1052 477 973 470 934 416C897 366 906 294 958 256Z"/>
+    </clipPath>
+    <style>
+      .display { font-family: "Marcellus SC", Georgia, serif; letter-spacing: 0; }
+      .body { font-family: "DIN Next W1G", "Segoe UI", sans-serif; letter-spacing: 0; }
+      .ui { font-family: "Roboto Condensed", "Segoe UI", sans-serif; letter-spacing: 0; }
+      .muted { fill: rgba(255,255,255,0.62); }
+      .soft { fill: rgba(255,255,255,0.78); }
+      .strong { fill: rgba(255,255,255,0.94); }
+      .tiny { font-size: 12px; }
+      .small { font-size: 14px; }
+      .base { font-size: 16px; }
+      .label { font-size: 12px; text-transform: uppercase; }
+    </style>
+  </defs>
+
+  <rect width="1900" height="1120" fill="#080808"/>
+  <rect width="1900" height="1120" fill="url(#noise)" opacity="0.2"/>
+
+  <g id="Desktop_Frame" data-name="Desktop / Account Dashboard" clip-path="url(#desktopClip)">
+    <rect x="72" y="64" width="1416" height="992" rx="28" fill="url(#bgDesktop)"/>
+    <rect x="72" y="64" width="1416" height="992" rx="28" fill="url(#heroGlow)"/>
+    <rect x="72" y="64" width="1416" height="992" rx="28" fill="url(#steelGlow)"/>
+    <rect x="72" y="64" width="1416" height="992" rx="28" fill="url(#noise)" opacity="0.24"/>
+
+    <g id="Desktop_Sidebar" data-name="Sidebar">
+      <rect x="72" y="64" width="268" height="992" fill="#0B0B0B"/>
+      <rect x="339" y="64" width="1" height="992" fill="#FFFFFF" opacity="0.08"/>
+      <rect x="96" y="96" width="220" height="72" rx="10" fill="#111111" stroke="#FFFFFF" stroke-opacity="0.08"/>
+      <g id="Brand">
+        <circle cx="134" cy="132" r="22" fill="url(#gold)"/>
+        <path d="M125 122H145L141 130H136V146H128V130H121L125 122Z" fill="#130C07"/>
+        <text x="168" y="128" class="display strong" font-size="22">TERRA</text>
+        <text x="168" y="148" class="ui muted" font-size="12">INTERLUDE ACCOUNT</text>
+      </g>
+
+      <g id="Nav_Items" data-name="Navigation">
+        <rect x="96" y="210" width="220" height="44" rx="8" fill="#E08821"/>
+        <path d="M116 224H132V240H116V224ZM120 228V236H128V228H120Z" fill="#180F09"/>
+        <text x="148" y="238" class="ui" font-size="15" fill="#160D07">Overview</text>
+
+        <rect x="96" y="266" width="220" height="44" rx="8" fill="#FFFFFF" fill-opacity="0.03"/>
+        <path d="M124 280C128.4 280 132 283.6 132 288C132 292.4 128.4 296 124 296C119.6 296 116 292.4 116 288C116 283.6 119.6 280 124 280Z" stroke="#FFFFFF" stroke-opacity="0.74" stroke-width="2"/>
+        <text x="148" y="294" class="ui soft" font-size="15">Game accounts</text>
+
+        <rect x="96" y="322" width="220" height="44" rx="8" fill="#FFFFFF" fill-opacity="0.03"/>
+        <path d="M116 337L124 329L132 337L124 345L116 337Z" stroke="#FFFFFF" stroke-opacity="0.74" stroke-width="2"/>
+        <text x="148" y="350" class="ui soft" font-size="15">Characters</text>
+
+        <rect x="96" y="378" width="220" height="44" rx="8" fill="#FFFFFF" fill-opacity="0.03"/>
+        <path d="M116 391H132M116 399H128" stroke="#FFFFFF" stroke-opacity="0.74" stroke-width="2" stroke-linecap="round"/>
+        <text x="148" y="406" class="ui soft" font-size="15">Market</text>
+
+        <rect x="96" y="434" width="220" height="44" rx="8" fill="#FFFFFF" fill-opacity="0.03"/>
+        <path d="M124 446V462M116 454H132" stroke="#FFFFFF" stroke-opacity="0.74" stroke-width="2" stroke-linecap="round"/>
+        <text x="148" y="462" class="ui soft" font-size="15">Terra Coin</text>
+
+        <rect x="96" y="490" width="220" height="44" rx="8" fill="#FFFFFF" fill-opacity="0.03"/>
+        <path d="M116 507H132M119 501H129M119 513H129" stroke="#FFFFFF" stroke-opacity="0.74" stroke-width="2" stroke-linecap="round"/>
+        <text x="148" y="518" class="ui soft" font-size="15">Settings</text>
+      </g>
+
+      <g id="Sidebar_Status" data-name="Server Status">
+        <rect x="96" y="828" width="220" height="164" rx="12" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.08"/>
+        <text x="116" y="858" class="ui muted" font-size="12">LIVE SERVER</text>
+        <circle cx="220" cy="854" r="5" fill="#67E8A5"/>
+        <text x="116" y="890" class="display strong" font-size="28">Bartz</text>
+        <text x="116" y="916" class="body muted" font-size="13">Online players</text>
+        <text x="116" y="952" class="display strong" font-size="36">1,284</text>
+        <rect x="232" y="926" width="60" height="28" rx="14" fill="#10291F"/>
+        <text x="251" y="945" class="ui" font-size="13" fill="#85F0C4">+8%</text>
+      </g>
+    </g>
+
+    <g id="Desktop_Topbar" data-name="Topbar">
+      <text x="388" y="122" class="ui muted" font-size="13">ACCOUNT CENTER</text>
+      <text x="388" y="154" class="display strong" font-size="34">Welcome back, Ak4n1</text>
+      <rect x="1132" y="100" width="172" height="44" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.1"/>
+      <circle cx="1160" cy="122" r="7" fill="url(#emerald)"/>
+      <text x="1178" y="128" class="ui soft" font-size="14">Protected session</text>
+      <rect x="1322" y="98" width="104" height="48" rx="24" fill="#FFFFFF" fill-opacity="0.05" stroke="#FFFFFF" stroke-opacity="0.12"/>
+      <circle cx="1348" cy="122" r="14" fill="url(#gold)"/>
+      <text x="1372" y="128" class="ui strong" font-size="14">ES</text>
+    </g>
+
+    <g id="Desktop_Content" data-name="Main Content">
+      <g id="Hero_Panel" data-name="Hero account summary" filter="url(#softShadow)">
+        <rect x="388" y="200" width="724" height="294" rx="14" fill="url(#panelWarm)" stroke="#FFFFFF" stroke-opacity="0.1"/>
+        <path d="M388 200H1112V494H388V200Z" fill="url(#noise)" opacity="0.18"/>
+        <path d="M388 200H1112V494H388V200Z" fill="url(#heroGlow)" opacity="0.7"/>
+
+        <g id="Hero_Copy">
+          <text x="424" y="246" class="ui" font-size="12" fill="#E9B66E">NEXT SIEGE WINDOW</text>
+          <text x="424" y="288" class="display strong" font-size="42">Rune Castle opens in</text>
+          <g id="Countdown">
+            <rect x="424" y="320" width="86" height="74" rx="8" fill="#0B0B0B" stroke="#FFFFFF" stroke-opacity="0.1"/>
+            <text x="447" y="356" class="display strong" font-size="30">04</text>
+            <text x="448" y="378" class="ui muted" font-size="11">DAYS</text>
+            <rect x="522" y="320" width="86" height="74" rx="8" fill="#0B0B0B" stroke="#FFFFFF" stroke-opacity="0.1"/>
+            <text x="545" y="356" class="display strong" font-size="30">18</text>
+            <text x="546" y="378" class="ui muted" font-size="11">HOURS</text>
+            <rect x="620" y="320" width="86" height="74" rx="8" fill="#0B0B0B" stroke="#FFFFFF" stroke-opacity="0.1"/>
+            <text x="643" y="356" class="display strong" font-size="30">27</text>
+            <text x="644" y="378" class="ui muted" font-size="11">MIN</text>
+          </g>
+          <rect x="424" y="426" width="152" height="44" rx="8" fill="url(#gold)"/>
+          <text x="464" y="454" class="ui" font-size="15" fill="#160D07">Prepare party</text>
+          <rect x="588" y="426" width="132" height="44" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.14"/>
+          <text x="624" y="454" class="ui soft" font-size="15">View rules</text>
+        </g>
+
+        <g id="Character_Illustration" data-name="Character placeholder" clip-path="url(#avatarClip)">
+          <path d="M958 256C1016 214 1084 220 1124 270C1162 318 1152 393 1101 436C1052 477 973 470 934 416C897 366 906 294 958 256Z" fill="#171717"/>
+          <path d="M987 236C1029 210 1081 230 1102 274C1128 327 1100 399 1040 415C986 429 931 392 930 335C929 294 952 258 987 236Z" fill="#211D1A"/>
+          <path d="M1007 258L1042 224L1080 270L1062 326L1100 390L1034 428L970 392L994 326L968 294L1007 258Z" fill="#3A332D"/>
+          <path d="M1008 260L1042 224L1076 270L1058 318L1092 386L1034 420L978 390L1000 324L976 294L1008 260Z" fill="url(#gold)" opacity="0.9"/>
+          <path d="M1008 327C1032 338 1056 337 1078 322L1100 390L1034 428L970 392L1008 327Z" fill="#131313"/>
+          <path d="M1018 285H1058L1068 318C1046 330 1024 330 1004 318L1018 285Z" fill="#17100B"/>
+          <path d="M944 418C994 382 1054 382 1106 420V468H944V418Z" fill="#080808"/>
+        </g>
+      </g>
+
+      <g id="Wallet_Card" data-name="Terra coin balance" filter="url(#tightShadow)">
+        <rect x="1140" y="200" width="300" height="136" rx="14" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.1"/>
+        <circle cx="1182" cy="244" r="22" fill="url(#coin)"/>
+        <path d="M1173 235H1192L1188 242H1183V256H1176V242H1170L1173 235Z" fill="#140D08"/>
+        <text x="1218" y="238" class="ui muted" font-size="12">TERRA COIN</text>
+        <text x="1218" y="276" class="display strong" font-size="38">8,420</text>
+        <rect x="1328" y="250" width="76" height="34" rx="8" fill="#E08821"/>
+        <text x="1351" y="272" class="ui" font-size="14" fill="#160D07">Buy</text>
+      </g>
+
+      <g id="Security_Card" data-name="Security score" filter="url(#tightShadow)">
+        <rect x="1140" y="358" width="300" height="136" rx="14" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.1"/>
+        <text x="1170" y="394" class="ui muted" font-size="12">SECURITY SCORE</text>
+        <text x="1170" y="436" class="display strong" font-size="42">92%</text>
+        <path d="M1170 462H1358" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="8" stroke-linecap="round"/>
+        <path d="M1170 462H1336" stroke="url(#emerald)" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="1388" cy="414" r="28" fill="#10251E"/>
+        <path d="M1376 414L1385 423L1402 402" stroke="#85F0C4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+
+      <g id="Quick_Actions" data-name="Quick actions">
+        <rect x="388" y="526" width="242" height="132" rx="14" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.1"/>
+        <rect x="416" y="554" width="46" height="46" rx="10" fill="#FFFFFF" fill-opacity="0.05"/>
+        <path d="M429 577H449M439 567V587" stroke="#E9B66E" stroke-width="3" stroke-linecap="round"/>
+        <text x="416" y="626" class="display strong" font-size="22">Create game ID</text>
+        <text x="416" y="646" class="body muted" font-size="13">Email-code protected</text>
+
+        <rect x="654" y="526" width="242" height="132" rx="14" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.1"/>
+        <rect x="682" y="554" width="46" height="46" rx="10" fill="#FFFFFF" fill-opacity="0.05"/>
+        <path d="M694 573H716M694 583H710" stroke="#85F0C4" stroke-width="3" stroke-linecap="round"/>
+        <text x="682" y="626" class="display strong" font-size="22">Change password</text>
+        <text x="682" y="646" class="body muted" font-size="13">Account and game login</text>
+
+        <rect x="920" y="526" width="242" height="132" rx="14" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.1"/>
+        <rect x="948" y="554" width="46" height="46" rx="10" fill="#FFFFFF" fill-opacity="0.05"/>
+        <path d="M958 582L970 566L982 582H958Z" stroke="#F09681" stroke-width="3" stroke-linejoin="round"/>
+        <text x="948" y="626" class="display strong" font-size="22">Recover 2FA</text>
+        <text x="948" y="646" class="body muted" font-size="13">Guided recovery flow</text>
+
+        <rect x="1186" y="526" width="254" height="132" rx="14" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.1"/>
+        <rect x="1214" y="554" width="46" height="46" rx="10" fill="#FFFFFF" fill-opacity="0.05"/>
+        <path d="M1228 567H1243V588H1228V567ZM1243 573H1250V582H1243" stroke="#E9B66E" stroke-width="3" stroke-linejoin="round"/>
+        <text x="1214" y="626" class="display strong" font-size="22">Support ticket</text>
+        <text x="1214" y="646" class="body muted" font-size="13">Discord sync enabled</text>
+      </g>
+
+      <g id="Accounts_Table" data-name="Game accounts table" filter="url(#softShadow)">
+        <rect x="388" y="696" width="676" height="300" rx="14" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.1"/>
+        <text x="424" y="738" class="display strong" font-size="28">Game Accounts</text>
+        <text x="424" y="762" class="body muted" font-size="14">Manage verified login identities for the game server.</text>
+        <rect x="858" y="722" width="156" height="40" rx="8" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.12"/>
+        <text x="898" y="748" class="ui soft" font-size="14">Add account</text>
+
+        <g id="Account_Row_1">
+          <rect x="424" y="794" width="604" height="54" rx="8" fill="#FFFFFF" fill-opacity="0.035"/>
+          <circle cx="452" cy="821" r="15" fill="#2A2118"/>
+          <text x="476" y="826" class="ui strong" font-size="15">ak4n1_main</text>
+          <text x="654" y="826" class="body muted" font-size="13">Last login 12 min ago</text>
+          <rect x="908" y="806" width="86" height="30" rx="15" fill="#10291F"/>
+          <text x="931" y="826" class="ui" font-size="13" fill="#85F0C4">Active</text>
+        </g>
+        <g id="Account_Row_2">
+          <rect x="424" y="860" width="604" height="54" rx="8" fill="#FFFFFF" fill-opacity="0.02"/>
+          <circle cx="452" cy="887" r="15" fill="#18232A"/>
+          <text x="476" y="892" class="ui strong" font-size="15">dwarf_shop</text>
+          <text x="654" y="892" class="body muted" font-size="13">Offline market ready</text>
+          <rect x="908" y="872" width="86" height="30" rx="15" fill="#2A1A12"/>
+          <text x="930" y="892" class="ui" font-size="13" fill="#E9B66E">Trade</text>
+        </g>
+        <g id="Account_Row_3">
+          <rect x="424" y="926" width="604" height="54" rx="8" fill="#FFFFFF" fill-opacity="0.02"/>
+          <circle cx="452" cy="953" r="15" fill="#261616"/>
+          <text x="476" y="958" class="ui strong" font-size="15">olympiad_alt</text>
+          <text x="654" y="958" class="body muted" font-size="13">Password expires soon</text>
+          <rect x="886" y="938" width="108" height="30" rx="15" fill="#321813"/>
+          <text x="910" y="958" class="ui" font-size="13" fill="#F09681">Review</text>
+        </g>
+      </g>
+
+      <g id="Activity_Feed" data-name="Activity and notifications" filter="url(#softShadow)">
+        <rect x="1094" y="696" width="346" height="300" rx="14" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.1"/>
+        <text x="1130" y="738" class="display strong" font-size="28">Signals</text>
+        <text x="1130" y="762" class="body muted" font-size="14">Security and server events.</text>
+        <g id="Signal_1">
+          <circle cx="1142" cy="816" r="6" fill="#85F0C4"/>
+          <path d="M1142 826V858" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="2"/>
+          <text x="1164" y="812" class="ui strong" font-size="15">Session refreshed</text>
+          <text x="1164" y="834" class="body muted" font-size="13">Buenos Aires, AR · Chrome</text>
+        </g>
+        <g id="Signal_2">
+          <circle cx="1142" cy="878" r="6" fill="#E9B66E"/>
+          <path d="M1142 888V920" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="2"/>
+          <text x="1164" y="874" class="ui strong" font-size="15">Coin purchase pending</text>
+          <text x="1164" y="896" class="body muted" font-size="13">Manual approval queue</text>
+        </g>
+        <g id="Signal_3">
+          <circle cx="1142" cy="940" r="6" fill="#F09681"/>
+          <text x="1164" y="936" class="ui strong" font-size="15">Password reminder</text>
+          <text x="1164" y="958" class="body muted" font-size="13">olympiad_alt needs update</text>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <rect x="72" y="64" width="1416" height="992" rx="28" stroke="#FFFFFF" stroke-opacity="0.13"/>
+  <text x="72" y="42" class="ui muted" font-size="14">Desktop frame · 1440x1000 · importable SVG layers</text>
+
+  <g id="Mobile_Frame" data-name="Mobile / Account Dashboard" clip-path="url(#mobileClip)">
+    <rect x="1540" y="118" width="320" height="884" rx="38" fill="url(#bgMobile)"/>
+    <rect x="1540" y="118" width="320" height="884" rx="38" fill="url(#heroGlow)" opacity="0.8"/>
+    <rect x="1540" y="118" width="320" height="884" rx="38" fill="url(#noise)" opacity="0.22"/>
+
+    <g id="Mobile_Status_Bar" data-name="Status bar">
+      <text x="1570" y="158" class="ui strong" font-size="13">9:41</text>
+      <rect x="1768" y="146" width="42" height="16" rx="8" stroke="#FFFFFF" stroke-opacity="0.5"/>
+      <rect x="1772" y="150" width="24" height="8" rx="4" fill="#85F0C4"/>
+      <circle cx="1820" cy="154" r="2" fill="#FFFFFF" fill-opacity="0.7"/>
+    </g>
+
+    <g id="Mobile_Header" data-name="Header">
+      <circle cx="1580" cy="202" r="20" fill="url(#gold)"/>
+      <path d="M1572 193H1589L1586 200H1582V213H1575V200H1569L1572 193Z" fill="#130C07"/>
+      <text x="1612" y="199" class="display strong" font-size="21">Terra</text>
+      <text x="1612" y="218" class="ui muted" font-size="11">Account Center</text>
+      <rect x="1784" y="184" width="44" height="44" rx="22" fill="#FFFFFF" fill-opacity="0.05" stroke="#FFFFFF" stroke-opacity="0.12"/>
+      <path d="M1797 197H1815M1797 206H1815M1797 215H1815" stroke="#FFFFFF" stroke-opacity="0.82" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <g id="Mobile_Hero" data-name="Hero summary" filter="url(#tightShadow)">
+      <rect x="1564" y="252" width="272" height="190" rx="16" fill="url(#panelWarm)" stroke="#FFFFFF" stroke-opacity="0.1"/>
+      <text x="1588" y="290" class="ui" font-size="11" fill="#E9B66E">NEXT SIEGE</text>
+      <text x="1588" y="324" class="display strong" font-size="30">Rune Castle</text>
+      <text x="1588" y="348" class="body muted" font-size="13">Opens in 04d · 18h · 27m</text>
+      <rect x="1588" y="378" width="116" height="40" rx="8" fill="url(#gold)"/>
+      <text x="1618" y="403" class="ui" font-size="14" fill="#160D07">Prepare</text>
+      <circle cx="1782" cy="334" r="42" fill="#111111"/>
+      <path d="M1762 331L1786 304L1810 334L1798 374L1768 374L1762 331Z" fill="url(#gold)"/>
+      <path d="M1768 374L1780 344L1798 374H1768Z" fill="#0B0B0B"/>
+    </g>
+
+    <g id="Mobile_Stats" data-name="Stats">
+      <rect x="1564" y="462" width="130" height="104" rx="14" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.1"/>
+      <text x="1584" y="492" class="ui muted" font-size="11">TERRA COIN</text>
+      <text x="1584" y="528" class="display strong" font-size="31">8.4K</text>
+      <circle cx="1660" cy="516" r="15" fill="url(#coin)"/>
+      <rect x="1706" y="462" width="130" height="104" rx="14" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.1"/>
+      <text x="1726" y="492" class="ui muted" font-size="11">SECURITY</text>
+      <text x="1726" y="528" class="display strong" font-size="31">92%</text>
+      <path d="M1726 544H1804" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="6" stroke-linecap="round"/>
+      <path d="M1726 544H1790" stroke="url(#emerald)" stroke-width="6" stroke-linecap="round"/>
+    </g>
+
+    <g id="Mobile_Actions" data-name="Action list">
+      <text x="1564" y="612" class="display strong" font-size="26">Quick actions</text>
+      <rect x="1564" y="632" width="272" height="62" rx="12" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.1"/>
+      <rect x="1582" y="648" width="30" height="30" rx="8" fill="#2A1A12"/>
+      <path d="M1590 663H1604M1597 656V670" stroke="#E9B66E" stroke-width="2.5" stroke-linecap="round"/>
+      <text x="1628" y="668" class="ui strong" font-size="15">Create game ID</text>
+      <path d="M1806 654L1818 663L1806 672" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <rect x="1564" y="706" width="272" height="62" rx="12" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.1"/>
+      <rect x="1582" y="722" width="30" height="30" rx="8" fill="#10251E"/>
+      <path d="M1590 735H1606M1590 743H1602" stroke="#85F0C4" stroke-width="2.5" stroke-linecap="round"/>
+      <text x="1628" y="742" class="ui strong" font-size="15">Change password</text>
+      <path d="M1806 728L1818 737L1806 746" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <rect x="1564" y="780" width="272" height="62" rx="12" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.1"/>
+      <rect x="1582" y="796" width="30" height="30" rx="8" fill="#2A1512"/>
+      <path d="M1590 817L1598 801L1606 817H1590Z" stroke="#F09681" stroke-width="2.5" stroke-linejoin="round"/>
+      <text x="1628" y="816" class="ui strong" font-size="15">Recover 2FA</text>
+      <path d="M1806 802L1818 811L1806 820" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <g id="Mobile_Bottom_Nav" data-name="Bottom nav">
+      <rect x="1564" y="906" width="272" height="64" rx="22" fill="#0B0B0B" stroke="#FFFFFF" stroke-opacity="0.1"/>
+      <circle cx="1606" cy="938" r="18" fill="#E08821"/>
+      <path d="M1598 930H1614V946H1598V930ZM1602 934V942H1610V934H1602Z" fill="#160D07"/>
+      <path d="M1666 930C1671 930 1675 934 1675 939C1675 944 1671 948 1666 948C1661 948 1657 944 1657 939C1657 934 1661 930 1666 930Z" stroke="#FFFFFF" stroke-opacity="0.56" stroke-width="2"/>
+      <path d="M1720 939L1732 927L1744 939L1732 951L1720 939Z" stroke="#FFFFFF" stroke-opacity="0.56" stroke-width="2"/>
+      <path d="M1790 930H1806M1790 939H1802M1790 948H1806" stroke="#FFFFFF" stroke-opacity="0.56" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+  <rect x="1540" y="118" width="320" height="884" rx="38" stroke="#FFFFFF" stroke-opacity="0.14"/>
+  <text x="1540" y="96" class="ui muted" font-size="14">Mobile frame · 320x884 · companion layout</text>
+</svg>

@@ -53,8 +53,10 @@
   </div>
 
   <div
+    #mainNav
     class="terra-header__main"
     [class.terra-header__main--floating]="isMainNavFloating"
+    [class.terra-header__main--shown]="isMainNavFloating && !isMainNavHidden"
     [class.terra-header__main--hidden]="isMainNavHidden">
     <div class="terra-header__container terra-header__container--main">
       <a [routerLink]="'/'" class="terra-logo terra-logo--main">Terra</a>
@@ -133,6 +135,12 @@
       </ng-template>
 
     </div>
+  </div>
+
+  <div
+    class="terra-header__main-spacer"
+    [style.height.px]="isMainNavFloating ? mainNavHeight : 0"
+    aria-hidden="true">
   </div>
 
   <div *ngIf="isMobileMenuOpen" class="terra-mobile-overlay terra-mobile-overlay--open" (click)="closeMobileMenu()"></div>

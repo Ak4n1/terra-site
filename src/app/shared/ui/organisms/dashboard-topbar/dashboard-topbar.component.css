@@ -2,9 +2,9 @@
   display: block;
   position: sticky;
   top: 0;
-  z-index: 40;
+  z-index: 80;
   --dashboard-topbar-mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_5.svg');
-  --dashboard-topbar-mask-bg: rgba(255, 255, 255, 0.03);
+  --dashboard-topbar-mask-bg: #131313;
 }
 
 .dashboard-topbar {

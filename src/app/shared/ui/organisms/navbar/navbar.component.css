@@ -30,9 +30,13 @@
   box-shadow: var(--header-main-shadow);
   isolation: isolate;
   overflow: visible;
-  transform: translateY(0);
-  transition: transform 0.24s ease-in-out, box-shadow 0.24s ease-in-out;
-  will-change: transform;
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
+  transition:
+    transform 0.2s ease,
+    visibility 0.2s ease,
+    background-color 0.3s ease;
+  will-change: transform, visibility, background-color;
 }
 
 .terra-header__main::after {
@@ -65,9 +69,19 @@
   z-index: calc(var(--header-z-index, 100) + 1);
 }
 
+.terra-header__main--shown {
+  transform: translate3d(0, 0, 0);
+  visibility: visible;
+}
+
 .terra-header__main--hidden {
-  transform: translateY(calc(-100% - (var(--header-main-edge-height) - var(--header-main-edge-overlap))));
-  box-shadow: none;
+  transform: translate3d(0, calc(-100% - (var(--header-main-edge-height) - var(--header-main-edge-overlap))), 0);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.terra-header__main-spacer {
+  height: 0;
   pointer-events: none;
 }
 
@@ -918,6 +932,9 @@ ui-menu-toggle {
 
 @media (prefers-reduced-motion: reduce) {
   .terra-header__main {
-    transition: none;
+    transition:
+      transform 0.2s ease,
+      visibility 0.2s ease,
+      background-color 0.3s ease;
   }
 }

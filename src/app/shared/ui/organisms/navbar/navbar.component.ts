@@ -55,6 +55,7 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
   private readonly authFacade = inject(AuthFacadeService);
   private readonly sessionAvatarService = inject(SessionAvatarService);
   @ViewChild('topbar') private topbarRef?: ElementRef<HTMLElement>;
+  @ViewChild('mainNav') private mainNavRef?: ElementRef<HTMLElement>;
   readonly languageService = inject(LanguageService);
   @Output() readonly authRequested = new EventEmitter<'login' | 'register'>();
 
@@ -65,8 +66,11 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
   private closeTimer: ReturnType<typeof setTimeout> | null = null;
   private lastScrollY = 0;
   private topbarHeight = 0;
-  private readonly scrollDeltaThreshold = 6;
+  mainNavHeight = 0;
+  private readonly scrollDeltaThreshold = 2;
   private readonly revealAtTopThreshold = 24;
+  private readonly autohideStartThreshold = 400;
+  private scrollFramePending = false;
   openDropdownLabel: string | null = null;
   isLanguageMenuOpen = false;
   isMobileMenuOpen = false;
@@ -222,7 +226,7 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
     const view = this.document.defaultView;
     this.lastScrollY = view?.scrollY ?? 0;
     this.recalculateNavMetrics();
-    this.onWindowScroll();
+    this.syncMainNavOnScroll();
   }
 
   get selectedLanguageShortLabel(): string {
@@ -374,25 +378,59 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
   @HostListener('window:resize')
   onWindowResize(): void {
     this.recalculateNavMetrics();
-    this.onWindowScroll();
+    this.syncMainNavOnScroll();
   }
 
   @HostListener('window:scroll')
   onWindowScroll(): void {
+    const view = this.document.defaultView;
+    if (!view || this.scrollFramePending) {
+      return;
+    }
+
+    this.scrollFramePending = true;
+    view.requestAnimationFrame(() => {
+      this.scrollFramePending = false;
+      this.syncMainNavOnScroll();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.cancelCloseTimer();
+    this.resetBodyScroll();
+  }
+
+  private syncMainNavOnScroll(): void {
     const view = this.document.defaultView;
     if (!view) {
       return;
     }
 
     const currentScrollY = Math.max(view.scrollY, 0);
+    const viewportHeight = view.innerHeight || 0;
+    const body = this.document.body;
+    const documentElement = this.document.documentElement;
+    const documentHeight = Math.max(
+      body?.scrollHeight ?? 0,
+      documentElement?.scrollHeight ?? 0,
+      body?.offsetHeight ?? 0,
+      documentElement?.offsetHeight ?? 0
+    );
+    const isAtEnd = currentScrollY + viewportHeight >= documentHeight - 4;
 
     if (view.matchMedia('(max-width: 1100px)').matches) {
       this.resetMainNavState(currentScrollY);
       return;
     }
 
-    this.isMainNavFloating = currentScrollY > this.topbarHeight;
-    if (!this.isMainNavFloating || this.isMobileMenuOpen || currentScrollY <= this.revealAtTopThreshold) {
+    this.isMainNavFloating = currentScrollY >= this.topbarHeight;
+    if (!this.isMainNavFloating || this.isMobileMenuOpen) {
+      this.isMainNavHidden = false;
+      this.lastScrollY = currentScrollY;
+      return;
+    }
+
+    if (currentScrollY <= this.revealAtTopThreshold || currentScrollY <= this.autohideStartThreshold || isAtEnd) {
       this.isMainNavHidden = false;
       this.lastScrollY = currentScrollY;
       return;
@@ -405,11 +443,6 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
 
     this.isMainNavHidden = delta > 0;
     this.lastScrollY = currentScrollY;
-  }
-
-  ngOnDestroy(): void {
-    this.cancelCloseTimer();
-    this.resetBodyScroll();
   }
 
   private syncBodyScroll(): void {
@@ -436,5 +469,6 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
 
   private recalculateNavMetrics(): void {
     this.topbarHeight = this.topbarRef?.nativeElement.offsetHeight ?? 0;
+    this.mainNavHeight = this.mainNavRef?.nativeElement.offsetHeight ?? 0;
   }
 }

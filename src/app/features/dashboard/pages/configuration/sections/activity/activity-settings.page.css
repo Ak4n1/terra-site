@@ -1,6 +1,7 @@
 .activity-settings-page {
   display: grid;
   gap: 16px;
+  
 }
 
 .activity-settings-page__header {
@@ -274,5 +275,8 @@
   .activity-settings-page__inbox-header {
     flex-direction: column;
     align-items: flex-start;
+  }
+    .activity-settings-page__header {
+    margin-top: 15px;
   }
 }

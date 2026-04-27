@@ -303,7 +303,9 @@
 }
 
 .configuration-profile__cropper-panel--modal image-cropper {
-  min-height: 420px;
+  min-height: clamp(320px, 46vh, 520px);
+  max-height: min(62vh, 520px);
+  height: auto;
   background: var(--account-master-cropper-image-bg);
   border: 1px solid var(--account-master-cropper-image-border);
   --cropper-border: var(--account-master-cropper-border);
@@ -439,7 +441,7 @@
   padding: 0;
 }
 
-.configuration-profile__avatar-section + .configuration-profile__avatar-section {
+.configuration-profile__avatar-section+.configuration-profile__avatar-section {
   padding-top: 8px;
   border-top: 1px solid color-mix(in srgb, var(--c-border-control) 78%, transparent);
 }
@@ -652,5 +654,33 @@
 
   .configuration-profile__summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .configuration-profile__cropper-panel--modal image-cropper {
+    min-height: clamp(300px, 44vh, 440px);
+    max-height: min(58vh, 440px);
+  }
+}
+
+@media (max-width: 900px) {
+  .configuration-profile__cropper-panel--modal image-cropper {
+    min-height: clamp(280px, 42vh, 380px);
+    max-height: min(54vh, 380px);
+  }
+}
+
+@media (max-width: 768px) {
+  .configuration-profile__header {
+    margin-top: 35px;
+  }
+
+  .configuration-profile__cropper-panel--modal {
+    padding: 12px;
+  }
+
+  .configuration-profile__cropper-panel--modal image-cropper {
+    min-height: 240px;
+    max-height: min(52vh, 360px);
+    height: auto;
   }
 }

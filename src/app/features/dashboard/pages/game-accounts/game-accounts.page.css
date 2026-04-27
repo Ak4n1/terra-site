@@ -3,7 +3,7 @@
   gap: 28px;
   --game-accounts-card-mask-image: url('/assets/images/app/masks/squares/34294919_rectangle_brushes_shape_5.svg');
   --game-accounts-carousel-mask-image: url('/assets/images/app/masks/squares/horr-mask-block-2.svg');
-  --game-accounts-mask-bg: var(--dashboard-panel-bg-brushed-inverse);
+  --game-accounts-mask-bg: var(--dashboard-panel-bg-brushed);
   
 }
 
